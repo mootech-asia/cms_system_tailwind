@@ -1,46 +1,76 @@
 @import "tailwindcss";
 
 /* ============================================================
-   v3 design token —— 手機版。桌機版另見 ../pc/theme.css（鐵則 6：兩邊
-   各自獨立檔案，不共用）。
+   v3 design token —— 手機版。桌機版另見 ../pc/theme.css（鐵則 6：
+   兩邊各自獨立檔案，不共用）。v3 手機版跟桌機版共用同一批
+   design-system/tokens.css + skins/*.css（site-mobile/ 的 <link>
+   直接指向 ../site/assets/css/skins/*.css），色彩/圓角/陰影目前
+   完全相同，依鐵則 6 仍在這裡各自獨立宣告一份相同內容，不引用
+   ../pc/theme.css。
 
-   v3 手機版原本就有獨立的 site-mobile/assets/mobile.css，色彩/圓角/
-   陰影目前跟桌機版完全相同（mobile.css 沒有另外覆寫這些），依鐵則 6
-   仍在這裡各自獨立宣告一份相同數值，而不是引用 ../pc/theme.css。
-   顏色/陰影用 @theme 宣告，Tailwind 據此生成對應 utility（bg-accent、
-   text-accent、shadow-card…）；生成的 utility 內部仍是 var(--color-accent)
-   這類參照，不是烤進去的死值，所以下面 skin 覆寫區塊照樣能在執行期換色，
-   跟原本 mobile.css 的換膚機制完全相同。
+   架構（Phase 1 修正版，取代舊版只搬「原色調色盤」的做法）：
+   1. 下面第一個 :root 區塊 + 逐個 :root[data-skin] 區塊，是
+      design-system/tokens.css + skins/*.css 十份檔案的「逐字搬移」
+      ——變數名稱完全不改，數值完全不改，只是換了個檔案放。這樣
+      main.css/design-system/*.css 裡任何 var(--type-body)、
+      var(--control-bg)、var(--gradient-primary)... 這類參照，原封
+      不動搬過來的 CSS 一樣能吃到值，不必逐一在幾千行 CSS 裡改名，
+      避免改名漏改造成視覺跑掉。
+   2. 下面的 @theme static 區塊是「新增」的 Tailwind 別名層：只對
+      Tailwind 看得懂的命名空間（--color-*／--text-*／--shadow-*）
+      建立 var(--原名) 的參照別名，讓之後新寫的頁面內容可以用
+      bg-accent、text-body、shadow-card 這類 utility class；舊
+      CSS 完全不需要知道這層別名存在，兩層互不干擾。
+   3. v3 實際有 10 組 skin（不是舊版誤植的 6 組）：blue（預設）、
+      white、night-esports-green、cosmic-spectrum-purple、
+      jade-jackpot 各自獨立一份，另外 obsidian-copper／arctic-cyan／
+      crimson-noir／midnight-gold／sage-atelier 這 5 組共用同一個
+      語意層（原檔 skins/curated-collection.css 用 :is() 選擇器把
+      這 5 個 data-skin 值歸在一組），舊版誤把檔名「curated-collection」
+      當成一個真的 skin 名稱去做，這個名字實際上不存在，已修正。
    ============================================================ */
-@theme static {
-  /* 字型 */
+
+:root {
+  /* ── 原封不動：design-system/tokens.css ── */
   --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  /* 字級（原 --type-*，改成 Tailwind 認得的 --text-* 命名空間，
-     數值/用途逐一對照原 design-system/tokens.css，一個不漏） */
-  --text-caption: 10.5px;
-  --text-meta: 11.5px;
-  --text-label: 12.5px;
-  --text-body-sm: 13px;
-  --text-button: 13.5px;
-  --text-body: 14px;
-  --text-card-title: 15px;
-  --text-group-title: 16px;
-  --text-section-title-mobile: 18px;
-  --text-section-title: 22px;
-  --text-feature-title: 24px;
-  --text-page-title: 26px;
-  --text-hero-mobile: 32px;
-  --text-hero: 64px;
+  --type-caption: 10.5px;
+  --type-meta: 11.5px;
+  --type-label: 12.5px;
+  --type-body-sm: 13px;
+  --type-button: 13.5px;
+  --type-body: 14px;
+  --type-card-title: 15px;
+  --type-group-title: 16px;
+  --type-section-title-mobile: 18px;
+  --type-section-title: 22px;
+  --type-feature-title: 24px;
+  --type-page-title: 26px;
+  --type-hero-mobile: 32px;
+  --type-hero: 64px;
 
-  /* 字重：700/800 跟 Tailwind 內建 font-bold/font-extrabold 同值，
-     沿用內建即可，這裡只補內建沒有的 --weight-medium(500 有內建 font-medium)
-     跟本來就有名字的 600(font-semibold 也有內建)——結論是全部沿用 Tailwind
-     內建 font-weight-*，不需要在這裡重新定義。 */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --line-body: 1.5;
+  --line-heading: 1.15;
 
-  /* 圓角：原樣沿用 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
   --radius-xs: 6px;
   --radius-sm: 8px;
   --radius-control: 10px;
@@ -51,69 +81,48 @@
   --radius-xl: 28px;
   --radius-pill: 999px;
 
-  /* 陰影：原本就是具名 token（含 color-mix 進階寫法），原樣沿用，改名對齊
-     Tailwind `--shadow-*` 命名空間（原名 --control-active-shadow／
-     --badge-highlight-shadow）。值是預設 skin（blue）的，其餘 skin 在下面
-     :root[data-skin] 覆寫。 */
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 18px rgba(0, 0, 0, 0.4);
-  --shadow-control-active:
-    0 0 0 3px color-mix(in oklch, var(--color-accent) 14%, transparent),
-    0 0 16px color-mix(in oklch, var(--color-accent) 55%, transparent);
-  --shadow-badge-highlight: 0 0 6px color-mix(in oklch, var(--color-accent) 50%, transparent);
-
-  /* 顏色：預設 skin（blue）的值，其餘 5 個 skin 在下面 :root[data-skin]
-     覆寫同一批變數名稱（沿用原本 skins/*.css 的換膚機制）。 */
-  --color-bg: #05080f;
-  --color-bg-elev: #0a0f1a;
-  --color-bg-card: #0f1623;
-  --color-bg-card-hi: #161f30;
-  --color-line: rgba(160, 210, 255, 0.07);
-  --color-line-hi: rgba(160, 210, 255, 0.16);
-  --color-text: #eaf5ff;
-  --color-text-mid: rgba(234, 245, 255, 0.7);
-  --color-text-dim: rgba(234, 245, 255, 0.42);
-  --color-text-on-accent: #04101a;
-  --color-accent: #2473ff;
-  --color-accent-2: #38bdf8;
-  --color-accent-3: #fbbf24;
-  --color-primary-start: #38bdf8;
-  --color-primary: #2473ff;
-  --color-primary-end: #1e5fd8;
-  --color-live: #ff3b3b;
-  --color-positive: oklch(0.78 0.18 145);
-  --color-negative: oklch(0.7 0.22 25);
-  --color-warning: #facc15;
-  --color-success: var(--color-positive);
-  --color-danger: var(--color-negative);
-}
-
-/* ── 非 @theme：元件尺寸/版面數值，不是「設計系統刻度」，不需要生成
-   一整組 utility，維持一般 CSS variable，HTML 端用 Tailwind 的
-   w-(--sidebar-w) 這種語法取值即可。原樣沿用 design-system/tokens.css。 ── */
-:root {
   --control-size-sm: 36px;
   --control-size-md: 40px;
   --control-size-lg: 48px;
   --control-pad-x-sm: 12px;
   --control-pad-x-md: 16px;
   --control-pad-x-lg: 24px;
+
   --card-pad: 14px;
   --rail-gap: 12px;
   --card-aspect: 0.74;
+
   --sidebar-w: 248px;
   --sidebar-w-collapsed: 64px;
   --header-h: 64px;
   --container: 1440px;
   --container-pad: 28px;
   --mobile-nav-h: 64px;
+
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --ease-standard: ease;
   --layout-transition: var(--duration-normal) var(--ease-standard);
 
-  /* text-shadow 不是 Tailwind box-shadow 命名空間管的東西，維持一般
-     custom property，跟你範例同模式的 color-mix 進階寫法原樣沿用。 */
-  --control-active-text-shadow: 0 0 10px color-mix(in oklch, var(--color-accent) 70%, transparent);
+  --preview-neutral-950: #090b0e;
+  --preview-neutral-900: #101318;
+  --preview-neutral-850: #171b21;
+  --preview-neutral-800: #22272e;
+  --preview-neutral-line: rgba(255, 255, 255, 0.1);
+  --preview-neutral-text: rgba(255, 255, 255, 0.52);
+  --text-on-media: #ffffff;
+  --text-on-danger: #ffffff;
+  --accent-text: var(--accent-2);
+  --balance-text: var(--warning);
+  --preview-hero-bg:
+    radial-gradient(ellipse 65% 90% at 34% 48%, rgba(255, 255, 255, 0.065) 0%, transparent 66%),
+    linear-gradient(135deg, var(--preview-neutral-800) 0%, var(--preview-neutral-850) 48%, var(--preview-neutral-950) 100%);
+  --preview-art-bg:
+    radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.08) 0%, transparent 70%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.055) 0 2px, transparent 2px 12px),
+    var(--preview-neutral-900);
+  --preview-game-bg: linear-gradient(145deg, var(--preview-neutral-800) 0%, var(--preview-neutral-850) 50%, var(--preview-neutral-950) 100%);
+  --account-sheen-duration: 4.6s;
 
   /* ── 手機專屬結構常數（來自 site-mobile/assets/mobile.css，桌機版
      沒有這些變數）：app-shell 頂列/快捷導覽的重複尺寸，抓的是「重複
@@ -124,116 +133,773 @@
   --mobile-sc-item-pad: 10px 14px; /* 安全中心清單項目收窄 padding */
 }
 
-/* ── 換膚：5 個非預設 skin，覆寫上面 @theme 宣告的同名 --color-* 變數。
-   （white／night-esports-green／cosmic-spectrum-purple／
-   curated-collection／jade-jackpot，逐字對照原 skins/*.css） ── */
+/* ── 原封不動：skins/blue.css（預設 skin） ── */
+:root:not([data-skin]),
+:root[data-skin="blue"] {
+  color-scheme: dark;
+  --bg: #05080f;
+  --bg-elev: #0a0f1a;
+  --bg-card: #0f1623;
+  --bg-card-hi: #161f30;
+  --line: rgba(160, 210, 255, 0.07);
+  --line-hi: rgba(160, 210, 255, 0.16);
+  --text: #eaf5ff;
+  --text-mid: rgba(234, 245, 255, 0.7);
+  --text-dim: rgba(234, 245, 255, 0.42);
+  --text-on-accent: #04101a;
+  --text-on-accent-soft: #eafff6;
+  --icon-muted: rgba(234, 245, 255, 0.72);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: invert(88%) brightness(1.05);
+  --calendar-indicator-hover-filter: invert(80%) sepia(70%) saturate(700%) hue-rotate(120deg) brightness(1.15);
+  --calendar-indicator-opacity: 0.72;
+  --accent: #2473ff;
+  --accent-2: #38bdf8;
+  --accent-3: #fbbf24;
+  --accent-ink: #04101a;
+  --accent-shade: #000000;
+  --primary-start: #38bdf8;
+  --primary: #2473ff;
+  --primary-end: #1e5fd8;
+  --live: #ff3b3b;
+  --positive: oklch(0.78 0.18 145);
+  --negative: oklch(0.7 0.22 25);
+  --warning: #facc15;
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --tier-next: #c47b22;
+  --status-success-bg: color-mix(in oklch, #1f8a5b 16%, var(--bg-elev));
+  --status-success-text: #2fd396;
+  --status-success-border: color-mix(in oklch, #1f8a5b 45%, transparent);
+  --badge-highlight-bg: color-mix(in oklch, var(--accent) 32%, var(--bg-elev));
+  --badge-highlight-text: var(--text-on-accent-soft);
+  --badge-highlight-border: var(--accent);
+  --badge-highlight-shadow: 0 0 6px color-mix(in oklch, var(--accent) 50%, transparent);
+  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 60%, var(--primary-end) 100%);
+  --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
+  --rollover-title-gradient: linear-gradient(90deg, #22d3ee 0%, var(--primary) 35%, #a855f7 65%, #facc15 100%);
+  --rollover-hero-gradient: linear-gradient(95deg, #fde68a 0%, #facc15 50%, #f59e0b 100%);
+  --accent-grad: linear-gradient(135deg, color-mix(in oklch, var(--accent) 100%, white 20%) 0%, var(--accent) 38%, color-mix(in oklch, var(--accent) 78%, #000) 100%);
+  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 22%, transparent) 0%, color-mix(in oklch, var(--accent) 6%, transparent) 100%);
+  --bg-grad-card: linear-gradient(180deg, var(--bg-card) 0%, color-mix(in oklch, var(--bg-card) 80%, #000) 100%);
+  --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: var(--accent);
+  --control-hover-text: #ffffff;
+  --control-active-bg:
+    radial-gradient(ellipse 80% 60% at 50% 50%, color-mix(in oklch, var(--accent) 28%, var(--bg-elev)) 0%, var(--bg-elev) 75%),
+    var(--bg-elev);
+  --control-active-border: var(--accent);
+  --control-active-text: #ffffff;
+  --control-active-text-shadow: 0 0 10px color-mix(in oklch, var(--accent) 70%, transparent);
+  --control-active-shadow:
+    0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent),
+    0 0 16px color-mix(in oklch, var(--accent) 55%, transparent),
+    0 0 20px color-mix(in oklch, var(--accent) 18%, transparent) inset;
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent) 65%, transparent);
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: linear-gradient(180deg, #1a1f2b 0%, #12151d 100%);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
+  --account-hero-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --account-hero-border: var(--line-hi);
+  --account-hero-shadow: none;
+  --secondary-button-bg: transparent;
+  --secondary-button-border: var(--line-hi);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent);
+  --secondary-button-hover-text: #ffffff;
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 18px rgba(0, 0, 0, 0.4);
+  --shadow-primary: 0 0 16px color-mix(in oklch, var(--primary) 40%, transparent);
+  --shadow-primary-sm: 0 0 14px color-mix(in oklch, var(--primary) 35%, transparent);
+  --shadow-glow: 0 0 0 1px var(--accent), 0 8px 28px color-mix(in oklch, var(--accent) 30%, transparent);
+  --accent-glow:
+    0 6px 26px color-mix(in oklch, var(--accent) 38%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--accent) 50%, transparent) inset,
+    0 0 22px color-mix(in oklch, var(--accent) 28%, transparent) inset;
+}
+
+/* ── 原封不動：skins/white.css ── */
 :root[data-skin="white"] {
-  --color-bg: #ebe8df;
-  --color-bg-elev: #f5f2e9;
-  --color-bg-card: #faf8f2;
-  --color-bg-card-hi: #f0ece3;
-  --color-line: rgba(58, 53, 44, 0.11);
-  --color-line-hi: rgba(58, 53, 44, 0.24);
-  --color-text: #27241f;
-  --color-text-mid: rgba(39, 36, 31, 0.72);
-  --color-text-dim: rgba(39, 36, 31, 0.48);
-  --color-text-on-accent: #f7f1e5;
-  --color-accent: #4d4941;
-  --color-accent-2: #635d53;
-  --color-accent-3: #b18444;
-  --color-primary-start: #625c52;
-  --color-primary: #454139;
-  --color-primary-end: #2c2924;
-  --color-live: #e53945;
-  --color-positive: #1f9d68;
-  --color-negative: #d8424d;
-  --color-warning: #b18444;
+  color-scheme: light;
+  --bg: #ebe8df;
+  --bg-elev: #f5f2e9;
+  --bg-card: #faf8f2;
+  --bg-card-hi: #f0ece3;
+  --line: rgba(58, 53, 44, 0.11);
+  --line-hi: rgba(58, 53, 44, 0.24);
+  --page-background:
+    radial-gradient(ellipse 72% 48% at 0% 0%, rgba(255, 253, 246, 0.72) 0%, transparent 62%),
+    radial-gradient(ellipse 54% 44% at 100% 100%, rgba(166, 137, 88, 0.10) 0%, transparent 66%);
+  --text: #27241f;
+  --text-mid: rgba(39, 36, 31, 0.72);
+  --text-dim: rgba(39, 36, 31, 0.48);
+  --text-on-accent: #f7f1e5;
+  --text-on-accent-soft: #eee7da;
+  --icon-muted: rgba(39, 36, 31, 0.58);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: invert(26%) brightness(0.86);
+  --calendar-indicator-hover-filter: invert(24%) brightness(0.9);
+  --calendar-indicator-opacity: 0.72;
+  --accent: #4d4941;
+  --accent-2: #635d53;
+  --accent-3: #b18444;
+  --accent-ink: #27241f;
+  --accent-shade: #faf8f2;
+  --balance-text: #705022;
+  --primary-start: #625c52;
+  --primary: #454139;
+  --primary-end: #2c2924;
+  --live: #e53945;
+  --positive: #1f9d68;
+  --negative: #d8424d;
+  --warning: #b18444;
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --tier-next: #8a5214;
+  --status-success-bg: #e5f2e9;
+  --status-success-text: #1f8a5b;
+  --status-success-border: #bfe6d2;
+  --badge-highlight-bg: #ebe6db;
+  --badge-highlight-text: #37332c;
+  --badge-highlight-border: #bdb5a6;
+  --badge-highlight-shadow: none;
+  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 60%, var(--primary-end) 100%);
+  --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
+  --rollover-title-gradient: linear-gradient(90deg, #777064 0%, var(--primary) 48%, #28251f 100%);
+  --rollover-hero-gradient: linear-gradient(95deg, #c48718 0%, #a96800 52%, #8a5400 100%);
+  --accent-grad: #d9d3c7;
+  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 14%, transparent) 0%, color-mix(in oklch, var(--accent) 4%, transparent) 100%);
+  --bg-grad-card: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-hi) 100%);
+  --control-bg: var(--bg-card);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: #71695d;
+  --control-hover-text: var(--text);
+  --control-active-bg: #e7e2d8;
+  --control-active-border: var(--accent);
+  --control-active-text: #2c2924;
+  --control-active-text-shadow: none;
+  --control-active-shadow: 0 0 0 1px var(--accent);
+  --focus-ring: 0 0 0 2px var(--bg-card), 0 0 0 4px rgba(77, 73, 65, 0.42);
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: var(--bg-card);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: var(--bg-card);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 1px 0 rgba(15, 23, 32, 0.04), 0 4px 14px rgba(15, 23, 32, 0.06);
+  --account-hero-bg: var(--bg-card);
+  --account-hero-border: var(--line);
+  --account-hero-shadow: 0 1px 0 rgba(15, 23, 32, 0.04), 0 4px 14px rgba(15, 23, 32, 0.06);
+  --secondary-button-bg: var(--bg-card);
+  --secondary-button-border: var(--line);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent);
+  --secondary-button-hover-text: var(--text);
+  --shadow-card: 0 1px 0 rgba(255, 253, 246, 0.72) inset, 0 4px 14px rgba(58, 53, 44, 0.08);
+  --shadow-primary: 0 2px 8px rgba(58, 53, 44, 0.16);
+  --shadow-primary-sm: 0 2px 8px rgba(58, 53, 44, 0.16);
+  --shadow-glow: 0 0 0 1px var(--accent), 0 5px 16px rgba(58, 53, 44, 0.14);
+  --accent-glow: 0 4px 14px rgba(58, 53, 44, 0.14), 0 0 0 1px rgba(58, 53, 44, 0.22) inset;
 }
+
+/* ── 原封不動：skins/night-esports-green.css ── */
 :root[data-skin="night-esports-green"] {
-  --color-bg: #0d1316;
-  --color-bg-elev: #141e23;
-  --color-bg-card: #1a252b;
-  --color-bg-card-hi: #223138;
-  --color-line: rgba(159, 226, 209, 0.1);
-  --color-line-hi: rgba(159, 226, 209, 0.24);
-  --color-text: #f1f7f5;
-  --color-text-mid: rgba(226, 239, 235, 0.72);
-  --color-text-dim: rgba(226, 239, 235, 0.45);
-  --color-text-on-accent: #10201f;
-  --color-accent: #9fe2d1;
-  --color-accent-2: #b8eee1;
-  --color-accent-3: #efbd59;
-  --color-primary-start: #c7f0e6;
-  --color-primary: #9fe2d1;
-  --color-primary-end: #70c8b4;
-  --color-live: #ff4545;
-  --color-positive: #70d9b4;
-  --color-negative: #ff626b;
-  --color-warning: #f5c451;
+  color-scheme: dark;
+  --bg: #0d1316;
+  --bg-elev: #141e23;
+  --bg-card: #1a252b;
+  --bg-card-hi: #223138;
+  --line: rgba(159, 226, 209, 0.1);
+  --line-hi: rgba(159, 226, 209, 0.24);
+  --text: #f1f7f5;
+  --text-mid: rgba(226, 239, 235, 0.72);
+  --text-dim: rgba(226, 239, 235, 0.45);
+  --text-on-accent: #10201f;
+  --text-on-accent-soft: #f4fffc;
+  --icon-muted: rgba(226, 239, 235, 0.72);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: invert(91%) sepia(12%) saturate(380%) hue-rotate(86deg) brightness(1.08);
+  --calendar-indicator-hover-filter: invert(83%) sepia(75%) saturate(720%) hue-rotate(78deg) brightness(1.1);
+  --calendar-indicator-opacity: 0.76;
+  --accent: #9fe2d1;
+  --accent-2: #b8eee1;
+  --accent-3: #efbd59;
+  --accent-ink: #10201f;
+  --accent-shade: #000000;
+  --primary-start: #c7f0e6;
+  --primary: #9fe2d1;
+  --primary-end: #70c8b4;
+  --live: #ff4545;
+  --positive: #70d9b4;
+  --negative: #ff626b;
+  --warning: #f5c451;
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --tier-next: #d6923e;
+  --status-success-bg: color-mix(in oklch, var(--positive) 14%, var(--bg-elev));
+  --status-success-text: #b8eee1;
+  --status-success-border: color-mix(in oklch, var(--positive) 42%, transparent);
+  --badge-highlight-bg: color-mix(in oklch, var(--accent) 24%, var(--bg-elev));
+  --badge-highlight-text: var(--text-on-accent-soft);
+  --badge-highlight-border: var(--accent);
+  --badge-highlight-shadow: none;
+  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 58%, var(--primary-end) 100%);
+  --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
+  --rollover-title-gradient: linear-gradient(90deg, var(--accent-2) 0%, var(--accent) 40%, #7ccfc9 68%, var(--accent-3) 100%);
+  --rollover-hero-gradient: linear-gradient(95deg, #fff0ad 0%, var(--accent-3) 52%, #d99328 100%);
+  --accent-grad: linear-gradient(135deg, var(--primary-start) 0%, var(--accent) 42%, var(--primary-end) 100%);
+  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 22%, transparent) 0%, color-mix(in oklch, var(--accent) 5%, transparent) 100%);
+  --bg-grad-card: linear-gradient(180deg, var(--bg-card) 0%, color-mix(in oklch, var(--bg-card) 82%, #000) 100%);
+  --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: var(--accent);
+  --control-hover-text: #ffffff;
+  --control-active-bg: color-mix(in oklch, var(--accent) 17%, var(--bg-elev));
+  --control-active-border: var(--accent);
+  --control-active-text: #ffffff;
+  --control-active-text-shadow: none;
+  --control-active-shadow: 0 0 0 1px color-mix(in oklch, var(--accent) 35%, transparent);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent) 66%, transparent);
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: linear-gradient(180deg, #202c32 0%, #172126 100%);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: linear-gradient(180deg, #223138 0%, #182329 100%);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+  --account-hero-bg: linear-gradient(180deg, #18352f 0%, #10231f 58%, #10191c 100%);
+  --account-hero-border: var(--line-hi);
+  --account-hero-shadow: none;
+  --secondary-button-bg: transparent;
+  --secondary-button-border: var(--line-hi);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent);
+  --secondary-button-hover-text: #ffffff;
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.035) inset, 0 7px 20px rgba(0, 0, 0, 0.44);
+  --shadow-primary: 0 6px 18px rgba(0, 0, 0, 0.24);
+  --shadow-primary-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 0 1px var(--accent);
+  --accent-glow: 0 0 0 1px color-mix(in oklch, var(--accent) 42%, transparent) inset;
 }
+
+/* ── 原封不動：skins/cosmic-spectrum-purple.css ── */
 :root[data-skin="cosmic-spectrum-purple"] {
-  --color-bg: #0b0a25;
-  --color-bg-elev: #14143b;
-  --color-bg-card: #1b1c52;
-  --color-bg-card-hi: #292a70;
-  --color-line: rgba(139, 126, 255, 0.14);
-  --color-line-hi: rgba(139, 126, 255, 0.32);
-  --color-text: #f4f2ff;
-  --color-text-mid: rgba(224, 220, 255, 0.72);
-  --color-text-dim: rgba(207, 201, 255, 0.46);
-  --color-text-on-accent: #0d0828;
-  --color-accent: #6a48ff;
-  --color-accent-2: #b7acff;
-  --color-accent-3: #b6a8ff;
-  --color-primary-start: #8f7cff;
-  --color-primary: #6845ff;
-  --color-primary-end: #4a2fd0;
-  --color-live: #ff4667;
-  --color-positive: #48e6a2;
-  --color-negative: #ff647c;
-  --color-warning: #f6c453;
+  color-scheme: dark;
+  --bg: #0b0a25;
+  --bg-elev: #14143b;
+  --bg-card: #1b1c52;
+  --bg-card-hi: #292a70;
+  --line: rgba(139, 126, 255, 0.14);
+  --line-hi: rgba(139, 126, 255, 0.32);
+  --text: #f4f2ff;
+  --text-mid: rgba(224, 220, 255, 0.72);
+  --text-dim: rgba(207, 201, 255, 0.46);
+  --text-on-accent: #0d0828;
+  --text-on-accent-soft: #f4f2ff;
+  --icon-muted: rgba(215, 209, 255, 0.74);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: invert(91%) sepia(18%) saturate(420%) hue-rotate(214deg) brightness(1.08);
+  --calendar-indicator-hover-filter: invert(70%) sepia(75%) saturate(980%) hue-rotate(224deg) brightness(1.12);
+  --calendar-indicator-opacity: 0.78;
+  --accent: #6a48ff;
+  --accent-2: #b7acff;
+  --accent-3: #b6a8ff;
+  --accent-ink: #0d0828;
+  --accent-shade: #000000;
+  --primary-start: #8f7cff;
+  --primary: #6845ff;
+  --primary-end: #4a2fd0;
+  --live: #ff4667;
+  --positive: #48e6a2;
+  --negative: #ff647c;
+  --warning: #f6c453;
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --tier-next: #e0a544;
+  --status-success-bg: color-mix(in oklch, var(--positive) 14%, var(--bg-elev));
+  --status-success-text: #78e6b0;
+  --status-success-border: color-mix(in oklch, var(--positive) 42%, transparent);
+  --badge-highlight-bg: color-mix(in oklch, var(--accent) 25%, var(--bg-elev));
+  --badge-highlight-text: var(--text-on-accent-soft);
+  --badge-highlight-border: var(--accent);
+  --badge-highlight-shadow: none;
+  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 48%, var(--primary-end) 100%);
+  --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 54%, var(--primary-end) 100%);
+  --rollover-title-gradient: linear-gradient(90deg, var(--accent-3) 0%, var(--accent-2) 45%, var(--accent) 100%);
+  --rollover-hero-gradient: linear-gradient(95deg, #ffe59b 0%, var(--warning) 50%, #d88a2a 100%);
+  --accent-grad: linear-gradient(135deg, var(--primary-start) 0%, var(--accent) 52%, var(--primary-end) 100%);
+  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent-3) 15%, transparent) 0%, color-mix(in oklch, var(--accent) 10%, transparent) 100%);
+  --bg-grad-card: linear-gradient(180deg, var(--bg-card-hi) 0%, color-mix(in oklch, var(--bg-card) 82%, #000) 100%);
+  --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: var(--accent);
+  --control-hover-text: #ffffff;
+  --control-active-bg: color-mix(in oklch, var(--accent) 22%, var(--bg-elev));
+  --control-active-border: var(--accent);
+  --control-active-text: #ffffff;
+  --control-active-text-shadow: none;
+  --control-active-shadow: 0 0 0 1px color-mix(in oklch, var(--accent) 42%, transparent);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent-2) 62%, transparent);
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: linear-gradient(180deg, #24255f 0%, #171741 100%);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: linear-gradient(180deg, #23245f 0%, #171741 100%);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 8px 28px rgba(0, 0, 0, 0.24);
+  --account-hero-bg: linear-gradient(180deg, #262765 0%, #171741 100%);
+  --account-hero-border: var(--line-hi);
+  --account-hero-shadow: none;
+  --secondary-button-bg: transparent;
+  --secondary-button-border: var(--line-hi);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent-2);
+  --secondary-button-hover-text: #ffffff;
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 7px 22px rgba(0, 0, 0, 0.46);
+  --shadow-primary: 0 6px 18px rgba(0, 0, 0, 0.26);
+  --shadow-primary-sm: 0 4px 12px rgba(0, 0, 0, 0.22);
+  --shadow-glow: 0 0 0 1px var(--accent);
+  --accent-glow: 0 0 0 1px color-mix(in oklch, var(--accent) 48%, transparent) inset;
 }
-:root[data-skin="curated-collection"] {
-  --color-bg: #0d0e0f;
-  --color-bg-elev: #151719;
-  --color-bg-card: #1d2022;
-  --color-bg-card-hi: #272b2d;
-  --color-line: rgba(222, 171, 122, 0.10);
-  --color-line-hi: rgba(222, 171, 122, 0.25);
-  --color-text: #f3eee8;
-  --color-text-mid: rgba(243, 238, 232, 0.72);
-  --color-text-dim: rgba(243, 238, 232, 0.45);
-  --color-text-on-accent: #21150d;
-  --color-accent: #d8a06b;
-  --color-accent-2: #edc49e;
-  --color-accent-3: #b87545;
-  --color-primary-start: #edc49e;
-  --color-primary: #d8a06b;
-  --color-primary-end: #a9663c;
-  --color-live: #ff565e;
-  --color-positive: #65d5a1;
-  --color-negative: #ff7278;
-  --color-warning: #e8b85d;
-}
+
+/* ── 原封不動：skins/jade-jackpot.css ── */
 :root[data-skin="jade-jackpot"] {
-  --color-bg: #050e09;
-  --color-bg-elev: #0a1a11;
-  --color-bg-card: #0f2318;
-  --color-bg-card-hi: #17301f;
-  --color-line: rgba(80, 255, 150, 0.08);
-  --color-line-hi: rgba(80, 255, 150, 0.2);
-  --color-text: #eafff0;
-  --color-text-mid: rgba(234, 255, 240, 0.72);
-  --color-text-dim: rgba(234, 255, 240, 0.44);
-  --color-text-on-accent: #04170c;
-  --color-accent: #39ff7c;
-  --color-accent-2: #7cffb0;
-  --color-accent-3: #ffcf40;
-  --color-primary-start: #8cffb8;
-  --color-primary: #39ff7c;
-  --color-primary-end: #0fb356;
-  --color-live: #ff4d5e;
-  --color-positive: oklch(0.78 0.18 145);
-  --color-negative: oklch(0.7 0.22 25);
-  --color-warning: #ffcf40;
+  color-scheme: dark;
+  --bg: #050e09;
+  --bg-elev: #0a1a11;
+  --bg-card: #0f2318;
+  --bg-card-hi: #17301f;
+  --line: rgba(80, 255, 150, 0.08);
+  --line-hi: rgba(80, 255, 150, 0.2);
+  --text: #eafff0;
+  --text-mid: rgba(234, 255, 240, 0.72);
+  --text-dim: rgba(234, 255, 240, 0.44);
+  --text-on-accent: #04170c;
+  --text-on-accent-soft: #eafff0;
+  --icon-muted: rgba(234, 255, 240, 0.72);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: invert(88%) sepia(30%) saturate(600%) hue-rotate(90deg) brightness(1.1);
+  --calendar-indicator-hover-filter: invert(80%) sepia(75%) saturate(700%) hue-rotate(85deg) brightness(1.15);
+  --calendar-indicator-opacity: 0.76;
+  --accent: #39ff7c;
+  --accent-2: #7cffb0;
+  --accent-3: #ffcf40;
+  --accent-ink: #04170c;
+  --accent-shade: #000000;
+  --primary-start: #8cffb8;
+  --primary: #39ff7c;
+  --primary-end: #0fb356;
+  --live: #ff4d5e;
+  --positive: oklch(0.78 0.18 145);
+  --negative: oklch(0.7 0.22 25);
+  --warning: #ffcf40;
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --tier-next: #ffcf40;
+  --status-success-bg: color-mix(in oklch, #1f8a5b 16%, var(--bg-elev));
+  --status-success-text: #4dffa0;
+  --status-success-border: color-mix(in oklch, #1f8a5b 45%, transparent);
+  --badge-highlight-bg: color-mix(in oklch, var(--accent) 30%, var(--bg-elev));
+  --badge-highlight-text: var(--text-on-accent-soft);
+  --badge-highlight-border: var(--accent);
+  --badge-highlight-shadow: 0 0 8px color-mix(in oklch, var(--accent) 55%, transparent);
+  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 60%, var(--primary-end) 100%);
+  --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
+  --rollover-title-gradient: linear-gradient(90deg, var(--accent-2) 0%, var(--accent) 40%, #0fd66f 68%, var(--accent-3) 100%);
+  --rollover-hero-gradient: linear-gradient(95deg, #fff3b0 0%, var(--accent-3) 52%, #d99328 100%);
+  --accent-grad: linear-gradient(135deg, color-mix(in oklch, var(--accent) 100%, white 20%) 0%, var(--accent) 38%, color-mix(in oklch, var(--accent) 78%, #000) 100%);
+  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 22%, transparent) 0%, color-mix(in oklch, var(--accent) 6%, transparent) 100%);
+  --bg-grad-card: linear-gradient(180deg, var(--bg-card) 0%, color-mix(in oklch, var(--bg-card) 82%, #000) 100%);
+  --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: var(--accent);
+  --control-hover-text: #ffffff;
+  --control-active-bg:
+    radial-gradient(ellipse 80% 60% at 50% 50%, color-mix(in oklch, var(--accent) 28%, var(--bg-elev)) 0%, var(--bg-elev) 75%),
+    var(--bg-elev);
+  --control-active-border: var(--accent);
+  --control-active-text: #ffffff;
+  --control-active-text-shadow: 0 0 10px color-mix(in oklch, var(--accent) 70%, transparent);
+  --control-active-shadow:
+    0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent),
+    0 0 16px color-mix(in oklch, var(--accent) 55%, transparent),
+    0 0 20px color-mix(in oklch, var(--accent) 18%, transparent) inset;
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent) 65%, transparent);
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: linear-gradient(180deg, #17301f 0%, #0f2318 100%);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 8px 26px rgba(0, 0, 0, 0.3);
+  --account-hero-bg: linear-gradient(180deg, #143d24 0%, #0a1a11 100%);
+  --account-hero-border: var(--line-hi);
+  --account-hero-shadow: none;
+  --secondary-button-bg: transparent;
+  --secondary-button-border: var(--line-hi);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent);
+  --secondary-button-hover-text: #ffffff;
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 18px rgba(0, 0, 0, 0.5);
+  --shadow-primary: 0 0 16px color-mix(in oklch, var(--primary) 40%, transparent);
+  --shadow-primary-sm: 0 0 14px color-mix(in oklch, var(--primary) 35%, transparent);
+  --shadow-glow: 0 0 0 1px var(--accent), 0 8px 28px color-mix(in oklch, var(--accent) 30%, transparent);
+  --accent-glow:
+    0 6px 26px color-mix(in oklch, var(--accent) 38%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--accent) 50%, transparent) inset,
+    0 0 22px color-mix(in oklch, var(--accent) 28%, transparent) inset;
+}
+
+/* ── 原封不動：skins/curated-collection.css（5 個 skin 共用同一個語意層，
+   個別只提供調色盤，逐字對照原檔 :is() 選擇器結構） ── */
+:root:is(
+  [data-skin="obsidian-copper"],
+  [data-skin="arctic-cyan"],
+  [data-skin="crimson-noir"],
+  [data-skin="midnight-gold"],
+  [data-skin="sage-atelier"]
+) {
+  --icon-muted: var(--skin-icon-muted);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: var(--skin-calendar-filter);
+  --calendar-indicator-hover-filter: var(--skin-calendar-hover-filter);
+  --calendar-indicator-opacity: 0.76;
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --status-success-bg: color-mix(in oklch, var(--positive) 14%, var(--bg-elev));
+  --status-success-text: var(--positive);
+  --status-success-border: color-mix(in oklch, var(--positive) 42%, transparent);
+  --badge-highlight-bg: color-mix(in oklch, var(--accent) 18%, var(--bg-elev));
+  --badge-highlight-text: var(--text);
+  --badge-highlight-border: var(--accent);
+  --badge-highlight-shadow: none;
+  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 56%, var(--primary-end) 100%);
+  --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
+  --rollover-title-gradient: linear-gradient(90deg, var(--accent-2) 0%, var(--accent) 55%, var(--accent-3) 100%);
+  --rollover-hero-gradient: linear-gradient(95deg, var(--accent-2) 0%, var(--warning) 52%, var(--accent-3) 100%);
+  --accent-grad: linear-gradient(135deg, var(--primary-start) 0%, var(--accent) 52%, var(--primary-end) 100%);
+  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 18%, transparent) 0%, color-mix(in oklch, var(--accent) 4%, transparent) 100%);
+  --bg-grad-card: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --control-bg: var(--bg-card);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: var(--accent);
+  --control-hover-text: var(--text);
+  --control-active-bg: color-mix(in oklch, var(--accent) 16%, var(--bg-card));
+  --control-active-border: var(--accent);
+  --control-active-text: var(--text);
+  --control-active-text-shadow: none;
+  --control-active-shadow: 0 0 0 1px color-mix(in oklch, var(--accent) 36%, transparent);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent) 58%, transparent);
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: var(--bg-card-hi);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: var(--bg-grad-card);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 8px 24px var(--skin-shadow);
+  --account-hero-bg: var(--bg-grad-card);
+  --account-hero-border: var(--line-hi);
+  --account-hero-shadow: none;
+  --secondary-button-bg: transparent;
+  --secondary-button-border: var(--line-hi);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent);
+  --secondary-button-hover-text: var(--text);
+  --shadow-card: 0 1px 0 var(--skin-inset) inset, 0 7px 20px var(--skin-shadow);
+  --shadow-primary: 0 6px 18px var(--skin-shadow);
+  --shadow-primary-sm: 0 4px 12px var(--skin-shadow);
+  --shadow-glow: 0 0 0 1px var(--accent);
+  --accent-glow: 0 0 0 1px color-mix(in oklch, var(--accent) 42%, transparent) inset;
+}
+:root[data-skin="obsidian-copper"] {
+  color-scheme: dark;
+  --bg: #0d0e0f;
+  --bg-elev: #151719;
+  --bg-card: #1d2022;
+  --bg-card-hi: #272b2d;
+  --line: rgba(222, 171, 122, 0.10);
+  --line-hi: rgba(222, 171, 122, 0.25);
+  --text: #f3eee8;
+  --text-mid: rgba(243, 238, 232, 0.72);
+  --text-dim: rgba(243, 238, 232, 0.45);
+  --text-on-accent: #21150d;
+  --text-on-accent-soft: #fff3e7;
+  --skin-icon-muted: rgba(243, 238, 232, 0.70);
+  --skin-calendar-filter: invert(91%) sepia(8%) saturate(270%) hue-rotate(342deg) brightness(1.05);
+  --skin-calendar-hover-filter: invert(74%) sepia(45%) saturate(620%) hue-rotate(341deg) brightness(1.05);
+  --accent: #d8a06b;
+  --accent-2: #edc49e;
+  --accent-3: #b87545;
+  --accent-ink: #21150d;
+  --accent-shade: #070707;
+  --primary-start: #edc49e;
+  --primary: #d8a06b;
+  --primary-end: #a9663c;
+  --live: #ff565e;
+  --positive: #65d5a1;
+  --negative: #ff7278;
+  --warning: #e8b85d;
+  --tier-next: #d58e45;
+  --skin-shadow: rgba(0, 0, 0, 0.36);
+  --skin-inset: rgba(255, 255, 255, 0.035);
+}
+:root[data-skin="arctic-cyan"] {
+  color-scheme: dark;
+  --bg: #071116;
+  --bg-elev: #0c1a21;
+  --bg-card: #12252d;
+  --bg-card-hi: #19323b;
+  --line: rgba(106, 210, 224, 0.10);
+  --line-hi: rgba(106, 210, 224, 0.26);
+  --text: #edf9fb;
+  --text-mid: rgba(237, 249, 251, 0.72);
+  --text-dim: rgba(237, 249, 251, 0.45);
+  --text-on-accent: #06181d;
+  --text-on-accent-soft: #edfdff;
+  --skin-icon-muted: rgba(237, 249, 251, 0.70);
+  --skin-calendar-filter: invert(94%) sepia(12%) saturate(290%) hue-rotate(146deg) brightness(1.04);
+  --skin-calendar-hover-filter: invert(83%) sepia(51%) saturate(615%) hue-rotate(142deg) brightness(1.04);
+  --accent: #62c8d8;
+  --accent-2: #a3e2ea;
+  --accent-3: #55a7bd;
+  --accent-ink: #06181d;
+  --accent-shade: #02080b;
+  --primary-start: #a3e2ea;
+  --primary: #62c8d8;
+  --primary-end: #368ca3;
+  --live: #ff5a67;
+  --positive: #65d4a5;
+  --negative: #ff6d78;
+  --warning: #e6bd61;
+  --tier-next: #c89047;
+  --skin-shadow: rgba(0, 0, 0, 0.34);
+  --skin-inset: rgba(255, 255, 255, 0.035);
+}
+:root[data-skin="crimson-noir"] {
+  color-scheme: dark;
+  --bg: #11090d;
+  --bg-elev: #1b1015;
+  --bg-card: #281820;
+  --bg-card-hi: #35212a;
+  --line: rgba(230, 125, 139, 0.10);
+  --line-hi: rgba(230, 125, 139, 0.25);
+  --text: #fbf0f2;
+  --text-mid: rgba(251, 240, 242, 0.72);
+  --text-dim: rgba(251, 240, 242, 0.45);
+  --text-on-accent: #280c14;
+  --text-on-accent-soft: #fff0f3;
+  --skin-icon-muted: rgba(251, 240, 242, 0.70);
+  --skin-calendar-filter: invert(92%) sepia(9%) saturate(260%) hue-rotate(304deg) brightness(1.04);
+  --skin-calendar-hover-filter: invert(73%) sepia(42%) saturate(860%) hue-rotate(306deg) brightness(1.03);
+  --accent: #df7b89;
+  --accent-2: #f0aeb7;
+  --accent-3: #b94f65;
+  --accent-ink: #280c14;
+  --accent-shade: #090305;
+  --primary-start: #f0aeb7;
+  --primary: #df7b89;
+  --primary-end: #ad4057;
+  --live: #ff435a;
+  --positive: #6bd3a0;
+  --negative: #ff6677;
+  --warning: #e8bd64;
+  --tier-next: #d28a43;
+  --skin-shadow: rgba(0, 0, 0, 0.38);
+  --skin-inset: rgba(255, 255, 255, 0.035);
+}
+:root[data-skin="midnight-gold"] {
+  color-scheme: dark;
+  --bg: #080d16;
+  --bg-elev: #101827;
+  --bg-card: #182236;
+  --bg-card-hi: #222f47;
+  --line: rgba(218, 188, 112, 0.10);
+  --line-hi: rgba(218, 188, 112, 0.26);
+  --text: #f5f2e9;
+  --text-mid: rgba(245, 242, 233, 0.72);
+  --text-dim: rgba(245, 242, 233, 0.45);
+  --text-on-accent: #211b0c;
+  --text-on-accent-soft: #fff8df;
+  --skin-icon-muted: rgba(245, 242, 233, 0.70);
+  --skin-calendar-filter: invert(92%) sepia(8%) saturate(230%) hue-rotate(356deg) brightness(1.04);
+  --skin-calendar-hover-filter: invert(79%) sepia(46%) saturate(620%) hue-rotate(5deg) brightness(1.02);
+  --accent: #d2b465;
+  --accent-2: #ead79c;
+  --accent-3: #9f7d36;
+  --accent-ink: #211b0c;
+  --accent-shade: #03070c;
+  --primary-start: #ead79c;
+  --primary: #d2b465;
+  --primary-end: #95732e;
+  --live: #ff5d63;
+  --positive: #68d3a0;
+  --negative: #ff7078;
+  --warning: #e9bd52;
+  --tier-next: #d79c43;
+  --skin-shadow: rgba(0, 0, 0, 0.36);
+  --skin-inset: rgba(255, 255, 255, 0.035);
+}
+:root[data-skin="sage-atelier"] {
+  color-scheme: light;
+  --bg: #dfe3dc;
+  --bg-elev: #ecefe9;
+  --bg-card: #f4f5ef;
+  --bg-card-hi: #e5e9e2;
+  --line: rgba(43, 62, 55, 0.12);
+  --line-hi: rgba(43, 62, 55, 0.26);
+  --page-background:
+    radial-gradient(ellipse 70% 48% at 0% 0%, rgba(242, 238, 222, 0.52) 0%, transparent 64%),
+    radial-gradient(ellipse 54% 44% at 100% 100%, rgba(78, 112, 99, 0.10) 0%, transparent 66%);
+  --text: #26332e;
+  --text-mid: rgba(38, 51, 46, 0.72);
+  --text-dim: rgba(38, 51, 46, 0.48);
+  --text-on-accent: #26332e;
+  --text-on-accent-soft: #31433c;
+  --skin-icon-muted: rgba(38, 51, 46, 0.62);
+  --skin-calendar-filter: invert(26%) sepia(10%) saturate(525%) hue-rotate(104deg) brightness(0.84);
+  --skin-calendar-hover-filter: invert(34%) sepia(25%) saturate(680%) hue-rotate(103deg) brightness(0.82);
+  --accent: #9ab7ac;
+  --accent-2: #4f695f;
+  --accent-3: #9a7844;
+  --accent-ink: #26332e;
+  --accent-shade: #f4f5ef;
+  --primary-start: #c5d6cf;
+  --primary: #9ab7ac;
+  --primary-end: #82a398;
+  --live: #c83f4d;
+  --positive: #267a57;
+  --negative: #bd3f4b;
+  --warning: #987034;
+  --balance-text: #705022;
+  --tier-next: #7c4b16;
+  --skin-shadow: rgba(43, 62, 55, 0.10);
+  --skin-inset: rgba(255, 255, 255, 0.45);
+}
+
+/* ============================================================
+   Tailwind 別名層——只新增，不取代上面的原始變數。凡是「Tailwind
+   命名空間跟原名不同」的才需要在這裡建立 var(--原名) 別名（例如
+   --type-body → --text-body）；原名剛好已經符合 Tailwind 慣例的
+   （--radius-*、--font-*）就直接在這裡定值一次即可，不用在上面
+   重複宣告——@theme 區塊本身就會編譯成真正的 :root 自訂屬性，舊
+   CSS 照樣讀得到。別名只宣告一次（不必在每個 skin 區塊裡重複），
+   因為 var(--原名) 在使用當下就會依目前生效的 [data-skin] 解析，
+   換膚會自動連動，不需要每個 skin 各寫一份。
+   ============================================================ */
+@theme static {
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --text-caption: var(--type-caption);
+  --text-meta: var(--type-meta);
+  --text-label: var(--type-label);
+  --text-body-sm: var(--type-body-sm);
+  --text-button: var(--type-button);
+  --text-body: var(--type-body);
+  --text-card-title: var(--type-card-title);
+  --text-group-title: var(--type-group-title);
+  --text-section-title-mobile: var(--type-section-title-mobile);
+  --text-section-title: var(--type-section-title);
+  --text-feature-title: var(--type-feature-title);
+  --text-page-title: var(--type-page-title);
+  --text-hero-mobile: var(--type-hero-mobile);
+  --text-hero: var(--type-hero);
+
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-control: 10px;
+  --radius-card: 12px;
+  --radius: 14px;
+  --radius-panel: 20px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-bg-card: var(--bg-card);
+  --color-bg-card-hi: var(--bg-card-hi);
+  --color-line: var(--line);
+  --color-line-hi: var(--line-hi);
+  --color-text: var(--text);
+  --color-text-mid: var(--text-mid);
+  --color-text-dim: var(--text-dim);
+  --color-text-on-accent: var(--text-on-accent);
+  --color-text-on-accent-soft: var(--text-on-accent-soft);
+  --color-icon-muted: var(--icon-muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-ink: var(--accent-ink);
+  --color-primary-start: var(--primary-start);
+  --color-primary: var(--primary);
+  --color-primary-end: var(--primary-end);
+  --color-live: var(--live);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-tier-next: var(--tier-next);
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 18px rgba(0, 0, 0, 0.4);
+  --shadow-control-active: var(--control-active-shadow);
+  --shadow-badge-highlight: var(--badge-highlight-shadow);
+  --shadow-primary: 0 0 16px color-mix(in oklch, var(--primary) 40%, transparent);
+  --shadow-primary-sm: 0 0 14px color-mix(in oklch, var(--primary) 35%, transparent);
+}
+
+/* ============================================================
+   太複雜/依賴 ::after、JS 執行期切換 class 的部分維持手寫 CSS——內容
+   沿用原始語意命名，HTML 端疊加 Tailwind utility，class 本身保留給
+   site.js 當 DOM hook。這裡是元件 1：底部行動導覽列（.shell-mobile-nav／
+   .mobile-nav／.mnav-btn），v3/site/ 自己的 <768px 內部 RWD 後備行為
+   （窄視窗桌機/平板；實機手機由 index.html 的 UA 判斷導去 site-mobile/，
+   不會用到這組）。斷點對照 BREAKPOINTS.md：原本 768px → md。
+   ============================================================ */
+@layer components {
+  .mnav-btn.active::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 22%; right: 22%;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
 }
