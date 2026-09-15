@@ -1,0 +1,249 @@
+@import "tailwindcss";
+
+/* ============================================================
+   v4 design token —— 桌機版。手機版另見 ../mobile/theme.css（鐵則 6：
+   兩邊各自獨立檔案，不共用，即使目前數值相同）。
+   來源：v4/site/assets/css/main.css 的 :root 區塊 + skins/*.css，數值
+   逐一對照搬移，不改值；顏色改用 Tailwind `--color-*` 命名空間好生成
+   bg-／text-／border- 等 utility，執行期換膚機制不變（下面
+   :root[data-skin] 覆寫同一批變數）。
+   ============================================================ */
+@theme {
+  --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+
+  /* 字級：main.css 原本沒有 token 化，字級是散落在各元件裡的寫死值；
+     依重複出現頻率整理成一組刻度（--text-2xs~2xl），半 px 級距是原設計
+     刻意的（不是誤差），逐一保留。 */
+  --text-3xs: 10.5px;
+  --text-2xs: 11px;
+  --text-2xs-plus: 11.5px;
+  --text-xs: 12px;
+  --text-xs-plus: 12.5px;
+  --text-sm: 13px;
+  --text-sm-plus: 13.5px;
+  --text-base: 14px;
+  --text-base-plus: 14.5px;
+  --text-md: 15px;
+  --text-md-plus: 15.5px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 22px;
+
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+
+  /* 陰影：原本就是具名 token，原樣沿用 */
+  --shadow-card: 0 2px 0 rgba(43, 36, 32, 0.03), 0 10px 24px rgba(43, 36, 32, 0.08);
+  --shadow-gold: 0 6px 16px rgba(207, 154, 62, 0.35);
+
+  /* 顏色：預設 skin（festive-red-gold）的值，其餘 5 個 skin 在下面
+     :root[data-skin] 覆寫同一批變數名稱。 */
+  --color-bg: #f3efe7;
+  --color-bg-panel: #ffffff;
+  --color-header-grad-hi: #e63552;
+  --color-notice-bg: #fbeceb;
+  --color-notice-text: #8a2432;
+  --color-line: #ece3d4;
+  --color-line-hi: #e2c98a;
+  --color-text: #2b2420;
+  --color-text-mid: #6b5f54;
+  --color-text-dim: #a49a8c;
+  --color-text-on-header: #fff6ea;
+  --color-panel-tint: #fff9ec;
+  --color-gold: #f2a924;
+  --color-gold-hi: #ffd452;
+  --color-gold-deep: #b87a0a;
+  --color-red: #c8102e;
+  --color-red-deep: #9c0f28;
+  /* CTA 按鈕上的深棕字色：main.css 裡寫死 #3a2604 重複 17 次、從未收進
+     token，這裡新增一個名字讓它可以被 utility 重複引用。 */
+  --color-ink-on-gold: #3a2604;
+}
+
+/* ── 非 @theme：漸層／濾鏡不是「顏色」，Tailwind 的 bg-／text- 這類
+   utility 只接受合法的 <color>，漸層要用 [background:var(--x)] 這種
+   任意屬性語法，所以維持一般 custom property，不放進 @theme。 ── */
+:root {
+  --header-grad: linear-gradient(180deg, #d21f3c 0%, #ad1130 100%);
+  --gold-grad: linear-gradient(180deg, #ffe58f 0%, #ffc23c 45%, #f0a020 100%);
+  --panel-glass: rgba(255, 255, 255, 0.85);
+  --logo-filter: brightness(0) invert(1);
+  --footer-logo-filter: brightness(0);
+}
+
+/* ── 換膚：5 個非預設 skin，逐字對照原 skins/*.css ── */
+:root[data-skin="onyx-gold"] {
+  --color-bg: #0d0b08;
+  --color-bg-panel: #18140f;
+  --header-grad: linear-gradient(180deg, #211b12 0%, #080705 100%);
+  --color-header-grad-hi: #d4af37;
+  --color-notice-bg: #1c170f;
+  --color-notice-text: #d4af37;
+  --color-line: #2b241a;
+  --color-line-hi: #8a6d2e;
+  --color-text: #f0e6cf;
+  --color-text-mid: #b5a684;
+  --color-text-dim: #7a6f57;
+  --color-text-on-header: #f7efe0;
+  --color-panel-tint: #241d13;
+  --shadow-card: 0 2px 0 rgba(0, 0, 0, 0.4), 0 10px 24px rgba(0, 0, 0, 0.6);
+  --panel-glass: rgba(24, 20, 15, 0.85);
+  --footer-logo-filter: brightness(0) invert(1);
+  --color-red: #8a5c0a;
+  --color-red-deep: #5c3d06;
+}
+:root[data-skin="deep-ocean"] {
+  --color-bg: #071a1c;
+  --color-bg-panel: #0e2528;
+  --header-grad: linear-gradient(180deg, #103c3f 0%, #051415 100%);
+  --color-header-grad-hi: #35d6c4;
+  --color-notice-bg: #0f2a2c;
+  --color-notice-text: #4fe0cd;
+  --color-line: #1c3a3d;
+  --color-line-hi: #2f8f85;
+  --color-text: #e3f5f2;
+  --color-text-mid: #8fb8b4;
+  --color-text-dim: #5c7c79;
+  --color-text-on-header: #eefaf8;
+  --color-panel-tint: #113034;
+  --shadow-card: 0 2px 0 rgba(0, 0, 0, 0.4), 0 10px 24px rgba(0, 0, 0, 0.6);
+  --panel-glass: rgba(14, 37, 40, 0.85);
+  --footer-logo-filter: brightness(0) invert(1);
+  --color-red: #1fae9f;
+  --color-red-deep: #116b62;
+}
+:root[data-skin="emerald-jade"] {
+  --header-grad: linear-gradient(180deg, #12704a 0%, #0d5138 100%);
+  --color-header-grad-hi: #2bbf7a;
+  --color-notice-bg: #eaf7ef;
+  --color-notice-text: #12704a;
+  --color-red: #12704a;
+  --color-red-deep: #0d5138;
+}
+:root[data-skin="imperial-purple"] {
+  --header-grad: linear-gradient(180deg, #6b3fa0 0%, #4a2570 100%);
+  --color-header-grad-hi: #9c6fc2;
+  --color-notice-bg: #f3ecf9;
+  --color-notice-text: #5b2a86;
+  --color-red: #6b3fa0;
+  --color-red-deep: #4a2570;
+}
+:root[data-skin="sapphire-blue"] {
+  --header-grad: linear-gradient(180deg, #1b3f91 0%, #142f6e 100%);
+  --color-header-grad-hi: #3b6fe0;
+  --color-notice-bg: #eaf0fb;
+  --color-notice-text: #1b3f91;
+  --color-red: #1b3f91;
+  --color-red-deep: #142f6e;
+}
+
+/* ============================================================
+   太複雜/依賴 :hover、::before、@keyframes、JS 執行期切換 class 的部分
+   維持手寫 CSS，class name 沿用原始語意命名（site.js 用這些 class/attr
+   當 DOM hook，HTML 端仍保留這些 class，Tailwind utility 只負責疊加
+   靜態外觀）——內容沿用先前 live.html 試點已驗證過的版本。
+   ============================================================ */
+@layer base {
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  main { flex: 1 0 auto; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: 0; background: none; }
+  img { max-width: 100%; display: block; }
+}
+
+@layer components {
+  .header-nav-link:hover,
+  .header-nav-link.active { background: rgba(255, 255, 255, 0.16); }
+
+  .header-forgot {
+    font-size: 11.5px;
+    color: rgba(255, 246, 234, 0.75);
+    white-space: nowrap;
+  }
+  .header-forgot[data-auth-open] { cursor: pointer; }
+  .header-forgot[data-auth-open]:hover { color: var(--color-gold-hi); }
+
+  .btn-gold {
+    padding: 9px 20px;
+    border: 1px solid var(--color-gold-hi);
+    border-radius: 999px;
+    background: var(--gold-grad);
+    color: var(--color-ink-on-gold);
+    font-weight: 700;
+    font-size: 13px;
+    white-space: nowrap;
+    box-shadow: var(--shadow-gold);
+    transition: filter 0.15s, transform 0.15s;
+  }
+  .btn-gold:hover { filter: brightness(1.06); transform: translateY(-1px); }
+  .btn-gold[disabled] { opacity: 0.5; cursor: default; pointer-events: none; box-shadow: none; }
+  .btn-gold.quiet { background: rgba(255, 255, 255, 0.12); color: var(--color-text-on-header); box-shadow: none; border-color: rgba(255, 255, 255, 0.3); }
+
+  .header-input {
+    width: 128px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.12);
+    color: var(--color-text-on-header);
+    font-size: 12.5px;
+  }
+  .header-input::placeholder { color: rgba(255, 246, 234, 0.6); }
+
+  .header-lang-trigger:hover { background: rgba(255, 255, 255, 0.22); }
+  .header-lang-menu[hidden] { display: none; }
+  .header-lang-option:hover { background: var(--color-bg); }
+  .header-lang-option.active { color: var(--color-gold-deep); background: rgba(207, 154, 62, 0.12); font-weight: 800; }
+
+  .header-menu-trigger:hover { background: rgba(255, 255, 255, 0.22); }
+
+  .hero-slide { opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+  .hero-slide.active { opacity: 1; pointer-events: auto; }
+  .hero-bg {
+    background-image: linear-gradient(100deg, color-mix(in oklch, var(--color-red-deep) 94%, transparent) 0%, color-mix(in oklch, var(--color-red) 55%, transparent) 42%, color-mix(in oklch, var(--color-red) 6%, transparent) 78%), var(--hero-image);
+    background-position: var(--hero-position, center);
+  }
+  .hero-title em { font-style: normal; color: var(--color-gold-hi); }
+
+  .game-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--color-line-hi); }
+  .game-tile-art img[hidden] { display: none; }
+  .game-tile-fav:hover { color: var(--color-gold-hi); border-color: var(--color-gold-hi); }
+  .game-tile-fav.is-active { color: var(--color-gold-hi); border-color: var(--color-gold-hi); }
+  .game-tile-fav.is-active svg { fill: currentColor; }
+
+  .listing-search button:hover { filter: brightness(1.06); }
+  .listing-tab:hover { border-color: var(--color-gold-hi); color: var(--color-gold-deep); }
+  .listing-tab.active { background: var(--gold-grad); border-color: var(--color-gold-hi); color: var(--color-ink-on-gold); }
+
+  .quick-rail-btn:hover { transform: scale(1.08); background: color-mix(in oklch, var(--color-red) 8%, transparent); border-color: var(--color-red); color: var(--color-red-deep); }
+  .quick-rail-btn[data-chat-open] { background: var(--header-grad); border-color: var(--color-gold-hi); }
+  .quick-rail-btn:hover .quick-rail-label,
+  .quick-rail-btn:focus-visible .quick-rail-label { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+  .mobile-tabbar-btn.active { color: var(--color-red); }
+
+  .vendor-marquee-track { animation: vendor-marquee-scroll 48s linear infinite; }
+  .vendor-marquee-track:hover { animation-play-state: paused; }
+  @keyframes vendor-marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vendor-marquee-track { animation: none; }
+  }
+
+  .site-footer-copyright a:hover { color: var(--color-gold-hi); }
+}

@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+/* ============================================================
+   v3 design token —— 桌機版。手機版另見 ../../v3/mobile/theme.css
+   （鐵則 6：兩邊各自獨立檔案，不共用）。
+
+   顏色/陰影用 @theme 宣告，Tailwind 據此生成對應 utility（bg-accent、
+   text-accent、shadow-card…）；生成的 utility 內部仍是 var(--color-accent)
+   這類參照，不是烤進去的死值，所以下面 skin 覆寫區塊照樣能在執行期換色，
+   跟原本 main.css/skins/*.css 的換膚機制完全相同。
+   ============================================================ */
+@theme {
+  /* 字型 */
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* 字級（原 --type-*，改成 Tailwind 認得的 --text-* 命名空間，
+     數值/用途逐一對照原 design-system/tokens.css，一個不漏） */
+  --text-caption: 10.5px;
+  --text-meta: 11.5px;
+  --text-label: 12.5px;
+  --text-body-sm: 13px;
+  --text-button: 13.5px;
+  --text-body: 14px;
+  --text-card-title: 15px;
+  --text-group-title: 16px;
+  --text-section-title-mobile: 18px;
+  --text-section-title: 22px;
+  --text-feature-title: 24px;
+  --text-page-title: 26px;
+  --text-hero-mobile: 32px;
+  --text-hero: 64px;
+
+  /* 字重：700/800 跟 Tailwind 內建 font-bold/font-extrabold 同值，
+     沿用內建即可，這裡只補內建沒有的 --weight-medium(500 有內建 font-medium)
+     跟本來就有名字的 600(font-semibold 也有內建)——結論是全部沿用 Tailwind
+     內建 font-weight-*，不需要在這裡重新定義。 */
+
+  /* 圓角：原樣沿用 */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-control: 10px;
+  --radius-card: 12px;
+  --radius: 14px;
+  --radius-panel: 20px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* 陰影：原本就是具名 token（含 color-mix 進階寫法），原樣沿用，改名對齊
+     Tailwind `--shadow-*` 命名空間（原名 --control-active-shadow／
+     --badge-highlight-shadow）。值是預設 skin（blue）的，其餘 skin 在下面
+     :root[data-skin] 覆寫。 */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 18px rgba(0, 0, 0, 0.4);
+  --shadow-control-active:
+    0 0 0 3px color-mix(in oklch, var(--color-accent) 14%, transparent),
+    0 0 16px color-mix(in oklch, var(--color-accent) 55%, transparent);
+  --shadow-badge-highlight: 0 0 6px color-mix(in oklch, var(--color-accent) 50%, transparent);
+
+  /* 顏色：預設 skin（blue）的值，其餘 5 個 skin 在下面 :root[data-skin]
+     覆寫同一批變數名稱（沿用原本 skins/*.css 的換膚機制）。 */
+  --color-bg: #05080f;
+  --color-bg-elev: #0a0f1a;
+  --color-bg-card: #0f1623;
+  --color-bg-card-hi: #161f30;
+  --color-line: rgba(160, 210, 255, 0.07);
+  --color-line-hi: rgba(160, 210, 255, 0.16);
+  --color-text: #eaf5ff;
+  --color-text-mid: rgba(234, 245, 255, 0.7);
+  --color-text-dim: rgba(234, 245, 255, 0.42);
+  --color-text-on-accent: #04101a;
+  --color-accent: #2473ff;
+  --color-accent-2: #38bdf8;
+  --color-accent-3: #fbbf24;
+  --color-primary-start: #38bdf8;
+  --color-primary: #2473ff;
+  --color-primary-end: #1e5fd8;
+  --color-live: #ff3b3b;
+  --color-positive: oklch(0.78 0.18 145);
+  --color-negative: oklch(0.7 0.22 25);
+  --color-warning: #facc15;
+  --color-success: var(--color-positive);
+  --color-danger: var(--color-negative);
+}
+
+/* ── 非 @theme：元件尺寸/版面數值，不是「設計系統刻度」，不需要生成
+   一整組 utility，維持一般 CSS variable，HTML 端用 Tailwind 的
+   w-(--sidebar-w) 這種語法取值即可。原樣沿用 design-system/tokens.css。 ── */
+:root {
+  --control-size-sm: 36px;
+  --control-size-md: 40px;
+  --control-size-lg: 48px;
+  --control-pad-x-sm: 12px;
+  --control-pad-x-md: 16px;
+  --control-pad-x-lg: 24px;
+  --card-pad: 14px;
+  --rail-gap: 12px;
+  --card-aspect: 0.74;
+  --sidebar-w: 248px;
+  --sidebar-w-collapsed: 64px;
+  --header-h: 64px;
+  --container: 1440px;
+  --container-pad: 28px;
+  --mobile-nav-h: 64px;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: ease;
+  --layout-transition: var(--duration-normal) var(--ease-standard);
+
+  /* text-shadow 不是 Tailwind box-shadow 命名空間管的東西，維持一般
+     custom property，跟你範例同模式的 color-mix 進階寫法原樣沿用。 */
+  --control-active-text-shadow: 0 0 10px color-mix(in oklch, var(--color-accent) 70%, transparent);
+}
+
+/* ── 換膚：5 個非預設 skin，覆寫上面 @theme 宣告的同名 --color-* 變數。
+   （white／night-esports-green／cosmic-spectrum-purple／
+   curated-collection／jade-jackpot，逐字對照原 skins/*.css） ── */
+:root[data-skin="white"] {
+  --color-bg: #ebe8df;
+  --color-bg-elev: #f5f2e9;
+  --color-bg-card: #faf8f2;
+  --color-bg-card-hi: #f0ece3;
+  --color-line: rgba(58, 53, 44, 0.11);
+  --color-line-hi: rgba(58, 53, 44, 0.24);
+  --color-text: #27241f;
+  --color-text-mid: rgba(39, 36, 31, 0.72);
+  --color-text-dim: rgba(39, 36, 31, 0.48);
+  --color-text-on-accent: #f7f1e5;
+  --color-accent: #4d4941;
+  --color-accent-2: #635d53;
+  --color-accent-3: #b18444;
+  --color-primary-start: #625c52;
+  --color-primary: #454139;
+  --color-primary-end: #2c2924;
+  --color-live: #e53945;
+  --color-positive: #1f9d68;
+  --color-negative: #d8424d;
+  --color-warning: #b18444;
+}
+:root[data-skin="night-esports-green"] {
+  --color-bg: #0d1316;
+  --color-bg-elev: #141e23;
+  --color-bg-card: #1a252b;
+  --color-bg-card-hi: #223138;
+  --color-line: rgba(159, 226, 209, 0.1);
+  --color-line-hi: rgba(159, 226, 209, 0.24);
+  --color-text: #f1f7f5;
+  --color-text-mid: rgba(226, 239, 235, 0.72);
+  --color-text-dim: rgba(226, 239, 235, 0.45);
+  --color-text-on-accent: #10201f;
+  --color-accent: #9fe2d1;
+  --color-accent-2: #b8eee1;
+  --color-accent-3: #efbd59;
+  --color-primary-start: #c7f0e6;
+  --color-primary: #9fe2d1;
+  --color-primary-end: #70c8b4;
+  --color-live: #ff4545;
+  --color-positive: #70d9b4;
+  --color-negative: #ff626b;
+  --color-warning: #f5c451;
+}
+:root[data-skin="cosmic-spectrum-purple"] {
+  --color-bg: #0b0a25;
+  --color-bg-elev: #14143b;
+  --color-bg-card: #1b1c52;
+  --color-bg-card-hi: #292a70;
+  --color-line: rgba(139, 126, 255, 0.14);
+  --color-line-hi: rgba(139, 126, 255, 0.32);
+  --color-text: #f4f2ff;
+  --color-text-mid: rgba(224, 220, 255, 0.72);
+  --color-text-dim: rgba(207, 201, 255, 0.46);
+  --color-text-on-accent: #0d0828;
+  --color-accent: #6a48ff;
+  --color-accent-2: #b7acff;
+  --color-accent-3: #b6a8ff;
+  --color-primary-start: #8f7cff;
+  --color-primary: #6845ff;
+  --color-primary-end: #4a2fd0;
+  --color-live: #ff4667;
+  --color-positive: #48e6a2;
+  --color-negative: #ff647c;
+  --color-warning: #f6c453;
+}
+:root[data-skin="curated-collection"] {
+  --color-bg: #0d0e0f;
+  --color-bg-elev: #151719;
+  --color-bg-card: #1d2022;
+  --color-bg-card-hi: #272b2d;
+  --color-line: rgba(222, 171, 122, 0.10);
+  --color-line-hi: rgba(222, 171, 122, 0.25);
+  --color-text: #f3eee8;
+  --color-text-mid: rgba(243, 238, 232, 0.72);
+  --color-text-dim: rgba(243, 238, 232, 0.45);
+  --color-text-on-accent: #21150d;
+  --color-accent: #d8a06b;
+  --color-accent-2: #edc49e;
+  --color-accent-3: #b87545;
+  --color-primary-start: #edc49e;
+  --color-primary: #d8a06b;
+  --color-primary-end: #a9663c;
+  --color-live: #ff565e;
+  --color-positive: #65d5a1;
+  --color-negative: #ff7278;
+  --color-warning: #e8b85d;
+}
+:root[data-skin="jade-jackpot"] {
+  --color-bg: #050e09;
+  --color-bg-elev: #0a1a11;
+  --color-bg-card: #0f2318;
+  --color-bg-card-hi: #17301f;
+  --color-line: rgba(80, 255, 150, 0.08);
+  --color-line-hi: rgba(80, 255, 150, 0.2);
+  --color-text: #eafff0;
+  --color-text-mid: rgba(234, 255, 240, 0.72);
+  --color-text-dim: rgba(234, 255, 240, 0.44);
+  --color-text-on-accent: #04170c;
+  --color-accent: #39ff7c;
+  --color-accent-2: #7cffb0;
+  --color-accent-3: #ffcf40;
+  --color-primary-start: #8cffb8;
+  --color-primary: #39ff7c;
+  --color-primary-end: #0fb356;
+  --color-live: #ff4d5e;
+  --color-positive: oklch(0.78 0.18 145);
+  --color-negative: oklch(0.7 0.22 25);
+  --color-warning: #ffcf40;
+}
