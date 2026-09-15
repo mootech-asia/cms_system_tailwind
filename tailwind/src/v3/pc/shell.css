@@ -26,6 +26,16 @@
 
 /* ── 全域 reset（main.css 開頭） ── */
 * { box-sizing: border-box; }
+/* Tailwind 自己的 Preflight（@layer base）會把 *,::before,::after 的
+   border-style 預設成 solid（border-width 是 0，配合 Tailwind 的
+   border-* utility 設計），原始站台完全沒有這條、瀏覽器原生預設是
+   none。border-width:0 時兩者視覺上沒有差異，純粹是為了讓這個
+   Tailwind build 的「沒特別畫框」元素跟原始站台的瀏覽器原生預設值
+   一致（避免以後排查其他問題時，這條也是潛在差異來源之一），不是
+   在修正某個已知的實際視覺 bug。真的要畫 border 的地方（例如
+   .ap-form-card { border: 1px solid var(--line) }）是用 border 簡寫
+   整組覆寫，不受影響。 */
+* { border-style: none; }
 html, body {
   margin: 0; padding: 0;
   background: var(--bg);
@@ -860,6 +870,32 @@ section.lobby-section { margin-top: 44px; }
 .cs-opt-text small { font-size: 11.5px; color: var(--text-dim); font-weight: 400; }
 .cs-opt-arrow { color: var(--text-dim); font-size: 20px; }
 
+/* site.js 的 showDialog()/resultDialogHTML() 是所有頁面表單送出後
+   共用的結果彈窗（成功/警告），執行期用 modal-bg 動態插入 DOM，不是
+   靜態 HTML 就有——跟 .ap-wd-* 同類型的遺漏，這裡先補進共用殼層
+   （不是單一頁面專屬）。 */
+.pi-success {
+  background: var(--bg-elev);
+  border: 1px solid var(--accent);
+  border-radius: 18px;
+  padding: 32px 28px;
+  width: 100%; max-width: 340px;
+  text-align: center;
+  box-shadow: 0 0 40px color-mix(in oklch, var(--accent) 30%, transparent), 0 16px 50px rgba(0,0,0,.6);
+}
+.pi-success-check {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  display: grid; place-items: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 0 20px color-mix(in oklch, var(--accent) 50%, transparent);
+}
+.pi-success-check.warn { background: linear-gradient(135deg, #fbbf24, #f59e0b); box-shadow: 0 0 20px rgba(245,158,11,.5); }
+.pi-success-check.ask  { background: linear-gradient(135deg, var(--accent-2), var(--accent)); }
+.pi-success-title { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--text); margin-bottom: 6px; }
+.pi-success-sub { color: var(--text-mid); font-size: 13.5px; margin-bottom: 20px; }
+
 /* ── 帳戶頁殼層（.ap-page 系列，account-overview/withdrawal/deposit… 共用）── */
 .ap-page { margin-top: 24px; max-width: 896px; margin-inline: auto; }
 .ap-h1 {
@@ -1064,6 +1100,7 @@ section.lobby-section { margin-top: 44px; }
   .tb-balance-rows { flex-direction: column; gap: 2px; align-items: flex-start; }
   .tb-balance { padding: 6px 10px; }
   .tb-balance-row { font-size: 11.5px; gap: 6px; }
+  .ap-form-card { padding: 20px 18px; }
 }
 @media (max-width: 700px) {
   .container { padding: 0 16px; }
