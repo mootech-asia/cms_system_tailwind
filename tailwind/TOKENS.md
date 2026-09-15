@@ -19,7 +19,7 @@ tailwind.css`（桌機）與 `tailwind/vN/site-mobile/assets/css/tailwind.css`
 共 10 份檔案）。
 **延後**：v2（原因見下方）。
 
-## 過程中發現並修正的 3 個真實 bug
+## 過程中發現並修正的 4 個真實 bug
 
 1. **CSS 註解裡的字面 `*/` 會提早關閉註解**：寫技術註解時提到
    「`bg-*/text-*`」這種寫法，CSS 語法把中間的 `*/` 當成註解結束符號，
@@ -38,6 +38,21 @@ tailwind.css`（桌機）與 `tailwind/vN/site-mobile/assets/css/tailwind.css`
    token（`--c-navy`、`--c-pink`、`--c-danger` 這種，命名已經很清楚），
    跟 v3~v6 一樣是「搬遷改命名空間」而不是「從零命名」，比原本以為的
    簡單很多，這裡更正。
+4. **v3 token 層漏了一整層「語意/元件狀態」token，並且誤植了 skin 名稱**：
+   階段三開始搬 `main.css`/`design-system/components.css` 的 CSS 時，
+   逐字比對 v3 的 `design-system/tokens.css` + `skins/*.css` 十份原始檔
+   才發現先前只搬了「原色調色盤」（`--bg`/`--accent`/`--line` 等約 21
+   個變數），漏掉 `skins/*.css` 裡另一整層「語意/元件狀態」token
+   （`--control-bg`、`--gradient-primary`、`--shadow-primary`、
+   `--table-header-bg`、`--secondary-button-*`、`--focus-ring` 等，每個
+   skin 約 50 個變數，main.css/components.css 大量直接引用）；同時
+   `skins/curated-collection.css` 其實是 obsidian-copper／arctic-cyan／
+   crimson-noir／midnight-gold／sage-atelier 這 5 個 skin 共用同一語意
+   層的檔案，`data-skin` 屬性值裡完全沒有「curated-collection」這個
+   名稱——先前誤把檔名當成 skin 名稱，做出一個永遠不會被套用的假
+   skin，同時漏掉真正存在的 5 個 skin。修正做法見下方「v3」章節。
+   v1.5/v4/v5/v6 逐一核對過，skin 檔案只覆寫十幾個變數（單層結構），
+   沒有這個問題。
 
 ## 4 個問題的最終決定（已套用到全部 5 個版本）
 
@@ -54,23 +69,42 @@ tailwind.css`（桌機）與 `tailwind/vN/site-mobile/assets/css/tailwind.css`
    `--color-` 前綴即可，不需要重新命名；v4 唯一新增的是先前漏收的
    `--color-ink-on-gold`（CTA 深棕字，main.css 裡寫死 17 次）。
 
-## v3（完成，示範用）
+## v3（完成，已依上方 bug 4 修正）
 
-`tailwind/src/v3/{pc,mobile}/theme.css`。結構 token 沿用
-`design-system/tokens.css`：`--space-1~16`（4px 基準，跟 Tailwind 原生
-spacing scale 對齊，不重新定義）、`--radius-xs/sm/control/card/…`、
-`--text-*`（原 `--type-*` 改名）。顏色 6 個 skin 逐字對照原 `skins/*.css`。
+`tailwind/src/v3/{pc,mobile}/theme.css`。架構跟其他版本不同（見 bug 4）：
+不是單純把每個變數改名成 Tailwind 命名空間，而是「原始 tokens.css +
+skins/*.css 逐字搬移（變數名稱、數值都不改）＋ 另外新增一層 Tailwind
+別名（`--color-*`/`--text-*`/`--shadow-*` 只用 `var(--原名)` 參照，
+宣告一次、換膚自動連動，不必每個 skin 各寫一份）」。這樣階段三搬移
+main.css/components.css 的 CSS 時可以完全不改動變數參照名稱，逐字
+搬移即可，避免改名漏改造成視覺跑掉。
 
-進階陰影 token（你要的 color-mix 模式）：
+結構 token（`--type-*`/`--weight-*`/`--space-*`/`--radius-*` 等）逐字
+沿用 `design-system/tokens.css` 原名；`--radius-*` 剛好已符合 Tailwind
+命名慣例，直接在 `@theme` 定值一次即可。
+
+顏色/陰影/元件狀態：v3 實際有 **10 組 skin**（不是先前誤記的 6 組）——
+blue（預設）、white、night-esports-green、cosmic-spectrum-purple、
+jade-jackpot 各自獨立一份完整語意層；obsidian-copper／arctic-cyan／
+crimson-noir／midnight-gold／sage-atelier 這 5 組共用同一語意層
+（對照原檔 `skins/curated-collection.css` 的 `:is()` 選擇器結構），
+個別只提供調色盤。全部 10 組逐字核對 `skins/*.css` 原始檔重建，不再
+依賴頻率分析猜測。
+
+進階陰影 token（你要的 color-mix 模式，原名 `--control-active-shadow`/
+`--badge-highlight-shadow`，`@theme` 裡建立 `--shadow-control-active`/
+`--shadow-badge-highlight` 別名）：
 ```css
---shadow-control-active:
-  0 0 0 3px color-mix(in oklch, var(--color-accent) 14%, transparent),
-  0 0 16px color-mix(in oklch, var(--color-accent) 55%, transparent);
---shadow-badge-highlight: 0 0 6px color-mix(in oklch, var(--color-accent) 50%, transparent);
+--control-active-shadow:
+  0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent),
+  0 0 16px color-mix(in oklch, var(--accent) 55%, transparent),
+  0 0 20px color-mix(in oklch, var(--accent) 18%, transparent) inset;
+--badge-highlight-shadow: 0 0 6px color-mix(in oklch, var(--accent) 50%, transparent);
 ```
 
-手機版：`site-mobile/assets/mobile.css` 沒有另外覆寫色彩/圓角/陰影，
-`mobile/theme.css` 依鐵則 6 獨立宣告一份相同數值，新增 4 個手機專屬結構
+手機版：`site-mobile/` 的 `<link>` 直接指向 `../site/assets/css/skins/*.css`
+（跟桌機共用同一批 skin 原始檔），色彩/圓角/陰影數值完全相同，依鐵則 6
+仍在 `mobile/theme.css` 獨立宣告一份相同內容，另外新增 4 個手機專屬結構
 常數（`--mobile-quicknav-icon`、`--mobile-header-gap` 等）。
 
 ## v4（完成，示範用）
