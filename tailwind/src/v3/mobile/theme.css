@@ -136,6 +136,16 @@
   --mobile-sc-item-pad: 10px 14px; /* 安全中心清單項目收窄 padding */
 }
 
+/* main.css:2368 的 900px 斷點覆寫（--header-h: 64px → 56px）。必須放在
+   這裡（上面那個無條件 :root 區塊之後），不能放進 shell.css——shell.css
+   是這個檔案最前面用 @import 引進來的，同一份輸出 CSS 裡它的內容排在
+   上面這個無條件 :root 區塊「之前」，同優先權時後宣告的贏，跟有沒有
+   包 @media 無關，放 shell.css 裡等於被上面 64px 那份蓋掉、永遠不會
+   生效（截圖比對在手機寬度下抓到 .shell-header 高度多了 8px 才查出來）。 */
+@media (max-width: 900px) {
+  :root { --header-h: 56px; }
+}
+
 /* ── 原封不動：skins/blue.css（預設 skin） ── */
 :root:not([data-skin]),
 :root[data-skin="blue"] {
