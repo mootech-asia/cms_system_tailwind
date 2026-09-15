@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "./ui-components.css";
+@import "./shell.css";
+@import "./pages/withdrawal.css";
 
 /* ============================================================
    v3 design token —— 桌機版。手機版另見 ../../v3/mobile/theme.css
@@ -872,22 +875,5 @@
   --shadow-primary-sm: 0 0 14px color-mix(in oklch, var(--primary) 35%, transparent);
 }
 
-/* ============================================================
-   太複雜/依賴 ::after、JS 執行期切換 class 的部分維持手寫 CSS——內容
-   沿用原始語意命名，HTML 端疊加 Tailwind utility，class 本身保留給
-   site.js 當 DOM hook。這裡是元件 1：底部行動導覽列（.shell-mobile-nav／
-   .mobile-nav／.mnav-btn），v3/site/ 自己的 <768px 內部 RWD 後備行為
-   （窄視窗桌機/平板；實機手機由 index.html 的 UA 判斷導去 site-mobile/，
-   不會用到這組）。斷點對照 BREAKPOINTS.md：原本 768px → md。
-   ============================================================ */
-@layer components {
-  .mnav-btn.active::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 22%; right: 22%;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
-  }
-}
+/* .mobile-nav／.mnav-btn（含 .active::after 指示條）跟其他共用外殼
+   元件一起搬到 shell.css 了，這裡不再重複。 */

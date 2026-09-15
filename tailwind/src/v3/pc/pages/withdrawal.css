@@ -1,0 +1,182 @@
+/* ============================================================
+   v3 桌機版 withdrawal.html 專屬 CSS（.wd-*）。跟 ../shell.css
+   的共用殼層不同——這批 class 只有 withdrawal.html／
+   withdrawal-record.html 這類頁面會用到，不是跨頁共用元件，所以
+   獨立成自己的檔案而不是塞進 shell.css。逐字搬移原始
+   main.css（withdrawal 區塊）規則，class 名稱／變數參照不改。
+   ============================================================ */
+@layer components {
+
+.wd-method-tabs::-webkit-scrollbar { display: none; }
+.wd-method-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.wd-panel > .wd-method-tabs { margin-bottom: 4px; }
+.wd-method-tabs button {
+  min-width: 190px;
+  min-height: 50px;
+  padding: 11px 18px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+  color: var(--control-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font: inherit;
+  font-size: var(--type-body);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--duration-fast), border-color var(--duration-fast), filter var(--duration-fast);
+}
+.wd-method-tabs button:hover:not(.active) {
+  color: var(--control-hover-text);
+  border-color: var(--control-hover-border);
+}
+.wd-method-tabs button.active {
+  border-color: transparent;
+  background: var(--gradient-primary);
+  color: var(--text-on-accent);
+  box-shadow: var(--shadow-primary-sm);
+}
+.wd-coin-mark {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+}
+.wd-panel { display: grid; gap: 20px; }
+.wd-panel .ap-section-h { margin-top: 0; margin-bottom: -2px; }
+.wd-count { color: var(--text); font-family: var(--font-mono); font-size: 0.9em; }
+.wd-empty-wallet {
+  min-height: 260px;
+  padding: 30px;
+  border: 1px solid var(--line-hi);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(ellipse 72% 110% at 0% 50%, color-mix(in oklch, var(--accent) 20%, transparent) 0%, transparent 72%),
+    var(--bg-elev);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+}
+.wd-empty-symbol {
+  width: 76px;
+  height: 76px;
+  border: 2px dashed var(--line-hi);
+  border-radius: 50%;
+  color: var(--text-mid);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: var(--weight-bold);
+}
+.wd-empty-action {
+  min-height: 40px;
+  padding: 9px 18px;
+  border: 1px solid var(--secondary-button-border);
+  border-radius: var(--radius-control);
+  background: var(--secondary-button-bg);
+  color: var(--secondary-button-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  font-weight: var(--weight-semibold);
+}
+.wd-empty-action:hover {
+  color: var(--secondary-button-hover-text);
+  border-color: var(--secondary-button-hover-border);
+}
+.wd-add-toggle { justify-content: center; }
+.wd-balance-list { width: min(100%, 430px); display: grid; gap: 10px; }
+.wd-balance-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) 1fr;
+  align-items: baseline;
+  gap: 16px;
+  color: var(--text-mid);
+}
+.wd-balance-row strong {
+  color: var(--accent-2);
+  font-family: var(--font-mono);
+  font-size: var(--type-feature-title);
+}
+.wd-form-grid {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px 20px;
+}
+.wd-form-grid > label { color: var(--text); font-size: var(--type-body); font-weight: var(--weight-semibold); }
+.wd-form-grid .ap-input { min-width: 0; }
+.wd-management-form { padding-top: 10px; border-top: 1px solid var(--line); }
+.wd-account-card {
+  min-height: 118px;
+  padding: 22px;
+  border: 1px solid var(--line-hi);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elev);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.wd-bank-logo,
+.wd-wallet-logo {
+  flex: 0 0 70px;
+  width: 70px;
+  height: 58px;
+  border-radius: var(--radius-control);
+  background: color-mix(in oklch, var(--accent) 18%, var(--bg-card-hi));
+  color: var(--accent-2);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: var(--weight-bold);
+}
+.wd-wallet-logo { flex-basis: 54px; width: 54px; height: 54px; border-radius: 50%; }
+.wd-account-copy { min-width: 0; display: grid; gap: 4px; }
+.wd-account-copy strong { color: var(--text); font-size: var(--type-body); }
+.wd-account-copy span { color: var(--text-mid); overflow-wrap: anywhere; }
+.wd-compact-empty {
+  min-height: 130px;
+  padding: 22px;
+  border: 1px solid var(--line-hi);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elev);
+  color: var(--text-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.wd-compact-empty .wd-empty-symbol { width: 54px; height: 54px; font-size: 20px; }
+
+@media (max-width: 700px) {
+  .wd-method-tabs button { min-width: 170px; }
+  .wd-panel { padding: 20px 18px; }
+  .wd-form-grid { grid-template-columns: 1fr; gap: 7px; }
+  .wd-form-grid > label:not(:first-child) { margin-top: 7px; }
+  .wd-account-card { padding: 18px; }
+  .wd-bank-logo { flex-basis: 54px; width: 54px; height: 50px; }
+  .wd-balance-row { grid-template-columns: 1fr auto; }
+  .wd-empty-wallet { min-height: 220px; padding: 24px 18px; }
+}
+
+}
