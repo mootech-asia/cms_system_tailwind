@@ -9,7 +9,7 @@
    這類參照，不是烤進去的死值，所以下面 skin 覆寫區塊照樣能在執行期換色，
    跟原本 main.css/skins/*.css 的換膚機制完全相同。
    ============================================================ */
-@theme {
+@theme static {
   /* 字型 */
   --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;

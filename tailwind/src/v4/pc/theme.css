@@ -8,7 +8,7 @@
    bg-／text-／border- 等 utility，執行期換膚機制不變（下面
    :root[data-skin] 覆寫同一批變數）。
    ============================================================ */
-@theme {
+@theme static {
   --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
 
   /* 字級：main.css 原本沒有 token 化，字級是散落在各元件裡的寫死值；

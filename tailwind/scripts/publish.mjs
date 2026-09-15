@@ -19,7 +19,10 @@ const DEVICE_DIR = { pc: 'site', mobile: 'site-mobile' };
 for (const file of entries) {
   const m = file.match(/^(.+)-(pc|mobile)-[A-Za-z0-9_-]{8}\.css$/);
   if (!m) { console.warn('跳過（檔名格式不符預期，entry key 要用 <version>-pc/-mobile）：', file); continue; }
-  const [, version, device] = m;
+  const [, rawVersion, device] = m;
+  // entry key 用底線代替 "."（見 vite.config.js 的註解），這裡轉回真正
+  // 的資料夾名字 "v1.5"。
+  const version = rawVersion === 'v1_5' ? 'v1.5' : rawVersion;
   const destDir = join(root, version, DEVICE_DIR[device], 'assets', 'css');
   mkdirSync(destDir, { recursive: true });
   const dest = join(destDir, 'tailwind.css');

@@ -10,7 +10,7 @@
    相同數值，而不是引用 ../pc/theme.css，避免未來手機端改動悄悄影響
    桌機（或反過來）。
    ============================================================ */
-@theme {
+@theme static {
   --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
 
   /* 字級刻度跟桌機版數值目前相同，獨立宣告一份（見上方說明）。另外

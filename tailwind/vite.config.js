@@ -18,10 +18,18 @@ export default defineConfig({
     cssCodeSplit: true,
     rollupOptions: {
       input: {
+        // entry key 不能用 "." （Rollup 拿它當副檔名分隔符，"v1.5-pc" 會被
+        // 截斷成 "v1"），用底線代替，publish.mjs 再轉回 "v1.5" 資料夾名。
+        'v1_5-pc': resolve(__dirname, 'src/v1.5/pc/theme.css'),
+        'v1_5-mobile': resolve(__dirname, 'src/v1.5/mobile/theme.css'),
         'v3-pc': resolve(__dirname, 'src/v3/pc/theme.css'),
         'v3-mobile': resolve(__dirname, 'src/v3/mobile/theme.css'),
         'v4-pc': resolve(__dirname, 'src/v4/pc/theme.css'),
         'v4-mobile': resolve(__dirname, 'src/v4/mobile/theme.css'),
+        'v5-pc': resolve(__dirname, 'src/v5/pc/theme.css'),
+        'v5-mobile': resolve(__dirname, 'src/v5/mobile/theme.css'),
+        'v6-pc': resolve(__dirname, 'src/v6/pc/theme.css'),
+        'v6-mobile': resolve(__dirname, 'src/v6/mobile/theme.css'),
       },
     },
   },
