@@ -12,6 +12,23 @@
    第一輪只掃靜態 class 屬性時完全漏掉，用截圖比對抓出「Bank Card」
    分頁內容矮了一截才回頭找 site.js 補齊。 */
 .ap-wd-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text); text-align: center; margin: 0 0 14px; }
+/* .ap-refresh-link 也是 site.js 動態注入（bank-refresh 按鈕），跟上面
+   同一批漏搬的 class——沒有 display:flex 時 icon 跟「Refresh」文字會
+   各自佔一行，截圖比對抓出手機寬度多了一行高度才回頭補上。 */
+.ap-refresh-link {
+  display: flex; align-items: center; gap: 6px;
+  margin: 0 auto 16px;
+  background: none; border: 0;
+  color: var(--text-mid);
+  font: inherit; font-size: 13px;
+  cursor: pointer;
+}
+.ap-refresh-link:hover { color: var(--text); }
+/* apSpin 這個 @keyframes 已經在 ../pages/account-overview.css 宣告過
+   （同一份 tailwind.css 全站共用，不重複宣告）；withdrawal.html 沒有
+   direct import 那個檔案，但兩份 pages/*.css 最終都編進同一份輸出
+   CSS，@keyframes 在同一份輸出裡本來就不用管宣告先後順序。 */
+.ap-refresh-link.spinning svg { animation: apSpin .7s linear; }
 .ap-wd-acchead {
   display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px;
   font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text);

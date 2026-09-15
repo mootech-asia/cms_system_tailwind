@@ -84,12 +84,6 @@ img { display: block; }
   width: 100%;
 }
 .shell-content { flex: 1; width: 100%; }
-.container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 var(--container-pad);
-}
-.shell-main .container { padding-left: 22px; padding-right: 22px; }
 .sidebar-backdrop {
   display: none;
   position: fixed;
@@ -339,6 +333,18 @@ section.lobby-section { margin-top: 44px; }
   border-top: 1px solid var(--line);
 }
 .sidebar.collapsed .sidebar-extra { display: none; }
+/* 側欄實際 DOM 順序是 search → nav 選單 → sidebar-extra（語言/儲值提款），
+   但視覺上 sidebar-extra 要緊跟在 search 後面顯示，用 order 重新排列，
+   跟 viewport 寬度無關。account-overview.html 截圖比對抓出這批 order
+   規則漏搬（converted 版的儲值/提款/語言選單掉到側欄選單最下面，
+   跟 DOM 原始順序一樣，沒有被排到 search 正下方），第一輪只搬了
+   .sidebar-extra 本身的樣式，沒注意到旁邊這批排序規則。 */
+.sidebar .sidebar-search { order: 0; flex: 0 0 auto; }
+.sidebar .sidebar-extra { order: 1; flex: 0 0 auto; padding: 6px 14px 12px; border-top: 0; border-bottom: 1px solid var(--line); }
+.sidebar .sidebar-list { order: 2; }
+.sidebar .sidebar-extra .sb-lang-menu { top: calc(100% + 6px); bottom: auto; }
+.sidebar .sb-money { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sb-collapse-money { display: none !important; }
 .sb-lang-wrap { position: relative; }
 .sb-lang {
   display: flex; align-items: center; gap: 10px;
@@ -898,6 +904,12 @@ section.lobby-section { margin-top: 44px; }
 
 /* ── 帳戶頁殼層（.ap-page 系列，account-overview/withdrawal/deposit… 共用）── */
 .ap-page { margin-top: 24px; max-width: 896px; margin-inline: auto; }
+/* account-overview.html 是雙欄儀表板（.ap-top/.ap-grid 需要整欄寬度才
+   排得下），額外掛 .ap-page-wide 退回滿版；.rec-page（Betting/Deposit/
+   Withdrawal Record 等表格列頁面）欄位多，收窄反而擠壓表格，同樣退回
+   滿版。 */
+.ap-page.ap-page-wide,
+.ap-page.rec-page { max-width: none; margin-inline: 0; }
 .ap-h1 {
   font-family: var(--font-display);
   font-size: 26px;
@@ -1018,7 +1030,7 @@ section.lobby-section { margin-top: 44px; }
    前面，第一輪逐 class 搬移時漏掉整段 @media，用截圖比對抓出
    （.ap-page margin-top 少了 20px）才回頭找到，這裡補齊跟側欄/頂列/
    底部導覽相關的部分（跟 withdrawal.html 用到的 class 無關的，例如
-   .hero-*/.promo-*/.cat-tab* 等首頁專屬區塊，不搬）。
+   .hero- 系列／.promo- 系列／.cat-tab 系列等首頁專屬區塊，不搬）。
 
    位置很重要：這個區塊一定要放在 .header／.tb-balance／.topbar-logo
    等「基礎規則」宣告之後——CSS cascade layer 內，同優先權時後宣告的
@@ -1149,6 +1161,149 @@ section.lobby-section { margin-top: 44px; }
   .header-actions { gap: 6px; }
 }
 
+/* ── 頂列頭像下拉選單 .tb-menu-item-2l／.tb-menu-2l-*（登出／通知等兩行式
+   選單項目）：main.css 裡這組 class 分散在 5 個位置疊加補丁（寬度/間距/
+   換行規則各改過好幾次），第一輪轉換只搬了單行版 .tb-menu-item，沒注意
+   到 site.js 的選單項目／登出按鈕實際上一律用 .tb-menu-item-2l，導致
+   已上線頁面的頭像下拉選單完全沒有版面樣式。逐字保留全部 5 批，順序
+   不可調換（同優先權後宣告贏，跟其他多批疊加補丁一樣）。 */
+.tb-menu-item-2l { align-items: flex-start; gap: 12px; padding: 12px 12px; }
+.tb-menu-item-2l .tb-menu-ico { margin-top: 2px; }
+.tb-menu-2l-text { display: flex; flex-direction: column; gap: 2px; }
+.tb-menu-2l-name { font-weight: 700; font-size: 13.5px; color: var(--text); }
+.tb-menu-item.logout .tb-menu-2l-name { color: var(--neg); }
+.tb-menu-2l-sub { font-size: 11.5px; color: var(--text-dim); line-height: 1.4; }
+.tb-menu { width: 320px; }
+.tb-menu-item-2l { display: flex; align-items: flex-start; gap: 12px; }
+.tb-menu-item-2l .tb-menu-ico { flex: 0 0 20px; width: 20px; height: 20px; margin-top: 1px; }
+.tb-menu-2l-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.tb-menu-2l-name { display: block; font-weight: 700; font-size: 13.5px; line-height: 1.3; white-space: normal; }
+.tb-menu-2l-sub { display: block; font-size: 11.5px; line-height: 1.35; color: var(--text-dim); }
+.tb-menu { width: 268px; max-width: calc(100vw - 24px); }
+.tb-menu-item-2l { align-items: center; gap: 12px; padding: 11px 14px; }
+.tb-menu-item-2l .tb-menu-ico { margin-top: 0; }
+.tb-menu-2l-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13.5px; line-height: 1.2; }
+.tb-menu { width: 280px; max-width: calc(100vw - 24px); }
+.tb-menu-item-2l { align-items: center; gap: 12px; padding: 12px 14px; }
+.tb-menu-2l-text { flex: 1 1 auto; min-width: 0; }
+.tb-menu-2l-name {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  font-size: 13.5px; font-weight: 700; line-height: 1.3;
+}
+.tb-menu { width: 320px; max-width: calc(100vw - 20px); padding: 8px; }
+.tb-menu-item-2l {
+  align-items: center; gap: 14px;
+  padding: 12px 12px; border-radius: 10px;
+}
+.tb-menu-item-2l + .tb-menu-item-2l { margin-top: 2px; }
+.tb-menu-2l-name { font-size: 14px; font-weight: 600; line-height: 1.25; white-space: nowrap !important; overflow: hidden; text-overflow: ellipsis; }
+.tb-menu-item-2l .tb-menu-ico { flex: 0 0 22px; }
+
+/* ── 頭像圈圈 .tb-avatar：main.css 後段有兩條不帶 [data-theme] 條件、
+   帶 !important 的全域覆寫（兩個主題都生效，不是只有淺色版），把原本
+   base 規則的發光陰影／文字發光壓平成固定 1.5px 圈；第一輪只搬了 base
+   規則沒搬到這兩條，漏掉會讓頭像比正式站多一圈光暈、文字顏色也不對。 */
+.tb-avatar, .tb-avatar.circle, .tb-avatar.lg { color: var(--accent-text) !important; text-shadow: none !important; font-weight: 800 !important; }
+.tb-avatar, .tb-avatar.circle, .tb-avatar.lg { box-shadow: 0 0 0 1.5px var(--accent) !important; }
+
+/* ── 淺色 skin（white／sage-atelier，site.js 會把 data-theme 設成
+   "light"）覆寫：main.css 的 [data-theme="light"] 規則有 225 行、橫跨
+   全站每個頁面，這裡只搬「殼層」（頂列/側欄/彈窗/按鈕）這批已上線頁面
+   會用到的部分——頁面專屬的（大廳卡片/運彩/獎勵榜等尚未轉換的頁面）
+   留到轉到那些頁面時再各自搬進對應的 pages/*.css，避免這裡塞進目前
+   用不到的規則。 */
+[data-theme="light"] .modal-head > div > div { color: var(--text) !important; }
+[data-theme="light"] .header { background: color-mix(in oklch, var(--bg-elev) 92%, transparent); }
+[data-theme="light"] .header.scrolled { background: color-mix(in oklch, var(--bg-elev) 98%, transparent); }
+[data-theme="light"] .tb-balance,
+[data-theme="light"] .tb-user-circle .tb-avatar.circle,
+[data-theme="light"] .sb-deposit,
+[data-theme="light"] .sb-withdraw {
+  background: var(--bg-grad-card) !important;
+}
+[data-theme="light"] .sidebar { background: var(--bg-elev); border-right: 1px solid var(--line); }
+[data-theme="light"] .sb-item.active,
+[data-theme="light"] .signin-tab.active,
+[data-theme="light"] .sidebar.collapsed .sb-item.active {
+  color: var(--accent-ink) !important;
+  text-shadow: none !important;
+}
+[data-theme="light"] .sb-item.active .sb-icon { color: var(--accent-ink) !important; filter: none !important; }
+[data-theme="light"] .game-modal-art { color: var(--preview-neutral-text) !important; }
+[data-theme="light"] .modal,
+[data-theme="light"] .tb-menu,
+[data-theme="light"] .sb-lang-menu { background: var(--bg-card); }
+[data-theme="light"] .tb-menu-2l-name { color: var(--text); }
+[data-theme="light"] .tb-menu-2l-name { color: var(--text) !important; }
+[data-theme="light"] .tb-menu-name { color: var(--text) !important; }
+[data-theme="light"] .ap-h1 { color: var(--text) !important; }
+[data-theme="light"] .sb-item.active,
+[data-theme="light"] .sidebar.collapsed .sb-item.active {
+  box-shadow: 0 0 0 1.5px var(--accent) !important;
+  background: var(--control-active-bg) !important;
+  text-shadow: none !important;
+}
+[data-theme="light"] .sb-item.active .sb-icon { color: var(--accent) !important; filter: none !important; }
+[data-theme="light"] .btn.primary,
+[data-theme="light"] .signin-tab.active {
+  background: var(--gradient-primary-short) !important;
+  color: var(--text-on-accent) !important;
+  border: 0 !important;
+  text-shadow: none !important;
+  box-shadow: 0 4px 14px color-mix(in oklch, var(--primary) 30%, transparent) !important;
+}
+[data-theme="light"] .signin-tab.active { color: var(--text-on-accent) !important; }
+[data-theme="light"] .btn { color: var(--text) !important; background: var(--control-bg); border-color: var(--line-hi); }
+[data-theme="light"] .btn:hover { color: var(--text) !important; border-color: var(--accent); background: var(--control-bg); }
+[data-theme="light"] .header-actions > .btn,
+[data-theme="light"] .header-actions > .btn:hover { box-shadow: none !important; }
+[data-theme="light"] .sb-withdraw,
+[data-theme="light"] .ap-btn.outline,
+[data-theme="light"] .ap-btn-wide.outline { color: var(--text) !important; }
+[data-theme="light"] .sb-withdraw:hover { color: var(--accent) !important; }
+[data-theme="light"] .topbar-logo { filter: none !important; }
+[data-theme="light"] .tb-avatar,
+[data-theme="light"] .tb-avatar.circle,
+[data-theme="light"] .tb-avatar.lg { box-shadow: 0 0 0 1px var(--line) !important; }
+[data-theme="light"] .tb-menu,
+[data-theme="light"] .sb-lang-menu {
+  box-shadow: 0 12px 32px rgba(15,15,23,.14) !important;
+}
+[data-theme="light"] .tb-coin { box-shadow: none !important; }
+[data-theme="light"] .sb-deposit:not(.is-current),
+[data-theme="light"] .sb-withdraw:not(.is-current),
+[data-theme="light"] .btn,
+[data-theme="light"] .tb-balance,
+[data-theme="light"] .tb-user,
+[data-theme="light"] .tb-icon-btn {
+  border-color: var(--line-hi) !important;
+  background: var(--control-bg) !important;
+  color: var(--text) !important;
+}
+[data-theme="light"] .sb-deposit:not(.is-current):hover,
+[data-theme="light"] .sb-withdraw:not(.is-current):hover,
+[data-theme="light"] .btn:hover,
+[data-theme="light"] .tb-icon-btn:hover {
+  border-color: var(--control-hover-border) !important;
+  background: var(--control-bg) !important;
+  color: var(--text) !important;
+}
+[data-theme="light"] .sb-deposit.is-current,
+[data-theme="light"] .sb-withdraw.is-current {
+  background: var(--control-active-bg) !important;
+  border: 1.5px solid var(--accent) !important;
+}
+[data-theme="light"] .sb-deposit:not(.is-current),
+[data-theme="light"] .sb-withdraw:not(.is-current),
+[data-theme="light"] .btn,
+[data-theme="light"] .sb-deposit:not(.is-current):hover,
+[data-theme="light"] .sb-withdraw:not(.is-current):hover,
+[data-theme="light"] .btn:hover {
+  color: var(--text) !important;
+}
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleIn { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: scale(1); } }
 @keyframes pulse {
@@ -1156,4 +1311,28 @@ section.lobby-section { margin-top: 44px; }
   50% { opacity: .6; transform: scale(1.3); }
 }
 
+}
+
+/* .container 跟 Tailwind 內建的 container 工具 class 撞名：HTML 裡到處
+   用 class="container" 是這個 repo 自己的語意 class（見上面 @layer
+   components 裡的定義），但 Tailwind v4 掃到 HTML 有用到 "container"
+   這個字串，會自動在 @layer utilities 產生它自己那組 responsive
+   max-width 斷點（40rem/48rem/64rem/80rem/96rem）。cascade layer 的
+   優先權是先比 layer 順序（utilities 在 components 之後宣告，永遠贏，
+   跟 specificity／source order 無關），等於 Tailwind 那組斷點會蓋掉
+   上面 components 層寫的 max-width:100%——withdrawal.html／deposit.html
+   沒看出來是因為 .ap-page 本身 max-width:896px 已經比 Tailwind 那組
+   斷點窄，外層 .container 的錯誤上限從來沒真正成為視覺上的限制；
+   account-overview.html 用 .ap-page-wide 退回滿版才第一次讓外層
+   .container 的寬度變成看得到的差異（截圖比對抓出 .ap-h1 起點 x 座標
+   差了 36px 才回頭查到）。修法：把同一條規則也宣告進 @layer utilities，
+   同一個 layer 內 specificity 相同時後宣告的贏，這裡排在 tailwindcss
+   自動產生的工具 class 之後，源碼順序上會贏。 */
+@layer utilities {
+  .container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--container-pad);
+  }
+  .shell-main .container { padding-left: 22px; padding-right: 22px; }
 }
