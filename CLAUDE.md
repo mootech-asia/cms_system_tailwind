@@ -1,9 +1,18 @@
 # cms_system — 工作守則
 
 ## 專案定位
-本 repo 是 `cms_system_v2`、`cms_system_v3` 的統一預覽/交付 repo。每個版本都是完全
-獨立、免建置的純 HTML+CSS+JS 靜態站：不得含任何前端框架殘留（Vue／Nuxt／
-Tailwind 編譯輸出／PrimeVue 等），CSS 一律手寫、以 CSS variable/token 為基礎。
+本 repo 是 `mootech-asia/cms_system` 的獨立複本，用來把 v1.5~v6 的視覺原型
+重新編譯成 Tailwind CSS v4 架構，交接給工程師維護，不是重新設計。repo 根目錄
+的 `v1.5/`～`v6/`、`index.html` 等是複製當下的完整快照，做為轉換對照基準，
+**不得修改或刪除**；`tailwind/` 資料夾是本次轉換工程的新專案（Vite +
+`@tailwindcss/vite`，設定透過 CSS 內 `@theme` 完成，不用 `tailwind.config.js`，
+不需要 PostCSS/autoprefixer）。
+
+**鐵則例外（推翻原本「不得含 Tailwind 編譯輸出」的限制）**：這條規則原本是
+給 `v1.5/`～`v6/` 這種免建置純手寫 CSS 站用的，對 `tailwind/` 資料夾**不適用
+——`tailwind/` 下容許、且預期會有 Tailwind 編譯輸出（`vN/site/assets/css/
+tailwind.css` 等 build 產物）**。`v1.5/`～`v6/` 本身仍然維持原本定位不變，
+不得在那幾個資料夾內新增任何框架殘留；只有 `tailwind/` 底下不受此限。
 
 ## 目錄結構
 ```
@@ -72,4 +81,6 @@ localStorage 為同源同步（不受資料夾路徑影響），改動路徑時�
 ## 慣例
 - 溝通與 commit 說明以繁體中文為主（commit message 可英文，聚焦動機）。
 - 分支：直接於 `main` 開發（除非另有指示）。
-- 樣式只用既有 token/共用 class，禁任意值色碼、禁 Tailwind/框架殘留。
+- `v1.5/`～`v6/`：樣式只用既有 token/共用 class，禁任意值色碼、禁 Tailwind/
+  框架殘留（原始快照維持不變）。`tailwind/`：就是要用 Tailwind，顏色/陰影/
+  圓角/間距一律引用 `tailwind/TOKENS.md` 定義好的 token，不寫死任意值。
