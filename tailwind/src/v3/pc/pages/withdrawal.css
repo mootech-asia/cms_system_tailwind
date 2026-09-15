@@ -7,6 +7,88 @@
    ============================================================ */
 @layer components {
 
+/* site.js 的 withdrawBankPanelHTML()／manageBankPanelHTML() 等函式在
+   執行期用這些 class 組字串塞進 .wd-panel（不是靜態 HTML 裡就有），
+   第一輪只掃靜態 class 屬性時完全漏掉，用截圖比對抓出「Bank Card」
+   分頁內容矮了一截才回頭找 site.js 補齊。 */
+.ap-wd-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text); text-align: center; margin: 0 0 14px; }
+.ap-wd-acchead {
+  display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px;
+  font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text);
+}
+.ap-wd-acchead b { color: var(--text-mid); font-weight: 600; font-family: var(--font-mono); font-size: 13px; }
+.ap-wd-arrow {
+  width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
+  background: var(--bg-elev); border: 1px solid var(--line-hi); color: var(--text-mid); cursor: pointer;
+}
+.ap-wd-arrow:hover { color: var(--control-hover-text); border-color: var(--accent); }
+.ap-wd-card {
+  position: relative; padding: 22px 24px; border-radius: 14px; overflow: hidden;
+  min-height: 150px; margin-bottom: 4px;
+  background: linear-gradient(135deg, #10151f 0%, #0b0f18 100%);
+  border: 1px solid var(--line-hi);
+}
+.ap-wd-card::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(115deg, rgba(255,255,255,.04) 0 1px, transparent 1px 22px);
+}
+.ap-wd-card-name { display: inline-block; padding: 5px 14px; border-radius: 8px; background: rgba(255,255,255,.08); color: var(--text-on-media); font-weight: 600; font-size: 12.5px; }
+.ap-wd-card-acc { text-align: center; margin: 2px 0 28px; }
+.ap-wd-card-acc-label { display: block; color: rgba(255,255,255,.6); font-size: 12px; margin-bottom: 6px; }
+.ap-wd-card-acc-num { font-family: var(--font-mono); font-size: 22px; letter-spacing: .16em; color: var(--text-on-media); }
+.ap-wd-card-holder { color: var(--accent-3); font-family: var(--font-mono); font-size: 14px; letter-spacing: .12em; }
+.ap-wd-card-bind { position: absolute; right: 24px; bottom: 22px; text-align: right; font-size: 12px; color: var(--text-on-media); }
+.ap-wd-card-bind .muted { display: block; color: rgba(255,255,255,.6); font-size: 11px; margin-bottom: 2px; }
+.ap-wd-card-add {
+  position: absolute; top: 18px; right: 20px; z-index: 1;
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; border: 0;
+  background: var(--accent-grad); color: var(--accent-ink);
+  box-shadow: 0 6px 18px color-mix(in oklch, var(--accent) 45%, transparent);
+  cursor: pointer; transition: filter .15s, transform .15s;
+}
+.ap-wd-card-add:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.ap-wallet { text-align: center; margin: 0; }
+.ap-wallet-label { color: var(--text); font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ap-wallet-amt {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0;
+}
+.ap-wallet-rem { color: #ef4444; font-size: 13px; line-height: 1.6; }
+.ap-wallet-rem strong { color: #ef4444; font-family: var(--font-mono); font-weight: 700; }
+.ap-input-wrap { position: relative; margin-top: 10px; }
+.ap-input-wrap .ap-input { padding-right: 44px; }
+.ap-eye {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  background: none; border: 0; color: var(--text-mid); cursor: pointer; padding: 4px;
+}
+.ap-eye:hover { color: var(--text); }
+.ap-rollover {
+  display: flex; justify-content: center; gap: 36px;
+  margin: 0;
+  color: #ef4444;
+  font-size: 12.5px;
+  text-align: center;
+  line-height: 1.5;
+}
+.ap-rollover .muted { color: var(--text-mid); }
+.ap-rollover-detail { display: inline-block; margin-left: 8px; padding: 1px 11px; border-radius: 999px; border: 1px solid rgba(239, 68, 68, .5); background: rgba(239, 68, 68, .12); color: #ef4444; font-size: 11px; font-weight: 700; vertical-align: middle; transition: background .15s; }
+.ap-rollover-detail:hover { background: rgba(239, 68, 68, .22); }
+.ap-bank-del {
+  margin-left: auto;
+  background: none; border: 0;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 4px;
+  display: inline-grid; place-items: center;
+  border-radius: 6px;
+  transition: color .15s, background .15s;
+}
+.ap-bank-del:hover { color: #ef4444; background: color-mix(in oklch, #ef4444 12%, transparent); }
+
 .wd-method-tabs::-webkit-scrollbar { display: none; }
 .wd-method-tabs {
   display: flex;

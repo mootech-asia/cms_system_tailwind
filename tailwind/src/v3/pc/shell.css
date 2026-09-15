@@ -311,8 +311,99 @@ img { display: block; }
 .sb-section-items { display: flex; flex-direction: column; }
 .sidebar.collapsed .sb-section-toggle { display: none; }
 .lobby-section.is-collapsed .section-head { margin-bottom: 0; }
+/* 選擇器是 section.lobby-section（type+class，優先權 0,1,1），比單純
+   .ap-page 的 margin-top:24px（優先權 0,1,0）高，withdrawal.html 的
+   <section class="lobby-section ap-page"> 兩個 class 都中，這條會贏。
+   截圖比對時抓到少了這條導致內容整體少往下 20px，這裡補回來。 */
+section.lobby-section { margin-top: 44px; }
 @media (max-width: 900px) {
   .sidebar.collapsed .sb-section-toggle { display: flex !important; }
+}
+
+/* ── 窄螢幕桌機／平板 RWD（768px 內部後備行為，跟真正手機走 site-mobile/
+   是两回事，見鐵則 6 說明）：main.css 原本這段接在 .ap-page 等規則
+   前面，第一輪逐 class 搬移時漏掉整段 @media，用截圖比對抓出
+   （.ap-page margin-top 少了 20px）才回頭找到，這裡補齊跟側欄/頂列/
+   底部導覽相關的部分（跟 withdrawal.html 用到的 class 無關的，例如
+   .hero-*/.promo-*/.cat-tab* 等首頁專屬區塊，不搬）。 ── */
+@media (max-width: 1100px) {
+  .search { max-width: none; }
+}
+@media (max-width: 900px) {
+  :root { --header-h: 56px; }
+  .shell-main,
+  .shell.collapsed .shell-main { margin-left: 0; }
+  .sidebar,
+  .sidebar.collapsed {
+    width: 100vw;
+    max-width: 100vw;
+    transform: translateX(-100%);
+    transition: transform .25s cubic-bezier(.22,.9,.3,1.1);
+    box-shadow: 16px 0 40px rgba(0,0,0,.5);
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+  }
+  .shell.mobile-open .sidebar { transform: translateX(0); display: flex; }
+  .sidebar-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(4px);
+    z-index: 69;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+  }
+  .shell.mobile-open .sidebar-backdrop { opacity: 1; pointer-events: auto; }
+  .sidebar.collapsed .sidebar-tabs,
+  .sidebar.collapsed .sidebar-search,
+  .sidebar.collapsed .sidebar-extra,
+  .sidebar.collapsed .sb-tier,
+  .sidebar.collapsed .sb-label,
+  .sidebar.collapsed .sb-item .live { display: flex !important; }
+  .sidebar.collapsed .sidebar-tabs { display: grid !important; }
+  .sidebar.collapsed .sb-item {
+    padding: 11px 16px !important;
+    justify-content: flex-start !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 0 6px !important;
+    border-radius: 999px !important;
+  }
+  .sidebar.collapsed .sidebar-brand { padding: 0 18px !important; justify-content: flex-start !important; }
+  .sidebar .sidebar-search,
+  .sidebar .sb-label,
+  .sidebar .sb-item .live,
+  .sidebar .sidebar-extra,
+  .sidebar .sidebar-tabs,
+  .sidebar .sb-tier { display: flex; }
+  .sidebar .sidebar-tabs { display: grid; }
+  .sidebar .sb-item { padding: 11px 16px; justify-content: flex-start; width: auto; height: auto; margin: 0 0 6px; border-radius: 999px; }
+  .sb-collapse-toggle svg { display: none; }
+  .sb-collapse-toggle::before,
+  .sb-collapse-toggle::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 14px; height: 2px;
+    margin: -1px 0 0 -7px;
+    border-radius: 1px;
+    background: currentColor;
+  }
+  .sb-collapse-toggle::before { transform: rotate(45deg); }
+  .sb-collapse-toggle::after { transform: rotate(-45deg); }
+  .topbar-logo { height: 24px; }
+  .tb-balance-rows { flex-direction: column; gap: 2px; align-items: flex-start; }
+  .tb-balance { padding: 6px 10px; }
+  .tb-balance-row { font-size: 11.5px; gap: 6px; }
+}
+@media (max-width: 700px) {
+  .container { padding: 0 16px; }
+  .tb-brand-group .m-topbar-menu { display: grid; }
+  .shell-mobile-nav { display: none; }
+  .shell-main { padding-bottom: 0; }
+  .header-actions { gap: 6px; }
+  .header-actions .btn { padding: 7px 12px; font-size: 12.5px; }
+  .game-modal-stats { grid-template-columns: 1fr; }
 }
 
 /* 側欄底部：語言切換 + 儲值/提款 + 收合鈕 */
@@ -944,6 +1035,32 @@ img { display: block; }
   background: color-mix(in oklch, var(--text-mid) 30%, var(--bg-card));
   box-shadow: none;
   color: rgba(255,255,255,.78);
+}
+
+/* static-addon.css（原本在 <head> 最後載入，靠來源順序覆寫
+   components.css 的膠囊按鈕（--radius-pill）為方角）；還有客服懸浮鈕
+   （site.js 在每一頁注入，不是個別頁面 HTML 裡的靜態 class，但視覺上
+   是共用外殼的一部分，跟側欄/頂列放在一起）。 */
+.sb-deposit,
+.sb-withdraw {
+  border-radius: var(--radius-control);
+}
+.cms-cs-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 150;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--gradient-primary);
+  border-color: transparent;
+  color: var(--text-on-accent);
+  box-shadow: 0 0 16px color-mix(in oklch, var(--primary) 40%, transparent);
+}
+.cms-cs-fab:hover { color: var(--text-on-accent); border-color: transparent; filter: brightness(1.08); }
+@media (max-width: 720px) {
+  .cms-cs-fab { bottom: 76px; }
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
