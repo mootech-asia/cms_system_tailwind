@@ -1,0 +1,15 @@
+/* CMS v5 skin — 帝王緋紅（Royal Crimson）。
+   切換 skin 主要改變的是主按鈕/CTA（--accent 系列）與累積獎金 widget
+   （--jackpot-a/-b）配色；--badge（標籤/熱區次色）為全站固定警示橙紅，
+   不隨 skin 改變。深色骨架與奶油色登入卡與預設 apex-classic 一致，
+   不覆寫。 */
+:root[data-skin="royal-crimson"] {
+  --accent: #dc2626;
+  --accent-hi: #f87171;
+  --accent-deep: #a31515;
+  --accent-grad: linear-gradient(180deg, #f87171 0%, #dc2626 55%, #a31515 100%);
+  --accent-ink: #fff8f0;
+
+  --jackpot-a: #be185d;
+  --jackpot-b: #ec4899;
+}

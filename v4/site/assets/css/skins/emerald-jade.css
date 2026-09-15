@@ -1,0 +1,14 @@
+/* CMS v4 skin — 富貴翡翠（Emerald Jade）。
+   換色只換掉「紅色」這個主題色（header 漸層／notice 底色／--red 次品牌
+   強調色）,背景/面板/文字維持跟預設 festive-red-gold 一樣的白色基底,
+   不覆寫 --bg／--bg-panel／--text 等 token,直接繼承 main.css 的 :root
+   淺色預設值。金色（--gold 系列）為全 skin 共用品牌色,同樣不覆寫。 */
+:root[data-skin="emerald-jade"] {
+  --header-grad: linear-gradient(180deg, #12704a 0%, #0d5138 100%);
+  --header-grad-hi: #2bbf7a;
+  --notice-bg: #eaf7ef;
+  --notice-text: #12704a;
+
+  --red: #12704a;
+  --red-deep: #0d5138;
+}

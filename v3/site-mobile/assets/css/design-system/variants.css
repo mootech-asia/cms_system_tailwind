@@ -1,0 +1,423 @@
+/* Modular visual variants. V1 deliberately leaves the current CMS v3 design untouched. */
+
+:is(:root, [data-design-preview], [data-section])[data-ui-game-card]:not([data-ui-game-card="v1"]) .gcard {
+  border: var(--ui-game-card-border);
+  border-radius: var(--ui-game-card-radius);
+  background: var(--ui-game-card-surface);
+  box-shadow: var(--ui-game-card-shadow-stack);
+  clip-path: var(--ui-game-card-clip);
+  backdrop-filter: var(--ui-game-card-backdrop);
+  overflow: hidden;
+  transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-game-card]:not([data-ui-game-card="v1"]) .gcard:hover {
+  transform: var(--ui-game-card-hover);
+  border-color: var(--accent);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-game-card]:not([data-ui-game-card="v1"]) .gcard-meta {
+  padding: var(--ui-game-card-space);
+  gap: calc(var(--ui-game-card-gap) / 2);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-promotion-card]:not([data-ui-promotion-card="v1"]) .promo-card {
+  gap: var(--ui-promotion-card-gap);
+  padding: var(--ui-promotion-card-space);
+  border: var(--ui-promotion-card-border);
+  border-radius: var(--ui-promotion-card-radius);
+  background: var(--ui-promotion-card-surface);
+  box-shadow: var(--ui-promotion-card-shadow-stack);
+  clip-path: var(--ui-promotion-card-clip);
+  backdrop-filter: var(--ui-promotion-card-backdrop);
+  transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-promotion-card]:not([data-ui-promotion-card="v1"]) .promo-card:hover {
+  transform: var(--ui-promotion-card-hover);
+  border-color: var(--accent);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-promotion-card]:not([data-ui-promotion-card="v1"]) .promo-card::before { display: none; }
+
+:is(:root, [data-design-preview], [data-section])[data-ui-spotlight]:not([data-ui-spotlight="v1"]) .spotlight-card {
+  gap: var(--ui-spotlight-gap);
+  padding: var(--ui-spotlight-space);
+  border: var(--ui-spotlight-border);
+  border-radius: var(--ui-spotlight-radius);
+  background: var(--ui-spotlight-surface);
+  box-shadow: var(--ui-spotlight-shadow-stack);
+  clip-path: var(--ui-spotlight-clip);
+  backdrop-filter: var(--ui-spotlight-backdrop);
+  transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-spotlight]:not([data-ui-spotlight="v1"]) .spotlight-card:hover {
+  transform: var(--ui-spotlight-hover);
+  border-color: var(--accent);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-banner]:not([data-ui-banner="v1"]) .hero {
+  border: var(--ui-banner-border);
+  border-radius: var(--ui-banner-radius);
+  box-shadow: var(--ui-banner-shadow-stack);
+  clip-path: var(--ui-banner-clip);
+  backdrop-filter: var(--ui-banner-backdrop);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-ticker]:not([data-ui-ticker="v1"]) :is(.promo-ribbon, .providers-marquee) {
+  gap: var(--ui-ticker-gap);
+  padding: 0 var(--ui-ticker-space);
+  border: var(--ui-ticker-border);
+  border-radius: var(--ui-ticker-radius);
+  background: var(--ui-ticker-surface);
+  box-shadow: var(--ui-ticker-shadow-stack);
+  clip-path: var(--ui-ticker-clip);
+  backdrop-filter: var(--ui-ticker-backdrop);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-button]:not([data-ui-button="v1"]) :is(
+  .ui-button, .btn, .ap-btn, .ap-btn-wide, .rec-confirm, .cv-view-all,
+  .promo-card-cta, .sb-deposit, .sb-withdraw
+) {
+  padding-inline: var(--ui-button-space);
+  border: var(--ui-button-border);
+  border-radius: var(--ui-button-radius);
+  background: var(--ui-button-surface);
+  box-shadow: var(--ui-button-shadow-stack);
+  clip-path: var(--ui-button-clip);
+  backdrop-filter: var(--ui-button-backdrop);
+  font-weight: var(--ui-button-weight);
+  transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-button]:not([data-ui-button="v1"]) :is(
+  .ui-button, .btn, .ap-btn, .ap-btn-wide, .rec-confirm, .cv-view-all,
+  .promo-card-cta, .sb-deposit, .sb-withdraw
+):hover:not(:disabled) {
+  transform: var(--ui-button-hover);
+  border-color: var(--accent);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-button]:not([data-ui-button="v1"]) :is(
+  .ui-button--primary, .btn.primary, .ap-btn.primary, .ap-btn-wide.ap-grad, .rec-confirm
+) {
+  border-color: transparent;
+  background: var(--gradient-primary);
+  color: var(--text-on-accent);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-tabs]:not([data-ui-tabs="v1"]) :is(
+  .cat-tab, .ui-tab, .ui-tab--underline, .filter, .tab,
+  .dp-method-tabs button, .wd-method-tabs button, .ap-amount-btn
+) {
+  gap: var(--ui-tabs-gap);
+  padding-inline: var(--ui-tabs-space);
+  border: var(--ui-tabs-border);
+  border-radius: var(--ui-tabs-radius);
+  background: var(--ui-tabs-surface);
+  box-shadow: var(--ui-tabs-shadow-stack);
+  clip-path: var(--ui-tabs-clip);
+  backdrop-filter: var(--ui-tabs-backdrop);
+  font-weight: var(--ui-tabs-weight);
+  transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-tabs]:not([data-ui-tabs="v1"]) :is(
+  .cat-tab, .ui-tab, .ui-tab--underline, .filter, .tab,
+  .dp-method-tabs button, .wd-method-tabs button, .ap-amount-btn
+).active {
+  border-color: var(--accent);
+  background: color-mix(in oklch, var(--accent) 13%, var(--ui-tabs-surface));
+  color: var(--accent-text);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-form]:not([data-ui-form="v1"]) :is(
+  .ap-input, .rec-date, .rec-status-btn, .dp-input, .wd-input
+) {
+  border: var(--ui-form-border);
+  border-radius: var(--ui-form-radius);
+  background: var(--ui-form-surface);
+  box-shadow: var(--ui-form-shadow-stack);
+  clip-path: var(--ui-form-clip);
+  backdrop-filter: var(--ui-form-backdrop);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-form]:not([data-ui-form="v1"]) :is(
+  .ap-input, .rec-date, .rec-status-btn, .dp-input, .wd-input
+):focus-within {
+  border-color: var(--accent);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-tag]:not([data-ui-tag="v1"]) :is(
+  .gcard-tag, .promo-card-tag, .rec-pill, .ap-pill, .ap-status, .count,
+  .tb-tier-badge, .dp-provider-code, .ap-tag-new
+) {
+  padding: calc(var(--ui-tag-space) / 3) calc(var(--ui-tag-space) / 2);
+  border: var(--ui-tag-border);
+  border-radius: var(--ui-tag-radius);
+  box-shadow: var(--ui-tag-shadow-stack);
+  clip-path: var(--ui-tag-clip);
+  backdrop-filter: var(--ui-tag-backdrop);
+  font-weight: var(--ui-tag-weight);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-table]:not([data-ui-table="v1"]) :is(.rec-table-scroll, .leaderboard) {
+  border: var(--ui-table-border);
+  border-radius: var(--ui-table-radius);
+  background: var(--ui-table-surface);
+  box-shadow: var(--ui-table-shadow-stack);
+  clip-path: var(--ui-table-clip);
+  backdrop-filter: var(--ui-table-backdrop);
+  overflow: auto;
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-table]:not([data-ui-table="v1"]) :is(.rec-table td, .rec-table th, .lb-row, .lb-head) {
+  padding-block: calc(var(--ui-table-space) * .72);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-table]:not([data-ui-table="v1"]) :is(.rec-table tbody tr:hover, .lb-row:hover) {
+  background: color-mix(in oklch, var(--accent) 6%, transparent);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-profile]:not([data-ui-profile="v1"]) :is(.ap-hero, .rewards-banner) {
+  gap: var(--ui-profile-gap);
+  padding: var(--ui-profile-space);
+  border: var(--ui-profile-border);
+  border-radius: var(--ui-profile-radius);
+  background: var(--ui-profile-surface);
+  box-shadow: var(--ui-profile-shadow-stack);
+  clip-path: var(--ui-profile-clip);
+  backdrop-filter: var(--ui-profile-backdrop);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-panel]:not([data-ui-panel="v1"]) :is(
+  .ap-panel, .ap-form-card, .ap-tx-panel, .leaderboard
+) {
+  gap: var(--ui-panel-gap);
+  padding: var(--ui-panel-space);
+  border: var(--ui-panel-border);
+  border-radius: var(--ui-panel-radius);
+  background: var(--ui-panel-surface);
+  box-shadow: var(--ui-panel-shadow-stack);
+  clip-path: var(--ui-panel-clip);
+  backdrop-filter: var(--ui-panel-backdrop);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-navigation]:not([data-ui-navigation="v1"]) .sb-item {
+  gap: var(--ui-navigation-gap);
+  padding-inline: var(--ui-navigation-space);
+  border: var(--ui-navigation-border);
+  border-radius: var(--ui-navigation-radius);
+  background: var(--ui-navigation-surface);
+  box-shadow: var(--ui-navigation-shadow-stack);
+  clip-path: var(--ui-navigation-clip);
+  backdrop-filter: var(--ui-navigation-backdrop);
+  font-weight: var(--ui-navigation-weight);
+  transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-navigation]:not([data-ui-navigation="v1"]) .sb-item:hover {
+  transform: var(--ui-navigation-hover);
+  border-color: var(--line-hi);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-navigation]:not([data-ui-navigation="v1"]) .sb-item.active {
+  border-color: var(--accent);
+  background: color-mix(in oklch, var(--accent) 11%, var(--ui-navigation-surface));
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-section-title]:not([data-ui-section-title="v1"]) :is(
+  .ap-h1, .section-title, .ap-section-h
+) {
+  padding: calc(var(--ui-section-title-space) / 2) var(--ui-section-title-space);
+  border: var(--ui-section-title-border);
+  border-radius: var(--ui-section-title-radius);
+  background: var(--ui-section-title-surface);
+  box-shadow: var(--ui-section-title-shadow-stack);
+  clip-path: var(--ui-section-title-clip);
+  font-weight: var(--ui-section-title-weight);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-modal]:not([data-ui-modal="v1"]) .modal {
+  border: var(--ui-modal-border);
+  border-radius: var(--ui-modal-radius);
+  background: var(--ui-modal-surface);
+  box-shadow: var(--ui-modal-shadow-stack);
+  clip-path: var(--ui-modal-clip);
+  backdrop-filter: var(--ui-modal-backdrop);
+}
+:is(:root, [data-design-preview], [data-section])[data-ui-modal]:not([data-ui-modal="v1"]) :is(.modal-head, .modal-body, .modal-foot) {
+  padding-inline: var(--ui-modal-space);
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-game-card]:not([data-ui-game-card="v1"]) .gcard { --ui-motif: var(--ui-game-card-motif, ""); --ui-motif-size: var(--ui-game-card-motifSize, 42px); --ui-motif-opacity: var(--ui-game-card-motifOpacity, .12); }
+:is(:root, [data-design-preview], [data-section])[data-ui-promotion-card]:not([data-ui-promotion-card="v1"]) .promo-card { --ui-motif: var(--ui-promotion-card-motif, ""); --ui-motif-size: var(--ui-promotion-card-motifSize, 42px); --ui-motif-opacity: var(--ui-promotion-card-motifOpacity, .12); }
+:is(:root, [data-design-preview], [data-section])[data-ui-spotlight]:not([data-ui-spotlight="v1"]) .spotlight-card { --ui-motif: var(--ui-spotlight-motif, ""); --ui-motif-size: var(--ui-spotlight-motifSize, 42px); --ui-motif-opacity: var(--ui-spotlight-motifOpacity, .12); }
+:is(:root, [data-design-preview], [data-section])[data-ui-banner]:not([data-ui-banner="v1"]) .hero { --ui-motif: var(--ui-banner-motif, ""); --ui-motif-size: var(--ui-banner-motifSize, 56px); --ui-motif-opacity: var(--ui-banner-motifOpacity, .10); }
+:is(:root, [data-design-preview], [data-section])[data-ui-ticker]:not([data-ui-ticker="v1"]) :is(.promo-ribbon, .providers-marquee) { --ui-motif: var(--ui-ticker-motif, ""); --ui-motif-size: var(--ui-ticker-motifSize, 32px); --ui-motif-opacity: var(--ui-ticker-motifOpacity, .10); }
+:is(:root, [data-design-preview], [data-section])[data-ui-button]:not([data-ui-button="v1"]) :is(.ui-button, .btn, .ap-btn, .ap-btn-wide, .rec-confirm, .cv-view-all, .promo-card-cta, .sb-deposit, .sb-withdraw) { --ui-motif: var(--ui-button-motif, ""); --ui-motif-size: var(--ui-button-motifSize, 28px); --ui-motif-opacity: var(--ui-button-motifOpacity, .10); }
+:is(:root, [data-design-preview], [data-section])[data-ui-tabs]:not([data-ui-tabs="v1"]) :is(.cat-tab, .ui-tab, .ui-tab--underline, .filter, .tab, .dp-method-tabs button, .wd-method-tabs button, .ap-amount-btn) { --ui-motif: var(--ui-tabs-motif, ""); --ui-motif-size: var(--ui-tabs-motifSize, 28px); --ui-motif-opacity: var(--ui-tabs-motifOpacity, .10); }
+:is(:root, [data-design-preview], [data-section])[data-ui-tag]:not([data-ui-tag="v1"]) :is(.gcard-tag, .promo-card-tag, .rec-pill, .ap-pill, .ap-status, .count, .tb-tier-badge, .dp-provider-code, .ap-tag-new) { --ui-motif: var(--ui-tag-motif, ""); --ui-motif-size: var(--ui-tag-motifSize, 18px); --ui-motif-opacity: var(--ui-tag-motifOpacity, .14); }
+:is(:root, [data-design-preview], [data-section])[data-ui-table]:not([data-ui-table="v1"]) :is(.rec-table-scroll, .leaderboard) { --ui-motif: var(--ui-table-motif, ""); --ui-motif-size: var(--ui-table-motifSize, 48px); --ui-motif-opacity: var(--ui-table-motifOpacity, .09); }
+:is(:root, [data-design-preview], [data-section])[data-ui-profile]:not([data-ui-profile="v1"]) :is(.ap-hero, .rewards-banner) { --ui-motif: var(--ui-profile-motif, ""); --ui-motif-size: var(--ui-profile-motifSize, 48px); --ui-motif-opacity: var(--ui-profile-motifOpacity, .10); }
+:is(:root, [data-design-preview], [data-section])[data-ui-panel]:not([data-ui-panel="v1"]) :is(.ap-panel, .ap-form-card, .ap-tx-panel, .leaderboard) { --ui-motif: var(--ui-panel-motif, ""); --ui-motif-size: var(--ui-panel-motifSize, 52px); --ui-motif-opacity: var(--ui-panel-motifOpacity, .10); }
+:is(:root, [data-design-preview], [data-section])[data-ui-navigation]:not([data-ui-navigation="v1"]) .sb-item { --ui-motif: var(--ui-navigation-motif, ""); --ui-motif-size: var(--ui-navigation-motifSize, 26px); --ui-motif-opacity: var(--ui-navigation-motifOpacity, .10); }
+:is(:root, [data-design-preview], [data-section])[data-ui-section-title]:not([data-ui-section-title="v1"]) :is(.ap-h1, .section-title, .ap-section-h) { --ui-motif: var(--ui-section-title-motif, ""); --ui-motif-size: var(--ui-section-title-motifSize, 40px); --ui-motif-opacity: var(--ui-section-title-motifOpacity, .09); }
+:is(:root, [data-design-preview], [data-section])[data-ui-modal]:not([data-ui-modal="v1"]) .modal { --ui-motif: var(--ui-modal-motif, ""); --ui-motif-size: var(--ui-modal-motifSize, 56px); --ui-motif-opacity: var(--ui-modal-motifOpacity, .09); }
+
+:is(:root, [data-design-preview], [data-section]) :is(
+  .gcard,
+  .promo-card,
+  .spotlight-card,
+  .hero,
+  .promo-ribbon,
+  .providers-marquee,
+  .ui-button,
+  .btn,
+  .ap-btn,
+  .ap-btn-wide,
+  .rec-confirm,
+  .cv-view-all,
+  .promo-card-cta,
+  .sb-deposit,
+  .sb-withdraw,
+  .cat-tab,
+  .ui-tab,
+  .ui-tab--underline,
+  .filter,
+  .tab,
+  .gcard-tag,
+  .promo-card-tag,
+  .rec-pill,
+  .ap-pill,
+  .ap-status,
+  .count,
+  .rec-table-scroll,
+  .leaderboard,
+  .ap-hero,
+  .rewards-banner,
+  .ap-panel,
+  .ap-form-card,
+  .ap-tx-panel,
+  .sb-item,
+  .ap-h1,
+  .section-title,
+  .ap-section-h,
+  .modal
+) {
+  position: relative;
+  isolation: isolate;
+}
+
+:is(:root, [data-design-preview], [data-section]) :is(
+  .gcard,
+  .promo-card,
+  .spotlight-card,
+  .hero,
+  .promo-ribbon,
+  .providers-marquee,
+  .ui-button,
+  .btn,
+  .ap-btn,
+  .ap-btn-wide,
+  .rec-confirm,
+  .cv-view-all,
+  .promo-card-cta,
+  .sb-deposit,
+  .sb-withdraw,
+  .cat-tab,
+  .ui-tab,
+  .ui-tab--underline,
+  .filter,
+  .tab,
+  .gcard-tag,
+  .promo-card-tag,
+  .rec-pill,
+  .ap-pill,
+  .ap-status,
+  .count,
+  .rec-table-scroll,
+  .leaderboard,
+  .ap-hero,
+  .rewards-banner,
+  .ap-panel,
+  .ap-form-card,
+  .ap-tx-panel,
+  .sb-item,
+  .ap-h1,
+  .section-title,
+  .ap-section-h,
+  .modal
+)::after {
+  content: var(--ui-motif, "");
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  z-index: 0;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--ui-motif-size, 42px);
+  font-weight: 800;
+  line-height: 1;
+  opacity: var(--ui-motif-opacity, 0);
+  pointer-events: none;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+  white-space: nowrap;
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-promotion-card="v2"] .promo-card::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: -7px;
+  width: 14px;
+  background: radial-gradient(circle at 50% 10px, var(--bg) 0 4px, transparent 5px) 0 0 / 14px 22px;
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-game-card="v3"] .gcard::before,
+:is(:root, [data-design-preview], [data-section])[data-ui-panel="v3"] .ap-panel::before {
+  content: '';
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  width: 58px;
+  height: 10px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, var(--accent) 0 3px, transparent 4px) 0 50% / 18px 10px repeat-x;
+  opacity: .5;
+  pointer-events: none;
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-button="v5"] :is(.ui-button, .btn, .ap-btn, .cv-view-all, .promo-card-cta)::before,
+:is(:root, [data-design-preview], [data-section])[data-ui-tabs="v5"] :is(.cat-tab, .ui-tab)::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 28%;
+  background: linear-gradient(115deg, color-mix(in oklch, var(--accent) 32%, transparent), transparent 72%);
+  pointer-events: none;
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-banner="v6"] .hero::before,
+:is(:root, [data-design-preview], [data-section])[data-ui-profile="v6"] :is(.ap-hero, .rewards-banner)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 24% 0%, color-mix(in oklch, var(--accent) 26%, transparent), transparent 28%),
+    radial-gradient(circle at 76% 0%, color-mix(in oklch, var(--accent-2) 18%, transparent), transparent 24%);
+  opacity: .7;
+  pointer-events: none;
+}
+
+:is(:root, [data-design-preview], [data-section])[data-ui-table="v9"] :is(.rec-table-scroll, .leaderboard)::before,
+:is(:root, [data-design-preview], [data-section])[data-ui-panel="v9"] .ap-panel::before {
+  content: 'NO. CMS-100';
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  opacity: .45;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(:root, [data-design-preview], [data-section]) :is(.gcard, .promo-card, .ui-button, .btn, .sb-item) {
+    transition: none !important;
+  }
+}

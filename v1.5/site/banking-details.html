@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+      <main class="usercenter-main">
+        <div data-mount="user-navbar"></div>
+        <div class="usercenter-grid">
+          <div data-mount="user-sidebar"></div>
+          <div class="usercenter-content">
+            <div class="pay-page">
+              <h1 class="pay-page-title" data-i18n="userCenter.bankingDetails">결제 정보</h1>
+              <section class="pay-section" style="padding-top: 16px">
+                <div class="pay-section-inner">
+                  <div class="pay-method-tabs" data-bd-method>
+                    <button type="button" class="pay-method-tab is-selected" data-bd-method-btn="bank" data-i18n="userCenter.withdrawalPage.bankCard">은행카드</button>
+                    <button type="button" class="pay-method-tab" data-bd-method-btn="crypto" data-i18n="userCenter.withdrawalPage.cryptoWallet">가상지갑</button>
+                  </div>
+
+                  <!-- 銀行帳戶:清單模式 -->
+                  <div data-bd-list-mode="bank">
+                    <p class="wd-account-count" data-bd-count="bank"></p>
+                    <div data-bd-accounts="bank"></div>
+                    <button type="button" class="bd-add-btn" data-bd-add="bank"><img src="assets/images/icon/usercenter/add.svg" alt="add" /><span data-i18n="userCenter.bankingDetailsPage.addAccount">계좌 추가</span></button>
+                  </div>
+
+                  <!-- 銀行帳戶:新增模式 -->
+                  <div data-bd-add-mode="bank" style="display: none">
+                    <div style="text-align: center">
+                      <span class="pay-pill-label" data-i18n="userCenter.bankingDetailsPage.bankInformation">은행 정보</span>
+                    </div>
+                    <input type="text" class="pay-input" placeholder="카드 번호를 입력해 주세요" data-i18n-placeholder="userCenter.bankingDetailsPage.enterCardNumber" data-bd-card-number style="margin-top: 16px" />
+
+                    <div style="text-align: center; margin-top: 24px">
+                      <span class="pay-pill-label" data-i18n="userCenter.bankingDetailsPage.transactionPassword">거래 비밀번호</span>
+                    </div>
+                    <input type="password" class="pay-input" placeholder="거래 비밀번호를 입력해 주세요" data-i18n-placeholder="userCenter.bankingDetailsPage.fillTransactionPassword" data-bd-fund-password="bank" />
+
+                    <button type="button" class="pay-next-btn" data-bd-submit="bank" style="margin-top: 40px">
+                      <span class="text-gradient" data-i18n="common.submit">제출</span>
+                    </button>
+                    <button type="button" class="pay-back-btn" data-bd-cancel="bank" data-i18n="common.back">뒤로</button>
+                  </div>
+
+                  <!-- 虛擬錢包:清單模式 -->
+                  <div data-bd-list-mode="crypto" hidden>
+                    <p class="wd-account-count" data-bd-count="crypto"></p>
+                    <div data-bd-accounts="crypto"></div>
+                    <button type="button" class="bd-add-btn" data-bd-add="crypto"><img src="assets/images/icon/usercenter/add.svg" alt="add" /><span data-i18n="userCenter.withdrawalPage.addWallet">지갑 추가</span></button>
+                  </div>
+
+                  <!-- 虛擬錢包:新增模式 -->
+                  <div data-bd-add-mode="crypto" style="display: none">
+                    <div style="text-align: center">
+                      <span class="pay-pill-label" data-i18n="userCenter.withdrawalPage.cryptoWallet">가상지갑</span>
+                    </div>
+                    <input type="text" class="pay-input" placeholder="지갑 주소를 입력해 주세요" data-i18n-placeholder="userCenter.withdrawalPage.walletAddressPlaceholder" data-bd-wallet-address style="margin-top: 16px" />
+
+                    <div style="text-align: center; margin-top: 24px">
+                      <span class="pay-pill-label" data-i18n="userCenter.bankingDetailsPage.transactionPassword">거래 비밀번호</span>
+                    </div>
+                    <input type="password" class="pay-input" placeholder="거래 비밀번호를 입력해 주세요" data-i18n-placeholder="userCenter.bankingDetailsPage.fillTransactionPassword" data-bd-fund-password="crypto" />
+
+                    <button type="button" class="pay-next-btn" data-bd-submit="crypto" style="margin-top: 40px">
+                      <span class="text-gradient" data-i18n="common.submit">제출</span>
+                    </button>
+                    <button type="button" class="pay-back-btn" data-bd-cancel="crypto" data-i18n="common.back">뒤로</button>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        /* 銀行帳戶上限 5 筆,虛擬錢包只能綁 1 筆 */
+        var CAP = { bank: 5, crypto: 1 };
+        var bdMethod = 'bank';
+
+        function accountsOf(group) { return group === 'bank' ? D.BANK_CARDS : D.CRYPTO_WALLETS; }
+        function walletTypeLabel(c) { return 'USDT-' + c.type.toUpperCase(); }
+
+        function renderList(group) {
+          var wrap = W.qs('[data-bd-accounts="' + group + '"]');
+          var countEl = W.qs('[data-bd-count="' + group + '"]');
+          var addBtn = W.qs('[data-bd-add="' + group + '"]');
+          var accounts = accountsOf(group);
+          var cap = CAP[group];
+          var titleKey = group === 'bank' ? 'userCenter.withdrawalPage.myBankAccounts' : 'userCenter.withdrawalPage.myCryptoWallets';
+          if (countEl) countEl.textContent = W.t(titleKey);
+          if (addBtn) addBtn.classList.toggle('is-disabled', accounts.length >= cap);
+          if (!accounts.length) {
+            var emptyKey = group === 'bank' ? 'userCenter.bankingDetailsPage.emptyBankAccount' : 'userCenter.withdrawalPage.emptyCryptoWallet';
+            wrap.innerHTML =
+              '<div class="bd-empty"><img src="assets/images/userCenter/bankcard.png" alt="empty">' +
+              '<p>' + W.t(emptyKey) + '</p></div>';
+            return;
+          }
+          wrap.innerHTML = accounts.map(function (acc, idx) {
+            var deleteBtn = '<button type="button" class="bd-account-delete" data-bd-remove="' + idx + '"><img src="assets/images/icon/usercenter/delete.svg" alt="delete"></button>';
+            if (group === 'bank') {
+              return (
+                '<div class="bd-account-card"><div class="bd-account-card-info"><div class="bd-account-check"><img src="assets/images/icon/usercenter/checkmark.svg" alt="check">' +
+                '<span>' + W.t('userCenter.bankingDetailsPage.activeBankAccount') + '</span></div>' +
+                '<p class="bd-account-name">' + acc.bankName + '</p>' +
+                '<p class="bd-account-number">' + acc.bankCardNumber + '</p></div>' + deleteBtn + '</div>'
+              );
+            }
+            return (
+              '<div class="bd-account-card"><div class="bd-account-card-info">' +
+              '<p class="bd-account-name">' + walletTypeLabel(acc) + '</p>' +
+              '<p class="bd-account-number">' + acc.address + '</p></div>' + deleteBtn + '</div>'
+            );
+          }).join('');
+          W.qsa('[data-bd-remove]', wrap).forEach(function (btn) {
+            W.on(btn, 'click', function () {
+              var idx = Number(btn.getAttribute('data-bd-remove'));
+              W.showAlert({
+                type: 'confirmation',
+                message: W.t('common.confirmRemoveAccount'),
+                cancellable: true,
+                onConfirm: function () {
+                  accounts.splice(idx, 1);
+                  renderList(group);
+                  W.showAlert({ type: 'success', message: W.t('common.accountRemovedSuccess') });
+                },
+              });
+            });
+          });
+        }
+
+        /* list-mode(帳戶清單+新增帳戶按鈕本身)一律只用 hidden 屬性切換,
+           不要疊加 style.display——曾經被設過 style.display="block" 的
+           元素,之後即使改回 hidden=true,行內樣式的優先權還是會蓋過
+           CSS 的 [hidden]{display:none},導致清單與新增表單同時顯示 */
+        function showAddMode(group) {
+          W.qs('[data-bd-list-mode="' + group + '"]').hidden = true;
+          W.qs('[data-bd-add-mode="' + group + '"]').style.display = 'block';
+        }
+        function showListMode(group) {
+          W.qs('[data-bd-add-mode="' + group + '"]').style.display = 'none';
+          W.qs('[data-bd-list-mode="' + group + '"]').hidden = false;
+          renderList(group);
+        }
+
+        ['bank', 'crypto'].forEach(function (group) {
+          var addBtn = W.qs('[data-bd-add="' + group + '"]');
+          W.on(addBtn, 'click', function () {
+            if (addBtn.classList.contains('is-disabled')) { W.showAlert({ type: 'error', message: W.t('userCenter.bankingDetailsPage.accountLimitReached') }); return; }
+            showAddMode(group);
+          });
+          W.on(W.qs('[data-bd-cancel="' + group + '"]'), 'click', function () { showListMode(group); });
+          W.on(W.qs('[data-bd-submit="' + group + '"]'), 'click', function () {
+            W.showAlert({ type: 'success', message: W.t('common.bankCardAddedSuccess'), redirectUrl: 'banking-details.html' });
+          });
+        });
+
+        /* 銀行帳戶／虛擬錢包分組切換:同步收合另一組的新增表單,避免切組後
+           表單殘留在畫面上。
+           注意:只能用 hidden 屬性切換顯示,不能額外疊加 style.display——
+           曾經被設過 style.display="block" 的元素,之後即使改回 hidden=true
+           行內樣式的優先權還是會蓋過 CSS 的 [hidden]{display:none},導致
+           兩組清單同時顯示。 */
+        var methodBtns = W.qsa('[data-bd-method] [data-bd-method-btn]');
+        methodBtns.forEach(function (btn) {
+          W.on(btn, 'click', function () {
+            methodBtns.forEach(function (b) { b.classList.toggle('is-selected', b === btn); });
+            bdMethod = btn.getAttribute('data-bd-method-btn');
+            ['bank', 'crypto'].forEach(function (group) {
+              var show = group === bdMethod;
+              W.qs('[data-bd-list-mode="' + group + '"]').hidden = !show;
+              W.qs('[data-bd-add-mode="' + group + '"]').style.display = 'none';
+              if (show) renderList(group);
+            });
+          });
+        });
+
+        W.on(W.qs('[data-bd-card-number]'), 'input', function (e) {
+          var digits = (e.target.value || '').replace(/\D/g, '').slice(0, 19);
+          e.target.value = digits.replace(/(.{4})/g, '$1 ').trim();
+        });
+
+        renderList('bank');
+      };
+    </script>
+  </body>
+</html>

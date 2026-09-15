@@ -1,0 +1,96 @@
+/* CMS_Studio_v6 — 靜態版版面樣式（vanilla，無框架、無 build）。
+   色彩/圓角/陰影一律沿用 ../site/assets/css/main.css 已定義的 token
+   （--bg、--text、--accent-*、--radius-* 等），本檔只補 studio 自己的版面骨架。 */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body { font-family: var(--font-display); color: var(--text); background: var(--bg); }
+
+.st-shell { display: flex; flex-direction: column; height: 100dvh; min-height: 32rem; overflow: hidden; }
+
+.st-topbar {
+  display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-panel);
+}
+.st-back { font-size: 12.5px; color: var(--text-dim); text-decoration: none; flex-shrink: 0; }
+.st-back:hover { color: var(--text); }
+.st-title { margin: 0; font-size: 15px; font-weight: 800; color: var(--text); }
+.st-title-sub { margin-left: 4px; font-size: 12px; font-weight: 400; color: var(--text-dim); }
+
+.st-panebar { display: none; grid-template-columns: 1fr 1fr; gap: 4px; padding: 8px 12px; border-bottom: 1px solid var(--line); background: var(--bg-panel); flex-shrink: 0; }
+
+.st-main { display: flex; min-height: 0; flex: 1; }
+
+.st-panel { width: 340px; flex-shrink: 0; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; background: var(--bg-panel); border-right: 1px solid var(--line); }
+
+.st-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.st-btn { padding: 9px 0; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg); color: var(--text); font-size: 12.5px; font-weight: 700; font-family: inherit; }
+.st-btn:hover { border-color: var(--accent-hi); color: var(--accent-deep); }
+.st-btn.primary { background: var(--accent-grad); border-color: var(--accent-hi); color: var(--accent-ink); }
+.st-applied-row { margin-top: 8px; }
+.st-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 700; }
+.st-tag-ok { background: #e4f5ec; color: #1a7f4c; }
+
+/* flex-shrink:0：.st-panel 是可捲動（overflow-y:auto）的直向 flex 容器,
+   若沒有這行,內容加總超出可視高度時 flex 預設會把每個 collapse-sec
+   壓扁到低於自身內容高度,再被 overflow:hidden 裁掉,而不是讓外層捲動。 */
+.collapse-sec { border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; flex-shrink: 0; }
+.collapse-head { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 14px; background: var(--bg-panel); font-family: inherit; text-align: left; }
+.st-head-title { font-size: 13px; font-weight: 800; color: var(--text); display: block; }
+.st-head-sub { font-size: 11.5px; color: var(--text-dim); display: block; margin-top: 2px; }
+.collapse-chevron { width: 16px; height: 16px; color: var(--text-mid); flex-shrink: 0; transition: transform 0.15s; }
+.collapse-chevron.is-open { transform: rotate(180deg); }
+.collapse-body { padding: 4px 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+.collapse-body[hidden] { display: none; }
+
+.st-sub-label { font-size: 11.5px; font-weight: 700; color: var(--text-mid); margin: 0 0 6px; }
+.st-input { width: 100%; padding: 9px 11px; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--bg); color: var(--text); font-size: 13px; font-family: inherit; }
+.st-select { appearance: auto; }
+
+/* 排列比照 v2 設計後台的 .st-grid2:固定 2 欄等寬,奇數個 skin 選項最後
+   一個也只佔一半寬,不會像 flex-wrap 自動撐開內容寬度那樣參差不齊。 */
+.st-skin-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.st-skin-btn { display: flex; align-items: center; gap: 6px; }
+.st-skin-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15); }
+
+.st-section-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.st-section-row { display: flex; flex-direction: column; gap: 8px; padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--bg); transition: opacity 0.15s, border-color 0.15s, background 0.15s; }
+.st-section-row-top { display: flex; align-items: center; gap: 10px; }
+.st-section-row-bottom { display: flex; align-items: center; gap: 8px; padding-left: 24px; }
+.st-section-name { flex: 1; font-size: 12.5px; font-weight: 700; color: var(--text); }
+/* 拖曳排序：原生 HTML5 drag&drop,不依賴額外函式庫。is-dragging 是拖曳
+   中的來源列,is-drop-target 是滑過的目標列,兩者都只是視覺回饋。 */
+.st-drag-handle { display: flex; color: var(--text-dim); cursor: grab; flex-shrink: 0; }
+.st-section-row.is-dragging { opacity: 0.4; }
+.st-section-row.is-drop-target { border-color: var(--accent-hi); background: var(--panel-tint); }
+.st-span-select { flex-shrink: 0; font-size: 11.5px; font-weight: 700; font-family: inherit; padding: 4px 6px; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--bg-panel); color: var(--text); }
+/* 變體選取格:仿 v2 設計後台的 variant-grid(5 欄 chip 陣列)與 v3 的
+   variant-card——10 個按鈕一次全部攤開,點哪個亮哪個,不用下拉選單。 */
+.st-variant-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding-left: 24px; }
+.st-variant-chip { padding: 4px 2px; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--bg-panel); color: var(--text-mid); font-size: 11px; font-weight: 700; font-family: inherit; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+.st-variant-chip:hover { border-color: var(--accent-hi); color: var(--text); }
+.st-variant-chip.active { background: var(--accent-grad); border-color: var(--accent-hi); color: var(--accent-ink); }
+
+.st-switch { width: 36px; height: 20px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); position: relative; flex-shrink: 0; transition: background 0.15s, border-color 0.15s; }
+.st-switch-knob { position: absolute; top: 1px; left: 1px; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-panel); box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform 0.15s; }
+.st-switch.is-on { background: var(--accent-grad); border-color: var(--accent-hi); }
+.st-switch.is-on .st-switch-knob { transform: translateX(16px); }
+
+.st-preview { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.st-preview-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--bg-panel); flex-shrink: 0; }
+.st-preview-label { font-size: 12.5px; font-weight: 700; color: var(--text-mid); }
+.st-preview-toggle { display: flex; gap: 6px; }
+.seg-btn { padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--text-mid); font-size: 12px; font-weight: 700; font-family: inherit; }
+.seg-btn.active { background: var(--accent-grad); border-color: var(--accent-hi); color: var(--accent-ink); }
+.st-preview-stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; background: #0f0f10; padding: 16px; }
+.st-frame { width: 100%; height: 100%; border: 0; border-radius: var(--radius-md); background: var(--bg); box-shadow: var(--shadow-card); transition: width 0.2s; }
+.st-preview-stage.is-mobile .st-frame { width: 390px; height: 100%; max-height: 844px; }
+
+@media (max-width: 900px) {
+  .st-panebar { display: grid; }
+  .st-panel, .st-preview { display: none; }
+  .st-shell[data-pane="controls"] .st-panel { display: flex; width: 100%; }
+  .st-shell[data-pane="preview"] .st-preview { display: flex; }
+}

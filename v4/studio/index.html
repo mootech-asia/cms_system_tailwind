@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-Hant" data-skin="festive-red-gold">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CMS_Studio_v4</title>
+  <link rel="stylesheet" href="../site/assets/css/main.css" />
+  <link rel="stylesheet" href="../site/assets/css/skins/imperial-purple.css" />
+  <link rel="stylesheet" href="../site/assets/css/skins/emerald-jade.css" />
+  <link rel="stylesheet" href="../site/assets/css/skins/sapphire-blue.css" />
+  <link rel="stylesheet" href="../site/assets/css/skins/onyx-gold.css" />
+  <link rel="stylesheet" href="../site/assets/css/skins/deep-ocean.css" />
+  <link rel="stylesheet" href="studio.css" />
+</head>
+<body>
+  <div class="st-shell" data-pane="controls">
+    <header class="st-topbar">
+      <a class="st-back" href="../site/index.html">← 回站點</a>
+      <h1 class="st-title">設計後台 <span class="st-title-sub">/studio</span></h1>
+    </header>
+
+    <nav class="st-panebar" aria-label="設計後台工作區">
+      <button type="button" class="seg-btn active" data-pane-btn="controls">設定</button>
+      <button type="button" class="seg-btn" data-pane-btn="preview">即時預覽</button>
+    </nav>
+
+    <div class="st-main">
+      <aside class="st-panel" data-pane-target="controls">
+        <div>
+          <div class="st-grid2">
+            <button type="button" class="st-btn" id="st-reset">重設草稿</button>
+            <button type="button" class="st-btn primary" id="st-apply">套用到本站</button>
+          </div>
+          <div class="st-applied-row" id="st-applied" hidden>
+            <span class="st-tag st-tag-ok">已套用（僅存於此瀏覽器）</span>
+          </div>
+        </div>
+
+        <section class="collapse-sec">
+          <button type="button" class="collapse-head" aria-expanded="true" data-group-toggle="site">
+            <span class="st-head-text">
+              <span class="st-head-title">站點名稱</span>
+              <span class="st-head-sub" id="st-summary-site">CMS_Frontend_v4</span>
+            </span>
+            <svg class="collapse-chevron is-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div class="collapse-body" data-group-body="site">
+            <input id="st-sitename" class="st-input" type="text" placeholder="站點名稱（瀏覽器分頁標題）" />
+          </div>
+        </section>
+
+        <section class="collapse-sec">
+          <button type="button" class="collapse-head" aria-expanded="true" data-group-toggle="skin">
+            <span class="st-head-text">
+              <span class="st-head-title">外觀 Skin</span>
+              <span class="st-head-sub" id="st-summary-skin">紅金喜慶（預設）</span>
+            </span>
+            <svg class="collapse-chevron is-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div class="collapse-body" data-group-body="skin">
+            <p class="st-sub-label">切換後即時反映在右側預覽，按「套用到本站」才會保留到離開設計後台之後</p>
+            <div class="st-skin-grid" id="st-skins"></div>
+          </div>
+        </section>
+
+        <section class="collapse-sec">
+          <button type="button" class="collapse-head" aria-expanded="true" data-group-toggle="locales">
+            <span class="st-head-text">
+              <span class="st-head-title">前台顯示語言</span>
+              <span class="st-head-sub" id="st-summary-locales">4 / 4 種語言顯示中</span>
+            </span>
+            <svg class="collapse-chevron is-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div class="collapse-body" data-group-body="locales">
+            <p class="st-sub-label">控制玩家可以在前台語言選單切換到哪些語言，至少保留 1 個</p>
+            <div class="st-skin-grid" id="st-locales"></div>
+          </div>
+        </section>
+
+        <section class="collapse-sec">
+          <button type="button" class="collapse-head" aria-expanded="true" data-group-toggle="pages">
+            <span class="st-head-text">
+              <span class="st-head-title">頁面預覽</span>
+              <span class="st-head-sub" id="st-summary-pages">首頁</span>
+            </span>
+            <svg class="collapse-chevron is-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div class="collapse-body" data-group-body="pages">
+            <p class="st-sub-label">切換要預覽的頁面</p>
+            <select id="st-page" class="st-input st-select"></select>
+          </div>
+        </section>
+
+        <section class="collapse-sec">
+          <button type="button" class="collapse-head" aria-expanded="true" data-group-toggle="sections">
+            <span class="st-head-text">
+              <span class="st-head-title">首頁區塊</span>
+              <span class="st-head-sub" id="st-summary-sections">5 個區塊</span>
+            </span>
+            <svg class="collapse-chevron is-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div class="collapse-body" data-group-body="sections">
+            <ul class="st-section-list" id="st-sections"></ul>
+          </div>
+        </section>
+      </aside>
+
+      <main class="st-preview" data-pane-target="preview">
+        <div class="st-preview-bar">
+          <span class="st-preview-label" id="st-preview-label">即時預覽 — 首頁（iframe 真實視口）</span>
+          <span class="st-preview-toggle">
+            <button type="button" class="seg-btn active" data-width="desktop">桌機</button>
+            <button type="button" class="seg-btn" data-width="mobile">手機 390</button>
+          </span>
+        </div>
+        <div class="st-preview-stage" id="st-preview-stage">
+          <iframe id="st-frame" class="st-frame" title="studio preview" src="../site/index.html"></iframe>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="studio.js"></script>
+</body>
+</html>

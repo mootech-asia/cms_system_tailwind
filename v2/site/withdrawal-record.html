@@ -1,0 +1,465 @@
+<!doctype html>
+<html data-theme="win100">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v2</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="themes/win100.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+          <header class="site-header">
+        <div class="site-header-inner">
+          <div class="site-header-row">
+            <a href="index.html" class="brand-link"
+              ><img src="logo.png" alt="Casino Logo" class="brand-logo"
+            /></a>
+            <div class="header-mobile-controls">
+              <div class="dd-trigger-wrap">
+                <button class="lang-trigger">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewbox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="icon-sm"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                    <path d="M2 12h20"></path></svg
+                  ><span>中文</span
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewbox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="icon-xs"
+                  >
+                    <path d="m6 9 6 6 6-6"></path>
+                  </svg>
+                </button>
+              </div>
+              <button class="menu-trigger" aria-label="Menu">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewbox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="icon-md"
+                >
+                  <line x1="4" x2="20" y1="12" y2="12"></line>
+                  <line x1="4" x2="20" y1="6" y2="6"></line>
+                  <line x1="4" x2="20" y1="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="content-shell">
+          
+            <aside class="sidebar-nav">
+          <nav class="sidebar-nav-list">
+            <a
+              href="account.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                <rect width="7" height="5" x="3" y="16" rx="1"></rect></svg
+              ><span class="sidebar-label">Account Overview</span></a
+            ><a
+              href="deposit.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M12 17V3"></path>
+                <path d="m6 11 6 6 6-6"></path>
+                <path d="M19 21H5"></path></svg
+              ><span class="sidebar-label">Deposit</span></a
+            ><a
+              href="withdrawal.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M12 21V7"></path>
+                <path d="m6 11 6-6 6 6"></path>
+                <path d="M5 3h14"></path></svg
+              ><span class="sidebar-label">Withdrawal</span></a
+            ><a
+              href="betting-record.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path>
+                <path d="M12 7v5l4 2"></path></svg
+              ><span class="sidebar-label">Betting Record</span></a
+            ><a
+              href="deposit-record.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path></svg
+              ><span class="sidebar-label">Deposit Record</span></a
+            ><a
+              href="profit-loss.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M16 7h6v6"></path>
+                <path d="m22 7-8.5 8.5-5-5L2 17"></path></svg
+              ><span class="sidebar-label">Profit And Loss</span></a
+            ><a
+              href="withdrawal-record.html"
+              aria-current="page" class="sidebar-link is-active"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path></svg
+              ><span class="sidebar-label">Withdrawal Record</span></a
+            ><a
+              href="withdrawal-detail.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path></svg
+              ><span class="sidebar-label">Withdrawal Detail</span></a
+            ><a
+              href="account-record.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path></svg
+              ><span class="sidebar-label">Account Record</span></a
+            ><a
+              href="personal-info.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle></svg
+              ><span class="sidebar-label">Personal Info</span></a
+            ><a
+              href="security.html"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path
+                  d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                ></path></svg
+              ><span class="sidebar-label">Security Center</span></a
+            ><button
+              class="sidebar-link-btn"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="sidebar-icon"
+              >
+                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg
+              ><span class="sidebar-label">Customer Service</span>
+            </button>
+          </nav>
+        </aside>
+            <main class="main-content">
+              <div>
+                <h1 class="record-page-title">Withdrawal Record</h1>
+                <div class="rb-toolbar">
+                  <div class="rb-select-wrap">
+                    <div class="rb-select"><span class="rb-select-label" tabindex="0" role="combobox" aria-label="All" aria-haspopup="listbox" aria-expanded="false">All</span><div class="rb-select-caret"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="rb-select-caret-icon" aria-hidden="true"><path d="M7.01744 10.398C6.91269 10.3985 6.8089 10.378 6.71215 10.3379C6.61541 10.2977 6.52766 10.2386 6.45405 10.1641L1.13907 4.84913C1.03306 4.69404 0.985221 4.5065 1.00399 4.31958C1.02276 4.13266 1.10693 3.95838 1.24166 3.82747C1.37639 3.69655 1.55301 3.61742 1.74039 3.60402C1.92777 3.59062 2.11386 3.64382 2.26584 3.75424L7.01744 8.47394L11.769 3.75424C11.9189 3.65709 12.097 3.61306 12.2748 3.62921C12.4527 3.64535 12.6199 3.72073 12.7498 3.84328C12.8797 3.96582 12.9647 4.12842 12.9912 4.30502C13.0177 4.48162 12.9841 4.662 12.8958 4.81724L7.58083 10.1322C7.50996 10.2125 7.42344 10.2775 7.32656 10.3232C7.22968 10.3689 7.12449 10.3944 7.01744 10.398Z" fill="currentColor"></path></svg></div></div>
+                  </div>
+                  <div class="rb-daterange-wrap">
+                    <span class="rb-daterange"><input type="text" class="rb-daterange-input" placeholder="YYYY-MM-DD ~ YYYY-MM-DD" autocomplete="off" role="combobox" aria-autocomplete="none" aria-haspopup="dialog" aria-expanded="false" /><button type="button" class="rb-daterange-btn" aria-label="Choose Date" aria-haspopup="dialog" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="rb-daterange-icon" aria-hidden="true"><path d="M10.7838 1.51351H9.83783V0.567568C9.83783 0.417039 9.77804 0.272676 9.6716 0.166237C9.56516 0.0597971 9.42079 0 9.27027 0C9.11974 0 8.97538 0.0597971 8.86894 0.166237C8.7625 0.272676 8.7027 0.417039 8.7027 0.567568V1.51351H5.29729V0.567568C5.29729 0.417039 5.2375 0.272676 5.13106 0.166237C5.02462 0.0597971 4.88025 0 4.72973 0C4.5792 0 4.43484 0.0597971 4.3284 0.166237C4.22196 0.272676 4.16216 0.417039 4.16216 0.567568V1.51351H3.21621C2.66428 1.51351 2.13494 1.73277 1.74467 2.12305C1.35439 2.51333 1.13513 3.04266 1.13513 3.59459V11.9189C1.13513 12.4709 1.35439 13.0002 1.74467 13.3905C2.13494 13.7807 2.66428 14 3.21621 14H10.7838C11.3357 14 11.865 13.7807 12.2553 13.3905C12.6456 13.0002 12.8649 12.4709 12.8649 11.9189V3.59459C12.8649 3.04266 12.6456 2.51333 12.2553 2.12305C11.865 1.73277 11.3357 1.51351 10.7838 1.51351ZM3.21621 2.64865H4.16216V3.59459C4.16216 3.74512 4.22196 3.88949 4.3284 3.99593C4.43484 4.10237 4.5792 4.16216 4.72973 4.16216C4.88025 4.16216 5.02462 4.10237 5.13106 3.99593C5.2375 3.88949 5.29729 3.74512 5.29729 3.59459V2.64865H8.7027V3.59459C8.7027 3.74512 8.7625 3.88949 8.86894 3.99593C8.97538 4.10237 9.11974 4.16216 9.27027 4.16216C9.42079 4.16216 9.56516 4.10237 9.6716 3.99593C9.77804 3.88949 9.83783 3.74512 9.83783 3.59459V2.64865H10.7838C11.0347 2.64865 11.2753 2.74831 11.4527 2.92571C11.6301 3.10311 11.7297 3.34371 11.7297 3.59459V5.67568H2.27027V3.59459C2.27027 3.34371 2.36993 3.10311 2.54733 2.92571C2.72473 2.74831 2.96533 2.64865 3.21621 2.64865ZM10.7838 12.8649H3.21621C2.96533 12.8649 2.72473 12.7652 2.54733 12.5878C2.36993 12.4104 2.27027 12.1698 2.27027 11.9189V6.81081H11.7297V11.9189C11.7297 12.1698 11.6301 12.4104 11.4527 12.5878C11.2753 12.7652 11.0347 12.8649 10.7838 12.8649Z" fill="currentColor"></path></svg></button></span>
+                  </div>
+                  <button type="button" class="btn-primary rb-confirm-btn">Confirm</button>
+                  <div class="flex items-center gap-1 whitespace-nowrap text-body text-ink-3 ml-auto">
+                    <span data-refresh-label>Auto refresh in 30 s</span
+                    ><span
+                      class="ml-1 cursor-pointer text-primary"
+                      role="button"
+                      aria-label="Refresh now"
+                      data-refresh-now
+                      >↺</span
+                    >
+                  </div>
+                </div>
+                <div class="record-table-frame"><div class="record-table-container"><table class="record-table-el"><thead class="record-table-thead"><tr><th class="record-table-th"><div class="record-table-th-content"><span class="record-table-th-title">Transaction No.</span></div></th><th class="record-table-th"><div class="record-table-th-content"><span class="record-table-th-title">Request Time</span></div></th><th class="record-table-th"><div class="record-table-th-content record-table-th-content--end"><span class="record-table-th-title">Paid Amount</span></div></th><th class="record-table-th"><div class="record-table-th-content record-table-th-content--center"><span class="record-table-th-title">Status</span></div></th><th class="record-table-th"><div class="record-table-th-content record-table-th-content--end"><span class="record-table-th-title">Request Amount</span></div></th><th class="record-table-th"><div class="record-table-th-content"><span class="record-table-th-title">Bank Name</span></div></th><th class="record-table-th"><div class="record-table-th-content"><span class="record-table-th-title">Paid Date</span></div></th><th class="record-table-th"><div class="record-table-th-content"><span class="record-table-th-title">Remark</span></div></th></tr></thead><tbody class="record-table-tbody"><tr><td><span class="rt-mono">WD25081201</span></td><td><span class="rt-muted">2025-08-12 10:20</span></td><td class="text-right">80,000</td><td class="text-center"><span class="pill-ok">Approved</span></td><td class="text-right">80,000</td><td>KB Bank</td><td><span class="rt-muted">2025-08-12 10:45</span></td><td>-</td></tr><tr><td><span class="rt-mono">WD25081104</span></td><td><span class="rt-muted">2025-08-11 16:50</span></td><td class="text-right">150,000</td><td class="text-center"><span class="pill-ok">Approved</span></td><td class="text-right">150,000</td><td>Shinhan</td><td><span class="rt-muted">2025-08-11 17:10</span></td><td>-</td></tr><tr><td><span class="rt-mono">WD25081006</span></td><td><span class="rt-muted">2025-08-10 11:05</span></td><td class="text-right">-</td><td class="text-center"><span class="pill-warn">Pending</span></td><td class="text-right">40,000</td><td>Woori</td><td><span class="rt-muted">-</span></td><td>-</td></tr><tr><td><span class="rt-mono">WD25080903</span></td><td><span class="rt-muted">2025-08-09 22:14</span></td><td class="text-right">-</td><td class="text-center"><span class="pill-bad">Rejected</span></td><td class="text-right">25,000</td><td>KB Bank</td><td><span class="rt-muted">-</span></td><td>Rollover left</td></tr></tbody></table></div></div>
+                <div class="record-total-bar"><span>Total Withdrawal Amount</span><span>270,000</span></div>
+              </div>
+            </main>
+          
+          <nav class="mobile-bottom-nav">
+        <div class="mobile-bottom-nav-grid">
+          <button class="mobile-bottom-nav-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon-md"
+            >
+              <line x1="4" x2="20" y1="12" y2="12"></line>
+              <line x1="4" x2="20" y1="6" y2="6"></line>
+              <line x1="4" x2="20" y1="18" y2="18"></line></svg
+            ><span class="mobile-bottom-nav-label">瀏覽</span></button
+          ><a href="index.html" class="mobile-bottom-nav-item"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon-md"
+            >
+              <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+              <path
+                d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+              ></path></svg
+            ><span class="mobile-bottom-nav-label">首頁</span></a
+          ><a href="deposit.html" class="mobile-bottom-nav-item"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon-md"
+            >
+              <path d="M12 17V3"></path>
+              <path d="m6 11 6 6 6-6"></path>
+              <path d="M19 21H5"></path></svg
+            ><span class="mobile-bottom-nav-label">儲值</span></a
+          ><a
+            href="promotion.html"
+            class="mobile-bottom-nav-item"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon-md"
+            >
+              <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+              <path d="M12 8v13"></path>
+              <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+              <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg
+            ><span class="mobile-bottom-nav-label">優惠活動</span></a
+          ><a href="account.html" class="mobile-bottom-nav-item"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon-md"
+            >
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle></svg
+            ><span class="mobile-bottom-nav-label">會員</span></a
+          >
+        </div>
+      </nav>
+    </div>
+    <div class="qr-rail">
+      <a href="#" class="qr-btn" aria-label="Live Chat" data-chat-open
+        ><img src="logo.png" alt /><span class="qr-label">Live Chat</span></a
+      ><a href="https://t.me/win10096cs" target="_blank" rel="noopener noreferrer" class="qr-btn" aria-label="Promo Channel"
+        ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path>
+            </svg
+            ><span class="qr-label">Promo Channel</span></a
+      ><a href="about.html?tab=faq" class="qr-btn" aria-label="FAQ"
+        ><svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path>
+        </svg
+        ><span class="qr-label">FAQ</span></a
+      >
+    </div>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/site.js"></script>
+  </body>
+</html>

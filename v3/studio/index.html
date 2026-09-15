@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-skin="blue">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Studio_v3</title>
+    <!-- Front-end token + skin stylesheets (all 10 skins) so the studio chrome
+         themes exactly like the live site and the preview iframe matches. -->
+    <link rel="stylesheet" href="../site/assets/css/design-system/tokens.css" />
+    <link rel="stylesheet" href="../site/assets/css/skins/white.css" />
+    <link rel="stylesheet" href="../site/assets/css/skins/blue.css" />
+    <link rel="stylesheet" href="../site/assets/css/skins/night-esports-green.css" />
+    <link rel="stylesheet" href="../site/assets/css/skins/cosmic-spectrum-purple.css" />
+    <link rel="stylesheet" href="../site/assets/css/skins/jade-jackpot.css" />
+    <link rel="stylesheet" href="../site/assets/css/skins/curated-collection.css" />
+    <link rel="stylesheet" href="../site/assets/css/design-system/components.css" />
+    <link rel="stylesheet" href="../site/assets/css/design-system/variants.css" />
+    <!-- The full original design-studio styling, reused verbatim. -->
+    <link rel="stylesheet" href="../site/assets/css/design-system/design-studio.css" />
+    <link rel="stylesheet" href="studio.css" />
+  </head>
+  <body>
+    <!-- Live-preview shell: topbar + control column + real-page iframe. -->
+    <div class="studio-shell">
+      <div class="studio-preview-topbar">
+        <span class="studio-preview-topbar-title">Design Studio</span>
+        <div class="studio-preview-topbar-actions">
+          <div id="st-page-control">
+            <select class="studio-select" id="st-page-select"></select>
+          </div>
+          <div class="studio-device-control" id="st-device" role="group">
+            <button type="button" data-device="desktop" class="active" id="st-device-desktop">Desktop</button>
+            <button type="button" data-device="mobile" id="st-device-mobile">Mobile 390</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="studio-shell-body">
+        <aside class="studio-controls-col" id="st-controls">
+          <!-- Design studio panel markup, rendered by studio.js. -->
+          <section class="design-studio" id="design-studio"></section>
+        </aside>
+
+        <section class="studio-live-preview" aria-label="Live preview">
+          <div class="studio-live-preview-viewport" id="st-viewport">
+            <iframe class="studio-live-preview-frame" id="st-frame" src="../site/index.html" title="Live preview"></iframe>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Front-end i18n + data give the studio faithful multilingual labels and
+         the real hero-slide seed for the banner library. -->
+    <script src="../site/assets/js/i18n.js"></script>
+    <script src="../site/assets/js/data.js"></script>
+    <script src="studio.js"></script>
+  </body>
+</html>

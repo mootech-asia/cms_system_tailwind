@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en" data-skin="ignite-classic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CMS_Frontend_v5</title>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/skins/neon-emerald.css" />
+  <link rel="stylesheet" href="assets/css/skins/royal-crimson.css" />
+  <link rel="stylesheet" href="assets/css/skins/sapphire-noir.css" />
+  <link rel="stylesheet" href="assets/css/skins/violet-jackpot.css" />
+  <link rel="stylesheet" href="assets/css/skins/gold-noir.css" />
+  <link rel="stylesheet" href="assets/css/skins/emerald-tide.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-top">
+      <a href="index.html" class="brand-link"><img src="logo.png" alt="IGNITE100" class="brand-logo" /></a>
+      <div class="header-lang" data-lang-root><button type="button" class="header-lang-trigger" aria-haspopup="true" aria-expanded="false" data-lang-trigger><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.7 4 6.2 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6.2-4-9s1.5-6.3 4-9Z"/></svg><span data-lang-current>中文</span></button><div class="header-lang-menu" data-lang-menu hidden><button type="button" class="header-lang-option" data-lang-option="zh">中文</button><button type="button" class="header-lang-option" data-lang-option="en">English</button><button type="button" class="header-lang-option" data-lang-option="ko">한국어</button><button type="button" class="header-lang-option" data-lang-option="th">ไทย</button></div></div><button type="button" class="header-menu-trigger" data-i18n-aria="nav.menuLabel" aria-label="選單"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <div class="header-auth">
+        <button type="button" class="btn-accent">立即註冊</button>
+        <button type="button" class="btn-accent ghost">登錄</button>
+      </div>
+    </div>
+    <nav class="container header-nav">
+      <a href="index.html" class="header-nav-link"><svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1v-8Z"/></svg><span data-i18n="nav.lobby">大廳</span></a>
+      <a href="slot.html" class="header-nav-link"><svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h3v6H7zM14 9h3v6h-3z"/></svg><span data-i18n="nav.slots">老虎機</span></a>
+      <a href="live.html" class="header-nav-link"><svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span data-i18n="nav.live">真人娛樂</span></a>
+      <a href="hot-games.html" class="header-nav-link"><svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="nav.electronic">電子遊戲</span></a>
+      <a href="fish.html" class="header-nav-link"><svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12c3-4 8-5 12-4l4-2v12l-4-2c-4 1-9 0-12-4Z"/></svg><span data-i18n="nav.fish">捕魚達人</span></a>
+      <a href="sport.html" class="header-nav-link"><svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m12 3 2.5 6M21 12l-6 2.5M12 21l-2.5-6M3 12l6-2.5"/></svg><span data-i18n="nav.sport">體育</span></a>
+      <a href="promotion.html" class="header-nav-link active"><svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="9" width="18" height="12" rx="1.5"/><path d="M12 9v12M3 13h18"/></svg><span data-i18n="nav.promotion">優惠活動</span></a>
+    </nav>
+  </header>
+
+  <main class="content-light">
+    <div class="hero-wrap container">
+      <div class="hero" id="categoryHero">
+        <div class="hero-slide active">
+          <div class="hero-bg" style="--hero-image: url(../mock/hero-1.webp); --hero-position: center;"></div>
+          <div class="hero-content">
+            <span class="hero-eyebrow">PROMOTIONS</span>
+            <h1 class="hero-title" data-i18n="nav.promotion">優惠活動</h1>
+            <p class="hero-sub" data-i18n="hero.promotionSub">最新加碼、返水與回饋活動，天天都有新驚喜。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container listing-wrap">
+      <div class="listing-head">
+        <h2 class="listing-title" data-i18n="nav.promotion">優惠活動</h2>
+      </div>
+      <div class="listing-tabs" role="tablist">
+        <button type="button" class="listing-tab active" data-promo-tab="all" data-i18n="promo.tabAll">全部活動</button>
+        <button type="button" class="listing-tab" data-promo-tab="deposit" data-i18n="promo.tabDeposit">儲值優惠</button>
+        <button type="button" class="listing-tab" data-promo-tab="rebate" data-i18n="promo.tabRebate">返水回饋</button>
+        <button type="button" class="listing-tab" data-promo-tab="vip" data-i18n="promo.tabVip">VIP 專屬</button>
+      </div>
+      <div class="promo-grid">
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagLimited">限時</span><img src="assets/mock/game-01.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title1">新會員首存 100% 加碼</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc1">完成首次儲值即享 100% 加碼金，最高可領 10,000 元，新會員限領一次。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagDaily">每日</span><img src="assets/mock/game-02.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title2">每日簽到領紅包</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc2">連續登入簽到，第 7 天最高可拆 888 元紅包，斷簽重新計算。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagLive">真人</span><img src="assets/mock/live-01.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title3">真人娛樂 1.5% 無上限返水</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc3">真人館所有廠商投注額皆計入，每日結算，返水無上限。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagSlot">老虎機</span><img src="assets/mock/game-03.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title4">老虎機週週回饋 8%</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc4">每週一結算上週老虎機淨損，最高回饋 8%，自動派發至錢包。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagSport">體育</span><img src="assets/mock/game-05.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title5">體育首注失利保險</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc5">首張體育注單未中獎，退還本金最高 2,000 元，賽前投注適用。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagFish">捕魚</span><img src="assets/mock/game-04.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title6">捕魚達人火力加成</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc6">活動期間捕魚遊戲砲台火力 +20%，擊殺 BOSS 額外掉落寶箱。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagMini">迷你</span><img src="assets/mock/game-06.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title7">迷你遊戲連勝獎金</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc7">迷你遊戲連續獲勝 5 局，額外贈送 300 元獎金，每日限領三次。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagReferral">推薦</span><img src="assets/mock/game-07.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title8">推薦好友雙方同享</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc8">成功推薦好友註冊並完成首存，雙方各得 500 元推薦金。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagVip">VIP</span><img src="assets/mock/game-08.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title9">VIP 專屬生日禮金</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc9">VIP1 以上會員生日當月可領取專屬禮金，等級越高金額越高。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagCrypto">儲值</span><img src="assets/mock/game-09.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title10">加密貨幣儲值免手續費</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc10">使用 USDT／BTC 儲值全程免收手續費，到帳最快 1 分鐘。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagWeekend">週末</span><img src="assets/mock/game-10.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title11">週末狂歡連續轉不停</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc11">每週六日老虎機累積轉動達標，可領取免費旋轉次數。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+        <article class="promo-card">
+          <div class="promo-card-art"><span class="promo-card-tag" data-i18n="promo.tagLottery">抽獎</span><img src="assets/mock/game-11.webp" alt="" loading="lazy" /></div>
+          <div class="promo-card-body">
+            <h3 class="promo-card-title" data-i18n="promo.title12">月月抽豪禮大獎</h3>
+            <p class="promo-card-desc" data-i18n="promo.desc12">每月投注達標自動獲得抽獎券，最高可抽最新款旗艦手機。</p>
+            <div class="promo-card-actions"><a href="#" class="btn-accent" data-i18n="promo.join">立即參加</a><a href="#" class="promo-card-more" data-i18n="promo.terms">活動細則 →</a></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+
+  <section class="vendor-marquee">
+    <div class="container">
+      <p class="vendor-marquee-title" data-i18n="vendor.title">合作廠商</p>
+      <div class="vendor-marquee-viewport">
+        <div class="vendor-marquee-track">
+      <div class="vendor-marquee-row"><span class="vendor-badge" title="Evolution Gaming">EVO</span><span class="vendor-badge" title="WE Casino">WE</span><span class="vendor-badge" title="BG Big Gaming">BG</span><span class="vendor-badge" title="Pragmatic Play">PP</span><span class="vendor-badge" title="BBIN">BBIN</span><span class="vendor-badge" title="Allbet">AB</span><span class="vendor-badge" title="Yeebet Live">YB</span><span class="vendor-badge" title="SA Gaming">SA</span><span class="vendor-badge" title="WM Casino">WM</span><span class="vendor-badge" title="Playtech">PT</span><span class="vendor-badge" title="Dream Gaming">DG</span><span class="vendor-badge" title="Asia Gaming">AG</span><span class="vendor-badge" title="Sexy Gaming">SG</span><span class="vendor-badge" title="Ezugi">EZ</span><span class="vendor-badge" title="Venus Casino">VR</span><span class="vendor-badge" title="Gold Deluxe">GD</span><span class="vendor-badge" title="JDB Gaming">JDB</span><span class="vendor-badge" title="Kingmaker">KM</span><span class="vendor-badge" title="Oriental Game">OG</span><span class="vendor-badge" title="MG Live">MG</span><span class="vendor-badge" title="PG Soft">PGS</span><span class="vendor-badge" title="JILI Games">JILI</span><span class="vendor-badge" title="CQ9 Gaming">CQ9</span><span class="vendor-badge" title="Habanero">HB</span><span class="vendor-badge" title="Red Tiger">RT</span><span class="vendor-badge" title="NetEnt">NE</span><span class="vendor-badge" title="Play'n GO">PNG</span><span class="vendor-badge" title="Booongo">BNG</span><span class="vendor-badge" title="Spadegaming">SPG</span><span class="vendor-badge" title="Fa Chai">FC</span><span class="vendor-badge" title="Yggdrasil">YGG</span><span class="vendor-badge" title="Funky Games">FKG</span></div>
+      <div class="vendor-marquee-row" aria-hidden="true"><span class="vendor-badge" title="Evolution Gaming">EVO</span><span class="vendor-badge" title="WE Casino">WE</span><span class="vendor-badge" title="BG Big Gaming">BG</span><span class="vendor-badge" title="Pragmatic Play">PP</span><span class="vendor-badge" title="BBIN">BBIN</span><span class="vendor-badge" title="Allbet">AB</span><span class="vendor-badge" title="Yeebet Live">YB</span><span class="vendor-badge" title="SA Gaming">SA</span><span class="vendor-badge" title="WM Casino">WM</span><span class="vendor-badge" title="Playtech">PT</span><span class="vendor-badge" title="Dream Gaming">DG</span><span class="vendor-badge" title="Asia Gaming">AG</span><span class="vendor-badge" title="Sexy Gaming">SG</span><span class="vendor-badge" title="Ezugi">EZ</span><span class="vendor-badge" title="Venus Casino">VR</span><span class="vendor-badge" title="Gold Deluxe">GD</span><span class="vendor-badge" title="JDB Gaming">JDB</span><span class="vendor-badge" title="Kingmaker">KM</span><span class="vendor-badge" title="Oriental Game">OG</span><span class="vendor-badge" title="MG Live">MG</span><span class="vendor-badge" title="PG Soft">PGS</span><span class="vendor-badge" title="JILI Games">JILI</span><span class="vendor-badge" title="CQ9 Gaming">CQ9</span><span class="vendor-badge" title="Habanero">HB</span><span class="vendor-badge" title="Red Tiger">RT</span><span class="vendor-badge" title="NetEnt">NE</span><span class="vendor-badge" title="Play'n GO">PNG</span><span class="vendor-badge" title="Booongo">BNG</span><span class="vendor-badge" title="Spadegaming">SPG</span><span class="vendor-badge" title="Fa Chai">FC</span><span class="vendor-badge" title="Yggdrasil">YGG</span><span class="vendor-badge" title="Funky Games">FKG</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container site-footer-inner">
+      <img src="logo.png" alt="IGNITE100" class="site-footer-logo" />
+      <div class="site-footer-notice">
+        <p data-i18n="footer.disclaimer1">博彩可能造成成癮，請理性遊玩。如需支援資訊，請前往責任博彩協助頁面。</p>
+        <p data-i18n="footer.disclaimer2">當您存取、繼續使用或瀏覽本站，即表示您同意我們使用部分瀏覽器 Cookie，以改善您的使用體驗。</p>
+      </div>
+      <div class="site-footer-divider"></div>
+      <div class="site-footer-copyright">
+        <span data-i18n="footer.copyright">© 2026 IGNITE100 版權所有，受法律保護。本站僅供介面展示，不涉及任何實際投注行為。</span>
+        <a href="../../index.html" data-i18n="footer.backToHub">回到 CMS 統一預覽</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="quick-rail">
+    <a href="#" class="quick-rail-btn" data-chat-open data-i18n-aria="notice.liveChat" aria-label="線上客服"><img src="logo.png" alt=""><span class="quick-rail-label" data-i18n="notice.liveChat">線上客服</span></a>
+    <a href="https://t.me/win10096cs" target="_blank" rel="noopener noreferrer" class="quick-rail-btn" data-i18n-aria="quickRail.promoChannel" aria-label="促銷頻道"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/></svg><span class="quick-rail-label" data-i18n="quickRail.promoChannel">促銷頻道</span></a>
+    <a href="about.html?tab=faq" class="quick-rail-btn" data-i18n-aria="notice.faq" aria-label="常見問題"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><text x="12" y="16.3" font-size="11.5" font-weight="700" text-anchor="middle" fill="currentColor" stroke="none" font-family="Arial, Helvetica, sans-serif">?</text></svg><span class="quick-rail-label" data-i18n="notice.faq">常見問題</span></a>
+  </div>
+
+  <nav class="mobile-tabbar" data-i18n-aria="mobileTabbar.ariaLabel" aria-label="快捷選單">
+    <button type="button" class="mobile-tabbar-btn mobile-tabbar-menu" data-i18n-aria="nav.menuLabel" aria-label="選單"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span data-i18n="nav.menu">選單</span></button>
+    <a href="index.html" class="mobile-tabbar-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1v-8Z"/></svg><span data-i18n="nav.lobby">大廳</span></a>
+    <a href="deposit.html" class="mobile-tabbar-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/></svg><span data-i18n="nav.deposit">儲值</span></a>
+    <a href="promotion.html" class="mobile-tabbar-btn active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="9" width="18" height="12" rx="1.5"/><path d="M12 9v12M3 13h18"/></svg><span data-i18n="nav.promotion">優惠活動</span></a>
+    <a href="account.html" class="mobile-tabbar-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-i18n="nav.member">會員</span></a>
+  </nav>
+
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+/* Shared UI contracts.
+   Existing CMS classes are grouped here as legacy aliases so new screens can use
+   semantic ui-* classes without changing established layouts. */
+
+/* Typography hierarchy */
+.ui-page-title,
+.ap-h1 {
+  font-family: var(--font-display);
+  font-size: var(--type-page-title);
+  font-weight: var(--weight-bold);
+  line-height: var(--line-heading);
+}
+
+.ui-section-title,
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--type-section-title);
+  font-weight: var(--weight-bold);
+  line-height: var(--line-heading);
+}
+
+.ui-card-title,
+.gcard-title {
+  font-size: var(--type-card-title);
+  font-weight: var(--weight-semibold);
+}
+
+.ui-meta {
+  color: var(--text-mid);
+  font-size: var(--type-meta);
+}
+
+/* Buttons */
+.ui-button {
+  min-height: var(--control-size-md);
+  padding: 0 var(--control-pad-x-md);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+  color: var(--control-text);
+  font: inherit;
+  font-size: var(--type-button);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    filter var(--duration-fast) var(--ease-standard);
+}
+
+.ui-button:hover:not(:disabled) {
+  border-color: var(--control-hover-border);
+  color: var(--control-hover-text);
+}
+
+/* Quiet navigation controls share Back's normal and hover states. */
+.ui-button--quiet,
+.ap-back,
+.cv-view-all {
+  border-color: var(--control-border);
+  background: var(--control-bg);
+  color: var(--control-text);
+}
+
+.ui-button--quiet:hover:not(:disabled),
+.ap-back:hover,
+.cv-view-all:hover {
+  border-color: var(--control-hover-border);
+  background: var(--control-bg);
+  color: var(--control-hover-text);
+}
+
+.ui-button--primary,
+.ap-btn.primary,
+.ap-btn-wide.ap-grad,
+.rec-confirm {
+  border-color: transparent;
+  background: var(--gradient-primary);
+  color: var(--text-on-accent);
+}
+
+.ui-button--primary {
+  box-shadow: var(--shadow-primary);
+}
+
+.ui-button:disabled,
+.ap-btn-wide:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ui-button:focus-visible,
+.ui-tab:focus-visible,
+.ap-back:focus-visible,
+.cv-view-all:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+/* Tabs and filters */
+.ui-tab {
+  min-height: var(--control-size-sm);
+  padding: 0 var(--control-pad-x-md);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--bg-card);
+  color: var(--text-mid);
+  font: inherit;
+  font-size: var(--type-body-sm);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+
+.ui-tab:hover:not(.active) {
+  border-color: var(--line-hi);
+  color: var(--text);
+}
+
+.ui-tab.active,
+.ui-tab[aria-selected="true"] {
+  border-color: var(--control-active-border);
+  background: var(--control-active-bg);
+  color: var(--control-active-text);
+  text-shadow: var(--control-active-text-shadow);
+  box-shadow: var(--control-active-shadow);
+}
+
+/* Shared page-level tabs: title first, underline tabs second, content third. */
+.ui-tablist--underline {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-7);
+  margin-bottom: var(--space-5);
+  border-bottom: 1px solid var(--line-hi);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ui-tablist--underline::-webkit-scrollbar { display: none; }
+
+.ui-tab--underline {
+  position: relative;
+  flex: 0 0 auto;
+  min-height: var(--control-size-lg);
+  padding: 10px 0 14px;
+  border: 0;
+  background: transparent;
+  color: var(--text-mid);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: inherit;
+  font-size: var(--type-body);
+  font-weight: var(--weight-bold);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.ui-tab--underline:hover { color: var(--text); }
+.ui-tab--underline.active,
+.ui-tab--underline[aria-selected="true"] { color: var(--accent-text); }
+
+.ui-tab--underline.active::after,
+.ui-tab--underline[aria-selected="true"]::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--gradient-primary-short);
+}
+
+.ui-tab--underline:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+/* Tables */
+.ui-table,
+.rec-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-mid);
+}
+
+.ui-table thead th,
+.rec-table thead th {
+  background: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-size: var(--type-label);
+  font-weight: var(--weight-bold);
+}
+
+.ui-table tbody td {
+  background: var(--table-row-bg);
+  border-bottom: 1px solid var(--table-row-border);
+}
+
+/* CMS v4 maturity pass: keep v3 structure, upgrade shared text and control affordances. */
+.text-display,
+.ap-h1,
+.section-title,
+.promo-card-title,
+.tourn-title,
+.ap-panel-h {
+  letter-spacing: 0;
+}
+
+.font-tabular,
+.section-title .count,
+.tb-balance-num,
+.tourn-prize,
+.ap-transfer-amt,
+.ap-amt,
+.rec-total-val,
+.rec-pl,
+.dp-provider-code {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+:is(.ui-button, .btn, .ap-btn, .ap-btn-wide, .rec-confirm, .promo-card-cta, .sb-deposit, .sb-withdraw) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    background var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    filter var(--duration-fast) var(--ease-standard);
+}
+
+:is(.ui-button, .btn, .ap-btn, .ap-btn-wide, .rec-confirm, .promo-card-cta, .sb-deposit, .sb-withdraw):disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+  pointer-events: none;
+}
+
+:is(.btn:not(.primary), .ap-btn:not(.primary), .ap-btn-wide.outline, .promo-card-cta, .sb-deposit:not(.is-current), .sb-withdraw:not(.is-current)) {
+  border: 1px solid var(--line-hi);
+  background: color-mix(in oklch, var(--bg-card-hi) 72%, transparent);
+  color: var(--text-mid);
+  box-shadow: none;
+}
+
+:is(.btn:not(.primary), .ap-btn:not(.primary), .ap-btn-wide.outline, .promo-card-cta, .sb-deposit:not(.is-current), .sb-withdraw:not(.is-current)):hover:not(:disabled) {
+  border-color: var(--control-hover-border);
+  color: var(--control-hover-text);
+  background: var(--control-bg);
+  filter: none;
+}
+
+/* .sb-deposit / .sb-withdraw 原本各自寫死主色／外框，跟目前頁面無關；
+   改成看 .is-current（由 site.js 依目前頁面切換）決定誰是主色。 */
+:is(.ui-button--primary, .btn.primary, .ap-btn.primary, .ap-btn-wide.ap-grad, .rec-confirm, .sb-deposit.is-current, .sb-withdraw.is-current) {
+  border-color: transparent;
+  background: var(--gradient-primary);
+  color: var(--text-on-accent);
+  text-shadow: none;
+  box-shadow: var(--shadow-primary);
+}
+
+:is(.ui-button--primary, .btn.primary, .ap-btn.primary, .ap-btn-wide.ap-grad, .rec-confirm, .sb-deposit.is-current, .sb-withdraw.is-current):hover:not(:disabled) {
+  border-color: transparent;
+  color: var(--text-on-accent);
+  filter: brightness(1.06);
+  box-shadow:
+    var(--shadow-primary),
+    0 0 0 4px color-mix(in oklch, var(--accent) 12%, transparent);
+}
+
+.btn.ghost,
+.ap-btn-wide.ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-mid);
+  box-shadow: none;
+}
+
+.section-head {
+  align-items: center;
+}
+
+.section-title {
+  font-weight: var(--weight-semibold);
+}
+
+.section-title .count {
+  display: inline-flex;
+  min-width: 22px;
+  min-height: 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--bg-card-hi);
+  color: var(--text-mid);
+  line-height: 1;
+}
+
+.see-all,
+.ap-view-more,
+.ap-add-bank {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--accent-2);
+  font-weight: var(--weight-semibold);
+}
+
+:is(.gcard-tag, .promo-card-tag, .tourn-tag, .rec-pill, .ap-tag-new, .ap-pill, .ap-transfer-pill, .pi-privacy-pill) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20px;
+  border-radius: var(--radius-pill);
+  padding: 3px 9px;
+  font-size: var(--type-caption);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+@media (max-width: 700px) {
+  .ui-section-title,
+  .section-title {
+    font-size: var(--type-section-title-mobile);
+  }
+
+  .ui-tablist--underline { gap: var(--space-6); }
+}

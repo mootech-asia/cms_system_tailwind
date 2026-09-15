@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+
+      <main class="about-page">
+        <div class="about-title-row"><h1 class="text-gradient" data-i18n="about.title">회사 소개</h1></div>
+
+        <nav class="about-tabs no-scrollbar" data-about-tabs></nav>
+
+        <div class="about-content" data-about-content></div>
+      </main>
+
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        var TABS = ['support', 'notice', 'about', 'privacy', 'info', 'addiction', 'rules', 'faq'];
+        var active = TABS.indexOf(new URLSearchParams(location.search).get('tab')) !== -1
+          ? new URLSearchParams(location.search).get('tab')
+          : 'support';
+
+        var tabsEl = W.qs('[data-about-tabs]');
+        var contentEl = W.qs('[data-about-content]');
+
+        function renderTabs() {
+          tabsEl.innerHTML = TABS.map(function (key) {
+            return '<button type="button" class="about-tab' + (key === active ? ' is-active' : '') +
+              '" data-about-tab="' + key + '"><span class="' + (key === active ? 'text-gradient' : '') +
+              '" data-i18n="about.tabs.' + key + '">' + W.t('about.tabs.' + key) + '</span></button>';
+          }).join('');
+          W.qsa('[data-about-tab]', tabsEl).forEach(function (btn) {
+            W.on(btn, 'click', function () {
+              active = btn.getAttribute('data-about-tab');
+              renderTabs();
+              renderContent();
+            });
+          });
+        }
+
+        function renderContent() {
+          var data = (D.ABOUT_CONTENT && D.ABOUT_CONTENT[W.currentLocale()]) || {};
+          if (active === 'faq') {
+            var categories = (data.faq && data.faq.categories) || [];
+            contentEl.innerHTML = categories.map(function (cat, ci) {
+              var items = (cat.items || []).map(function (item, ii) {
+                var key = ci + '-' + ii;
+                return (
+                  '<div class="about-faq-item" data-faq-item="' + key + '">' +
+                  '<div class="about-faq-question" data-faq-toggle="' + key + '"><p>' + item.title + '</p>' +
+                  '<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.117l3.71-2.886a.75.75 0 1 1 .92 1.19l-4.2 3.27a.75.75 0 0 1-.92 0l-4.2-3.27a.75.75 0 0 1-.09-1.11Z"></path></svg>' +
+                  '</div>' +
+                  '<div class="about-faq-answer">' + (item.detail || '') + '</div>' +
+                  '</div>'
+                );
+              }).join('');
+              return '<p class="about-faq-category-title text-gradient">' + cat.title + '</p>' + items;
+            }).join('');
+            W.qsa('[data-faq-toggle]', contentEl).forEach(function (el) {
+              W.on(el, 'click', function () {
+                var item = W.qs('[data-faq-item="' + el.getAttribute('data-faq-toggle') + '"]', contentEl);
+                item.classList.toggle('is-open');
+              });
+            });
+          } else {
+            var items = (data[active] && data[active].items) || [];
+            contentEl.innerHTML = items.map(function (item) {
+              return (
+                '<div class="about-card">' +
+                '<div class="about-card-title' + (item.detail ? ' has-detail' : '') + '"><span class="text-gradient">' + item.title + '</span></div>' +
+                (item.detail ? '<div class="about-card-detail">' + item.detail + '</div>' : '') +
+                '</div>'
+              );
+            }).join('');
+          }
+        }
+
+        renderTabs();
+        renderContent();
+      };
+    </script>
+  </body>
+</html>

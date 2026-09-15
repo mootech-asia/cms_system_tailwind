@@ -1,0 +1,105 @@
+/* ── Root Layout ─────────────────────────────────────────────── */
+/* 所有 layout 相關的 CSS：shell、sidebar 尺寸、header、container */
+
+/* Shared layout dimensions live in assets/design-system/tokens.css. */
+
+/* ── Shell（最外層彈性盒）────────────────────────────────────── */
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar 佔位（固定寬） ──────────────────────────────────── */
+.shell-sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  transition: width var(--layout-transition);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 200;
+}
+
+/* ── 主內容區 ────────────────────────────────────────────────── */
+.shell-main {
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--sidebar-w);
+  transition: margin-left var(--layout-transition);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Sidebar 折疊 ────────────────────────────────────────────── */
+.shell.collapsed .shell-sidebar { width: var(--sidebar-w-collapsed); }
+.shell.collapsed .shell-main    { margin-left: var(--sidebar-w-collapsed); }
+
+/* ── Header（黏性頂部列）────────────────────────────────────── */
+.shell-header {
+  position: sticky;
+  top: 0;
+  height: var(--header-h);
+  z-index: 100;
+  width: 100%;
+}
+
+/* ── 主要內容容器 ────────────────────────────────────────────── */
+.shell-content {
+  flex: 1;
+  width: 100%;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+/* ── Mobile 遮罩 ─────────────────────────────────────────────── */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 190;
+}
+
+/* ── Mobile Nav（底部導覽列）────────────────────────────────── */
+.shell-mobile-nav {
+  display: none;
+}
+
+/* ── RWD：手機版 ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .shell-sidebar {
+    transform: translateX(-100%);
+    transition: transform var(--layout-transition),
+                width var(--layout-transition);
+    width: var(--sidebar-w);     /* 手機展開時永遠用完整寬 */
+  }
+
+  .shell.mobile-open .shell-sidebar {
+    transform: translateX(0);
+  }
+
+  .shell.mobile-open .sidebar-backdrop {
+    display: block;
+  }
+
+  .shell-main {
+    margin-left: 0 !important;   /* 手機版不用 margin */
+    padding-bottom: var(--mobile-nav-h);
+  }
+
+  .shell-mobile-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--mobile-nav-h);
+    z-index: 200;
+  }
+}

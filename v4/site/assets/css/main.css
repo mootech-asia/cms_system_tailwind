@@ -1,0 +1,1090 @@
+/* CMS v4 — 紅金喜慶風格 token 與元件樣式。
+   免建置純 HTML+CSS+JS，token 皆為手寫 CSS variable，無框架殘留。
+   此區塊為預設 skin（festive-red-gold），其餘 skin 覆寫於 assets/css/skins/*.css，
+   以 :root[data-skin="xxx"] 疊加，屬性選擇器 specificity 高於此處純 :root。
+   金／紅兩色為品牌識別色，所有 skin 皆保持不變，只有背景/面板/文字/標頭漸層等
+   介面色調隨 skin 改變。 */
+:root {
+  --bg: #f3efe7;
+  --bg-panel: #ffffff;
+  --header-grad: linear-gradient(180deg, #d21f3c 0%, #ad1130 100%);
+  --header-grad-hi: #e63552;
+  --notice-bg: #fbeceb;
+  --notice-text: #8a2432;
+  --line: #ece3d4;
+  --line-hi: #e2c98a;
+  --text: #2b2420;
+  --text-mid: #6b5f54;
+  --text-dim: #a49a8c;
+  --text-on-header: #fff6ea;
+  --panel-tint: #fff9ec;
+  --panel-glass: rgba(255, 255, 255, 0.85);
+  --logo-filter: brightness(0) invert(1);
+  --footer-logo-filter: brightness(0);
+  --gold: #f2a924;
+  --gold-hi: #ffd452;
+  --gold-deep: #b87a0a;
+  --gold-grad: linear-gradient(180deg, #ffe58f 0%, #ffc23c 45%, #f0a020 100%);
+  --red: #c8102e;
+  --red-deep: #9c0f28;
+  --shadow-card: 0 2px 0 rgba(43, 36, 32, 0.03), 0 10px 24px rgba(43, 36, 32, 0.08);
+  --shadow-gold: 0 6px 16px rgba(207, 154, 62, 0.35);
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* footer 貼底：body 撐滿視窗高度,<main>（見下方 main { flex: 1 0 auto }）
+     在內容不夠長時把剩餘空間吃掉,把 footer 推到視窗最下方;內容夠長時
+     <main> 維持自然高度,footer 照常接在內容後面,不影響原有間距。 */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main { flex: 1 0 auto; }
+a { color: inherit; text-decoration: none; }
+/* border/background 清零：瀏覽器原生 button 邊框在淺色背景（如下拉選單）
+   上很明顯是灰色立體邊框，很醜；個別元件想要邊框/底色都已各自宣告一次，
+   class 的 specificity 比這裡的 element selector 高，不會被蓋掉。 */
+button { font-family: inherit; cursor: pointer; border: 0; background: none; }
+img { max-width: 100%; display: block; }
+
+.container { max-width: 1360px; margin: 0 auto; padding: 0 20px; }
+
+/* ── HEADER ─────────────────────────────── */
+.site-header { background: var(--header-grad); }
+/* justify-content 交給 .header-lang 的 margin-left:auto 處理（見下方語系
+   切換樣式）,logo 之後的項目（語系／漢堡／header-auth）整群被推到最右。 */
+/* padding 用 longhand（同下方 .member-shell 註解的理由）：3-value/2-value
+   shorthand 會把 .container 的左右 padding 一起蓋成 0。 */
+.header-top {
+  display: flex; align-items: center; gap: 12px;
+  padding-top: 14px; padding-bottom: 14px;
+}
+.brand-link { display: flex; align-items: center; flex-shrink: 0; }
+.brand-logo { height: 40px; width: auto; filter: brightness(0) invert(1); }
+.header-nav {
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+  padding-top: 10px; padding-bottom: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.header-nav-link {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: var(--text-on-header);
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.header-nav-link:hover, .header-nav-link.active { background: rgba(255, 255, 255, 0.16); }
+.header-nav-icon { width: 16px; height: 16px; flex-shrink: 0; }
+.header-auth { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.header-input {
+  width: 128px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.12);
+  color: var(--text-on-header);
+  font-size: 12.5px;
+}
+.header-input::placeholder { color: rgba(255, 246, 234, 0.6); }
+.header-forgot { font-size: 11.5px; color: rgba(255, 246, 234, 0.75); white-space: nowrap; }
+.header-forgot[data-auth-open] { cursor: pointer; }
+.header-forgot[data-auth-open]:hover { color: var(--gold-hi); }
+.btn-gold {
+  padding: 9px 20px;
+  border: 1px solid var(--gold-hi);
+  border-radius: 999px;
+  background: var(--gold-grad);
+  color: #3a2604;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-gold);
+  transition: filter 0.15s, transform 0.15s;
+}
+.btn-gold:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.btn-gold[disabled] { opacity: 0.5; cursor: default; pointer-events: none; box-shadow: none; }
+.btn-gold.quiet { background: rgba(255, 255, 255, 0.12); color: var(--text-on-header); box-shadow: none; border-color: rgba(255, 255, 255, 0.3); }
+
+/* ── NOTICE BAR ─────────────────────────── */
+.notice-bar {
+  background: var(--notice-bg);
+  border-bottom: 1px solid var(--line-hi);
+}
+.notice-bar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
+  padding-top: 9px; padding-bottom: 9px;
+  font-size: 12.5px;
+  color: var(--notice-text);
+}
+.notice-msg { display: flex; align-items: center; gap: 8px; flex: 1 1 auto; min-width: 0; overflow: hidden; }
+/* 跑馬燈文字掃過整個 notice-msg 寬度時會經過 icon 所在位置；icon 疊在
+   跑馬燈之上（z-index）並補上底色，避免文字劃過時穿插在 icon 圖形裡。 */
+.notice-msg svg { flex-shrink: 0; position: relative; z-index: 1; background: var(--notice-bg); }
+/* 跑馬燈：padding-left:100% 讓文字從容器右側外開始,animation 把它推移
+   自身寬度（含 padding，等於「容器寬 + 文字寬」）,結束時剛好完全移出
+   容器左側,無縫接回起點,不需要複製文字節點。 */
+.notice-msg span {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: notice-marquee 16s linear infinite;
+}
+@keyframes notice-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notice-msg span { animation: none; padding-left: 0; }
+}
+.notice-links { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+.notice-links a { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.notice-links a:hover { color: var(--red); }
+
+/* ── HERO ───────────────────────────────── */
+.hero-wrap { padding-top: 18px; }
+.hero {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 320px;
+  isolation: isolate;
+}
+.hero-slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.hero-slide.active { opacity: 1; pointer-events: auto; }
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(100deg, color-mix(in oklch, var(--red-deep) 94%, transparent) 0%, color-mix(in oklch, var(--red) 55%, transparent) 42%, color-mix(in oklch, var(--red) 6%, transparent) 78%), var(--hero-image);
+  background-size: cover;
+  background-position: var(--hero-position, center);
+  z-index: -1;
+}
+.hero-content { position: relative; padding: 0 56px; max-width: 620px; color: var(--text-on-header); }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--gold-hi);
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--gold-hi);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 14px;
+}
+.hero-title { font-size: 40px; font-weight: 800; line-height: 1.15; margin: 0 0 10px; text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35); }
+.hero-title em { font-style: normal; color: var(--gold-hi); }
+.hero-sub { font-size: 14.5px; color: rgba(255, 246, 234, 0.85); margin: 0 0 20px; }
+.hero-dots { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); display: flex; gap: 6px; z-index: 4; }
+.hero-dot { width: 8px; height: 8px; border-radius: 50%; border: 0; padding: 0; background: rgba(255, 255, 255, 0.4); transition: background 0.15s, width 0.15s; }
+.hero-dot.active { background: var(--gold-hi); width: 22px; border-radius: 4px; }
+.hero-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  z-index: 4;
+}
+.hero-arrow.prev { left: 16px; }
+.hero-arrow.next { right: 16px; }
+
+/* ── SECTION GRID：12 欄可編輯版位 ─────────── */
+/* 首頁遊戲分類區塊改成 12 欄 grid,每個模組用 data-span="3"~"12" 決定要
+   跨幾欄,不寫死 grid-column/grid-row——照 HTML 順序用 grid 內建的
+   auto-flow 自動接排,調 data-span 或搬動 HTML 順序就能重新編排版位,
+   不需要另外改 nth-child 規則。目前 5/4/3、9/3、12 的組合是還原改版前
+   「大欄(熱門+迷你/電子遊戲) + 固定小欄(真人娛樂/捕魚達人) + 體育滿版
+   跨欄」的版面比例。 */
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+  padding-top: 20px; padding-bottom: 40px;
+  align-items: stretch;
+}
+.grid12 > [data-span="3"] { grid-column: span 3; }
+.grid12 > [data-span="4"] { grid-column: span 4; }
+.grid12 > [data-span="5"] { grid-column: span 5; }
+.grid12 > [data-span="6"] { grid-column: span 6; }
+.grid12 > [data-span="7"] { grid-column: span 7; }
+.grid12 > [data-span="8"] { grid-column: span 8; }
+.grid12 > [data-span="9"] { grid-column: span 9; }
+.grid12 > [data-span="10"] { grid-column: span 10; }
+.grid12 > [data-span="11"] { grid-column: span 11; }
+.grid12 > [data-span="12"] { grid-column: span 12; }
+/* 版位拖曳編輯模式:只有 studio 呼叫 __cmsV4StudioSetEditMode(true) 後
+   <html> 才會帶 .cms-v4-grid-edit,一般訪客瀏覽不會看到這顆把手。 */
+.grid12-drag-handle { display: none; position: absolute; top: 8px; left: 8px; z-index: 5; width: 26px; height: 26px; border-radius: 50%; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.55); color: #fff; cursor: grab; }
+.cms-v4-grid-edit .grid12-drag-handle { display: flex; }
+.grid12-dragging { opacity: 0.4; }
+.grid12-drop-target { outline: 2px dashed var(--gold-hi); outline-offset: 4px; }
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+}
+.panel-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.panel-head-icon {
+  width: 26px; height: 26px; flex-shrink: 0;
+  display: grid; place-items: center;
+  color: var(--gold-deep);
+}
+.panel-title { font-size: 15.5px; font-weight: 800; color: var(--text); margin: 0; flex: 1; }
+.panel-more { font-size: 12px; color: var(--gold-deep); font-weight: 600; }
+.panel-more:hover { color: var(--red); }
+.panel-head-actions { display: flex; align-items: center; gap: 10px; }
+.rail-arrow {
+  width: 26px; height: 26px; flex-shrink: 0;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.rail-arrow:hover { background: var(--gold-grad); color: #3a2604; border-color: var(--gold-hi); }
+.rail-arrow[disabled] { opacity: 0.35; cursor: default; pointer-events: none; }
+
+.tile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.rail-wrap { position: relative; }
+.tile-grid.rail {
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: 160px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  /* padding-top 只給 2px,小於卡片 hover 的 translateY(-3px) 位移量,
+     設定 overflow-x 會連帶讓 overflow-y 變成 auto(非 visible),於是
+     hover 時卡片被容器硬生生裁掉一小塊,邊框/陰影缺角。加大到 6px 讓
+     位移＋陰影暈開都留在容器內,margin-top 對應改回 -6px 抵消,不影響
+     外部排版。 */
+  padding: 6px 2px 6px;
+  margin: -6px -2px -6px;
+  cursor: grab;
+  user-select: none;
+}
+.tile-grid.rail::-webkit-scrollbar { display: none; }
+.tile-grid.rail.compact { grid-template-columns: none; grid-auto-columns: 130px; }
+.tile-grid.rail .game-tile { scroll-snap-align: start; min-width: 0; }
+.tile-grid.rail.dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+.tile-grid.compact { grid-template-columns: repeat(auto-fill, minmax(110px, 130px)); justify-content: start; gap: 10px; }
+.tile-grid.compact .game-tile-name { font-size: 11px; padding: 6px 6px 0; }
+.tile-grid.compact .game-tile-cta { margin: 6px; padding: 5px 0; font-size: 10.5px; }
+.game-tile { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--line); background: var(--bg-panel); transition: transform 0.15s, box-shadow 0.15s; }
+.game-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--line-hi); }
+.game-tile-art { position: relative; aspect-ratio: 1; background: var(--line); overflow: hidden; }
+.game-tile-art img { width: 100%; height: 100%; object-fit: cover; }
+/* 圖片載入失敗時 site.js 會設 hidden 並補上 .game-tile-art-fallback；
+   上面 `img { display:block }` reset 較低 specificity 蓋不過它，要靠
+   這條才擋得住，讓墊底圖示能顯示出來。 */
+.game-tile-art img[hidden] { display: none; }
+.game-tile-art-fallback {
+  position: absolute; inset: 0;
+  z-index: 1;
+  display: grid; place-items: center;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+.game-tile-tag {
+  position: absolute; top: 6px; left: 6px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--red);
+  color: var(--text-on-header);
+  font-size: 10px;
+  font-weight: 700;
+}
+.game-tile-name { padding: 8px 8px 0; font-size: 12px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.game-tile-cta {
+  display: block;
+  margin: 8px;
+  padding: 6px 0;
+  text-align: center;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold-hi) 0%, var(--gold) 100%);
+  color: #3a2604;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+/* ── 體育賽事卡（首頁體育專區 + sport.html） ── */
+.tile-grid.rail.match-rail { grid-auto-columns: 260px; }
+.listing-wrap .tile-grid.compact.match-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.match-card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  padding: 12px;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.match-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--line-hi); }
+.match-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.match-league { font-size: 11px; font-weight: 700; color: var(--gold-deep); background: rgba(207, 154, 62, 0.12); padding: 3px 9px; border-radius: 999px; }
+.match-time { font-size: 11px; font-weight: 700; color: var(--text-dim); }
+.match-time.is-live { color: var(--red); display: flex; align-items: center; gap: 4px; }
+.match-time.is-live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: match-live-pulse 1.4s ease-in-out infinite; }
+@keyframes match-live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.match-teams { margin-bottom: 12px; }
+.match-team { display: flex; align-items: center; justify-content: space-between; padding: 3px 0; font-size: 13.5px; font-weight: 700; color: var(--text); }
+.match-team-score { font-weight: 800; color: var(--gold-deep); min-width: 18px; text-align: right; }
+.match-odds { display: grid; gap: 6px; }
+.match-odds.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.match-odds.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.match-odds-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  padding: 6px 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  font-family: inherit;
+}
+.match-odds-btn:hover { border-color: var(--gold-hi); background: rgba(207, 154, 62, 0.1); }
+.match-odds-label { font-size: 10px; color: var(--text-dim); }
+.match-odds-value { font-size: 12.5px; font-weight: 800; color: var(--text); }
+
+/* ── 分類頁列表（熱門/老虎機/真人/捕魚/體育/迷你遊戲） ── */
+/* 右側留出浮動客服列的寬度,避免搜尋框/卡片被蓋住。 */
+.listing-wrap { padding-top: 20px; padding-bottom: 40px; padding-right: 92px; }
+@media (max-width: 720px) { .listing-wrap { padding-right: 20px; } }
+.listing-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.listing-title { font-size: 22px; font-weight: 800; margin: 0; flex: 1; }
+.listing-search {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 6px 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  color: var(--text-dim);
+}
+.listing-search input {
+  border: 0; outline: 0; background: none;
+  width: 180px;
+  font-family: inherit; font-size: 13px; color: var(--text);
+}
+.listing-search input::placeholder { color: var(--text-dim); }
+.listing-search button {
+  padding: 7px 18px;
+  border: 1px solid var(--gold-hi);
+  border-radius: 999px;
+  background: var(--gold-grad);
+  color: #3a2604;
+  font-size: 12.5px; font-weight: 700;
+  transition: filter 0.15s;
+}
+.listing-search button:hover { filter: brightness(1.06); }
+.listing-tabs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.listing-tab {
+  padding: 7px 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-panel);
+  color: var(--text-mid);
+  font-size: 13px; font-weight: 700;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.listing-tab:hover { border-color: var(--gold-hi); color: var(--gold-deep); }
+.listing-tab.active { background: var(--gold-grad); border-color: var(--gold-hi); color: #3a2604; }
+.listing-wrap .tile-grid.compact { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
+.listing-empty { padding: 48px 0; text-align: center; color: var(--text-dim); font-size: 14px; }
+.game-tile-fav {
+  position: absolute; top: 6px; right: 6px;
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(20, 6, 10, 0.4);
+  color: var(--text-on-header);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.game-tile-fav:hover { color: var(--gold-hi); border-color: var(--gold-hi); }
+.game-tile-fav.is-active { color: var(--gold-hi); border-color: var(--gold-hi); }
+.game-tile-fav.is-active svg { fill: currentColor; }
+
+/* ── 優惠活動卡 ── */
+.promo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.promo-card {
+  display: flex; flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s, border-color 0.15s;
+}
+.promo-card:hover { transform: translateY(-3px); border-color: var(--line-hi); }
+.promo-card-art { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--line); }
+.promo-card-art img { width: 100%; height: 100%; object-fit: cover; }
+.promo-card-tag {
+  position: absolute; top: 10px; left: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--red);
+  color: var(--text-on-header);
+  font-size: 11px; font-weight: 700;
+}
+.promo-card-body { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.promo-card-title { font-size: 15.5px; font-weight: 800; margin: 0; color: var(--text); }
+.promo-card-desc { font-size: 13px; line-height: 1.6; color: var(--text-mid); margin: 0; flex: 1; }
+.promo-card-actions { display: flex; align-items: center; gap: 14px; }
+.promo-card-more { font-size: 12.5px; font-weight: 700; color: var(--gold-deep); }
+.promo-card-more:hover { color: var(--red); }
+
+/* ── 會員中心（帳戶總覽/儲值/提款/各類紀錄/個人資料/安全中心） ── */
+/* padding-top/bottom 用 longhand,避免 3-value shorthand 把 .container
+   本身的左右 padding（0 20px）一起蓋成 0；padding-right 另外加大只是
+   為了替右側 quick-rail 浮動按鈕留空間,左側應維持 .container 的 20px。 */
+.member-shell { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; padding-top: 20px; padding-bottom: 48px; padding-right: 92px; align-items: start; }
+@media (max-width: 720px) { .member-shell { padding-right: 20px; grid-template-columns: 1fr; } }
+/* 手機版底部已有 .mobile-tabbar「會員」與「選單」（我的帳戶清單）涵蓋
+   同一組會員頁連結,這裡的側邊選單重複、多餘,窄屏直接隱藏。 */
+@media (max-width: 720px) {
+  .member-sidebar { display: none; }
+}
+.member-sidebar { position: sticky; top: 20px; padding: 10px; }
+.member-sidebar-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px; font-weight: 700;
+  color: var(--text-mid);
+  transition: background 0.15s, color 0.15s;
+}
+.member-sidebar-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+.member-sidebar-link:hover { background: var(--bg); color: var(--text); }
+.member-sidebar-link.active { background: var(--gold-grad); color: #3a2604; }
+.member-sidebar-divider { height: 1px; background: var(--line); margin: 8px 4px; }
+.member-main { min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+.member-page-title { font-size: 20px; font-weight: 800; margin: 0; }
+
+.acct-hero {
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  background: linear-gradient(135deg, var(--panel-tint) 0%, var(--bg-panel) 60%);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.acct-avatar {
+  width: 64px; height: 64px; flex-shrink: 0;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--gold-grad);
+  color: #3a2604;
+}
+.acct-avatar svg { width: 30px; height: 30px; }
+.acct-info { flex: 1; min-width: 200px; }
+.acct-name-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.acct-name { font-size: 19px; font-weight: 800; margin: 0; color: var(--text); }
+.acct-vip-badge { padding: 3px 10px; border-radius: 999px; background: var(--gold-grad); color: #3a2604; font-size: 11.5px; font-weight: 800; }
+.acct-stats-grid { display: flex; gap: 32px; flex-wrap: wrap; }
+.acct-stat-label { font-size: 12px; color: var(--text-dim); margin: 0 0 2px; }
+.acct-stat-value { font-size: 17px; font-weight: 800; color: var(--gold-deep); margin: 0; }
+.acct-actions { display: flex; gap: 10px; flex-shrink: 0; }
+/* 會員等級/獎勵進度條:金色漸層沿用 --gold-grad,跟站內其他 CTA 一致;
+   「下一級」用 --gold-deep 標示,不是任意色碼——銅色調本身就接近既有
+   金色系,不需要另外新增 token。 */
+.acct-level { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+.acct-level-label { margin: 0; color: var(--text-mid); font-size: 12px; font-weight: 700; }
+.acct-level-track { height: 8px; overflow: hidden; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+.acct-level-fill { height: 100%; border-radius: inherit; background: var(--gold-grad); transition: width 0.3s ease; }
+.acct-level-meta { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; color: var(--text-mid); font-size: 12px; }
+.acct-level-meta strong { color: var(--text); font-weight: 800; }
+.acct-level-value { color: var(--text-dim); text-align: center; }
+.acct-level-next { text-align: right; }
+.acct-level-next strong { color: var(--gold-deep); }
+.acct-level-dot { display: inline-block; width: 8px; height: 8px; margin-left: 4px; border-radius: 50%; vertical-align: 1px; }
+.acct-level-dot.current { background: var(--text-dim); }
+.acct-level-dot.next { background: var(--gold-deep); }
+@media (max-width: 400px) { .acct-level-meta { font-size: 11px; gap: 8px; } }
+
+/* 窄屏下 .acct-hero 原本的橫向 flex-wrap 排列（頭像/資訊/按鈕三塊自由
+   換行）會讓頭像因 align-items:center 飄在很高的多行內容正中間,跟旁邊
+   文字對不齊;統計數據 32px 固定 gap 換行後也長短不一、間距失控。改成
+   直向堆疊 + 統計數據用三欄等寬 grid,對齊更清楚。 */
+@media (max-width: 720px) {
+  .acct-hero { flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+  .acct-info { width: 100%; }
+  .acct-name-row { justify-content: center; }
+  /* 三欄等寬會讓「目前餘額」這種長數字擠到換行,改成餘額獨占一整行、
+     其餘兩項平分,較長的金額才有足夠寬度。 */
+  .acct-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 14px; text-align: center; }
+  .acct-stats-grid > div:first-child { grid-column: 1 / -1; }
+  .acct-stat-value { font-size: 16px; word-break: break-word; }
+  .acct-actions { width: 100%; }
+  .acct-actions .btn-gold { flex: 1; text-align: center; }
+}
+
+.member-panel { border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--bg-panel); box-shadow: var(--shadow-card); padding: 18px; }
+.member-panel-title { font-size: 15px; font-weight: 800; margin: 0 0 14px; color: var(--text); }
+.member-panels-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 900px) { .member-panels-grid { grid-template-columns: 1fr; } }
+/* 手機版側邊選單改為堆疊在內容上方（見 .member-shell 的 720px 斷點），
+   「快速捷徑」內容跟緊接在上面的完整側邊選單重複，直接隱藏避免同一批
+   連結在同一畫面出現兩次。 */
+@media (max-width: 720px) { .member-panels-grid .member-panel:nth-child(2) { display: none; } }
+
+.bank-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; font-weight: 600; color: var(--text); }
+.bank-row:last-child { border-bottom: 0; }
+.bank-row svg { width: 22px; height: 22px; color: var(--text-mid); flex-shrink: 0; }
+
+.bank-row-flex { display: flex; align-items: center; gap: 10px; }
+.bank-row-flex > [data-wd-current-account] { flex: 1; min-width: 0; }
+.bank-row-add { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; border: 0; flex-shrink: 0; background: var(--gold-grad); color: #3a2604; cursor: pointer; transition: filter 0.15s; }
+.bank-row-add:hover { filter: brightness(1.05); }
+
+/* 儲值 / 提款表單 */
+.pay-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.pay-tab { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg-panel); color: var(--text-mid); font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.pay-tab svg { width: 16px; height: 16px; }
+/* .pay-tab 自己有 display:flex,跟 [hidden] 屬性的預設 display:none 同
+   specificity、後者在 UA stylesheet 優先度更低會直接被蓋掉,要多這條
+   才能真的隱藏(帳戶管理依銀行/加密錢包分組動態收放新增表單的幣別頁籤) */
+.pay-tab[hidden] { display: none; }
+/* 選中的付款方式改用 --red/--red-deep(全站定義為「skin 識別色」),跟每個
+   skin 的金色 CTA 區分開,不會讓人以為這裡也是可送出的主按鈕 */
+.pay-tab.active { background: linear-gradient(180deg, var(--red) 0%, var(--red-deep) 100%); border-color: var(--red); color: #fff; }
+
+/* 底線頁籤(通道 A/B/C/D、提款/帳戶管理):跟 .about-tab 的膠囊頁籤是
+   不同視覺語言,獨立一組 class,不共用也不改動 .about-tab 本身,避免動到
+   about.html 既有頁面。 */
+.tabline { display: flex; gap: 28px; border-bottom: 1px solid var(--line); margin-bottom: 20px; flex-wrap: wrap; }
+.tabline-item { padding: 8px 2px 12px; background: none; border: 0; color: var(--text-mid); font-size: 14px; font-weight: 600; position: relative; cursor: pointer; }
+.tabline-item.active { color: var(--red); font-weight: 700; }
+.tabline-item.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--red); border-radius: 2px; }
+
+/* 提款帳戶卡片(帳戶管理頁籤) */
+.wd-account-count { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); font-size: 15px; margin-bottom: 16px; }
+.wd-account-count::before { content: ''; width: 4px; height: 18px; background: var(--red); border-radius: 2px; display: inline-block; }
+.wd-account-count b { color: var(--red); }
+.wd-account-card { display: flex; align-items: center; gap: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 14px; background: var(--bg-panel); }
+.wd-account-badge { width: 80px; height: 52px; border-radius: 10px; background: #eef1fb; color: #1c2333; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: 800; padding: 4px; flex-shrink: 0; line-height: 1.15; }
+.wd-account-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.wd-account-name { font-weight: 800; color: var(--text); font-size: 15px; }
+.wd-account-number { font-family: 'Courier New', monospace; color: var(--text-dim); font-size: 13px; letter-spacing: 0.5px; word-break: break-all; }
+.wd-account-date { color: var(--text-dim); font-size: 12.5px; }
+.wd-account-remove { margin-left: auto; flex-shrink: 0; }
+.wd-account-add-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 10px; border: 1px solid var(--red); color: var(--red); background: transparent; font-weight: 700; font-size: 13.5px; margin-top: 8px; cursor: pointer; }
+.wd-account-add-btn:hover { opacity: 0.85; }
+.wd-account-add-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+/* 提款頁籤上顯示目前提領帳戶的單卡輪播(有多筆同類型帳戶時可翻頁) */
+.wd-carousel-box { border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px; background: var(--bg-panel); }
+.wd-carousel-box .bank-row { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.wd-carousel { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.wd-carousel-arrow { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: var(--bg-panel); color: var(--text-mid); cursor: pointer; flex-shrink: 0; }
+.wd-carousel-arrow[disabled] { opacity: 0.3; cursor: not-allowed; }
+.wd-carousel-label { font-size: 13.5px; font-weight: 700; color: var(--text-mid); white-space: nowrap; }
+.wd-carousel-label b { color: var(--text); }
+.pay-amount-grid { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+.pay-amount-grid[hidden] { display: none; }
+.pay-amount-btn { padding: 10px 20px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg); font-size: 13.5px; font-weight: 700; color: var(--text); }
+.pay-amount-btn.selected { background: var(--gold-grad); border-color: var(--gold-hi); color: #3a2604; }
+.pay-field { width: 100%; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.pay-note { font-size: 12px; color: var(--text-dim); margin: 0 0 16px; }
+.pay-submit { display: block; width: 100%; margin-top: 8px; }
+/* 提款頁主錢包餘額／流水進度,無對應真實原始碼(v4 沒有這個資料模型),
+   純前端展示用固定值 */
+.wd-refresh-row { display: flex; align-items: center; gap: 6px; color: var(--text-dim); font-size: 13px; margin-top: 10px; cursor: pointer; width: fit-content; }
+.wd-refresh-row svg { width: 15px; height: 15px; }
+.wd-wallet-row { text-align: center; margin: 20px 0 6px; }
+.wd-wallet-row .wallet-label { color: var(--text-dim); font-size: 13px; }
+.wd-wallet-row .wallet-amount { color: var(--text); font-size: 22px; font-weight: 800; margin-top: 4px; }
+.wd-turnover-note { text-align: center; color: var(--red); display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.wd-turnover-note .detail-btn { color: #fff; background: var(--red); border-radius: 999px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
+.wd-turnover-note .wd-target-amount { color: var(--text-dim); }
+.pw-input-wrap { position: relative; margin-bottom: 8px; }
+.pw-input-wrap .pay-field { padding-right: 44px; margin-bottom: 0; }
+.pw-toggle { position: absolute; right: 8px; top: 0; bottom: 0; display: flex; align-items: center; background: none; border: 0; color: var(--text-dim); cursor: pointer; padding: 0 4px; }
+
+/* 交易/投注紀錄表格 */
+.record-filters { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.record-filters select, .record-filters input { padding: 8px 12px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg-panel); font-size: 13px; color: var(--text); font-family: inherit; }
+.record-table-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--line); }
+.record-table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
+.record-table th { text-align: left; padding: 10px 14px; background: var(--bg); color: var(--text-mid); font-weight: 700; font-size: 12px; border-bottom: 1px solid var(--line); }
+.record-table td { padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--text); }
+.record-table tr:last-child td { border-bottom: 0; }
+.record-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.record-table .mono { font-family: ui-monospace, monospace; color: var(--text-mid); }
+.record-table .positive { color: #1a7f4c; font-weight: 700; }
+.record-table .negative { color: var(--red); font-weight: 700; }
+.record-empty-note { padding: 32px; text-align: center; color: var(--text-dim); font-size: 13px; }
+.record-total { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 14px 18px; border-radius: var(--radius-md); background: var(--header-grad); color: var(--text-on-header); }
+.record-total-label { font-weight: 700; font-size: 13px; }
+.record-total-val { font-weight: 800; font-size: 15px; color: var(--gold-hi); font-variant-numeric: tabular-nums; }
+
+/* 體育串關展開列：比照 .faq-card 手風琴的 open class 寫法，用相鄰兄弟
+   選擇器切換下一列子表的顯示，JS 只需 toggle class。.rt-parlay-panel
+   多包一層拉高子表選擇器優先權，避免被 .record-table td 的留白/文字色
+   蓋過（.record-table td 是 descendant selector，天生會吃到巢狀子表）。 */
+.rt-parlay-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; margin-left: 8px;
+  border: 0; border-radius: 5px; background: transparent; color: var(--text-mid);
+  vertical-align: middle; cursor: pointer;
+}
+.rt-parlay-toggle:hover { color: var(--text); background: var(--bg); }
+.rt-parlay-caret { display: block; transition: transform 0.15s; }
+.rt-parlay-row.open .rt-parlay-caret { transform: rotate(180deg); }
+.rt-parlay-detail { display: none; }
+.rt-parlay-row.open + .rt-parlay-detail { display: table-row; }
+.rt-parlay-detail > td { padding: 0; border-bottom: 1px solid var(--line); }
+.rt-parlay-panel { padding: 14px 16px 18px; background: var(--bg); white-space: normal; }
+.rt-parlay-summary { margin-bottom: 10px; font-size: 12.5px; color: var(--text-mid); white-space: nowrap; }
+.rt-parlay-sep { margin: 0 8px; }
+.rt-parlay-summary strong { color: var(--gold); font-weight: 700; }
+.rt-parlay-panel .rt-parlay-table { width: 100%; border-collapse: collapse; font-size: 12.5px; white-space: nowrap; }
+.rt-parlay-panel .rt-parlay-table th {
+  text-align: left; padding: 6px 10px; background: transparent; color: var(--text-dim);
+  font-weight: 700; font-size: 11px; border-bottom: 1px solid var(--line);
+}
+.rt-parlay-panel .rt-parlay-table td { padding: 8px 10px; background: transparent; color: var(--text-mid); border-bottom: 1px solid var(--line); }
+.rt-parlay-panel .rt-parlay-table tr:last-child td { border-bottom: 0; }
+.rt-parlay-panel .rt-parlay-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.rt-parlay-panel .rt-parlay-table .positive { color: #1a7f4c; font-weight: 700; }
+
+/* 個人資料 */
+.pi-field-list { display: flex; flex-direction: column; }
+.pi-field { display: flex; align-items: center; gap: 14px; padding: 14px 4px; border-bottom: 1px solid var(--line); }
+.pi-field:last-child { border-bottom: 0; }
+.pi-field svg { width: 20px; height: 20px; color: var(--text-mid); flex-shrink: 0; }
+.pi-field-label { font-size: 12.5px; color: var(--text-dim); width: 110px; flex-shrink: 0; }
+.pi-field-value { flex: 1; font-size: 14px; font-weight: 700; color: var(--text); }
+.pi-field-edit { font-size: 12.5px; font-weight: 700; color: var(--gold-deep); }
+.pi-field-edit:hover { color: var(--red); }
+
+/* 安全中心 */
+.sec-list { display: flex; flex-direction: column; }
+.sec-item { display: flex; align-items: center; gap: 14px; padding: 16px 4px; border-bottom: 1px solid var(--line); cursor: pointer; }
+.sec-item:last-child { border-bottom: 0; }
+.sec-item-icon { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); color: var(--gold-deep); flex-shrink: 0; }
+.sec-item-icon svg { width: 18px; height: 18px; }
+.sec-item-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.sec-item-desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.sec-item-value { margin-left: auto; font-size: 12.5px; color: var(--text-dim); }
+.sec-item:hover { background: var(--bg); }
+
+.form-field { margin-bottom: 16px; }
+.form-label { display: block; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.form-input { width: 100%; padding: 11px 14px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg); font-size: 14px; color: var(--text); font-family: inherit; }
+.form-hint { font-size: 12px; color: var(--text-dim); margin-top: 14px; }
+
+/* Featured live-casino carousel (tall, spans the narrow column) */
+.feature-carousel { position: relative; min-height: 300px; }
+.feature-card {
+  position: absolute; inset: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.feature-card.active { opacity: 1; pointer-events: auto; }
+.feature-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: -2; }
+.feature-card-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(20, 6, 10, 0.9) 0%, rgba(20, 6, 10, 0.35) 55%, rgba(20, 6, 10, 0.05) 100%); z-index: -1; }
+.feature-card-body { padding: 20px; color: var(--text-on-header); width: 100%; }
+.feature-card-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--gold-hi); margin-bottom: 6px; }
+.feature-card-title { font-size: 20px; font-weight: 800; margin: 0 0 10px; }
+.tile-grid.rail.vendor-rail { grid-auto-columns: max-content; gap: 8px; }
+.feature-vendor-chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font: inherit;
+  font-size: 11px; font-weight: 700;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.feature-vendor-chip.active { background: var(--gold-grad); border-color: var(--gold-hi); color: #3a2604; }
+
+/* ── FLOATING QUICK RAIL ────────────────── */
+.quick-rail {
+  position: fixed; right: 18px; top: 50%; transform: translateY(-50%);
+  z-index: 900;
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 10px 6px;
+  border-radius: 999px;
+  background: var(--panel-glass);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--line-hi);
+  box-shadow: var(--shadow-card);
+}
+.quick-rail-btn {
+  position: relative;
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  color: var(--red);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
+}
+.quick-rail-btn:hover { transform: scale(1.08); background: color-mix(in oklch, var(--red) 8%, transparent); border-color: var(--red); color: var(--red-deep); }
+/* logo.png 是寬版橫式 lockup、且為淺色字,在白底的 .quick-rail-btn 上幾乎
+   看不清楚(logo 本來就是設計給紅色 header 底色配的)。這顆按鈕改用跟
+   header 一樣的紅色底色,圖片維持完整比例縮小顯示(object-fit:contain,
+   對齊 v2 .qr-btn img 既有做法),不裁切、不拉伸。 */
+.quick-rail-btn[data-chat-open] { background: var(--header-grad); border-color: var(--gold-hi); }
+.quick-rail-btn img { width: 34px; height: 34px; object-fit: contain; }
+.quick-rail-label {
+  position: absolute; right: calc(100% + 12px); top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  padding: 7px 14px;
+  border-radius: 999px;
+  /* 固定黑底白字,不隨 skin 的 --text/--bg 換色（部分 skin 為淺底,套用 token
+     會變成淺色標籤,對齊參考站無論底色深淺、標籤都維持黑底的設計）。 */
+  background: rgba(15, 15, 15, 0.94);
+  color: #fff;
+  font-size: 12.5px; font-weight: 700; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  box-shadow: var(--shadow-card);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.quick-rail-btn:hover .quick-rail-label,
+.quick-rail-btn:focus-visible .quick-rail-label { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+/* ── 手機底部快捷列（僅窄螢幕顯示，見 @media (max-width: 720px)；
+   桌機用 .header-nav 已足夠導覽，不重複顯示） ── */
+.mobile-tabbar { display: none; }
+.mobile-tabbar-btn {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px 2px;
+  font-size: 11px; font-weight: 600;
+  color: var(--text-mid);
+}
+.mobile-tabbar-btn svg { width: 20px; height: 20px; }
+.mobile-tabbar-btn.active { color: var(--red); }
+
+/* ── 合作廠商跑馬燈 ─────────────────────── */
+/* .vendor-marquee-track 裡放兩份完全相同的 .vendor-marquee-row（第二份
+   aria-hidden，僅供視覺無縫循環用）,寬度合計為單份的兩倍,animation 移動
+   自身寬度的 50%（＝單份寬度）即可無縫接回起點,不需要 JS 量測寬度。 */
+/* 跟 .tile-grid／.member-panel 等內容卡片一樣的做法：套用跟 .container
+   相同的 max-width:1360px + margin:auto，讓整個卡片（含背景/邊框）本身
+   跟其他內容同寬，不是滿版背景橫跨到瀏覽器邊緣。 */
+.vendor-marquee {
+  /* width:100% 是關鍵：body 是 flex column,.vendor-marquee 用
+     margin:auto 置中會關掉 align-items:stretch,若不給明確 width,
+     瀏覽器會用內容（未裁切前的整排徽章,超寬）去算 shrink-to-fit 寬度,
+     手機版反而撐成 max-width 那麼寬,不會縮到視窗寬度。 */
+  width: 100%;
+  max-width: 1360px;
+  margin: 20px auto 0;
+  padding: 22px 20px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+.vendor-marquee .container { padding: 0; }
+.vendor-marquee-title { margin: 0 0 12px; font-size: 12px; font-weight: 700; color: var(--text-dim); text-align: center; letter-spacing: 0.06em; }
+/* 裁切邊界放在 .container 寬度（跟其他區塊同寬對齊），而不是整個
+   .vendor-marquee（滿版背景）,跑馬燈才會在跟其餘內容一樣的寬度內捲動。 */
+.vendor-marquee-viewport { overflow: hidden; }
+.vendor-marquee-track { display: flex; width: max-content; animation: vendor-marquee-scroll 48s linear infinite; }
+.vendor-marquee-track:hover { animation-play-state: paused; }
+.vendor-marquee-row { display: flex; align-items: center; gap: 12px; flex-shrink: 0; padding-right: 12px; }
+.vendor-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 34px; padding: 0 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text-mid);
+  font-size: 12px; font-weight: 800; letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+@keyframes vendor-marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vendor-marquee-track { animation: none; }
+}
+
+/* ── FOOTER ─────────────────────────────── */
+.site-footer { background: var(--bg-panel); border-top: 1px solid var(--line); padding: 40px 0 32px; margin-top: 20px; flex-shrink: 0; }
+.site-footer-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.site-footer-logo { height: 32px; width: auto; margin-bottom: 18px; filter: var(--footer-logo-filter); opacity: 0.82; }
+.site-footer-notice { max-width: 640px; }
+.site-footer-notice p { color: var(--text-mid); font-size: 12px; line-height: 1.7; margin: 0 0 8px; }
+.site-footer-notice p:last-child { margin-bottom: 0; }
+.site-footer-divider { width: 100%; max-width: 640px; height: 1px; background: var(--line); margin: 20px 0; }
+.site-footer-copyright { font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.site-footer-copyright a { color: var(--text-dim); }
+.site-footer-copyright a:hover { color: var(--gold-hi); }
+
+/* ── 語系切換 ───────────────────────────── */
+/* margin-left:auto 把「語言切換／漢堡／header-auth」這群右側項目推到最
+   右邊,logo 維持在最左,不需要另外包一層 wrapper div 或用 space-between。 */
+.header-lang { position: relative; margin-left: auto; }
+.header-lang-trigger {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--text-on-header);
+  font-size: 12.5px; font-weight: 700;
+}
+.header-lang-trigger:hover { background: rgba(255, 255, 255, 0.22); }
+.header-lang-trigger svg { flex-shrink: 0; }
+.header-lang-menu {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  min-width: 128px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 6px;
+  z-index: 90;
+}
+.header-lang-menu[hidden] { display: none; }
+.header-lang-option {
+  display: block; width: 100%; text-align: left;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 13px; font-weight: 600;
+  background: transparent;
+}
+.header-lang-option:hover { background: var(--bg); }
+.header-lang-option.active { color: var(--gold-deep); background: rgba(207, 154, 62, 0.12); font-weight: 800; }
+
+/* ── 手機版選單觸發按鈕 ─────────────────── */
+.header-menu-trigger {
+  display: none;
+  width: 38px; height: 38px;
+  align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--text-on-header);
+  flex-shrink: 0;
+}
+.header-menu-trigger:hover { background: rgba(255, 255, 255, 0.22); }
+
+/* ── 手機版全螢幕選單 ───────────────────── */
+.mobile-menu-overlay { position: fixed; inset: 0; z-index: 10001; background: rgba(20, 6, 10, 0.6); }
+.mobile-menu-panel {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  background: var(--bg);
+  overflow-y: auto;
+}
+.mobile-menu-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--header-grad);
+  flex-shrink: 0;
+}
+.mobile-menu-logo { height: 32px; width: auto; filter: brightness(0) invert(1); }
+.mobile-menu-close { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; color: var(--text-on-header); background: rgba(255, 255, 255, 0.14); }
+.mobile-menu-nav { display: flex; flex-direction: column; padding: 10px; flex: 1; }
+.mobile-menu-section { padding: 12px 12px 6px; font-size: 12px; font-weight: 700; color: var(--text-dim); }
+.mobile-menu-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 12px;
+  border-radius: var(--radius-md);
+  font-size: 14.5px; font-weight: 700;
+  color: var(--text);
+}
+.mobile-menu-link svg { width: 20px; height: 20px; color: var(--text-mid); flex-shrink: 0; }
+.mobile-menu-link:hover, .mobile-menu-link.active { background: var(--bg-panel); }
+.mobile-menu-link.active { color: var(--red); }
+.mobile-menu-link.active svg { color: var(--red); }
+.mobile-menu-foot { padding: 14px 20px 22px; border-top: 1px solid var(--line); flex-shrink: 0; }
+.mobile-menu-foot .btn-gold { display: block; text-align: center; text-decoration: none; margin-bottom: 8px; }
+/* .btn-gold.quiet 是為深色 header 背景設計的白字透明底,套在這裡的淺色
+   選單背景會看不清楚,改用深色文字 + 淡邊框。 */
+.mobile-menu-foot .btn-gold.quiet { background: var(--bg-panel); color: var(--gold-deep); border-color: var(--line-hi); box-shadow: none; }
+.mobile-menu-account { display: flex; align-items: center; gap: 10px; padding: 6px 0 14px; font-size: 13.5px; font-weight: 700; color: var(--text); }
+.mobile-menu-account svg { width: 22px; height: 22px; color: var(--gold-deep); }
+
+/* ── 登入／註冊彈窗 ─────────────────────── */
+.auth-modal-overlay { position: fixed; inset: 0; z-index: 10002; display: flex; align-items: center; justify-content: center; background: rgba(20, 6, 10, 0.6); padding: 20px; }
+.auth-modal-box { width: 100%; max-width: 380px; border-radius: var(--radius-lg); background: var(--bg-panel); box-shadow: var(--shadow-card); overflow: hidden; }
+.auth-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.auth-modal-title { margin: 0; font-size: 16px; font-weight: 800; color: var(--text); }
+.auth-modal-close { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: var(--text-mid); }
+.auth-modal-close:hover { background: var(--bg); }
+.auth-modal-body { padding: 20px; }
+.auth-modal-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.auth-modal-tab { flex: 1; padding: 9px 0; text-align: center; border-radius: 999px; border: 1px solid var(--line); font-size: 13px; font-weight: 700; color: var(--text-mid); }
+.auth-modal-tab.active { background: var(--gold-grad); border-color: var(--gold-hi); color: #3a2604; }
+.auth-modal-submit { display: block; width: 100%; text-align: center; text-decoration: none; margin-top: 6px; }
+
+/* ── 客服彈窗 ───────────────────────────── */
+.cs-modal-overlay { position: fixed; inset: 0; z-index: 10002; display: flex; align-items: center; justify-content: center; background: rgba(20, 6, 10, 0.6); padding: 20px; }
+.cs-modal-box { width: 100%; max-width: 340px; border-radius: var(--radius-lg); background: var(--bg-panel); box-shadow: var(--shadow-card); overflow: hidden; }
+.cs-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.cs-modal-title { margin: 0; font-size: 15.5px; font-weight: 800; color: var(--text); }
+.cs-modal-close { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: var(--text-mid); }
+.cs-modal-close:hover { background: var(--bg); }
+.cs-modal-body { padding: 10px; }
+.cs-opt { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-md); text-decoration: none; }
+.cs-opt:hover { background: var(--bg); }
+.cs-opt-icon { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--gold-grad); color: #3a2604; flex-shrink: 0; }
+.cs-opt-icon svg { width: 17px; height: 17px; }
+.cs-opt-text strong { display: block; font-size: 13.5px; color: var(--text); }
+.cs-opt-text small { font-size: 12px; color: var(--text-dim); }
+
+/* ── LIVE CHAT 對話視窗（點擊 quick-rail「線上客服」開啟,右下角展開,
+   純前端模擬對話,無真實客服後端） ────────── */
+.chat-widget {
+  position: fixed; right: 18px; bottom: 18px; z-index: 10003;
+  width: 320px; max-width: calc(100vw - 36px);
+  border-radius: var(--radius-lg);
+  background: var(--bg-panel);
+  color: var(--text);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.chat-widget-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 14px 14px 16px;
+  background: var(--gold-grad);
+  color: #3a2604;
+}
+.chat-widget-avatar { width: 32px; height: 32px; border-radius: 50%; background: #fff; object-fit: contain; padding: 3px; flex-shrink: 0; }
+.chat-widget-head-text { flex: 1 1 auto; min-width: 0; }
+.chat-widget-head-text strong { display: block; font-size: 14px; }
+.chat-widget-status { display: flex; align-items: center; gap: 5px; font-size: 11.5px; opacity: .85; }
+.chat-widget-status i { width: 6px; height: 6px; border-radius: 50%; background: #1f8a4c; display: inline-block; }
+.chat-widget-min, .chat-widget-close {
+  width: 26px; height: 26px; flex-shrink: 0; display: grid; place-items: center;
+  border-radius: 50%; color: inherit;
+}
+.chat-widget-min:hover, .chat-widget-close:hover { background: rgba(58, 38, 4, .12); }
+.chat-widget-body { padding: 14px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.chat-msg { display: flex; align-items: flex-end; gap: 8px; max-width: 88%; }
+.chat-msg-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--bg); object-fit: contain; padding: 2px; flex-shrink: 0; }
+.chat-bubble { padding: 9px 12px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+.chat-msg-bot .chat-bubble { background: var(--bg); color: var(--text); border-bottom-left-radius: 4px; }
+.chat-msg-user { align-self: flex-end; flex-direction: row-reverse; }
+.chat-msg-user .chat-bubble { background: var(--gold-grad); color: #3a2604; border-bottom-right-radius: 4px; }
+.chat-widget-form { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); }
+.chat-widget-form input {
+  flex: 1 1 auto; min-width: 0; border: 1px solid var(--line); border-radius: 999px;
+  padding: 8px 14px; font-size: 13px; background: var(--bg); color: var(--text);
+}
+.chat-widget-form button {
+  width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center;
+  background: var(--gold-grad); color: #3a2604;
+}
+.chat-widget.is-minimized .chat-widget-body,
+.chat-widget.is-minimized .chat-widget-form { display: none; }
+@media (max-width: 520px) {
+  .chat-widget { right: 10px; bottom: 10px; width: calc(100vw - 20px); }
+}
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media (max-width: 1080px) {
+  /* 中寬度以下每個版位模組都改滿版堆疊,不管 data-span 設多少。 */
+  .grid12 > [data-span] { grid-column: 1 / -1; }
+  .header-nav { display: none; }
+  .header-menu-trigger { display: flex; }
+}
+@media (max-width: 720px) {
+  /* 手機版帳號/登入操作已收進漢堡選單（見 mobile-menu-*），header 上的
+     inline 登入表單／使用者資訊在窄螢幕會擠成第二行,直接隱藏改用選單。 */
+  .header-auth { display: none; }
+  /* body 留出跟快捷列等高的底部空間,避免頁尾內容被固定定位的快捷列蓋住。 */
+  body { padding-bottom: 56px; }
+  .mobile-tabbar {
+    display: flex;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 500;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--line);
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 16px rgba(43, 36, 32, 0.06);
+  }
+  .hero { height: 220px; }
+  .hero-content { padding: 0 24px; }
+  .hero-title { font-size: 26px; }
+  .tile-grid { grid-template-columns: repeat(2, 1fr); }
+  .quick-rail { right: 10px; }
+  .quick-rail-btn { width: 40px; height: 40px; }
+  .quick-rail-btn:hover { transform: none; background: none; }
+  .quick-rail-btn:hover .quick-rail-label { opacity: 0; transform: translateY(-50%) translateX(6px); }
+}
+@media (max-width: 520px) {
+  .notice-bar-inner { gap: 10px; }
+  .notice-links { gap: 10px; }
+  .hero { height: 180px; }
+  .hero-content { padding: 0 18px; max-width: 100%; }
+  .hero-title { font-size: 21px; }
+  .hero-sub { font-size: 12.5px; }
+  .hero-eyebrow { font-size: 10.5px; padding: 3px 10px; margin-bottom: 10px; }
+}
+
+/* ── 關於我們 / 常見問題（about.html） ── */
+.about-wrap { padding-top: 24px; padding-bottom: 48px; max-width: 880px; margin: 0 auto; padding-right: 92px; }
+@media (max-width: 720px) { .about-wrap { padding-right: 20px; } }
+.about-title { font-size: 22px; font-weight: 800; margin: 0 0 16px; }
+.about-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.about-tab { padding: 8px 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg-panel); color: var(--text-mid); font-size: 13px; font-weight: 700; }
+.about-tab.active { background: var(--gold-grad); border-color: var(--gold-hi); color: #3a2604; }
+.about-card { border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--bg-panel); box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 14px; }
+.about-card-title { font-size: 15px; font-weight: 800; margin: 0 0 10px; color: var(--text); }
+.about-text { font-size: 13.5px; line-height: 1.8; color: var(--text-mid); margin: 0 0 10px; }
+.about-text:last-child { margin-bottom: 0; }
+.about-group-title { font-size: 13px; font-weight: 800; color: var(--gold-deep); margin: 20px 0 10px; }
+.about-group-title:first-child { margin-top: 0; }
+.faq-card { border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg-panel); margin-bottom: 8px; overflow: hidden; }
+.faq-trigger { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 14px 16px; font-size: 13.5px; font-weight: 700; color: var(--text); text-align: left; }
+.faq-chevron { width: 16px; height: 16px; color: var(--text-mid); transition: transform 0.15s; flex-shrink: 0; }
+.faq-card.open .faq-chevron { transform: rotate(180deg); }
+.faq-answer { display: none; padding: 0 16px 16px; font-size: 13px; line-height: 1.8; color: var(--text-mid); margin: 0; }
+.faq-card.open .faq-answer { display: block; }
+
+/* ── UI Kit（元件展示頁，開發參考用） ── */
+.uikit-wrap { padding-top: 24px; padding-bottom: 48px; padding-right: 92px; }
+@media (max-width: 720px) { .uikit-wrap { padding-right: 20px; } }
+.uikit-section { margin-bottom: 32px; }
+.uikit-section-title { font-size: 16px; font-weight: 800; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--gold-hi); display: inline-block; }
+.uikit-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 16px; border-radius: var(--radius-md); background: var(--bg-panel); border: 1px solid var(--line); }
+.uikit-swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--text-dim); }
+.uikit-swatch-color { width: 56px; height: 56px; border-radius: var(--radius-md); border: 1px solid var(--line); }
+.uikit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }

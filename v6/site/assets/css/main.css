@@ -1,0 +1,1589 @@
+/* CMS v6 — 巔峰盤口（Apex）風格 token 與元件樣式。
+   免建置純 HTML+CSS+JS，token 皆為手寫 CSS variable，無框架殘留。
+   參考對象為深邃墨綠 header/內容、亮綠主 CTA、累積獎金 widget 同色系
+   分層的運彩＋娛樂城複合站型視覺語言；此區塊為預設 skin（apex-classic），其餘
+   skin 覆寫於 assets/css/skins/*.css，以 :root[data-skin="xxx"] 疊加。
+   --accent 系列（主按鈕/CTA 配色）與 --jackpot-a/-b（累積獎金 widget
+   配色）隨 skin 整套換色，讓切換 skin 時最顯眼的主按鈕本身就會變色；
+   --badge（標籤/熱區次色）為全 skin 固定的警示紅，不隨 skin 改變；
+   深色骨架（--bg／--bg-panel／--text 等）同樣全 skin 共用不變。 */
+:root {
+  --bg: #0d211d;
+  --bg-soft: #122622;
+  --bg-panel: #102420;
+  --header-bg: #071412;
+  --line: #1d3733;
+  --line-hi: #2c5048;
+  --text: #eef6f3;
+  --text-mid: #9fb8b2;
+  --text-dim: #6c8983;
+  --text-on-header: #eef6f3;
+  --panel-tint: #163430;
+  --panel-glass: rgba(10, 25, 23, 0.85);
+  --footer-opacity: 0.85;
+  /* header 現在是 .v6-shell 外層、橫跨滿版寬度的常駐條，.v6-sidebar／
+     .v6-betslip 的 sticky top／height 要扣掉這個高度才不會疊到 header
+     底下或算錯捲動後貼齊視窗頂端的位置。 */
+  --header-h: 62px;
+
+  --accent: #17b866;
+  --accent-hi: #33d17e;
+  --accent-deep: #0e8a4c;
+  --accent-grad: linear-gradient(180deg, #33d17e 0%, #17b866 55%, #0e8a4c 100%);
+  --accent-ink: #ffffff;
+
+  --badge: #e2413f;
+  --badge-deep: #a52a2a;
+  /* 原本紫色識別累積獎金 widget,跟站內綠色主視覺、參考站的綠色系
+     配色差太多,改沿用既有 --accent-deep/-hi 做同色系漸層(方向跟
+     --accent-grad 相反,維持一點層次區隔,但不再是突兀的異色系)。 */
+  --jackpot-a: var(--accent-deep);
+  --jackpot-b: var(--accent-hi);
+
+  --shadow-card: 0 2px 0 rgba(0, 0, 0, 0.4), 0 10px 24px rgba(0, 0, 0, 0.55);
+  --shadow-accent: 0 6px 16px rgba(23, 184, 102, 0.35);
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* footer 貼底：body 撐滿視窗高度,<main>（見下方 main { flex: 1 0 auto }）
+     在內容不夠長時把剩餘空間吃掉,把 footer 推到視窗最下方;內容夠長時
+     <main> 維持自然高度,footer 照常接在內容後面,不影響原有間距。 */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main { flex: 1 0 auto; }
+/* -webkit-tap-highlight-color 清零：手機瀏覽器點擊連結預設會蓋一層半透明
+   灰黑色「輕觸反白」,在深色 header 導覽列上看起來像一塊突兀的黑色方塊
+   (跟自訂的 hover/active 底色是兩回事,瀏覽器原生行為蓋不掉)。改用
+   :focus-visible 給一個統一、只在鍵盤導覽時出現的焦點框,滑鼠/觸控點擊
+   不會觸發,不會有原生輕觸反白那種視覺干擾。 */
+a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+/* border/background 清零：瀏覽器原生 button 邊框很醜；個別元件想要邊框/
+   底色都已各自宣告一次，class 的 specificity 比這裡的 element selector 高，
+   不會被蓋掉。 */
+button { font-family: inherit; cursor: pointer; border: 0; background: none; -webkit-tap-highlight-color: transparent; }
+img { max-width: 100%; display: block; }
+
+.container { max-width: 1360px; margin: 0 auto; padding: 0 20px; }
+
+/* ── HEADER ─────────────────────────────── */
+/* 參考站頭部是一片平的深炭黑,不是漸層——skin 之間也不切換這塊,識別色
+   改由 --badge/--jackpot-* 在內容區塊呈現,header 維持統一的深色機身。 */
+/* sticky 置頂:header 現在是 .v6-shell 外層橫跨滿版的常駐條,捲動時
+   固定貼齊視窗頂端,跟 .v6-sidebar／.v6-betslip 的 sticky top 剛好
+   接續在它下方(見 --header-h)。z-index 蓋過側欄(700)/betslip(600)。 */
+.site-header { background: var(--header-bg); position: sticky; top: 0; z-index: 800; }
+/* header-top 不再套用 .container 的 max-width:1360px,直接撐滿整條
+   header 的寬度,只保留左右內距。三欄 grid(1fr auto 1fr)讓 .header-left
+   貼最左、.header-right 置中於整條 header,左右兩個 1fr 軌道即使沒有
+   內容也會平分剩餘空間,確保中間欄置中不受左欄寬度影響。 */
+.header-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 12px 24px;
+}
+.header-left { display: flex; align-items: center; gap: 10px; justify-self: start; }
+.header-right { display: flex; align-items: center; gap: 10px; grid-column: 2; justify-self: center; }
+.brand-link { display: flex; align-items: center; flex-shrink: 0; }
+/* v6 品牌改用內嵌 SVG + 文字組成的 .brand-mark，不再用點陣圖 logo：
+   換 skin 時圖示直接吃 --accent／--bg 變數換色，不必像點陣圖那樣另外
+   準備一份 filter 才能在深色/淺色 skin 上都可讀。 */
+.brand-mark { display: flex; align-items: center; gap: 8px; }
+.brand-mark-icon { width: 28px; height: 28px; flex-shrink: 0; }
+.brand-mark-text { font-size: 20px; font-weight: 900; letter-spacing: -0.01em; color: var(--text-on-header); line-height: 1; }
+.brand-mark-text em { font-style: normal; color: var(--accent); }
+.site-footer-logo.brand-mark { opacity: var(--footer-opacity); margin-bottom: 18px; }
+.site-footer-logo.brand-mark .brand-mark-icon { width: 24px; height: 24px; }
+.site-footer-logo.brand-mark .brand-mark-text { font-size: 17px; }
+/* .header-nav-link 現在只用在 .header-auth 裡的會員帳號連結（頭像+
+   名稱），導覽用的 nav 連結已移除。 */
+.header-nav-link {
+  display: flex; align-items: center; gap: 6px;
+  padding: 9px 10px;
+  border-radius: 999px;
+  color: var(--text-mid);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.header-nav-link:hover { background: var(--bg-soft); color: #fff; }
+.header-nav-icon { width: 16px; height: 16px; flex-shrink: 0; }
+.header-auth { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+/* 註冊鈕右上角的紅點徽章，比照參考站常駐提醒「有新優惠」的視覺，
+   純裝飾用，不綁真正的未讀計數。 */
+.header-auth-badge-wrap { position: relative; }
+.header-auth-badge { position: absolute; top: -4px; right: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--badge); border: 2px solid var(--header-bg); }
+.header-forgot { font-size: 11.5px; color: rgba(245, 242, 236, 0.6); white-space: nowrap; }
+.btn-accent {
+  padding: 9px 20px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: var(--shadow-accent);
+  transition: filter 0.15s, transform 0.15s;
+}
+.btn-accent:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.btn-accent[disabled] { opacity: 0.5; cursor: default; pointer-events: none; box-shadow: none; }
+/* .quiet：半透明白底圓角鈕(比照參考站 Log in 的深色膠囊樣式,登入/
+   登出共用同一個次要按鈕樣式,跟主要 CTA 的實心漸層鈕拉開視覺層級)。
+   .outline：透明底+白邊框(比照參考站 VIEW MORE／JOIN INSTANTLY 這類
+   疊在彩色底圖上的次要按鈕)。 */
+.btn-accent.quiet { background: rgba(255, 255, 255, 0.08); color: var(--text-on-header); box-shadow: none; border-color: rgba(255, 255, 255, 0.18); }
+.btn-accent.outline { background: none; border-color: rgba(255, 255, 255, 0.6); color: #fff; box-shadow: none; }
+.btn-accent.outline:hover { filter: none; background: rgba(255, 255, 255, 0.12); }
+
+/* ── V6 SHELL（左側欄／右側 Betslip）─────────
+   比照參考站的三欄式運彩＋娛樂城版型：左側常駐分類導覽、右側常駐
+   （空）投注單面板，中間才是原本 header/notice/main/footer 那一整欄。
+   三欄用 flex 排列，中欄 min-width:0 讓內容可以正常換行/裁切；側欄與
+   betslip 都是 position:sticky 貼齊視窗高度，各自捲動。中寬度以下
+   betslip 先收起（讓中欄有更多空間），窄寬度以下側欄改離屏抽屜，
+   跟現有 .header-nav 在 max-width:1080px 收起的斷點一致。 */
+.v6-shell { display: flex; align-items: flex-start; min-height: calc(100vh - var(--header-h)); }
+.v6-col { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; min-height: calc(100vh - var(--header-h)); }
+.v6-sidebar {
+  flex: 0 0 224px; width: 224px;
+  position: sticky; top: var(--header-h); align-self: flex-start;
+  height: calc(100vh - var(--header-h)); overflow-y: auto;
+  background: var(--header-bg);
+  border-right: 1px solid var(--line);
+  padding: 14px 10px 24px;
+  display: flex; flex-direction: column; gap: 18px;
+  z-index: 700;
+  scrollbar-width: thin;
+}
+.v6-sidebar-close { display: none; }
+/* Menu 標題列：桌機常駐側欄不需要（header 本身已有登入/註冊按鈕），
+   只在側欄變成可收合選單（見 max-width:1080px）時顯示，display:flex
+   由該斷點覆寫。 */
+.v6-sidebar-head { display: none; align-items: center; justify-content: space-between; padding: 2px 10px 14px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+.v6-sidebar-head-title { font-size: 16px; font-weight: 900; color: var(--text); }
+/* 登入註冊捷徑＋推廣卡：側欄本身（常駐 224px、position:sticky）點漢堡
+   前後完全不動、不覆蓋主內容,比照參考站「點漢堡＝side bar 內容本身
+   切換,不是疊一層蓋住畫面」的做法——一直是 display:flex,用
+   max-height+opacity 過渡做展開/收起動畫（display 不能 transition,
+   不能用 display:none/flex 硬切）。 */
+.v6-sidebar-mobile-extra {
+  display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;
+  max-height: 0; opacity: 0; overflow: hidden;
+  padding-bottom: 0; margin-bottom: 0; border-bottom: 0 solid var(--line);
+  transition: max-height 0.3s ease, opacity 0.25s ease, padding-bottom 0.3s ease, margin-bottom 0.3s ease;
+}
+.v6-shell.is-sidebar-open .v6-sidebar-mobile-extra {
+  max-height: 640px; opacity: 1;
+  padding-bottom: 14px; margin-bottom: 6px; border-bottom-width: 1px;
+}
+.v6-sidebar-auth { display: flex; flex-direction: column; gap: 1px; }
+.v6-sidebar-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 13px; font-weight: 800;
+}
+.v6-sidebar-banner-cta { padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); font-size: 11px; white-space: nowrap; }
+/* 促銷卡插圖:沿用站內既有手繪線條 SVG 風格(比照 .v6-sidebar-link
+   icon 的 stroke=currentColor 畫法),不用照片級插畫素材。 */
+.v6-sidebar-banner-icon { width: 30px; height: 30px; flex-shrink: 0; opacity: 0.85; }
+.v6-sidebar-banner-shop { background: linear-gradient(120deg, var(--bg-panel) 0%, var(--panel-tint) 100%); border: 1px solid var(--line-hi); color: var(--text); }
+.v6-sidebar-banner-shop .v6-sidebar-banner-cta { background: var(--accent-grad); color: var(--accent-ink); }
+.v6-sidebar-banner-club { background: linear-gradient(120deg, var(--jackpot-a) 0%, var(--jackpot-b) 100%); }
+.v6-sidebar-banner-app { background: var(--accent-grad); color: var(--accent-ink); }
+.v6-sidebar-banner-app .v6-sidebar-banner-cta { background: rgba(0, 0, 0, 0.18); }
+/* 側欄頂部儲值/提款快捷鈕：直接複用既有 .btn-accent／.btn-accent.outline
+   樣式(實心漸層／透明白框),不另外做一套配色。 */
+.v6-sidebar-money { display: flex; gap: 8px; padding: 0 10px 14px; }
+.v6-sidebar-money .btn-accent { flex: 1; text-align: center; padding: 9px 4px; font-size: 12px; }
+/* 未點漢堡前的預設精簡列：比照參考站「收起時只顯示幾個常用捷徑」的
+   做法,用現有 8 分類挑前 4 項當精簡列;點漢堡後依參考影片的形式,
+   .v6-sidebar-full 是從左邊往右「覆蓋」上去展開(clip-path 從左邊
+   0 寬度展開到滿寬),不是垂直淡入淡出。.v6-sidebar-default 維持
+   正常排版決定 .v6-sidebar-swap 的高度;.v6-sidebar-full 蓋在它
+   上面用 position:absolute,不影響 swap 本身的高度計算,展開後靠
+   .v6-sidebar 既有的 overflow-y:auto 自然撐開可捲動範圍。側欄本身
+   大小/位置仍完全不變。 */
+.v6-sidebar-swap { position: relative; }
+.v6-sidebar-default { display: flex; flex-direction: column; gap: 1px; }
+.v6-shell.is-sidebar-open .v6-sidebar-default { visibility: hidden; }
+.v6-sidebar-full {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; flex-direction: column; gap: 18px;
+  background: var(--header-bg);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.35s ease;
+  pointer-events: none;
+}
+.v6-shell.is-sidebar-open .v6-sidebar-full { clip-path: inset(0 0 0 0); pointer-events: auto; }
+.v6-sidebar-quick, .v6-sidebar-section-items { display: flex; flex-direction: column; gap: 1px; }
+/* 展開後的內容比照參考站分成可收合的分類群組(遊戲分類／My Account),
+   群組標題本身是按鈕,點擊只切換該群組的 max-height,跟側欄整體
+   sticky/224px 的固定架構互不影響。 */
+.v6-sidebar-group + .v6-sidebar-group { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 4px; }
+.v6-sidebar-group-toggle {
+  display: flex; align-items: center; justify-content: space-between; width: 100%;
+  margin: 0 0 6px; padding: 0 10px;
+  background: none; border: 0;
+  font-size: 11px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+.v6-sidebar-group-toggle:hover { color: var(--text-mid); }
+.v6-sidebar-group-chevron { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.2s ease; }
+.v6-sidebar-group-body {
+  max-height: 640px; opacity: 1; overflow: hidden;
+  transition: max-height 0.25s ease, opacity 0.2s ease;
+}
+.v6-sidebar-group:not(.is-open) .v6-sidebar-group-toggle .v6-sidebar-group-chevron { transform: rotate(-90deg); }
+.v6-sidebar-group:not(.is-open) .v6-sidebar-group-body { max-height: 0; opacity: 0; }
+.v6-sidebar-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px; font-weight: 700;
+  color: var(--text-mid);
+  transition: background 0.15s, color 0.15s;
+}
+.v6-sidebar-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+.v6-sidebar-link:hover { background: var(--bg-soft); color: var(--text); }
+.v6-sidebar-link.active { background: var(--bg-soft); color: var(--accent-hi); }
+.v6-sidebar-backdrop { display: none; }
+
+.v6-betslip {
+  flex: 0 0 272px; width: 272px;
+  position: sticky; top: var(--header-h); align-self: flex-start;
+  height: calc(100vh - var(--header-h)); overflow-y: auto;
+  background: var(--header-bg);
+  border-left: 1px solid var(--line);
+  padding: 16px;
+  z-index: 600;
+}
+.v6-betslip-head { margin: 0 0 16px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text); }
+.v6-betslip-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 44px 8px; color: var(--text-dim); }
+.v6-betslip-empty svg { width: 40px; height: 40px; opacity: 0.7; }
+.v6-betslip-empty p { margin: 0; }
+.v6-betslip-title { font-size: 14px; font-weight: 800; color: var(--text-mid); }
+.v6-betslip-hint { font-size: 12px; }
+
+@media (max-width: 1320px) { .v6-betslip { display: none; } }
+@media (max-width: 1080px) {
+  .v6-sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0; height: 100%;
+    transform: translateX(-100%);
+    box-shadow: none;
+    transition: transform 0.2s ease;
+  }
+  .v6-shell.is-sidebar-open .v6-sidebar { transform: translateX(0); box-shadow: 12px 0 32px rgba(0, 0, 0, 0.45); }
+  .v6-sidebar-close { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; color: var(--text-mid); }
+  .v6-sidebar-close svg { width: 16px; height: 16px; }
+  .v6-shell.is-sidebar-open .v6-sidebar-backdrop {
+    display: block; position: fixed; inset: 0; background: rgba(3, 8, 7, 0.6); z-index: 690;
+  }
+  /* Menu 標題列只在側欄變成可收合選單時（中寬度以下）出現;登入/註冊
+     捷徑＋促銷卡（.v6-sidebar-mobile-extra）在所有寬度都一直是
+     display:flex,展開/收起靠 max-height 動畫,不需要這裡再覆寫。 */
+  .v6-sidebar-head { display: flex; }
+}
+
+/* ── HERO 輪播控制項（首頁專用；分類頁 hero 是單一版面，見
+   .hero-wrap 之後的 JS：initHeroCarousel 偵測不到多張 slide 時不會
+   套用這裡的樣式也不影響版面） ── */
+.hero-carousel .hero-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+.hero-carousel .hero-slide.active { opacity: 1; pointer-events: auto; }
+.hero-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border: none; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  z-index: 5;
+  transition: background 0.15s;
+}
+.hero-arrow:hover { background: rgba(0, 0, 0, 0.55); }
+.hero-arrow svg { width: 16px; height: 16px; }
+.hero-arrow-prev { left: 14px; }
+.hero-arrow-next { right: 14px; }
+.hero-dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 5; }
+.hero-dot { width: 8px; height: 8px; padding: 0; border: none; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transition: background 0.15s, width 0.15s; }
+.hero-dot.active { width: 20px; border-radius: 4px; background: #fff; }
+
+/* ── 快捷圖示格（首頁 hero 下方，比照參考站 Bonuses/Slots/Live casino/
+   Deposit/Help 這排大圖示捷徑）── */
+.quick-icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 4px; padding: 18px 4px; }
+.quick-icon-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 4px; border-radius: var(--radius-md); color: var(--text-mid); font-size: 11.5px; font-weight: 700; text-align: center; transition: background 0.15s, color 0.15s; }
+.quick-icon-item:hover { background: var(--bg-soft); color: var(--text); }
+.quick-icon-badge { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--bg-panel); color: var(--accent); border: 1px solid var(--line); }
+.quick-icon-badge svg { width: 20px; height: 20px; }
+
+/* ── 跑馬燈式資訊條（近期提款／中獎紀錄，比照參考站首頁的
+   Recent withdrawals／Winning bets 橫幅），跟 .notice-msg 同一招用
+   padding-left:100% + keyframe 位移做無縫捲動，只是改成一整排卡片
+   一起平移，不是單行文字。 */
+/* 近期提款／中獎紀錄合併成同一張卡片,兩節之間用分隔線區分,
+   不再是各自獨立、彼此有間距的兩張卡片。 */
+.ticker-panel { background: var(--bg-panel); border: 1px solid var(--line); border-radius: var(--radius-lg); margin-bottom: 18px; }
+.ticker-section { padding: 14px 18px; }
+.ticker-section + .ticker-section { border-top: 1px solid var(--line); }
+.ticker-panel-title { margin: 0 0 4px; font-size: 12px; color: var(--text-dim); }
+.ticker-panel-value { margin: 0 0 10px; font-size: 20px; font-weight: 900; font-style: italic; color: var(--text); letter-spacing: 0.02em; }
+.ticker-viewport { overflow: hidden; }
+.ticker-track { display: flex; gap: 10px; width: max-content; animation: ticker-scroll 30s linear infinite; }
+.ticker-panel:hover .ticker-track { animation-play-state: paused; }
+@keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* 提款跑馬燈的倍率徽章:鑽石(一般倍率,綠色)／星形(高倍率,警示
+   紅)取代純文字 ×N,比照參考站用圖形分級一眼看出倍率高低;箭頭
+   圖示＋「存款」副標則說明這筆提款對應的原始存款金額。 */
+.ticker-chip-badge { display: flex; align-items: center; gap: 4px; flex-shrink: 0; font-weight: 900; font-size: 12px; }
+.ticker-chip-badge svg { width: 17px; height: 17px; flex-shrink: 0; }
+.ticker-chip-badge.gem { color: var(--accent-hi); }
+.ticker-chip-badge.star { color: var(--badge); }
+.ticker-chip-body { display: flex; flex-direction: column; gap: 1px; }
+.ticker-chip-row { display: flex; align-items: center; gap: 6px; }
+.ticker-chip-arrow { width: 11px; height: 11px; color: var(--text-dim); }
+.ticker-chip-sub { font-size: 10.5px; color: var(--text-dim); }
+.ticker-chip { flex-shrink: 0; display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--line); font-size: 12px; white-space: nowrap; }
+.ticker-chip-mult { font-weight: 900; color: var(--accent-hi); }
+.ticker-chip-id { color: var(--text-dim); }
+.ticker-chip-amt { font-weight: 800; color: var(--text); }
+.ticker-chip-win { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--line); font-size: 12px; white-space: nowrap; }
+.ticker-chip-win img, .ticker-chip-win .ticker-chip-art { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+.ticker-chip-win-name { font-weight: 700; color: var(--text); }
+.ticker-chip-win-amt { font-weight: 900; color: var(--accent-hi); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
+
+/* ── NOTICE LINKS（FAQ／客服／促銷頻道）───────
+   原本首頁 hero 上方還有一條 .notice-bar 公告跑馬燈,含這排連結；
+   跑馬燈已移除,.notice-links 本身留著給 footer 的 .site-footer-links
+   繼續複用（全站每頁都能連到 FAQ／客服／促銷頻道）。 */
+.notice-links { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+.notice-links a { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+.notice-links a:hover { color: var(--accent-hi); }
+.site-footer-links { justify-content: center; margin-bottom: 16px; color: var(--text-mid); font-size: 12.5px; }
+
+/* ── HERO ─────────────────────────────────
+   雙欄版型：左側文案疊圖、右側奶油色快速註冊卡（對齊參考站 hero 內嵌
+   註冊表單的版面），單一版面不再輪播，故不需要 .hero-slide/-dots/-arrow。 */
+/* .hero-wrap 在 HTML 上同時掛 .container：直接沿用 .container 的
+   max-width/margin 會讓這層的深色背景（見下方 .content-light .hero-wrap）
+   在寬螢幕被截在 1360px 處，.content-light 的米白底色就會在兩側露出一截，
+   跟滿版深色的 header 斷開、看起來像邊緣被切掉。改成滿版寬度，改用
+   padding 複現 .container 原本的 1320px 內容寬（1360 扣掉左右各 20
+   padding），背景才能一路貼到視窗邊界，內容寬度則維持不變。 */
+.hero-wrap {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 18px;
+  padding-left: max(20px, calc((100% - 1320px) / 2));
+  padding-right: max(20px, calc((100% - 1320px) / 2));
+}
+.hero {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 320px;
+  isolation: isolate;
+}
+/* hero 疊色原本混 --badge(警示紅),跟站內主色調、參考站的綠色
+   主視覺不一致,改用 --accent 呼應站內綠色識別。 */
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(100deg, rgba(10, 8, 7, 0.94) 0%, color-mix(in oklch, var(--accent) 46%, rgba(10, 8, 7, 0.85)) 42%, color-mix(in oklch, var(--accent) 10%, transparent) 78%), var(--hero-image);
+  background-size: cover;
+  background-position: var(--hero-position, center);
+  z-index: -1;
+}
+/* justify-content:space-between 把註冊卡推到跟 hero 右邊界齊平,避免
+   文案較短時卡片跟邊界之間留一大片沒用到的暗底空白。 */
+.hero-duo { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 40px; min-height: 320px; padding: 32px 56px; }
+.hero-content { padding: 0; max-width: 560px; color: var(--text-on-header); }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--accent-hi);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.hero-title { font-size: 42px; font-weight: 900; line-height: 1.12; margin: 0 0 10px; text-transform: uppercase; letter-spacing: -0.01em; text-shadow: 0 3px 14px rgba(0, 0, 0, 0.5); }
+.hero-title em { font-style: normal; color: var(--accent-hi); }
+.hero-sub { font-size: 14.5px; color: rgba(245, 242, 236, 0.82); margin: 0; text-transform: none; }
+/* 首頁 hero 數字獨立一行放大顯示,比照參考站;背景圖沿用 .hero-bg
+   共用規則(照片 + 深色漸層蓋版),只有首頁這組 hero-duo 用得到
+   hero-promo,其餘頁面的 .hero-bg 各自的宣傳圖不受影響。 */
+.hero-promo .hero-title em { display: block; font-size: 88px; line-height: 1; margin-bottom: 6px; }
+.hero-promo .hero-title { font-size: 32px; }
+@media (max-width: 900px) {
+  .hero-duo { flex-direction: column; align-items: stretch; justify-content: flex-start; padding: 24px; gap: 20px; }
+}
+
+/* ── 內容區淺色底（對齊參考設計：hero 之後整段是米白底色）──
+   跟 .auth-modal-box／.hero-signup 同一招：只覆寫 --bg/--bg-panel/--text
+   等 token 的「值」，套在 <main class="content-light">，子層沿用
+   var(--text)/var(--bg-panel) 等既有寫法的 .listing-*／.panel／
+   .promo-card／.about-*／.match-card／.uikit-* 等元件會自動換成淺色，
+   不必另外複寫一份淺色樣式。套用範圍是首頁與會員區以外的所有頁面
+   （slot/live/hot-games/fish/sport/mini-games/promotion/about/ui-kit）；
+   會員區(帳戶總覽/儲值/提款/各類紀錄/個人資料/安全中心等)表單/表格
+   較多,維持既有深色不動。hero 本身用 --text-on-header 與疊圖漸層,
+   不吃這幾個 token,不受影響。 */
+.content-light {
+  --bg: #f2efe6;
+  --bg-soft: #ffffff;
+  --bg-panel: #ffffff;
+  --line: #e3ded0;
+  --line-hi: #d8cfb0;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  background: var(--bg);
+  /* color 是一般屬性、繼承的是「已算好的值」而非 var() 運算式本身：
+     body 早就用 var(--text) 把自己的 color 定成深色主題那份值,子孫元素
+     沒有另外自己宣告 color 的話,繼承到的是 body 那個已經算完、不會再
+     跟著這裡改掉的 --text 重新求值的舊值。這裡明講一次 color,強迫在
+     .content-light 這層重新用（新的）--text 求值,才會整段淺色底下的
+     文字顏色一起換過來。 */
+  color: var(--text);
+}
+/* hero 外圍留白（.hero-wrap 的 padding-top）維持深色,跟 header 銜接不
+   露出一截淺色,hero 本身的疊圖內容不受影響（蓋在上面）。 */
+.content-light .hero-wrap { background: var(--header-bg); }
+/* 玩家評價卡（首頁）沿用參考設計的深色卡片對比,在淺色區塊裡局部覆寫
+   回深色。 */
+.content-light .testimonial-card {
+  --bg-panel: #1c1c1e;
+  --line: #333335;
+  --text: #f5f2ec;
+  --text-mid: #b6b1a7;
+}
+
+/* ── 首頁促銷橫幅(插在遊戲列之間,比照參考站遊戲列間穿插的雙欄促銷
+   橫幅;色底沿用既有 --accent-grad／--jackpot-a/-b 漸層,不新增任意值
+   色碼,圖示沿用站內既有手繪線條 SVG 風格) ── */
+.home-promo-strip { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; }
+.home-promo-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 84px;
+  padding: 20px 26px;
+  border-radius: var(--radius-lg);
+  color: #fff;
+  font-size: 17px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.01em;
+}
+.home-promo-banner-icon { width: 46px; height: 46px; flex-shrink: 0; opacity: 0.85; }
+.home-promo-banner-cta { flex-shrink: 0; padding: 9px 18px; border-radius: 999px; background: rgba(255, 255, 255, 0.2); font-size: 12.5px; white-space: nowrap; }
+.home-promo-banner-accent { background: var(--accent-grad); color: var(--accent-ink); }
+.home-promo-banner-accent .home-promo-banner-cta { background: rgba(0, 0, 0, 0.18); }
+.home-promo-banner-jackpot { background: linear-gradient(120deg, var(--jackpot-a) 0%, var(--jackpot-b) 100%); }
+@media (max-width: 720px) {
+  .home-promo-strip { grid-template-columns: 1fr; }
+}
+
+/* ── JACKPOT PANEL（累積獎金 widget，首頁專用，用 --jackpot-a/-b 跟主色調
+   同色系的漸層做輕微層次區隔） ── */
+.jackpot-panel {
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--jackpot-a) 0%, var(--jackpot-b) 100%);
+  box-shadow: var(--shadow-card);
+}
+.jackpot-title {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 0 14px;
+  font-size: 15px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: #fff;
+}
+.jackpot-title svg { flex-shrink: 0; color: var(--accent-hi); }
+.jackpot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.jackpot-pill {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.jackpot-pill.is-hourly { background: linear-gradient(135deg, rgba(244, 121, 31, 0.35), rgba(0, 0, 0, 0.22)); }
+.jackpot-pill-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.78); margin: 0 0 4px; }
+.jackpot-pill-value { font-size: 19px; font-weight: 900; color: #fff; margin: 0 0 4px; font-variant-numeric: tabular-nums; }
+.jackpot-pill-note { font-size: 11px; color: rgba(255, 255, 255, 0.65); margin: 0; }
+@media (max-width: 720px) { .jackpot-grid { grid-template-columns: 1fr; } }
+/* 得獎名單橫幅（首頁專用）沿用 .jackpot-panel／.jackpot-pill 的漸層卡+
+   格狀 pill 版型，只加一個 6 欄 modifier（原本固定 3 欄）與底部按鈕列。 */
+.jackpot-grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
+@media (max-width: 900px) { .jackpot-grid.cols-6 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .jackpot-grid.cols-6 { grid-template-columns: 1fr; } }
+.jackpot-panel-foot { display: flex; justify-content: flex-end; margin-top: 14px; }
+
+/* ── SECTION GRID：12 欄可編輯版位 ─────────── */
+/* 首頁遊戲分類區塊改成 12 欄 grid,每個模組用 data-span="3"~"12" 決定要
+   跨幾欄,不寫死 grid-column/grid-row——照 HTML 順序用 grid 內建的
+   auto-flow 自動接排,調 data-span 或搬動 HTML 順序就能重新編排版位,
+   不需要另外改 nth-child 規則。目前 5/4/3、9/3、12 的組合是還原改版前
+   「大欄(熱門+迷你/電子遊戲) + 固定小欄(真人娛樂/捕魚達人) + 體育滿版
+   跨欄」的版面比例。 */
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+  padding-top: 20px; padding-bottom: 40px;
+  align-items: stretch;
+}
+.grid12 > [data-span="3"] { grid-column: span 3; }
+.grid12 > [data-span="4"] { grid-column: span 4; }
+.grid12 > [data-span="5"] { grid-column: span 5; }
+.grid12 > [data-span="6"] { grid-column: span 6; }
+.grid12 > [data-span="7"] { grid-column: span 7; }
+.grid12 > [data-span="8"] { grid-column: span 8; }
+.grid12 > [data-span="9"] { grid-column: span 9; }
+.grid12 > [data-span="10"] { grid-column: span 10; }
+.grid12 > [data-span="11"] { grid-column: span 11; }
+.grid12 > [data-span="12"] { grid-column: span 12; }
+/* 版位拖曳編輯模式:只有 studio 呼叫 __cmsV6StudioSetEditMode(true) 後
+   <html> 才會帶 .cms-v6-grid-edit,一般訪客瀏覽不會看到這顆把手。 */
+.grid12-drag-handle { display: none; position: absolute; top: 8px; left: 8px; z-index: 5; width: 26px; height: 26px; border-radius: 50%; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.55); color: #fff; cursor: grab; }
+.cms-v6-grid-edit .grid12-drag-handle { display: flex; }
+.grid12-dragging { opacity: 0.4; }
+.grid12-drop-target { outline: 2px dashed var(--accent-hi); outline-offset: 4px; }
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+}
+.panel-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.panel-head-icon {
+  width: 26px; height: 26px; flex-shrink: 0;
+  display: grid; place-items: center;
+  color: var(--accent);
+}
+.panel-title { font-size: 15.5px; font-weight: 900; color: var(--text); margin: 0; flex: 1; text-transform: uppercase; letter-spacing: 0.01em; }
+.panel-more { font-size: 12px; color: var(--accent-hi); font-weight: 700; }
+.panel-more:hover { color: var(--accent); }
+.panel-head-actions { display: flex; align-items: center; gap: 10px; }
+.rail-arrow {
+  width: 26px; height: 26px; flex-shrink: 0;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.rail-arrow:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.rail-arrow[disabled] { opacity: 0.35; cursor: default; pointer-events: none; }
+
+.tile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.rail-wrap { position: relative; }
+.tile-grid.rail {
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: 160px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  /* padding-top 只給 2px,小於卡片 hover 的 translateY(-3px) 位移量,
+     設定 overflow-x 會連帶讓 overflow-y 變成 auto(非 visible),於是
+     hover 時卡片被容器硬生生裁掉一小塊,邊框/陰影缺角。加大到 6px 讓
+     位移＋陰影暈開都留在容器內,margin-top 對應改回 -6px 抵消,不影響
+     外部排版。 */
+  padding: 6px 2px 6px;
+  margin: -6px -2px -6px;
+  cursor: grab;
+  user-select: none;
+}
+.tile-grid.rail::-webkit-scrollbar { display: none; }
+.tile-grid.rail.compact { grid-template-columns: none; grid-auto-columns: 130px; }
+.tile-grid.rail .game-tile { scroll-snap-align: start; min-width: 0; }
+.tile-grid.rail.dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+.tile-grid.compact { grid-template-columns: repeat(auto-fill, minmax(110px, 130px)); justify-content: start; gap: 10px; }
+.tile-grid.compact .game-tile-name { font-size: 11px; }
+.tile-grid.compact .game-tile-cta { padding: 5px 0; font-size: 10px; }
+/* 海報式遊戲卡：圖片撐滿整張卡片，標籤/名稱/開始遊戲鈕都疊在圖片上
+   （底部深色漸層遮罩襯底維持可讀性），對齊參考站賭場遊戲卡「一張圖
+   直接可玩」的呈現方式，不再是「圖片 + 下方文字列 + 下方按鈕」的
+   三段式卡片。 */
+.game-tile { position: relative; aspect-ratio: 1; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--line); background: var(--bg-panel); transition: transform 0.15s, box-shadow 0.15s; }
+.game-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--line-hi); }
+.game-tile-art { position: absolute; inset: 0; background: var(--line); overflow: hidden; }
+.game-tile-art img { width: 100%; height: 100%; object-fit: cover; }
+/* 圖片載入失敗時 site.js 會設 hidden 並補上 .game-tile-art-fallback；
+   上面 `img { display:block }` reset 較低 specificity 蓋不過它，要靠
+   這條才擋得住，讓墊底圖示能顯示出來。 */
+.game-tile-art img[hidden] { display: none; }
+.game-tile-art-fallback {
+  position: absolute; inset: 0;
+  z-index: 1;
+  display: grid; place-items: center;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+.game-tile-art::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.32) 48%, transparent 72%);
+}
+.game-tile-tag {
+  position: absolute; top: 6px; left: 6px; z-index: 2;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--badge);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.game-tile-name {
+  position: absolute; left: 8px; right: 8px; bottom: 38px; z-index: 2;
+  font-size: 12px; font-weight: 800; color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+}
+.game-tile-cta {
+  display: block;
+  position: absolute; left: 8px; right: 8px; bottom: 8px; z-index: 2;
+  padding: 6px 0;
+  text-align: center;
+  border-radius: 999px;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+/* 首頁三條全新 rail（撲克遊戲/熱門賭場遊戲/探索更多）沿用 .game-tile
+   版式的兩種變體：
+   - .banner-tile：只留大標題疊字、無「開始遊戲」按鈕，標題可換行到 2 行
+     並下移補滿按鈕留出的空間（撲克遊戲、探索更多）。
+   - .art-only：純縮圖 + 選填角標，連底部漸層遮罩都不需要（熱門賭場遊戲）。 */
+.game-tile.banner-tile .game-tile-name { bottom: 14px; font-size: 14px; line-height: 1.3; -webkit-line-clamp: 2; }
+.game-tile.art-only .game-tile-art::after { display: none; }
+
+/* ── 體育賽事卡（首頁體育專區 + sport.html） ── */
+.tile-grid.rail.match-rail { grid-auto-columns: 260px; }
+.listing-wrap .tile-grid.compact.match-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.match-card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  padding: 12px;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.match-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--line-hi); }
+.match-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.match-league { font-size: 11px; font-weight: 700; color: var(--accent-hi); background: rgba(244, 121, 31, 0.14); padding: 3px 9px; border-radius: 999px; }
+.match-time { font-size: 11px; font-weight: 700; color: var(--text-dim); }
+.match-time.is-live { color: var(--badge); display: flex; align-items: center; gap: 4px; }
+.match-time.is-live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--badge); animation: match-live-pulse 1.4s ease-in-out infinite; }
+@keyframes match-live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.match-teams { margin-bottom: 12px; }
+.match-team { display: flex; align-items: center; justify-content: space-between; padding: 3px 0; font-size: 13.5px; font-weight: 700; color: var(--text); }
+.match-team-score { font-weight: 900; color: var(--accent-hi); min-width: 18px; text-align: right; }
+.match-odds { display: grid; gap: 6px; }
+.match-odds.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.match-odds.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.match-odds-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  padding: 6px 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  font-family: inherit;
+}
+.match-odds-btn:hover { border-color: var(--accent); background: rgba(244, 121, 31, 0.1); }
+.match-odds-label { font-size: 10px; color: var(--text-dim); }
+.match-odds-value { font-size: 12.5px; font-weight: 800; color: var(--text); }
+
+/* ── 分類頁列表（熱門/老虎機/真人/捕魚/體育/迷你遊戲） ── */
+/* 右側留出浮動客服列的寬度,避免搜尋框/卡片被蓋住。 */
+.listing-wrap { padding-top: 20px; padding-bottom: 40px; }
+@media (max-width: 720px) { .listing-wrap { padding-right: 20px; } }
+.listing-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.listing-title { font-size: 22px; font-weight: 900; margin: 0; flex: 1; text-transform: uppercase; letter-spacing: -0.01em; }
+.listing-search {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 6px 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  color: var(--text-dim);
+}
+.listing-search input {
+  border: 0; outline: 0; background: none;
+  width: 180px;
+  font-family: inherit; font-size: 13px; color: var(--text);
+}
+.listing-search input::placeholder { color: var(--text-dim); }
+.listing-search button {
+  padding: 7px 18px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+  font-size: 12.5px; font-weight: 800;
+  text-transform: uppercase;
+  transition: filter 0.15s;
+}
+.listing-search button:hover { filter: brightness(1.06); }
+/* 段落式篩選列(分類頁籤/關於我們頁籤):淺色圓角外框比照參考站的
+   icon 分類列,底色跟頁面主背景區分出來一個獨立的「工具列」量感。 */
+.listing-tabs {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding: 8px;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.listing-tab {
+  padding: 7px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-mid);
+  font-size: 13px; font-weight: 800;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s;
+}
+.listing-tab:hover { color: var(--text); }
+.listing-tab.active { background: var(--accent-grad); color: var(--accent-ink); }
+/* 體育頁球類篩選捷徑列:跟 .listing-tab 同一套「選中=accent漸層」語言,
+   但改成一排可橫向捲動的圖示膠囊,量感比對照片級插畫,沿用站內既有
+   手繪線條 SVG 圖示風格。 */
+.sport-chip-row {
+  display: flex; align-items: center; gap: 8px;
+  overflow-x: auto; scrollbar-width: none;
+  margin-bottom: 16px; padding-bottom: 2px;
+}
+.sport-chip-row::-webkit-scrollbar { display: none; }
+.sport-chip {
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--text-mid);
+  font-size: 12.5px; font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.sport-chip svg { width: 16px; height: 16px; flex-shrink: 0; }
+.sport-chip:hover { color: var(--text); }
+.sport-chip.active { background: var(--accent-grad); color: var(--accent-ink); border-color: transparent; }
+.listing-wrap .tile-grid.compact { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
+.listing-empty { padding: 48px 0; text-align: center; color: var(--text-dim); font-size: 14px; }
+.listing-load-more-wrap { display: flex; justify-content: center; margin-top: 6px; }
+.listing-load-more {
+  padding: 10px 32px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  color: var(--text-mid);
+  font-size: 13px; font-weight: 800;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.listing-load-more:hover { background: var(--accent-grad); color: var(--accent-ink); border-color: transparent; }
+.game-tile-fav {
+  position: absolute; top: 6px; right: 6px; z-index: 2;
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text-on-header);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.game-tile-fav:hover { color: var(--accent-hi); border-color: var(--accent-hi); }
+.game-tile-fav.is-active { color: var(--accent-hi); border-color: var(--accent-hi); }
+.game-tile-fav.is-active svg { fill: currentColor; }
+
+/* 首頁 grid12 之後新增的「熱血開賭／得獎名單／品牌短文／玩家評價」區塊
+   統一用 flex 直向排列＋固定 gap 抓間距，取代逐一手動加 margin-top；
+   .jackpot-panel 自帶的 margin-top 在這裡改由 gap 頂替，故歸零避免疊加。 */
+.home-extra { display: flex; flex-direction: column; gap: 20px; padding-bottom: 20px; }
+.home-extra > .jackpot-panel { margin-top: 0; }
+
+/* ── 優惠活動卡 ── */
+.promo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.promo-card {
+  display: flex; flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s, border-color 0.15s;
+}
+.promo-card:hover { transform: translateY(-3px); border-color: var(--line-hi); }
+.promo-card-art { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--line); }
+.promo-card-art img { width: 100%; height: 100%; object-fit: cover; }
+.promo-card-tag {
+  position: absolute; top: 10px; left: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--badge);
+  color: #fff;
+  font-size: 11px; font-weight: 800;
+  text-transform: uppercase;
+}
+.promo-card-body { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.promo-card-title { font-size: 15.5px; font-weight: 800; margin: 0; color: var(--text); }
+.promo-card-desc { font-size: 13px; line-height: 1.6; color: var(--text-mid); margin: 0; flex: 1; }
+.promo-card-actions { display: flex; align-items: center; gap: 14px; }
+.promo-card-more { font-size: 12.5px; font-weight: 700; color: var(--accent-hi); }
+.promo-card-more:hover { color: var(--accent); }
+/* rail 版推廣卡（首頁「GET FIRED UP TO PLAY」）：沿用 .promo-card 元件，
+   只加寬度 modifier 讓它塞進 .tile-grid.rail 橫向捲動，不改動 .promo-grid
+   既有的自動換行版面；卡片內按鈕沿用 .btn-accent，縮小尺寸以符合卡片寬度。 */
+.tile-grid.rail.promo-rail { grid-auto-columns: 260px; }
+.promo-card .promo-card-actions .btn-accent { padding: 8px 16px; font-size: 11.5px; }
+
+/* 玩家評價卡（首頁「HEAR FROM OUR PLAYERS」）：沿用 rail 橫向捲動機制，
+   卡片本身是新元件（引號 icon + 評語 + 署名）。 */
+.tile-grid.rail.testimonial-rail { grid-auto-columns: 240px; }
+.testimonial-card {
+  height: 100%;
+  display: flex; flex-direction: column;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-card);
+}
+.testimonial-card-quote-icon { color: var(--accent-hi); margin-bottom: 10px; flex-shrink: 0; }
+.testimonial-card-text { font-size: 13px; line-height: 1.7; color: var(--text-mid); margin: 0 0 14px; flex: 1; }
+.testimonial-card-name { font-size: 12.5px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; color: var(--text); margin: 0; }
+
+/* 「Premier Online Gambling Destination」置中行銷短文（首頁專用） */
+.spotlight-block { max-width: 760px; margin: 0 auto; padding: 6px 0; text-align: center; }
+.spotlight-block-title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 10px; color: var(--text); }
+.spotlight-block-text { font-size: 13.5px; line-height: 1.8; color: var(--text-mid); margin: 0; }
+.spotlight-block-text a { color: var(--accent-hi); font-weight: 700; }
+.spotlight-block-text a:hover { color: var(--accent); }
+
+/* ── 會員中心（帳戶總覽/儲值/提款/各類紀錄/個人資料/安全中心） ── */
+/* padding-top/bottom 用 longhand,避免 3-value shorthand 把 .container
+   本身的左右 padding（0 20px）一起蓋成 0。原本這裡還有一份 .member-sidebar
+   （帳戶總覽/儲值/提款/各類紀錄...同一組連結的頁面內側邊選單），跟現在
+   v6-sidebar 常駐側欄的 My Account 完整清單功能重複，已移除,.member-shell
+   改回單欄滿版。 */
+.member-shell { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; padding-top: 20px; padding-bottom: 48px; align-items: start; }
+.member-main { min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+.member-page-title { font-size: 20px; font-weight: 900; margin: 0; text-transform: uppercase; }
+
+.acct-hero {
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  background: linear-gradient(135deg, var(--panel-tint) 0%, var(--bg-panel) 60%);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.acct-avatar {
+  width: 64px; height: 64px; flex-shrink: 0;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+}
+.acct-avatar svg { width: 30px; height: 30px; }
+.acct-info { flex: 1; min-width: 200px; }
+.acct-name-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.acct-name { font-size: 19px; font-weight: 800; margin: 0; color: var(--text); }
+.acct-vip-badge { padding: 3px 10px; border-radius: 999px; background: var(--accent-grad); color: var(--accent-ink); font-size: 11.5px; font-weight: 800; text-transform: uppercase; }
+.acct-stats-grid { display: flex; gap: 32px; flex-wrap: wrap; }
+.acct-stat-label { font-size: 12px; color: var(--text-dim); margin: 0 0 2px; }
+.acct-stat-value { font-size: 17px; font-weight: 800; color: var(--accent-hi); margin: 0; }
+.acct-actions { display: flex; gap: 10px; flex-shrink: 0; }
+/* 會員等級/獎勵進度條:橙色漸層沿用 --accent-grad,跟站內其他 CTA 一致;
+   「下一級」用 --accent-hi 標示,是既有色階,不需要另外新增 token。 */
+.acct-level { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+.acct-level-label { margin: 0; color: var(--text-mid); font-size: 12px; font-weight: 700; }
+.acct-level-track { height: 8px; overflow: hidden; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+.acct-level-fill { height: 100%; border-radius: inherit; background: var(--accent-grad); transition: width 0.3s ease; }
+.acct-level-meta { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; color: var(--text-mid); font-size: 12px; }
+.acct-level-meta strong { color: var(--text); font-weight: 800; }
+.acct-level-value { color: var(--text-dim); text-align: center; }
+.acct-level-next { text-align: right; }
+.acct-level-next strong { color: var(--accent-hi); }
+.acct-level-dot { display: inline-block; width: 8px; height: 8px; margin-left: 4px; border-radius: 50%; vertical-align: 1px; }
+.acct-level-dot.current { background: var(--text-dim); }
+.acct-level-dot.next { background: var(--accent-hi); }
+@media (max-width: 400px) { .acct-level-meta { font-size: 11px; gap: 8px; } }
+
+/* 窄屏下 .acct-hero 原本的橫向 flex-wrap 排列（頭像/資訊/按鈕三塊自由
+   換行）會讓頭像因 align-items:center 飄在很高的多行內容正中間,跟旁邊
+   文字對不齊;統計數據 32px 固定 gap 換行後也長短不一、間距失控。改成
+   直向堆疊 + 統計數據用三欄等寬 grid,對齊更清楚。 */
+@media (max-width: 720px) {
+  .acct-hero { flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+  .acct-info { width: 100%; }
+  .acct-name-row { justify-content: center; }
+  /* 三欄等寬會讓「目前餘額」這種長數字擠到換行,改成餘額獨占一整行、
+     其餘兩項平分,較長的金額才有足夠寬度。 */
+  .acct-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 14px; text-align: center; }
+  .acct-stats-grid > div:first-child { grid-column: 1 / -1; }
+  .acct-stat-value { font-size: 16px; word-break: break-word; }
+  .acct-actions { width: 100%; }
+  /* min-width:0 解開 flex 子項的 auto 最小寬度陷阱：.btn-accent 預設
+     white-space:nowrap,窄螢幕下兩顆按鈕(尤其英文 REQUEST WITHDRAWAL
+     較長)全寬總和會超出容器,超出的部分溢出到卡片右邊界外造成破版；
+     允許换行(white-space:normal)則讓擠不下的文字換成两行,不再溢出。 */
+  .acct-actions .btn-accent { flex: 1; min-width: 0; text-align: center; white-space: normal; line-height: 1.25; }
+}
+
+.member-panel { border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--bg-panel); box-shadow: var(--shadow-card); padding: 18px; }
+.member-panel-title { font-size: 15px; font-weight: 800; margin: 0 0 14px; color: var(--text); }
+.member-panels-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 900px) { .member-panels-grid { grid-template-columns: 1fr; } }
+/* 手機版「快速捷徑」內容跟 .mobile-tabbar「會員」／「選單」（我的帳戶
+   清單）重複，窄屏直接隱藏避免同一批連結在同一畫面出現兩次。 */
+@media (max-width: 720px) { .member-panels-grid .member-panel:nth-child(2) { display: none; } }
+
+.bank-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; font-weight: 600; color: var(--text); }
+.bank-row:last-child { border-bottom: 0; }
+.bank-row svg { width: 22px; height: 22px; color: var(--text-mid); flex-shrink: 0; }
+
+.bank-row-flex { display: flex; align-items: center; gap: 10px; }
+.bank-row-flex > [data-wd-current-account] { flex: 1; min-width: 0; }
+.bank-row-add { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; border: 0; flex-shrink: 0; background: var(--accent-grad); color: var(--accent-ink); cursor: pointer; transition: filter 0.15s; }
+.bank-row-add:hover { filter: brightness(1.05); }
+
+/* 儲值 / 提款表單 */
+.pay-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.pay-tab { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg-panel); color: var(--text-mid); font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.pay-tab svg { width: 16px; height: 16px; }
+/* .pay-tab 自己有 display:flex,跟 [hidden] 屬性的預設 display:none 同
+   specificity、後者在 UA stylesheet 優先度更低會直接被蓋掉,要多這條
+   才能真的隱藏(帳戶管理依銀行/加密錢包分組動態收放新增表單的幣別頁籤) */
+.pay-tab[hidden] { display: none; }
+/* 選中的付款方式改用 --accent 主色漸層,跟 .btn-accent 系列一致;
+   --badge 是全站固定不變的警示紅,只留給真正的警示/熱區標籤用,不該
+   用在「目前選中的付款方式」這種中性狀態上。 */
+.pay-tab.active { background: var(--accent-grad); border-color: transparent; color: var(--accent-ink); }
+
+/* 底線頁籤(通道 A/B/C/D、提款/帳戶管理):跟 .about-tab 的膠囊頁籤是
+   不同視覺語言,獨立一組 class,不共用也不改動 .about-tab 本身,避免動到
+   about.html 既有頁面。 */
+.tabline { display: flex; gap: 28px; border-bottom: 1px solid var(--line); margin-bottom: 20px; flex-wrap: wrap; }
+.tabline-item { padding: 8px 2px 12px; background: none; border: 0; color: var(--text-mid); font-size: 14px; font-weight: 600; position: relative; cursor: pointer; }
+.tabline-item.active { color: var(--accent-hi); font-weight: 700; }
+.tabline-item.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent-hi); border-radius: 2px; }
+
+/* 提款帳戶卡片(帳戶管理頁籤) */
+.wd-account-count { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); font-size: 15px; margin-bottom: 16px; }
+.wd-account-count::before { content: ''; width: 4px; height: 18px; background: var(--badge); border-radius: 2px; display: inline-block; }
+.wd-account-count b { color: var(--badge); }
+.wd-account-card { display: flex; align-items: center; gap: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 14px; background: var(--bg-panel); }
+.wd-account-badge { width: 80px; height: 52px; border-radius: 10px; background: var(--bg-soft); color: var(--text); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: 800; padding: 4px; flex-shrink: 0; line-height: 1.15; }
+.wd-account-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.wd-account-name { font-weight: 800; color: var(--text); font-size: 15px; }
+.wd-account-number { font-family: 'Courier New', monospace; color: var(--text-dim); font-size: 13px; letter-spacing: 0.5px; word-break: break-all; }
+.wd-account-date { color: var(--text-dim); font-size: 12.5px; }
+.wd-account-remove { margin-left: auto; flex-shrink: 0; }
+.wd-account-add-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 10px; border: 1px solid var(--badge); color: var(--badge); background: transparent; font-weight: 700; font-size: 13.5px; margin-top: 8px; cursor: pointer; }
+.wd-account-add-btn:hover { opacity: 0.85; }
+.wd-account-add-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+/* 提款頁籤上顯示目前提領帳戶的單卡輪播(有多筆同類型帳戶時可翻頁) */
+.wd-carousel-box { border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px; background: var(--bg-panel); }
+.wd-carousel-box .bank-row { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.wd-carousel { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.wd-carousel-arrow { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: var(--bg-panel); color: var(--text-mid); cursor: pointer; flex-shrink: 0; }
+.wd-carousel-arrow[disabled] { opacity: 0.3; cursor: not-allowed; }
+.wd-carousel-label { font-size: 13.5px; font-weight: 700; color: var(--text-mid); white-space: nowrap; }
+.wd-carousel-label b { color: var(--text); }
+.pay-amount-grid { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+.pay-amount-grid[hidden] { display: none; }
+.pay-amount-btn { padding: 10px 20px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg); font-size: 13.5px; font-weight: 700; color: var(--text); }
+.pay-amount-btn.selected { background: var(--accent-grad); border-color: transparent; color: var(--accent-ink); }
+.pay-field { width: 100%; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.pay-note { font-size: 12px; color: var(--text-dim); margin: 0 0 16px; }
+.pay-submit { display: block; width: 100%; margin-top: 8px; }
+/* 提款頁主錢包餘額／流水進度,無對應真實原始碼(v6 沒有這個資料模型),
+   純前端展示用固定值 */
+.wd-refresh-row { display: flex; align-items: center; gap: 6px; color: var(--text-dim); font-size: 13px; margin-top: 10px; cursor: pointer; width: fit-content; }
+.wd-refresh-row svg { width: 15px; height: 15px; }
+.wd-wallet-row { text-align: center; margin: 20px 0 6px; }
+.wd-wallet-row .wallet-label { color: var(--text-dim); font-size: 13px; }
+.wd-wallet-row .wallet-amount { color: var(--text); font-size: 22px; font-weight: 800; margin-top: 4px; }
+.wd-turnover-note { text-align: center; color: var(--accent-hi); display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.wd-turnover-note .detail-btn { color: var(--accent-ink); background: var(--accent-grad); border-radius: 999px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
+.wd-turnover-note .wd-target-amount { color: var(--text-dim); }
+.pw-input-wrap { position: relative; margin-bottom: 8px; }
+.pw-input-wrap .pay-field { padding-right: 44px; margin-bottom: 0; }
+.pw-toggle { position: absolute; right: 8px; top: 0; bottom: 0; display: flex; align-items: center; background: none; border: 0; color: var(--text-dim); cursor: pointer; padding: 0 4px; }
+
+/* 交易/投注紀錄表格 */
+.record-filters { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.record-filters select, .record-filters input { padding: 8px 12px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg-panel); font-size: 13px; color: var(--text); font-family: inherit; }
+.record-table-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--line); }
+.record-table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
+.record-table th { text-align: left; padding: 10px 14px; background: var(--bg-soft); color: var(--text-mid); font-weight: 700; font-size: 12px; border-bottom: 1px solid var(--line); }
+.record-table td { padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--text); }
+.record-table tr:last-child td { border-bottom: 0; }
+.record-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.record-table .mono { font-family: ui-monospace, monospace; color: var(--text-mid); }
+.record-table .positive { color: #3fbf72; font-weight: 700; }
+.record-table .negative { color: var(--badge); font-weight: 700; }
+.record-empty-note { padding: 32px; text-align: center; color: var(--text-dim); font-size: 13px; }
+.record-total { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 14px 18px; border-radius: var(--radius-md); background: var(--accent-grad); color: var(--accent-ink); }
+.record-total-label { font-weight: 700; font-size: 13px; }
+.record-total-val { font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums; }
+
+/* 體育串關展開列：比照 .faq-card 手風琴的 open class 寫法，用相鄰兄弟
+   選擇器切換下一列子表的顯示，JS 只需 toggle class。.rt-parlay-panel
+   多包一層拉高子表選擇器優先權，避免被 .record-table td 的留白/文字色
+   蓋過（.record-table td 是 descendant selector，天生會吃到巢狀子表）。 */
+.rt-parlay-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; margin-left: 8px;
+  border: 0; border-radius: 5px; background: transparent; color: var(--text-mid);
+  vertical-align: middle; cursor: pointer;
+}
+.rt-parlay-toggle:hover { color: var(--text); background: var(--bg-soft); }
+.rt-parlay-caret { display: block; transition: transform 0.15s; }
+.rt-parlay-row.open .rt-parlay-caret { transform: rotate(180deg); }
+.rt-parlay-detail { display: none; }
+.rt-parlay-row.open + .rt-parlay-detail { display: table-row; }
+.rt-parlay-detail > td { padding: 0; border-bottom: 1px solid var(--line); }
+.rt-parlay-panel { padding: 14px 16px 18px; background: var(--bg-soft); white-space: normal; }
+.rt-parlay-summary { margin-bottom: 10px; font-size: 12.5px; color: var(--text-mid); white-space: nowrap; }
+.rt-parlay-sep { margin: 0 8px; }
+.rt-parlay-summary strong { color: var(--accent); font-weight: 700; }
+.rt-parlay-panel .rt-parlay-table { width: 100%; border-collapse: collapse; font-size: 12.5px; white-space: nowrap; }
+.rt-parlay-panel .rt-parlay-table th {
+  text-align: left; padding: 6px 10px; background: transparent; color: var(--text-dim);
+  font-weight: 700; font-size: 11px; border-bottom: 1px solid var(--line);
+}
+.rt-parlay-panel .rt-parlay-table td { padding: 8px 10px; background: transparent; color: var(--text-mid); border-bottom: 1px solid var(--line); }
+.rt-parlay-panel .rt-parlay-table tr:last-child td { border-bottom: 0; }
+.rt-parlay-panel .rt-parlay-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.rt-parlay-panel .rt-parlay-table .positive { color: #3fbf72; font-weight: 700; }
+
+/* 個人資料 */
+.pi-field-list { display: flex; flex-direction: column; }
+.pi-field { display: flex; align-items: center; gap: 14px; padding: 14px 4px; border-bottom: 1px solid var(--line); }
+.pi-field:last-child { border-bottom: 0; }
+.pi-field svg { width: 20px; height: 20px; color: var(--text-mid); flex-shrink: 0; }
+.pi-field-label { font-size: 12.5px; color: var(--text-dim); width: 110px; flex-shrink: 0; }
+.pi-field-value { flex: 1; font-size: 14px; font-weight: 700; color: var(--text); }
+.pi-field-edit { font-size: 12.5px; font-weight: 700; color: var(--accent-hi); }
+.pi-field-edit:hover { color: var(--accent); }
+
+/* 安全中心 */
+.sec-list { display: flex; flex-direction: column; }
+.sec-item { display: flex; align-items: center; gap: 14px; padding: 16px 4px; border-bottom: 1px solid var(--line); cursor: pointer; }
+.sec-item:last-child { border-bottom: 0; }
+.sec-item-icon { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--bg-soft); color: var(--accent-hi); flex-shrink: 0; }
+.sec-item-icon svg { width: 18px; height: 18px; }
+.sec-item-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.sec-item-desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.sec-item-value { margin-left: auto; font-size: 12.5px; color: var(--text-dim); }
+.sec-item:hover { background: var(--bg-soft); }
+
+.form-field { margin-bottom: 16px; }
+.form-label { display: block; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.form-input { width: 100%; padding: 11px 14px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg); font-size: 14px; color: var(--text); font-family: inherit; }
+.form-hint { font-size: 12px; color: var(--text-dim); margin-top: 14px; }
+
+/* Featured live-casino carousel (tall, spans the narrow column) */
+.feature-carousel { position: relative; min-height: 300px; }
+.feature-card {
+  position: absolute; inset: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.feature-card.active { opacity: 1; pointer-events: auto; }
+.feature-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: -2; }
+.feature-card-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(10, 8, 7, 0.92) 0%, rgba(10, 8, 7, 0.4) 55%, rgba(10, 8, 7, 0.05) 100%); z-index: -1; }
+.feature-card-body { padding: 20px; color: var(--text-on-header); width: 100%; }
+.feature-card-eyebrow { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-hi); margin-bottom: 6px; }
+.feature-card-title { font-size: 20px; font-weight: 900; margin: 0 0 10px; text-transform: uppercase; }
+.tile-grid.rail.vendor-rail { grid-auto-columns: max-content; gap: 8px; }
+.feature-vendor-chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font: inherit;
+  font-size: 11px; font-weight: 700;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.feature-vendor-chip.active { background: var(--accent-grad); border-color: transparent; color: var(--accent-ink); }
+
+/* ── 浮動客服按鈕（取代 v5 的側邊快捷列，比照參考站右下角單顆
+   聊天氣泡）── 展開後的 .chat-widget 本身 z-index 較高、位置重疊，
+   視覺上等同「氣泡展開成面板」，不需要另外隱藏這顆按鈕。 */
+.v6-chat-fab {
+  position: fixed; right: 18px; bottom: 18px; z-index: 900;
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow-accent);
+  transition: transform 0.15s;
+}
+.v6-chat-fab:hover { transform: scale(1.06); }
+.v6-chat-fab svg { width: 24px; height: 24px; }
+/* 中寬度以下側欄變成鋪滿大半畫面的抽屜(見 max-width:1080px),
+   z-index 900 的客服氣泡固定貼在右下角會疊在抽屜內容上面(擋住
+   最後幾項連結點不到),選單開著時先讓開。.v6-chat-fab 是
+   .v6-shell 的手足元素(在它後面),不是子元素,要用 ~ 選取。 */
+.v6-shell.is-sidebar-open ~ .v6-chat-fab { display: none; }
+
+/* ── 手機底部快捷列（僅窄螢幕顯示，見 @media (max-width: 720px)；
+   桌機用 .header-nav 已足夠導覽，不重複顯示） ── */
+.mobile-tabbar { display: none; }
+.mobile-tabbar-btn {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px 2px;
+  font-size: 11px; font-weight: 600;
+  color: var(--text-mid);
+}
+.mobile-tabbar-btn svg { width: 20px; height: 20px; }
+.mobile-tabbar-btn.active { color: var(--accent); }
+
+/* ── 合作廠商跑馬燈 ─────────────────────── */
+/* .vendor-marquee-track 裡放兩份完全相同的 .vendor-marquee-row（第二份
+   aria-hidden，僅供視覺無縫循環用）,寬度合計為單份的兩倍,animation 移動
+   自身寬度的 50%（＝單份寬度）即可無縫接回起點,不需要 JS 量測寬度。 */
+/* 跟 .tile-grid／.member-panel 等內容卡片一樣的做法：套用跟 .container
+   相同的 max-width:1360px + margin:auto，讓整個卡片（含背景/邊框）本身
+   跟其他內容同寬，不是滿版背景橫跨到瀏覽器邊緣。 */
+.vendor-marquee {
+  /* width:100% 是關鍵：body 是 flex column,.vendor-marquee 用
+     margin:auto 置中會關掉 align-items:stretch,若不給明確 width,
+     瀏覽器會用內容（未裁切前的整排徽章,超寬）去算 shrink-to-fit 寬度,
+     手機版反而撐成 max-width 那麼寬,不會縮到視窗寬度。 */
+  width: 100%;
+  max-width: 1360px;
+  margin: 20px auto 0;
+  padding: 22px 20px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+.vendor-marquee .container { padding: 0; }
+.vendor-marquee-title { margin: 0 0 12px; font-size: 12px; font-weight: 700; color: var(--text-dim); text-align: center; letter-spacing: 0.06em; text-transform: uppercase; }
+/* 裁切邊界放在 .container 寬度（跟其他區塊同寬對齊），而不是整個
+   .vendor-marquee（滿版背景）,跑馬燈才會在跟其餘內容一樣的寬度內捲動。 */
+.vendor-marquee-viewport { overflow: hidden; }
+.vendor-marquee-track { display: flex; width: max-content; animation: vendor-marquee-scroll 48s linear infinite; }
+.vendor-marquee-track:hover { animation-play-state: paused; }
+.vendor-marquee-row { display: flex; align-items: center; gap: 12px; flex-shrink: 0; padding-right: 12px; }
+.vendor-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 34px; padding: 0 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  color: var(--text-mid);
+  font-size: 12px; font-weight: 800; letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+@keyframes vendor-marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vendor-marquee-track { animation: none; }
+}
+
+/* ── FOOTER ─────────────────────────────── */
+.site-footer { background: var(--header-bg); border-top: 1px solid var(--line); padding: 40px 0 32px; margin-top: 20px; flex-shrink: 0; }
+.site-footer-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.site-footer-logo { height: 28px; width: auto; margin-bottom: 18px; opacity: var(--footer-opacity); }
+.site-footer-notice { max-width: 640px; }
+.site-footer-notice p { color: var(--text-mid); font-size: 12px; line-height: 1.7; margin: 0 0 8px; }
+.site-footer-notice p:last-child { margin-bottom: 0; }
+.site-footer-divider { width: 100%; max-width: 640px; height: 1px; background: var(--line); margin: 20px 0; }
+.site-footer-copyright { font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.site-footer-copyright a { color: var(--text-dim); }
+.site-footer-copyright a:hover { color: var(--accent-hi); }
+
+/* ── 搜尋按鈕（比照參考站 topbar 放大鏡圖示；純視覺入口，未接真正
+   搜尋頁面，跟其他 href="#" 裝飾性元件同等級） ── */
+.header-search-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-on-header);
+}
+.header-search-btn:hover { background: rgba(255, 255, 255, 0.12); }
+.header-search-btn svg { width: 16px; height: 16px; }
+
+/* ── 語系切換 ───────────────────────────── */
+.header-lang { position: relative; }
+.header-lang-trigger {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-on-header);
+  font-size: 12.5px; font-weight: 700;
+}
+.header-lang-trigger:hover { background: rgba(255, 255, 255, 0.12); }
+.header-lang-trigger svg { flex-shrink: 0; }
+.header-lang-menu {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  min-width: 128px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 6px;
+  z-index: 90;
+}
+.header-lang-menu[hidden] { display: none; }
+.header-lang-option {
+  display: block; width: 100%; text-align: left;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 13px; font-weight: 600;
+  background: transparent;
+}
+.header-lang-option:hover { background: var(--bg-soft); }
+.header-lang-option.active { color: var(--accent-hi); background: rgba(244, 121, 31, 0.12); font-weight: 800; }
+
+/* ── 選單觸發按鈕（漢堡鍵）─────────────────
+   常駐在 header 最前面（logo 左邊），跟中寬度以下的 .v6-sidebar 離屏
+   抽屜共用同一個 .v6-shell.is-sidebar-open 狀態、同一個 toggleSidebar()：
+   桌機寬度側欄本身不動，只展開/收起最上面的登入/註冊捷徑＋促銷卡
+   （見 .v6-sidebar-mobile-extra 的 min-width:1081px 規則）；中寬度
+   以下才是整條側欄滑入/滑出。720px 以下改由 .mobile-tabbar-menu
+   取代，這裡藏起來避免重複入口。 */
+.header-menu-trigger {
+  display: flex;
+  position: relative; z-index: 10003; /* 蓋過選單開啟時的 scrim,再點一次才點得到自己 */
+  width: 38px; height: 38px;
+  align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-on-header);
+  flex-shrink: 0;
+}
+.header-menu-trigger:hover { background: rgba(255, 255, 255, 0.16); }
+
+/* ── 選單收合面板(漢堡鈕/tabbar 選單共用) ─────────────
+   比照參考站:面板貼齊 header 右下角,不蓋滿整個畫面,底下頁面內容
+   維持可見——scrim 只負責接「點外面關閉」,本身透明。 ── */
+.header-menu-scrim { position: fixed; inset: 0; z-index: 10001; background: transparent; }
+.header-menu-panel {
+  position: absolute; top: 100%; right: 0; z-index: 10002;
+  width: 100%; max-width: 560px;
+  max-height: calc(100vh - 72px);
+  display: flex; flex-direction: column;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-top: none;
+  box-shadow: var(--shadow-card);
+  overflow-y: auto;
+}
+.header-menu-nav { display: flex; flex-direction: column; }
+.header-menu-section { padding: 14px 12px 4px; font-size: 12px; font-weight: 700; color: var(--text-dim); }
+/* 主分類：3 欄 icon 卡片網格，對齊參考站漢堡選單的圖示方塊配置。 */
+.header-menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 14px; }
+.header-menu-grid-item {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 6px;
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  font-size: 12px; font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+.header-menu-grid-item svg { width: 24px; height: 24px; color: var(--text-mid); flex-shrink: 0; }
+.header-menu-grid-item.active { background: var(--accent-grad); border-color: transparent; color: var(--accent-ink); }
+.header-menu-grid-item.active svg { color: var(--accent-ink); }
+/* 會員捷徑：兩欄文字清單＋右側 chevron，項目較多(10項)時比 icon 網格
+   更省版面，也對齊參考站選單第二段「更多功能」清單的樣式。 */
+.header-menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 4px 14px 14px; }
+.header-menu-list-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  font-size: 12.5px; font-weight: 700;
+  color: var(--text);
+}
+.header-menu-list-item .chevron { width: 14px; height: 14px; color: var(--text-dim); flex-shrink: 0; }
+.header-menu-list-item.active { color: var(--accent-hi); border-color: var(--accent-hi); }
+.header-menu-list-item.active .chevron { color: var(--accent-hi); }
+.header-menu-foot { padding: 14px 20px 20px; border-top: 1px solid var(--line); flex-shrink: 0; }
+.header-menu-foot .btn-accent { display: block; text-align: center; text-decoration: none; margin-bottom: 8px; }
+.header-menu-foot .btn-accent.quiet { background: var(--bg-panel); color: var(--accent-hi); border-color: var(--line-hi); box-shadow: none; }
+.header-menu-account { display: flex; align-items: center; gap: 10px; padding: 6px 0 14px; font-size: 13.5px; font-weight: 700; color: var(--text); }
+.header-menu-account svg { width: 22px; height: 22px; color: var(--accent-hi); }
+@media (max-width: 600px) {
+  /* 窄螢幕面板改滿版寬度,不留左右空隙。 */
+  .header-menu-panel { max-width: 100%; }
+}
+
+/* ── 登入／註冊彈窗 ─────────────────────── */
+/* 卡片改成奶油色淺底(呼應參考站的登入卡),做法是只在容器上局部覆寫
+   --bg、--bg-panel、--text、--line 這幾個 token 的「值」,下面所有沿用
+   var(--text)、var(--bg-panel) 等寫法的既有子層樣式（標題/分頁/輸入框…）
+   會透過 CSS 自訂屬性繼承自動換成淺色，不需要另外複寫每一條子選擇器。 */
+.auth-modal-overlay { position: fixed; inset: 0; z-index: 10002; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.72); padding: 20px; }
+.auth-modal-box {
+  --bg: #efece4;
+  --bg-panel: #ffffff;
+  --line: #ded6c4;
+  --line-hi: #e7c99a;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  width: 100%; max-width: 380px; border-radius: var(--radius-lg); background: var(--bg); color: var(--text); box-shadow: var(--shadow-card); overflow: hidden;
+}
+.auth-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.auth-modal-title { margin: 0; font-size: 16px; font-weight: 800; color: var(--text); }
+.auth-modal-close { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: var(--text-mid); }
+.auth-modal-close:hover { background: var(--bg-panel); }
+.auth-modal-body { padding: 20px; }
+.auth-modal-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.auth-modal-tab { flex: 1; padding: 9px 0; text-align: center; border-radius: 999px; border: 1px solid var(--line); font-size: 13px; font-weight: 700; color: var(--text-mid); }
+.auth-modal-tab.active { background: var(--accent-grad); border-color: transparent; color: var(--accent-ink); }
+.auth-modal-submit { display: block; width: 100%; text-align: center; text-decoration: none; margin-top: 6px; }
+
+/* ── 客服彈窗 ───────────────────────────── */
+.cs-modal-overlay { position: fixed; inset: 0; z-index: 10002; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.72); padding: 20px; }
+.cs-modal-box {
+  --bg: #efece4;
+  --bg-panel: #ffffff;
+  --line: #ded6c4;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  width: 100%; max-width: 340px; border-radius: var(--radius-lg); background: var(--bg); color: var(--text); box-shadow: var(--shadow-card); overflow: hidden;
+}
+.cs-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.cs-modal-title { margin: 0; font-size: 15.5px; font-weight: 800; color: var(--text); }
+.cs-modal-close { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: var(--text-mid); }
+.cs-modal-close:hover { background: var(--bg-panel); }
+.cs-modal-body { padding: 10px; }
+.cs-opt { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-md); text-decoration: none; }
+.cs-opt:hover { background: var(--bg-panel); }
+.cs-opt-icon { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-grad); color: var(--accent-ink); flex-shrink: 0; }
+.cs-opt-icon svg { width: 17px; height: 17px; }
+.cs-opt-text strong { display: block; font-size: 13.5px; color: var(--text); }
+.cs-opt-text small { font-size: 12px; color: var(--text-dim); }
+
+/* ── LIVE CHAT 對話視窗（點擊右下角浮動客服按鈕開啟,右下角展開,
+   純前端模擬對話,無真實客服後端） ────────── */
+.chat-widget {
+  --bg: #efece4;
+  --bg-panel: #ffffff;
+  --line: #ded6c4;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  position: fixed; right: 18px; bottom: 18px; z-index: 10003;
+  width: 320px; max-width: calc(100vw - 36px);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.chat-widget-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 14px 14px 16px;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+}
+.chat-widget-avatar { width: 32px; height: 32px; border-radius: 50%; background: #fff; object-fit: contain; padding: 3px; flex-shrink: 0; }
+.chat-widget-head-text { flex: 1 1 auto; min-width: 0; }
+.chat-widget-head-text strong { display: block; font-size: 14px; }
+.chat-widget-status { display: flex; align-items: center; gap: 5px; font-size: 11.5px; opacity: .85; }
+.chat-widget-status i { width: 6px; height: 6px; border-radius: 50%; background: #3ddc84; display: inline-block; }
+.chat-widget-min, .chat-widget-close {
+  width: 26px; height: 26px; flex-shrink: 0; display: grid; place-items: center;
+  border-radius: 50%; color: inherit;
+}
+.chat-widget-min:hover, .chat-widget-close:hover { background: rgba(255, 255, 255, .22); }
+.chat-widget-body { padding: 14px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.chat-msg { display: flex; align-items: flex-end; gap: 8px; max-width: 88%; }
+.chat-msg-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--bg-panel); object-fit: contain; padding: 2px; flex-shrink: 0; }
+.chat-bubble { padding: 9px 12px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+.chat-msg-bot .chat-bubble { background: var(--bg-panel); color: var(--text); border-bottom-left-radius: 4px; }
+.chat-msg-user { align-self: flex-end; flex-direction: row-reverse; }
+.chat-msg-user .chat-bubble { background: var(--accent-grad); color: var(--accent-ink); border-bottom-right-radius: 4px; }
+.chat-widget-form { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); }
+.chat-widget-form input {
+  flex: 1 1 auto; min-width: 0; border: 1px solid var(--line); border-radius: 999px;
+  padding: 8px 14px; font-size: 13px; background: var(--bg-panel); color: var(--text);
+}
+.chat-widget-form button {
+  width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center;
+  background: var(--accent-grad); color: var(--accent-ink);
+}
+.chat-widget.is-minimized .chat-widget-body,
+.chat-widget.is-minimized .chat-widget-form { display: none; }
+@media (max-width: 720px) {
+  /* 跟 .v6-chat-fab 一樣，貼底快捷列出現時客服視窗也要往上讓開，
+     不然展開後底部會被快捷列蓋住一截。 */
+  .chat-widget { bottom: calc(64px + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 520px) {
+  .chat-widget { right: 10px; width: calc(100vw - 20px); }
+}
+
+/* ── RESPONSIVE ─────────────────────────── */
+/* 桌機寬度：.v6-sidebar 常駐 224px、position:sticky,點漢堡展開前後
+   完全不變（不覆蓋主內容、不跳動),比照參考站的做法——漢堡只是開關
+   .v6-sidebar-mobile-extra（登入/註冊捷徑＋促銷卡）這塊內容本身，見
+   該 class 的展開動畫規則。 */
+@media (max-width: 1080px) {
+  /* 中寬度以下每個版位模組都改滿版堆疊,不管 data-span 設多少。 */
+  .grid12 > [data-span] { grid-column: 1 / -1; }
+}
+@media (max-width: 720px) {
+  /* 比照參考站手機 topbar：搜尋／登錄／註冊常駐顯示,不收進選單,只是
+     縮小尺寸跟字級騰出空間；漢堡鍵改由底部快捷列的「選單」鍵取代
+     （見 .mobile-tabbar-menu），這裡藏起來避免重複入口。 */
+  .header-menu-trigger { display: none; }
+  .header-right { gap: 6px; }
+  .brand-mark-icon { width: 22px; height: 22px; }
+  .brand-mark-text { font-size: 16px; }
+  .header-search-btn { width: 30px; height: 30px; }
+  .header-auth { gap: 4px; }
+  .header-auth .btn-accent { padding: 7px 10px; font-size: 11px; }
+  /* 會員態的餘額／點數文字在窄螢幕會把整排擠爆，先藏起來，帳戶頁本身
+     已經有更完整的餘額資訊（見 .member-panel），登出鈕保留在 header
+     維持隨處可登出。 */
+  .header-forgot { display: none; }
+  /* .header-nav-link-user 借用 .header-nav-link 的樣式，但那份 padding
+     是給桌機頂部整排分類頁籤用的，塞進窄螢幕 header-auth 裡會被撐爆。 */
+  .header-auth .header-nav-link { padding: 6px 2px; font-size: 12px; }
+  .header-nav-link-user span { max-width: 46px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .header-lang-trigger [data-lang-current] { display: none; }
+  .header-lang-trigger { padding: 8px; gap: 0; }
+  /* body 留出跟快捷列等高的底部空間,避免頁尾內容被固定定位的快捷列蓋住。 */
+  body { padding-bottom: 56px; }
+  .mobile-tabbar {
+    display: flex;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 500;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--line);
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
+  }
+  /* 客服氣泡改貼在底部快捷列上方，避免蓋住最後一顆「選單」按鈕。 */
+  .v6-chat-fab { bottom: calc(64px + env(safe-area-inset-bottom)); }
+  .hero-title { font-size: 27px; }
+  .hero-promo .hero-title em { font-size: 56px; }
+  /* 選單改成手機常見的「下方彈出」bottom sheet，不再從左側滑入；
+     跟 .v6-sidebar 共用同一顆元素／同一套開關 class，只是這個斷點下
+     改用位移方向與圓角改成貼底樣式。 */
+  .v6-sidebar {
+    left: 0; right: 0; top: auto; bottom: 0;
+    width: auto;
+    height: 86vh; max-height: 720px;
+    transform: translateY(100%);
+    border-radius: 18px 18px 0 0;
+    border-right: none;
+    border-top: 1px solid var(--line);
+  }
+  .v6-shell.is-sidebar-open .v6-sidebar { transform: translateY(0); box-shadow: 0 -16px 32px rgba(0, 0, 0, 0.5); }
+}
+@media (max-width: 520px) {
+  .notice-links { gap: 10px; }
+  .hero-content { max-width: 100%; }
+  .hero-title { font-size: 21px; }
+  .hero-promo .hero-title em { font-size: 42px; }
+  .hero-sub { font-size: 12.5px; }
+  .hero-eyebrow { font-size: 10.5px; padding: 3px 10px; margin-bottom: 10px; }
+}
+
+/* ── 關於我們 / 常見問題（about.html） ── */
+.about-wrap { padding-top: 24px; padding-bottom: 48px; max-width: 880px; margin: 0 auto; }
+@media (max-width: 720px) { .about-wrap { padding-right: 20px; } }
+.about-title { font-size: 22px; font-weight: 900; margin: 0 0 16px; text-transform: uppercase; }
+.about-tabs {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;
+  padding: 8px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px;
+}
+.about-tab { padding: 8px 18px; border: 0; border-radius: 999px; background: transparent; color: var(--text-mid); font-size: 13px; font-weight: 800; text-transform: uppercase; }
+.about-tab.active { background: var(--accent-grad); color: var(--accent-ink); }
+.about-card { border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--bg-panel); box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 14px; }
+.about-card-title { font-size: 15px; font-weight: 800; margin: 0 0 10px; color: var(--text); }
+.about-text { font-size: 13.5px; line-height: 1.8; color: var(--text-mid); margin: 0 0 10px; }
+.about-text:last-child { margin-bottom: 0; }
+.about-group-title { font-size: 13px; font-weight: 800; color: var(--accent-hi); margin: 20px 0 10px; }
+.about-group-title:first-child { margin-top: 0; }
+.faq-card { border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg-panel); margin-bottom: 8px; overflow: hidden; }
+.faq-trigger { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 14px 16px; font-size: 13.5px; font-weight: 700; color: var(--text); text-align: left; }
+.faq-chevron { width: 16px; height: 16px; color: var(--text-mid); transition: transform 0.15s; flex-shrink: 0; }
+.faq-card.open .faq-chevron { transform: rotate(180deg); }
+.faq-answer { display: none; padding: 0 16px 16px; font-size: 13px; line-height: 1.8; color: var(--text-mid); margin: 0; }
+.faq-card.open .faq-answer { display: block; }
+
+/* ── UI Kit（元件展示頁，開發參考用） ── */
+.uikit-wrap { padding-top: 24px; padding-bottom: 48px; }
+@media (max-width: 720px) { .uikit-wrap { padding-right: 20px; } }
+.uikit-section { margin-bottom: 32px; }
+.uikit-section-title { font-size: 16px; font-weight: 900; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); display: inline-block; text-transform: uppercase; }
+.uikit-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 16px; border-radius: var(--radius-md); background: var(--bg-panel); border: 1px solid var(--line); }
+.uikit-swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--text-dim); }
+.uikit-swatch-color { width: 56px; height: 56px; border-radius: var(--radius-md); border: 1px solid var(--line); }
+.uikit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }

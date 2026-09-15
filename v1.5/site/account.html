@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+      <main class="usercenter-main">
+        <div data-mount="user-navbar"></div>
+        <div class="usercenter-grid">
+          <div data-mount="user-sidebar"></div>
+          <div class="usercenter-content">
+            <div class="account-page">
+              <h1 class="account-page-title" data-i18n="userCenter.accountOverview">나의 계정</h1>
+              <div class="account-layout">
+                <div>
+                  <div class="account-hero">
+                    <div class="account-hero-top">
+                      <img class="account-hero-avatar" src="assets/images/index/avatar.png" alt="avatar" />
+                      <div>
+                        <div class="account-hero-name-row">
+                          <span class="username" data-profile-username>meaomcao</span>
+                          <span class="account-hero-level" data-profile-level>VIP1</span>
+                        </div>
+                        <div class="account-hero-nickname"><span data-i18n="userCenter.nickname">닉네임</span> : <span data-profile-nickname>meaomcao</span><img src="assets/images/icon/edit.svg" alt="edit" style="width: 16px; height: 16px; cursor: pointer" /></div>
+                        <div class="account-hero-balance"><span>₩</span><span class="text-gradient" data-profile-balance>1,000,000,000</span><img src="assets/images/icon/refresh.svg" alt="refresh" style="cursor: pointer" /></div>
+                      </div>
+                      <div class="account-hero-desktop-actions">
+                        <div class="btn-row">
+                          <button type="button" class="account-action-btn" data-nav-href="deposit.html" data-i18n="userCenter.deposit">입금</button>
+                          <button type="button" class="account-action-btn" data-nav-href="withdrawal.html" data-i18n="userCenter.withdrawal">출금</button>
+                        </div>
+                        <button type="button" class="account-action-outline border-gradient-pill" data-nav-href="banking-details.html"><span class="text-gradient" data-i18n="userCenter.bankingDetails">결제 정보</span></button>
+                      </div>
+                      <div class="account-hero-desktop-rollover">
+                        <p class="account-rollover-title text-gradient" data-i18n="userCenter.rollover.title">롤링</p>
+                        <p class="account-rollover-note" data-i18n="userCenter.rollover.remainingTurnoverAmount">남은 유효 베팅 금액:</p>
+                        <p class="account-rollover-value">₩ <span data-profile-turnover>0</span></p>
+                      </div>
+                    </div>
+                    <div class="account-hero-actions-mobile">
+                      <button type="button" class="account-action-btn" data-nav-href="deposit.html" data-i18n="userCenter.deposit">입금</button>
+                      <button type="button" class="account-action-btn" data-nav-href="withdrawal.html" data-i18n="userCenter.withdrawal">출금</button>
+                      <button type="button" class="account-action-outline border-gradient-pill" data-nav-href="banking-details.html"><span class="text-gradient" data-i18n="userCenter.bankingDetails">결제 정보</span></button>
+                    </div>
+                    <div class="account-hero-rollover-mobile">
+                      <p class="account-rollover-title text-gradient" data-i18n="userCenter.rollover.title">롤링</p>
+                      <p class="account-rollover-note" data-i18n="userCenter.rollover.remainingTurnoverAmount">남은 유효 베팅 금액:</p>
+                      <p class="account-rollover-value">₩ <span data-profile-turnover>0</span></p>
+                    </div>
+                  </div>
+
+                  <div class="account-recent">
+                    <div class="account-recent-head">
+                      <h4 data-i18n="userCenter.recentTransactions">최근 거래</h4>
+                      <a class="account-recent-more" data-nav-href="account-record.html">
+                        <span data-i18n="userCenter.viewMoreRecords">더 많은 기록 보기</span>
+                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"></path></svg>
+                      </a>
+                    </div>
+                    <div class="account-recent-body" data-transactions-list></div>
+                  </div>
+                </div>
+
+                <div class="account-quick-links">
+                  <div class="account-quick-list">
+                    <button type="button" data-nav-href="personal-info.html">
+                      <img src="assets/images/icon/usercenter/personal.svg" alt="personal" />
+                      <div><p class="qtitle" data-i18n="userCenter.sidebar.personalInfo">개인 정보</p><p class="qdesc" data-i18n="userCenter.securityCenterPage.completeProfile">개인 정보를 완료하세요</p></div>
+                    </button>
+                    <button type="button" data-nav-href="change-password.html?type=lgps">
+                      <img src="assets/images/icon/usercenter/lock.svg" alt="lock" />
+                      <div><p class="qtitle" data-i18n="userCenter.changePassword.changeLogin">로그인 비밀번호 변경</p><p class="qdesc" data-i18n="userCenter.securityCenterPage.recommendAlphaNum">영문과 숫자 조합을 권장합니다</p></div>
+                    </button>
+                    <button type="button" data-nav-href="change-password.html?type=tsps">
+                      <img src="assets/images/icon/usercenter/password.svg" alt="pin" />
+                      <div><p class="qtitle" data-i18n="userCenter.changePassword.changeTransaction">거래 비밀번호 변경</p><p class="qdesc" data-i18n="userCenter.securityCenterPage.setTxnPasswordTip">자금 보안을 위해 거래 비밀번호를 설정하세요</p></div>
+                      <span class="account-quick-status status-approved" data-i18n="userCenter.securityCenterPage.set">설정</span>
+                    </button>
+                    <button type="button" data-nav-href="banking-details.html">
+                      <img src="assets/images/icon/usercenter/creditCard.svg" alt="bank" />
+                      <div><p class="qtitle" data-i18n="userCenter.bankingDetails">결제 정보</p><p class="qdesc" data-i18n="userCenter.securityCenterPage.recommendAlphaNum">영문과 숫자 조합을 권장합니다</p></div>
+                      <span class="account-quick-status status-approved" data-i18n="userCenter.securityCenterPage.set">설정</span>
+                    </button>
+                    <button type="button" data-logout>
+                      <img src="assets/images/icon/usercenter/logout.svg" alt="logout" />
+                      <div><p class="qtitle" data-i18n="userCenter.securityCenterPage.logout">로그아웃</p><p class="qdesc" data-i18n="userCenter.securityCenterPage.logoutSafely">안전하게 로그아웃</p></div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        var p = D.MOCK_PROFILE;
+        W.qs('[data-profile-username]').textContent = p.username;
+        W.qs('[data-profile-level]').textContent = p.player_level_name;
+        W.qs('[data-profile-nickname]').textContent = p.nickname;
+        W.qs('[data-profile-balance]').textContent = p.balanceRaw;
+        W.qs('[data-profile-turnover]').textContent = p.remaining_turnover_amount;
+
+        var statusClass = { Approved: 'status-approved', Reject: 'status-reject', Pending: 'status-pending' };
+        var list = W.qs('[data-transactions-list]');
+        list.innerHTML = D.MOCK_TRANSACTIONS.map(function (tx) {
+          return (
+            '<div class="account-recent-row"><div><div class="type">' + tx.type + '</div><div class="time">' + tx.time + '</div></div>' +
+            '<div><div class="amount">₩ ' + tx.amount + '</div><div class="status ' + statusClass[tx.status] + '">' + tx.status + '</div></div></div>'
+          );
+        }).join('');
+      };
+    </script>
+  </body>
+</html>

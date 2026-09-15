@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+      <main class="usercenter-main">
+        <div data-mount="user-navbar"></div>
+        <div class="usercenter-grid">
+          <div data-mount="user-sidebar"></div>
+          <div class="usercenter-content">
+            <div class="record-page">
+              <h1 class="account-page-title" data-i18n="userCenter.sidebar.withdrawalDetail">출금 상세 정보</h1>
+              <div class="record-inner">
+                <div class="record-tags">
+                  <div class="record-refresh" style="margin-left: 0"><span data-i18n="userCenter.common.autoRefresh.in">자동 갱신까지</span><strong>30</strong><span data-i18n="userCenter.common.autoRefresh.secondsShort">초</span><img src="assets/images/icon/refresh-blue.svg" alt="refresh" data-refresh-btn /></div>
+                </div>
+
+                <div class="record-table-wrap">
+                  <table class="record-table record-mobile-only record-mobile-table">
+                    <thead>
+                      <tr>
+                        <th data-i18n="userCenter.common.headers.date">날짜</th>
+                        <th data-i18n="common.type">유형</th>
+                        <th data-i18n="userCenter.withdrawalDetailPage.activityName">이벤트 이름</th>
+                        <th data-i18n="userCenter.withdrawalDetailPage.progress">진행 상황</th>
+                      </tr>
+                    </thead>
+                    <tbody data-record-body-mobile></tbody>
+                  </table>
+
+                  <table class="record-table record-desktop-only">
+                    <thead>
+                      <tr>
+                        <th data-i18n="userCenter.common.headers.date">날짜</th>
+                        <th data-i18n="common.type">유형</th>
+                        <th data-i18n="userCenter.withdrawalDetailPage.activityName">이벤트 이름</th>
+                        <th data-i18n="userCenter.withdrawalDetailPage.depositRollover">입금 롤오버</th>
+                        <th data-i18n="userCenter.withdrawalDetailPage.bonusRollover">보너스 롤오버</th>
+                        <th data-i18n="userCenter.withdrawalDetailPage.progress">진행 상황</th>
+                      </tr>
+                    </thead>
+                    <tbody data-record-body-desktop></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        function fmt(n) { return Number(n).toLocaleString('en-US'); }
+        var categoryMap = { 1: W.t('userCenter.withdrawalDetailPage.category.1'), 2: W.t('userCenter.withdrawalDetailPage.category.2'), 3: W.t('userCenter.withdrawalDetailPage.category.3'), 4: W.t('userCenter.withdrawalDetailPage.category.4') };
+
+        function render() {
+          W.qs('[data-record-body-mobile]').innerHTML = D.WITHDRAWAL_TURNOVER_TASKS.map(function (r) {
+            return '<tr><td>' + r.createdAt + '</td><td>' + categoryMap[r.category] + '</td><td>' + r.itemName + '</td><td>' + r.achieved + ' / ' + r.target + '</td></tr>';
+          }).join('');
+          W.qs('[data-record-body-desktop]').innerHTML = D.WITHDRAWAL_TURNOVER_TASKS.map(function (r) {
+            return '<tr><td>' + r.createdAt + '</td><td>' + categoryMap[r.category] + '</td><td>' + r.itemName + '</td><td>' + fmt(r.depositFlowAmount) + '</td><td>' + fmt(r.bonusFlowAmount) + '</td><td>' + r.achieved + ' / ' + r.target + '</td></tr>';
+          }).join('');
+        }
+        W.initAutoRefresh(render);
+        render();
+      };
+    </script>
+  </body>
+</html>

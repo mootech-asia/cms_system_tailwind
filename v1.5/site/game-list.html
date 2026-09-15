@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+
+      <main class="game-list-page">
+        <a class="page-back-link" data-gl-back href="game-type.html">
+          <img src="assets/images/icon/back-white.svg" alt="back" />
+          <span data-i18n="common.back">뒤로</span>
+        </a>
+
+        <div class="game-filter-top">
+          <span class="game-filter-title text-gradient" data-gl-title></span>
+          <div class="game-filter-vendor-sep"></div>
+          <span class="game-filter-vendor-name" data-gl-vendor></span>
+        </div>
+        <div class="game-filter-row">
+          <div class="game-filter-tabs" data-gl-tabs></div>
+          <form class="game-filter-search" data-gl-search-form>
+            <input type="text" data-gl-search-input />
+            <button type="submit" class="game-filter-search-btn border-gradient-mask">
+              <img src="assets/images/icon/search-gradient.svg" alt="search" />
+              <span class="text-gradient" data-i18n="common.search">검색</span>
+            </button>
+          </form>
+        </div>
+
+        <div data-gl-body></div>
+      </main>
+
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        var PAGE_SIZE = 12;
+
+        var TITLE_KEYS = {
+          mini_game: 'gameType.types.miniGames',
+          slot: 'gameType.types.slots',
+          fish: 'gameType.types.fish',
+        };
+
+        var params = new URLSearchParams(location.search);
+        var type = params.get('type') || 'slot';
+        var vendor = params.get('vendor') || '';
+        var activeOption = 'all';
+        var query = '';
+        var visibleCount = PAGE_SIZE;
+
+        W.qs('[data-gl-back]').setAttribute('href', 'game-type.html?type=' + type);
+        W.qs('[data-gl-title]').textContent = W.t(TITLE_KEYS[type] || '');
+        W.qs('[data-gl-vendor]').textContent = vendor;
+
+        var tabsEl = W.qs('[data-gl-tabs]');
+        var bodyEl = W.qs('[data-gl-body]');
+        var searchInput = W.qs('[data-gl-search-input]');
+        searchInput.placeholder = W.t('common.gameName');
+
+        function pool() {
+          return (D.FLAT_GAMES[type] || []).filter(function (g) { return g.provider === vendor; });
+        }
+
+        function renderTabs() {
+          var opts = [
+            { id: 'all', label: W.t('gameList.options.all') },
+            { id: 'favorite', label: W.t('gameList.options.favorite') },
+          ];
+          tabsEl.innerHTML = opts.map(function (o) {
+            return '<button type="button" class="game-filter-tab' + (o.id === activeOption ? ' is-active' : '') +
+              '" data-gl-option="' + o.id + '"><span class="' + (o.id === activeOption ? 'text-gradient' : '') + '">' + o.label + '</span></button>';
+          }).join('');
+          W.qsa('[data-gl-option]', tabsEl).forEach(function (btn) {
+            W.on(btn, 'click', function () {
+              activeOption = btn.getAttribute('data-gl-option');
+              visibleCount = PAGE_SIZE;
+              renderTabs();
+              renderBody();
+            });
+          });
+        }
+
+        function renderBody() {
+          var games = pool().filter(function (g) {
+            if (activeOption === 'favorite' && !g.isFavorite) return false;
+            if (query && g.display_name.toLowerCase().indexOf(query) === -1) return false;
+            return true;
+          });
+          if (!games.length) {
+            bodyEl.innerHTML = '<div class="list-empty-state" data-i18n="common.noData">' + W.t('common.noData') + '</div>';
+            return;
+          }
+          var visible = games.slice(0, visibleCount);
+          bodyEl.innerHTML = '<div class="game-list-grid">' + visible.map(function (g, idx) {
+            return (
+              '<div class="game-card" data-gl-game="' + idx + '">' +
+              '<div class="game-card-thumb"><img src="assets/images/' + g.desktop_icon_url + '" alt="' + g.display_name + '"></div>' +
+              '<div class="game-card-info"><p class="game-card-name">' + g.display_name + '</p>' +
+              '<div class="game-card-meta"><span class="game-card-provider">' + g.provider + '</span>' +
+              '<button type="button" class="game-card-fav-btn" data-gl-fav="' + idx + '"><img src="assets/images/icon/' + (g.isFavorite ? 'like-fill.svg' : 'like.svg') + '" alt="fav"></button>' +
+              '</div></div></div>'
+            );
+          }).join('') + '</div>' +
+          (visible.length < games.length ? '<div class="load-more-wrap"><button type="button" class="load-more-btn border-gradient-mask" data-gl-more><span class="text-gradient" data-i18n="common.readMore">' + W.t('common.readMore') + '</span></button></div>' : '');
+          W.qsa('[data-gl-fav]', bodyEl).forEach(function (btn) {
+            W.on(btn, 'click', function (e) {
+              e.stopPropagation();
+              var g = visible[Number(btn.getAttribute('data-gl-fav'))];
+              g.isFavorite = !g.isFavorite;
+              renderBody();
+            });
+          });
+          W.qsa('[data-gl-game]', bodyEl).forEach(function (el) {
+            W.on(el, 'click', function () { W.showAlert({ type: 'success', message: W.t('common.openingGame') }); });
+          });
+          W.on(W.qs('[data-gl-more]', bodyEl), 'click', function () {
+            visibleCount += PAGE_SIZE;
+            renderBody();
+          });
+        }
+
+        W.on(W.qs('[data-gl-search-form]'), 'submit', function (e) {
+          e.preventDefault();
+          query = (searchInput.value || '').trim().toLowerCase();
+          visibleCount = PAGE_SIZE;
+          renderBody();
+        });
+
+        renderTabs();
+        renderBody();
+      };
+    </script>
+  </body>
+</html>

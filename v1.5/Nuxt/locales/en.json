@@ -1,0 +1,677 @@
+{
+  "common": {
+    "gotIt": "Got It",
+    "success": "Success!",
+    "error": "Uh oh!",
+    "warning": "Warning",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "dateRange": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "thisWeek": "This Week",
+      "lastWeek": "Last Week",
+      "lastMonth": "Last Month"
+    },
+    "duplicateLogin": "You’ve been logged out. Please log in again.",
+    "confirmation": "Confirmation",
+    "bankCardUnboundSuccess": "Bank card unbound successfully",
+    "confirmUnbindBankCard": "Are you sure you want to unbind this bank card?",
+    "logoutConfirmation": "Are you sure you want to log out?",
+    "bankCardAddedSuccess": "Bank card added successfully",
+    "readMore": "Read more",
+    "gameName": "Game Name",
+    "vendorName": "Vendor Name",
+    "search": "Search",
+    "submit": "Submit",
+    "next": "Next",
+    "copied": "Copied.",
+    "depositSuccess": "Deposit successful!",
+    "profileUpdateSuccess": "Profile updated successfully.",
+    "profileUpdateFailed": "Failed to update profile.",
+    "accountAddedSuccess": "Account added successfully",
+    "noData": "No Data",
+    "loginToPlay": "Please log in to play the game",
+    "loginToDeposit": "Please log in to access the deposit page",
+    "loginToUserCenter": "Please log in to access the user center page",
+    "loginRequiredToAccess": "Please log in to continue",
+    "complete": "Complete",
+    "back": "Back",
+    "invalidDateRange": "Please select a valid date range",
+    "detail": "Detail",
+    "type": "Type"
+  },
+  "patterns": {
+    "alphanumericWithAlphaStart": "Letters and numbers only.",
+    "nameWithPinyin": "Letters or Chinese characters only.",
+    "standardEmail": "Invalid email format.",
+    "standardAlphanumeric": "Letters and numbers only.",
+    "passwordType1": "Must include at least 1 letter and 1 number (underscore allowed).",
+    "numberOnly": "Numbers only.",
+    "passwordType2": "Must include at least 1 uppercase letter.",
+    "alphabetAndSpacingOnly": "Letters and spaces only.",
+    "anyWithoutSpace": "No spaces allowed.",
+    "chineseCharAndPunctuation": "Chinese characters and punctuation only.",
+    "dateYyyyMmDd": "Date format must be YYYY-MM-DD.",
+    "standardFullNamePattern": "Please enter at least two words (letters and spaces only).",
+    "dateMmDdYyyy": "Date format must be MM-DD-YYYY.",
+    "alphabetAndNumberOnly": "Must include both letters and numbers.",
+    "koreanOnly": "Korean characters only.",
+    "thaiAndSpacingOnly": "Thai characters and spaces only.",
+    "thaiOrAlphabetAndSpacing": "Thai or English letters and spaces only.",
+    "uppercaseLettersAndSpacesOnly": "Uppercase letters and spaces only.",
+    "onlyUppercaseEnglishLetters": "Uppercase English letters only.",
+    "alphanumericAndSymbol": "Printable ASCII characters only.",
+    "complexPassword": "Must include uppercase, lowercase, number, and special character.",
+    "latinExtendedWithSpace": "Latin letters (extended) with at least one space.",
+    "japaneseCharacters": "Japanese characters only (Hiragana/Katakana/Kanji).",
+    "englishAndKorean": "English letters and Korean characters only.",
+    "lengthRange": "Length must be {min}-{max} characters."
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "loginSuccess": "Login successful",
+    "registerSuccess": "Registration successful",
+    "registerFailed": "Register failed",
+    "invalidMobile": "Please enter a valid mobile number",
+    "agreeTerms": "Please agree to the terms and conditions",
+    "fillAllFields": "Please fill in all the fields",
+    "completeCaptcha": "Please complete the captcha",
+    "submit": "Submit",
+    "done": "Done",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordSuccess": "Please check your email to reset your password.",
+    "forgotPasswordFailed": "Forgot password failed",
+    "changePassword": "Change Password",
+    "changePasswordSuccess": "Password changed successfully",
+    "labels": {
+      "username": "Username",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "confirmNewPassword": "Confirm New Password",
+      "email": "Email",
+      "realName": "Real Name",
+      "mobile": "Mobile Number",
+      "birthday": "Birthday",
+      "invitation": "Invitation Code",
+      "remember": "Remember",
+      "agreeTerms": "I’m 18+ and agree to the Terms of Use"
+    },
+    "placeholders": {
+      "username": "Enter your name",
+      "password": "Enter your password",
+      "newPassword": "Enter your new password",
+      "email": "Enter your email",
+      "realName": "Enter your real name",
+      "mobile": "Enter your mobile number",
+      "birthday": "Enter your birthday",
+      "invitation": "Enter your invitation code"
+    }
+  },
+  "navbar": {
+    "top": {
+      "hotGames": "Hot Games",
+      "miniGames": "Mini Games",
+      "sports": "Sports",
+      "poker": "Poker",
+      "esports": "Esports",
+      "liveCasino": "Live Casino",
+      "lottery": "Lottery",
+      "slots": "Slots",
+      "fish": "Fish"
+    },
+    "bottom": {
+      "pointmall": "Point Mall",
+      "withdrawal": "Withdrawal",
+      "account": "Account",
+      "bonus": "Bonus",
+      "bettingRecords": "Betting Records",
+      "share": "Share"
+    },
+    "desktop": {
+      "home": "Home",
+      "hotGames": "Hot Games",
+      "miniGames": "Mini Games",
+      "slots": "Slots",
+      "sports": "Sports",
+      "esports": "E-Sports",
+      "live": "Live",
+      "poker": "Poker",
+      "fish": "Fish",
+      "lottery": "Lottery",
+      "promotion": "Promotion",
+      "pointsMall": "Points Mall"
+    },
+    "dropdowns": {
+      "FB": "FB",
+      "BTi": "BTi",
+      "IBC": "IBC",
+      "SBO": "SBO",
+      "TF": "TF",
+      "IA": "IA",
+      "SexyCasino": "Sexy Casino",
+      "Evolution": "Evolution",
+      "FBGaming": "FB Gaming",
+      "PrettyGaming": "Pretty Gaming",
+      "TexasHoldem": "Texas Hold'em",
+      "Omaha": "Omaha"
+    },
+    "balance": "Balance:",
+    "points": "Points:"
+  },
+  "banner": {
+    "title": "THIS IS TITLE",
+    "subtitle": "This Is Subtitle And Subtitle"
+  },
+  "footer": {
+    "desc": "Gambling can be addictive, please play responsibly. For information on support measures, please visit our Responsible Gambling Help page.",
+    "desc2": "By accessing, continuing to use or navigating throughout this site you accept that we will use certain browser cookies to improve your customer experience with us.",
+    "copyright": "win10096 © All rights reserved and protected by law"
+  },
+  "hotGame": {
+    "title": "HotGames",
+    "subtitle": "This is Subheading! →",
+    "seeAll": "See all",
+    "playNow": "Play Now",
+    "promo": "Promo",
+    "cardDesc": "Win a shree of #100,000! $40,000 to the winner",
+    "icons": {
+      "miniGames": "Mini Games",
+      "poker": "Poker",
+      "sports": "Sports",
+      "live": "Live",
+      "fish": "Fish",
+      "esports": "Esports",
+      "slots": "Slots",
+      "lottery": "Lottery"
+    }
+  },
+  "gameType": {
+    "types": {
+      "miniGames": "Mini Games",
+      "slots": "Slot Games",
+      "liveCasino": "Live Casino",
+      "liveSports": "Live Sports",
+      "hotGames": "Hot Games",
+      "sports": "Sports",
+      "esports": "E-Sports",
+      "poker": "Poker",
+      "fish": "Fish",
+      "lottery": "Lottery"
+    },
+    "options": {
+      "vendor": "Vendor",
+      "favorites": "Favorites"
+    }
+  },
+  "gameList": {
+    "options": {
+      "all": "All Games",
+      "favorite": "Favorite"
+    }
+  },
+  "userCenter": {
+    "sidebar": {
+      "gameLobby": "Game Lobby",
+      "accountOverview": "Account Overview",
+      "bettingRecord": "Betting Record",
+      "depositRecord": "Deposit Record",
+      "profitAndLoss": "Profit And Loss",
+      "withdrawalRecord": "Withdrawal Record",
+      "withdrawalDetail": "Withdrawal Detail",
+      "accountRecord": "Account Record",
+      "personalInfo": "Personal Info",
+      "securityCenter": "Security Center",
+      "customerService": "Customer Service",
+      "customerServiceMenu": {
+        "liveChat": "Live Chat",
+        "promoChannel": "Promo Channel",
+        "telegramSupport": "Telegram Support",
+        "faq": "FAQ",
+        "howToPlay": "How to play"
+      }
+    },
+    "accountOverview": "Account Overview",
+    "new": "new",
+    "nickname": "Nickname",
+    "deposit": "Deposit",
+    "myAccount": "My Account",
+    "depositRecord": "Deposit Record",
+    "accountsRecord": "Accounts Record",
+    "withdrawalRecord": {
+      "title": "Withdrawal Record"
+    },
+    "accountRecord": {
+      "title": "Account Record"
+    },
+    "depositInfo": "Deposit Info",
+    "withdrawalInfo": "Withdrawal Info",
+    "transactionDetails": "Transaction Details",
+    "withdrawalAmount": "Withdrawal Amount",
+    "depositAmount": "Deposit Amount",
+    "bettingRecordPage": {
+      "detailHeaders": {
+        "betType": "Bet type",
+        "leagueName": "League name",
+        "eventName": "Event name",
+        "betChoice": "Bet choice",
+        "odds": "Odds",
+        "matchResult": "Match result",
+        "winLoss": "Win/Loss"
+      }
+    },
+    "withdrawalPromotions": "Withdrawal Promotions",
+    "depositPromotions": "Deposit Promotions",
+    "receivedAmount": "Received Amount",
+    "withdrawalAccount": "Withdrawal Account",
+    "depositAccount": "Deposit Account",
+    "bonus": "Bonus",
+    "transactionDescription": "Once the transfer is complete, please click the 'Complete' button below. Should you have any questions, please feel free to contact our Customer Service team.",
+    "customerService": "Customer Service",
+    "customerServiceModal": {
+      "title": "Select Customer Service",
+      "liveChat": "Live Chat Customer Service Center",
+      "promoRoom": "Promotion Announcement Room"
+    },
+    "bettingRecord": "Betting Record",
+    "profitAndLoss": "Profit And Loss",
+    "withdrawal": "Withdrawal",
+    "bankingDetails": "Banking Details",
+    "securityLevel": "Security Level",
+    "personalInfo": "Personal Info",
+    "securityCenter": "Security Center",
+    "personalInfoPage": {
+      "username": "Username",
+      "nicknamePlaceholder": "Please enter your nickname",
+      "nicknameMaxLength": "Nickname can use only Chinese, Korean, English letters, or digits. Chinese/Korean characters count as 2 visible units, English letters and digits count as 1, and the total must be no more than 18.",
+      "history": "History",
+      "privacyCta": "We care about your privacy",
+      "privacyNote": "All the user data are encrypted to ensure your personal privacy is protected. For updates to your personal info, please contact support.",
+      "privacyNoteLine1": "All the user data are encrypted to ensure your personal privacy is protected.",
+      "privacyNoteLine2": "For updates to your personal info, please contact support.",
+      "submit": "Submit"
+    },
+    "security": "Security",
+    "score": "Score",
+    "low": "LOW",
+    "recentTransactions": "Recent Transactions",
+    "viewMoreRecords": "View More Records",
+    "bankTransferDeposit": "Bank Transfer Deposit",
+    "withdraw": "Withdraw",
+    "success": "Success",
+    "processing": "Processing",
+    "improveSecurity": "Improve Security",
+    "rollover": {
+      "title": "Rollover",
+      "achievedAmount": "Achieved amount :",
+      "targetAmount": "Target amount :",
+      "remainingTurnoverAmount": "Remaining Turnover Amount:"
+    },
+    "common": {
+      "autoRefresh": {
+        "in": "Auto-refresh in",
+        "secondsShort": "sec"
+      },
+      "selectList": {
+        "all": "All",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "deposit": "Deposit",
+        "withdraw": "Withdraw",
+        "transfer": "Transfer",
+        "rebate": "Rebate",
+        "game": "Game",
+        "bonus": "Bonus"
+      },
+      "searchBy": "Search By...",
+      "tags": {
+        "depositMethod": "Deposit Method",
+        "depositTypes": "Deposit Types",
+        "status": "Status",
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "last7d": "7 Days",
+        "time": "Time",
+        "settlement": "Settlement",
+        "vendors": "Vendors"
+      },
+      "headers": {
+        "depositRef": "Deposit Ref #",
+        "date": "Date",
+        "time": "Time",
+        "receivedAmount": "Received Amount",
+        "status": "Status",
+        "request": "Request",
+        "method": "Method",
+        "postscript": "Postscript",
+        "receivedTime": "Received Time",
+        "handlingFee": "Handling Fee",
+        "promotions": "Promotions",
+        "remarks": "Remarks",
+        "transactionNo": "Transaction No.",
+        "datetime": "Date Time",
+        "requestTime": "Request Time",
+        "depositAmountHeader": "Deposit Amount",
+        "requestAmountHeader": "Request Amount",
+        "paidAmountHeader": "Paid Amount",
+        "bankName": "Bank Name",
+        "paidDate": "Paid Date",
+        "bankReference": "Bank Reference",
+        "depositedTime": "Deposit Time",
+        "bankCharge": "Bank Charge",
+        "promotionHeader": "Promotion",
+        "remarkHeader": "Remark",
+        "orderNo": "Order No",
+        "game": "Game",
+        "category": "Category",
+        "betAmount": "Bet Amount",
+        "settlementTime": "Settlement Time",
+        "valid": "Valid",
+        "winnigs": "Winnings",
+        "profitAndLoss": "P&L",
+        "gameType": "Game Type",
+        "totalProfitAndLoss": "Total P&L",
+        "bonus": "Bonus",
+        "deposit": "Deposit",
+        "withdrawal": "Withdrawal",
+        "rebate": "Rebate",
+        "expenses": "Expenses",
+        "categoryPL": "Category P&L",
+        "betting": "Betting",
+        "validBet": "Valid Bet",
+        "winAmount": "Win Amount",
+        "betPL": "Bet P&L",
+        "transactionType": "Transaction Type",
+        "transactionAmount": "Transaction Amount",
+        "currentBalance": "Current Balance",
+        "content": "Content",
+        "result": "Result",
+        "proceed": "Proceed"
+      },
+      "empty": {
+        "noMoreRecord": "No More Record",
+        "noData": "No Data"
+      },
+      "footer": {
+        "totalAmount": "Total Amount",
+        "totalDepositAmount": "Total Deposit Amount",
+        "totalWithdrawalAmount": "Total Withdrawal Amount",
+        "totalTransactionAmount": "Total Transaction Amount"
+      },
+      "detail": {
+        "depositRef": "Deposit Ref",
+        "postscript": "Postscript",
+        "receivedTime": "Received Time",
+        "handlingFee": "Handling Fee",
+        "promotions": "Promotions",
+        "remarks": "Remarks",
+        "request": "Request",
+        "receivedAmount": "Received Amount",
+        "status": "Status"
+      }
+    },
+    "securityCenterPage": {
+      "lastLogin": "Last login",
+      "time": "Time",
+      "ipAddress": "IP Address",
+      "securitySetting": "Security Setting",
+      "completeProfile": "Complete your personal profile",
+      "notSet": "Not Set",
+      "set": "Set",
+      "recommendAlphaNum": "Recommended letter and number combination",
+      "setTxnPasswordTip": "Set a password to improve the security of fund operations",
+      "bankAccountNumber": "Bank Account Number",
+      "logout": "Logout",
+      "logoutSafely": "Logout safely"
+    },
+    "changePassword": {
+      "currentPlaceholder": "Please enter current password",
+      "newPlaceholder": "Please enter a new password",
+      "confirmPlaceholder": "Confirm new password",
+      "ruleHint": "Use 6-16 alphanumeric characters.",
+      "ruleHintLogin": "Use 6-16 alphanumeric characters.",
+      "lengthInvalid": "Password must be 6-16 characters.",
+      "confirmInvalid": "The new password and confirmation do not match.",
+      "patternInvalid": "Password can only contain alphanumeric characters.",
+      "patternInvalidLogin": "Password can only contain alphanumeric characters.",
+      "success": "Password changed successfully.",
+      "changeLogin": "Change Login Password",
+      "changeTransaction": "Change Transaction Password"
+    },
+    "bankingDetailsPage": {
+      "bankAccountAdded": "Bank Account Added",
+      "maximumAllowed": "Maximum 5 Allowed",
+      "emptyBankAccount": "Empty Bank Account",
+      "addAccount": "Add Account",
+      "refresh": "Refresh",
+      "activeBankAccount": "Active Bank Account",
+      "bank": "Bank",
+      "bankInformation": "Bank Information",
+      "searchABank": "Search a Bank",
+      "enterPassword": "Enter password",
+      "enterCardNumber": "Enter your card number",
+      "transactionPassword": "Transaction Password",
+      "setTransactionPassword": "Set Transaction Password",
+      "fillTransactionPassword": "Please fill in the transaction password",
+      "confirmPassword": "Confirm password",
+      "chooseABank": "Choose a Bank"
+    },
+    "depositPage": {
+      "depositInfo": "＊Deposit Info: Deposits can only be made using the same account. For the deposit account details, please contact customer service.",
+      "applyForDeposit": "Apply for Deposit",
+      "next": "Next",
+      "depositMethod": "Deposit Method",
+      "paymentChannels": "Payment Channels",
+      "depositAmount": "Deposit Amount",
+      "choosePromotion": "Choose promotion",
+      "promotions": "Promotions",
+      "noPromotion": "Do not participate in any promotions",
+      "limitNote": "＊Minimum Amount : ₩ {min}、 Maximum Amount: ₩ {max}＊"
+    },
+    "withdrawalPage": {
+      "withdrawalInfo": "＊Withdrawal Info: Withdrawals can only be made using the same account. For the withdrawal account details, please contact customer service.",
+      "myBankAccounts": "My Bank Accounts",
+      "emptyBankAccount": "Empty Bank Account",
+      "addAccount": "Add Account",
+      "refresh": "Refresh",
+      "main": "Main",
+      "wallet": "Wallet",
+      "available": "Available",
+      "amount": "Amount",
+      "rules": "Withdrawal Rules",
+      "remainingWithdrawal": "Remaining withdrawal",
+      "timesADay": "(Times a Day)",
+      "withdrawalTime": "Withdrawal Time",
+      "hours24": "24hours",
+      "withdrawalAmountAndPassword": "Withdrawal Amount & Password",
+      "unbindThisAccount": "Unbind This Account",
+      "completeTransactionPassword": "Please complete transaction password.",
+      "amountRequired": "Amount is required.",
+      "passwordRequired": "Transaction password is required.",
+      "addBankAccountFirst": "Please add a bank account first.",
+      "bankCardInfoRequired": "Bank card information must be set up before making a withdrawal.",
+      "accountNumber": "Account number",
+      "bindDate": "Bind Date",
+      "remainingTurnoverAmount": "*Remaining Turnover Amount: ₩ ",
+      "turnoverNotCompletedRemaining": "Turnover not completed remaining: {amount}",
+      "rolloverNote": "*Rollover Achieved\u00A0\u00A0\u00A0\u00A0amount: ₩{achieved}\u00A0\u00A0\u00A0\u00A0Target amount: ₩{target}",
+      "rolloverNotCompleted": "Your rollover target has not yet been completed. (Achieved amount: ₩{achieved}/Target amount: ₩{target})",
+      "requiredTurnoverAmount": "Required Turnover Amount"
+    },
+    "withdrawalDetailPage": {
+      "title": "Withdrawal Detail",
+      "activityName": "Activity Name",
+      "depositRollover": "Deposit Rollover",
+      "bonusRollover": "Bonus Rollover",
+      "progress": "Progress",
+      "category": {
+        "1": "Deposit Promotion",
+        "2": "Regular Deposit",
+        "3": "Adjustment",
+        "4": "Promotional Campaign"
+      }
+    }
+  },
+  "phoneCountry": {
+    "kh": "Cambodia",
+    "cn": "China",
+    "id": "Indonesia",
+    "my": "Malaysia",
+    "ph": "Philippines",
+    "kr": "South Korea",
+    "th": "Thailand"
+  },
+  "about": {
+    "title": "ABOUT US",
+    "tabs": {
+      "support": "Support",
+      "notice": "Notice",
+      "about": "About",
+      "privacy": "Privacy",
+      "info": "Info",
+      "addiction": "Addiction",
+      "rules": "Rules",
+      "exclusionList": "Exclusion turnover list",
+      "faq": "FAQ"
+    },
+    "filters": {
+      "all": "All",
+      "slot": "Slot",
+      "live": "Live"
+    },
+    "support": {
+      "items": [{ "title": "Please contact customer service." }]
+    },
+    "notice": {
+      "items": [
+        {
+          "title": "Urgent Notice - win10096 official Telegram updated.",
+          "detail": "There has been an increase in impersonators pretending to be win10096.\nwin10096 provides guidance only through one official Telegram. If there is an issue with the existing Telegram, we will announce it only via this channel or live chat.\n\nOfficial win10096 Telegram announcement channel: https://t.me/win10096cs\n\nIf you cannot reach us through the previous Telegram, please contact us via live chat to verify and proceed to avoid impersonation."
+        },
+        {
+          "title": "How to inquire about deposit account",
+          "detail": "For deposit account inquiries, please register first and then contact us via live chat or the customer service Telegram."
+        }
+      ]
+    },
+    "about": {
+      "items": [
+        {
+          "title": "About win10096",
+          "detail": "This policy describes how win10096 (\"we\") uses the information and data provided by customers and how it is handled between win10096 and customers.\n\nWe process your personal information based on the provisions provided through the win10096 (or website) registration form or other methods, or based on personal information we already hold. By submitting your information and using the site, you agree to the use of your information in accordance with this Privacy Policy. If you do not agree with this policy, please do not use the site or provide personal information."
+        }
+      ]
+    },
+    "privacy": {
+      "items": [
+        {
+          "title": "Privacy Policy",
+          "detail": "This policy explains how your personal information is collected, used, and protected by win10096. We only provide guidance via our official channels. If the existing channel has issues, announcements will be made via this page or live chat only."
+        },
+        {
+          "title": "Data collection and usage",
+          "detail": "We collect, use, and dispose of information and data about you including:\n1. Any information submitted via email or the website;\n2. Any other means that record communications via email, phone, or chat;\n3. Responses to surveys or customer questionnaires;\n4. Transaction history related to the website;\n5. Details of site visits such as traffic data, location data, blogs, and other communication data.\n\nYour personal information is processed for the following purposes:\n1. Payment transactions, including offline and online payments;\n2. Betting transactions;\n3. Managing customer accounts and building member profiles;\n4. Compliance with our legal and regulatory obligations;\n5. Customer research, surveys, and analytics;\n6. Events, products, and services;\n7. Preventing fraud, irregular betting activity, money laundering, bonus abuse, collusion, and monitoring transactions between customers for misconduct."
+        }
+      ]
+    },
+    "info": {
+      "items": [
+        {
+          "title": "Additional Information",
+          "detail": "win10096 is not responsible for the content or accuracy of internal or external websites.\nAll information provided by the company is based on facts; however, the company is not liable for errors or omissions related to the information. The company reserves the right to correct obvious errors.\nWe reserve the exclusive right to amend, update, and modify these Terms of Use from time to time.\nRevised, updated, or modified terms will be posted on the website(s) and will take effect immediately upon posting."
+        }
+      ]
+    },
+    "addiction": {
+      "items": [
+        {
+          "title": "Responsible Gaming",
+          "detail": "win10096 encourages members to enjoy gaming while preventing excessive play. We help members recognize their limits and set their own responsible gaming limits through the account management page.\nGaming is a form of entertainment and should not become an emotional or financial burden. Borrowing money or using funds for other purposes is unwise and can cause serious problems for you and those around you. We hope you enjoy games responsibly at win10096!\nIf you have questions about responsible gaming, please contact customer support. We offer help such as:\n1. Self-assessment\n2. Bet management\n3. Deposit limits\n4. Parental protection\n5. Help and suggestions"
+        },
+        {
+          "title": "Self-assessment",
+          "detail": "1. Do you play to escape from a boring or unhappy life?\n2. After losing, do you feel the urge to win back what you lost as soon as possible?\n3. When you play, do you tend to continue until all available funds are exhausted?\n4. Have you ever lied to conceal the amount of money or time spent on gambling?\n5. Have you lost interest in family, friends, or hobbies because of gambling?\n6. When you run out of money while playing, have you felt despair or disappointment and wanted to play again quickly?\n\nDo you feel depressed or suicidal due to gambling? If most of your answers are \"Yes\", you may be experiencing gambling addiction. For free and independent advice, please contact organizations such as Gambling Therapy (https://www.gamblingtherapy.org/) or contact us."
+        },
+        {
+          "title": "Bet management",
+          "detail": "While most people gamble recreationally, for some it can become a problem.\nYou may find it helpful to remember:\n1. Gambling should be fun and not seen as a way to make money.\n2. Only gamble within your financial means.\n3. Keep track of the time and money you spend on gambling.\n4. Consider installing gambling site blocking software such as Betfilter (www.betfilter.com) or Gamblock (www.gamblock.com) on your mobile or tablet.\n5. If you want to talk to someone about problem gambling, contact us or one of the organizations mentioned above."
+        }
+      ]
+    },
+    "rules": {
+      "items": [
+        {
+          "title": "Rules and Regulations",
+          "detail": "win10096 strictly penalizes members who register with the intention of using the site in abnormal ways such as arbitrage betting, using betting tools, reporting and hacking, intimidation, promotion abuse, or organized group betting. If a member is determined to have violated the stated rules and regulations, win10096 reserves the right to confiscate the member's account without prior warning. By registering and using win10096, you are considered to understand and agree to all terms, rules, and regulations."
+        },
+        {
+          "title": "Deposits and Withdrawals",
+          "detail": "- If you deposit to an incorrect account without prior verification, win10096 is not responsible for any resulting loss.\n- Unless otherwise stated in the event/promotion, all time references are based on GMT+8.\n- Deposit and withdrawal requests can only be made using the account holder’s own registered bank details; requests using another person’s details cannot be processed.\n- Bank account information cannot be registered under family, relatives, acquaintances, or any other names; it must match the actual user of the site.\n- The use of virtual accounts is strictly prohibited. Deposits or withdrawals using virtual accounts are not allowed.\n- If you deposit using an account that is not in your name, the deposit cannot be processed and win10096 may request related documents to handle the transaction.\n- To prevent money laundering and financial fraud, the deposited amount must be wagered in full before withdrawals are allowed.\n- Deposits via checks or bills are not accepted."
+        }
+      ]
+    },
+    "exclusion": {
+      "items": [
+        {
+          "title": "Sicbo",
+          "detail": "Game type: Slot\nGame Vendor: AG\nExclusion Percentage: 100%"
+        },
+        {
+          "title": "Ema Black Jack D21",
+          "detail": "Game type: Live\nGame Vendor: AG\nExclusion Percentage: 100%"
+        },
+        {
+          "title": "1000 Diamond Bet Roulette",
+          "detail": "Game type: Slot\nGame Vendor: PT\nExclusion Percentage: 100%"
+        }
+      ]
+    },
+    "faq": {
+      "categories": [
+        {
+          "title": "General Information",
+          "items": [
+            {
+              "title": "About win10096",
+              "detail": "win10096 is an overseas betting site that provides trusted and verified games. From sports, slot games, live casinos to mini games, we are doing our best to closely follow the trends of online entertainment products. You can experience exciting games while receiving various benefits such as attractive promotions and bonuses like various customer loyalty programs."
+            },
+            {
+              "title": "Are the games provided on the site fair?",
+              "detail": "The win10096 site is a legally registered company, and all game results are absolutely fair, impartial, and based on factual outcomes."
+            },
+            {
+              "title": "Is my personal information safe?",
+              "detail": "We prioritize your personal information above all else. win10096 will never share your information with any third party unless required by regulations, applicable laws and regulations, or a court order."
+            }
+          ]
+        },
+        {
+          "title": "Account Management",
+          "items": [
+            {
+              "title": "How do I change my password?",
+              "detail": "After logging into the site, click Information Center > My Information. You can change your password through the “Login Password” menu."
+            },
+            {
+              "title": "I lost my password, how can I get it reissued?",
+              "detail": "If you have forgotten your account password, please click the “Forgot Password” button. Enter your username and the email address registered during signup. If the information provided is correct, a temporary password will be sent to your email."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "promotion": {
+    "dontRemindToday": "Don't remind me again today"
+  },
+  "bottomNavbar": {
+    "home": "Home",
+    "deposit": "Deposit",
+    "promotion": "Promotion",
+    "member": "Member"
+  }
+}

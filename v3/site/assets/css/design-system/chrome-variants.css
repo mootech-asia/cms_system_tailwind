@@ -1,0 +1,235 @@
+/* ============================================================================
+   CHROME VARIANTS — site-wide header / footer / mobile-nav layout system.
+
+   Ten variants (v1..v10) per chrome part, mirroring the WEB3 chrome system in
+   the v2 factory. v1 = Foundation = the shipped baseline: it carries NO class,
+   so the untouched site always renders exactly as before. v2..v10 attach
+   `chrome-module` + `chrome-{part}--vN` (via site.js applyChromeVariant) and are
+   the only rules in this file — nothing here applies without an opt-in class.
+
+   Applied by:
+     • assets/js/site.js  applyChromeVariant() — real site + studio preview iframe
+     • studio/studio.js   chrome chip grids -> live preview -> "Apply"
+
+   Theme tokens only (assets/css/design-system/tokens.css + skins/*.css); no
+   arbitrary colours. Header rules compound on `.header` so they win over the
+   `.header.scrolled` state; footer rules compound on `.footer-min`.
+   ========================================================================== */
+
+/* ───────────────────────── HEADER (header.header) ───────────────────────── */
+
+/* v2 — Centered logo: brand centred in the bar, actions pinned to the right. */
+.chrome-header--v2 .header-inner {
+  position: relative;
+  justify-content: center !important;
+}
+.chrome-header--v2 .header-actions {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* v3 — Boxed: the bar contents ride inside a rounded, bordered pill. */
+.header.chrome-header--v3 {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+.chrome-header--v3 .header-inner {
+  height: 46px;
+  padding: 0 18px;
+  border: 1px solid var(--line-hi);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* v4 — Borderless: flat, transparent, no blur; the header dissolves into page. */
+.header.chrome-header--v4 {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+  box-shadow: none;
+}
+
+/* v5 — Elevated: solid raised surface floating on a soft drop shadow. */
+.header.chrome-header--v5 {
+  background: var(--bg-elev);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+  box-shadow: 0 6px 22px color-mix(in oklch, black 30%, transparent);
+}
+
+/* v6 — Compact: shorter bar, tighter gaps, smaller logo. */
+.header.chrome-header--v6 {
+  height: 50px;
+}
+.chrome-header--v6 .header-inner {
+  gap: 14px;
+}
+.chrome-header--v6 .topbar-logo {
+  height: 24px;
+}
+
+/* v7 — Pill nav: the action cluster is wrapped in an elevated pill. */
+.chrome-header--v7 .header-actions {
+  padding: 5px 10px;
+  gap: 10px;
+  border: 1px solid var(--line-hi);
+  border-radius: var(--radius-pill);
+  background: var(--bg-elev);
+  box-shadow: var(--shadow-card);
+}
+
+/* v8 — Gradient bar: accent gradient background, text lifted to on-accent. */
+.header.chrome-header--v8 {
+  background: var(--accent-grad);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+  box-shadow: 0 4px 18px var(--accent-glow);
+}
+.chrome-header--v8 .tb-balance-num,
+.chrome-header--v8 .tb-balance-label,
+.chrome-header--v8 .tb-skin-trigger {
+  color: var(--text-on-accent);
+}
+.chrome-header--v8 .topbar-logo {
+  filter: none;
+}
+
+/* v9 — Underline-active: a bold accent rule underlines the whole header. */
+.header.chrome-header--v9 {
+  border-bottom: 2px solid var(--accent);
+  box-shadow: 0 2px 0 color-mix(in oklch, var(--accent) 30%, transparent);
+}
+
+/* v10 — Translucent glass: see-through, strong blur, faint hairline. */
+.header.chrome-header--v10 {
+  background: color-mix(in oklch, var(--bg) 52%, transparent);
+  backdrop-filter: blur(26px) saturate(1.5);
+  -webkit-backdrop-filter: blur(26px) saturate(1.5);
+  border-bottom-color: color-mix(in oklch, var(--line-hi) 70%, transparent);
+}
+
+/* ───────────────────────── FOOTER (footer.footer-min) ───────────────────── */
+
+/* v2 — Centered card: content collected into a bordered, elevated card. */
+.footer-min.chrome-footer--v2 {
+  border-top-color: transparent;
+}
+.footer-min.chrome-footer--v2 .container {
+  max-width: 760px;
+  padding: 28px 32px;
+  border: 1px solid var(--line-hi);
+  border-radius: var(--radius-panel);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* v3 — Boxed band: a full-width elevated band with a stronger top rule. */
+.footer-min.chrome-footer--v3 {
+  border-top: 1px solid var(--line-hi);
+  background: var(--bg-elev);
+}
+
+/* v4 — Borderless: no top rule, transparent; blends into the page. */
+.footer-min.chrome-footer--v4 {
+  border-top-color: transparent;
+  background: transparent;
+}
+
+/* v5 — Elevated: raised surface lifted by an upward shadow. */
+.footer-min.chrome-footer--v5 {
+  border-top-color: transparent;
+  background: var(--bg-elev);
+  box-shadow: 0 -8px 28px color-mix(in oklch, black 26%, transparent);
+}
+
+/* v6 — Compact: pulled in tight, condensed notice. */
+.footer-min.chrome-footer--v6 {
+  margin-top: 40px;
+  padding: 22px 0 18px;
+}
+.footer-min.chrome-footer--v6 .container {
+  gap: 10px;
+}
+.footer-min.chrome-footer--v6 .footer-min-notice {
+  max-width: 620px;
+  font-size: var(--type-caption);
+}
+
+/* v7 — Split row: logo, notice and copy laid out across a single justified row. */
+.footer-min.chrome-footer--v7 .container {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+}
+.footer-min.chrome-footer--v7 .footer-min-notice {
+  flex: 1 1 420px;
+  max-width: none;
+}
+.footer-min.chrome-footer--v7 .footer-min-copy {
+  flex: 0 0 auto;
+}
+
+/* v8 — Gradient band: accent gradient background, text lifted to on-accent. */
+.footer-min.chrome-footer--v8 {
+  border-top-color: transparent;
+  background: var(--accent-grad);
+}
+.footer-min.chrome-footer--v8 .footer-min-notice,
+.footer-min.chrome-footer--v8 .footer-min-copy {
+  color: var(--text-on-accent);
+}
+.footer-min.chrome-footer--v8 .footer-min-logo img {
+  filter: none;
+}
+
+/* v9 — Top accent line: a bold accent rule caps the footer. */
+.footer-min.chrome-footer--v9 {
+  border-top: 3px solid var(--accent);
+  box-shadow: inset 0 4px 0 color-mix(in oklch, var(--accent) 26%, transparent);
+}
+
+/* v10 — Translucent: glassy, blurred, semi-transparent surface. */
+.footer-min.chrome-footer--v10 {
+  border-top-color: color-mix(in oklch, var(--line-hi) 70%, transparent);
+  background: color-mix(in oklch, var(--bg-elev) 55%, transparent);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+}
+
+/* ─────────────────── MOBILE NAV echoes (footer variant) ─────────────────── */
+/* The fixed bottom bar coordinates with the surface/colour footer variants.
+   Layout-only footer variants (v2/v3/v4/v6/v7) intentionally leave it untouched.
+   Rules live inside the same breakpoint that reveals .mobile-nav so they win. */
+@media (max-width: 900px) {
+  .mobile-nav.chrome-footer--v5 {
+    border-top-color: transparent;
+    box-shadow: 0 -8px 24px color-mix(in oklch, black 30%, transparent);
+  }
+  .mobile-nav.chrome-footer--v8 {
+    background: var(--accent-grad);
+    border-top-color: transparent;
+  }
+  .mobile-nav.chrome-footer--v8 .mnav-btn,
+  .mobile-nav.chrome-footer--v8 .mnav-btn.active {
+    color: var(--text-on-accent);
+  }
+  .mobile-nav.chrome-footer--v9 {
+    border-top: 3px solid var(--accent);
+  }
+  .mobile-nav.chrome-footer--v10 {
+    background: color-mix(in oklch, var(--bg-elev) 55%, transparent);
+    backdrop-filter: blur(18px) saturate(1.3);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  }
+}

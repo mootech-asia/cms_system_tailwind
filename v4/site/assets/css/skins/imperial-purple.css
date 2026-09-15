@@ -1,0 +1,14 @@
+/* CMS v4 skin — 尊爵紫金（Imperial Purple）。
+   換色只換掉「紅色」這個主題色（header 漸層／notice 底色／--red 次品牌
+   強調色）,背景/面板/文字維持跟預設 festive-red-gold 一樣的白色基底,
+   不覆寫 --bg／--bg-panel／--text 等 token,直接繼承 main.css 的 :root
+   淺色預設值。金色（--gold 系列）為全 skin 共用品牌色,同樣不覆寫。 */
+:root[data-skin="imperial-purple"] {
+  --header-grad: linear-gradient(180deg, #6b3fa0 0%, #4a2570 100%);
+  --header-grad-hi: #9c6fc2;
+  --notice-bg: #f3ecf9;
+  --notice-text: #5b2a86;
+
+  --red: #6b3fa0;
+  --red-deep: #4a2570;
+}

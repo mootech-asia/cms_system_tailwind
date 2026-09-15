@@ -1,0 +1,1828 @@
+<!doctype html>
+<html data-theme="win100">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v2</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="themes/win100.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+          <header class="site-header">
+            <div class="app-container app-header-desktop">
+              <a aria-current="page" href="index.html" class="app-header-logo-link"><img src="logo.png" alt="Casino Logo" class="brand-logo" /></a>
+              <div class="app-header-main">
+                <div class="app-header-top-row">
+                  <button class="app-header-login-btn">登入</button>
+                  <button class="app-header-register-btn">註冊</button>
+                  <div class="dd-trigger-wrap">
+                    <button type="button" class="skin-switcher-trigger" aria-label="Switch skin" title="切換皮膚">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-lg">
+                        <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path>
+                        <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
+                        <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="dd-trigger-wrap">
+                    <button class="header-locale-trigger">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sm">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                        <path d="M2 12h20"></path>
+                      </svg><span>中文</span
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <nav class="app-header-nav">
+                  <a aria-current="page" href="index.html" class="app-nav-link is-active"><span>首頁</span></a
+                  ><a href="hot-games.html" class="app-nav-link"><span>熱門遊戲</span></a
+                  >
+                  <div class="dd-trigger-wrap">
+                    <a href="sport.html" class="app-nav-link"><span>體育</span
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg></a
+                    >
+                    <div class="dd-panel dd-panel--nav" style="display: none">
+                      <a href="sport.html?tab=BTI" class="dd-panel-link" style="text-decoration: none">BTI</a
+                      ><a href="sport.html?tab=SABA" class="dd-panel-link" style="text-decoration: none">SABA</a>
+                    </div>
+                  </div>
+                  <div class="dd-trigger-wrap">
+                    <a href="live.html" class="app-nav-link"><span>真人娛樂</span
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg></a
+                    >
+                    <div class="dd-panel dd-panel--nav" style="display: none">
+                      <a href="live.html?tab=Sexy" class="dd-panel-link" style="text-decoration: none">Sexy</a
+                      ><a href="live.html?tab=Pragmatic+Play" class="dd-panel-link" style="text-decoration: none">Pragmatic Play</a
+                      ><a href="live.html?tab=Yeebet" class="dd-panel-link" style="text-decoration: none">Yeebet</a>
+                    </div>
+                  </div>
+                  <a href="slot.html" class="app-nav-link"><span>老虎機</span></a
+                  ><a href="fish.html" class="app-nav-link"><span>捕魚</span></a
+                  ><a href="mini-games.html" class="app-nav-link"><span>迷你遊戲</span></a
+                  ><a href="promotion.html" class="app-nav-link"><span>優惠活動</span></a
+                  >
+                </nav>
+              </div>
+            </div>
+            <div class="app-header-mobile">
+              <a aria-current="page" href="index.html" class="app-header-logo-link"><img src="logo.png" alt="Casino Logo" class="brand-logo" /></a>
+              <div class="app-header-mobile-controls">
+                <div class="dd-trigger-wrap">
+                  <button type="button" class="skin-switcher-trigger" aria-label="Switch skin" title="切換皮膚">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-lg">
+                      <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path>
+                      <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
+                      <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+                    </svg>
+                  </button>
+                </div>
+                <div class="dd-trigger-wrap">
+                  <button class="header-locale-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sm">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                      <path d="M2 12h20"></path>
+                    </svg><span>中文</span
+                    ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                  </button>
+                </div>
+                <button class="menu-trigger" aria-label="Menu">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-lg">
+                    <line x1="4" x2="20" y1="12" y2="12"></line>
+                    <line x1="4" x2="20" y1="6" y2="6"></line>
+                    <line x1="4" x2="20" y1="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </header>
+          <div>
+            <section data-studio-block="banner"
+              class="campaign-hero"
+              data-campaign="2"
+              aria-roledescription="carousel"
+              aria-label="Featured campaigns"
+            >
+              <div class="banner-art campaign-hero-stage">
+                <img
+                  src="https://images.pexels.com/photos/32100316/pexels-photo-32100316.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                  alt="儲值狂熱"
+                  class="operation-banner-media campaign-hero-media"
+                  style="object-position: 76% 28%"
+                  fetchpriority="high"
+                />
+                <div class="operation-banner-scrim campaign-hero-fill"></div>
+                <div class="campaign-hero-vignette"></div>
+                <div class="campaign-hero-content app-container">
+                  <div class="campaign-hero-copy">
+                    <div class="campaign-hero-eyebrow">
+                      <span aria-hidden="true" class="campaign-hero-eyebrow-line"></span
+                      ><span class="campaign-hero-eyebrow-text">首存禮遇</span>
+                    </div>
+                    <div class="campaign-hero-title-wrap">
+                      <span class="campaign-hero-title">儲值狂熱</span
+                      ><span class="campaign-hero-highlight">100%</span>
+                    </div>
+                    <p class="campaign-hero-sub">
+                      迎新加碼 · 快速出款 · 限時開放
+                    </p>
+                    <div>
+                      <button class="btn-primary btn-md campaign-hero-cta">立即儲值</button>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="campaign-hero-arrow campaign-hero-arrow--prev"
+                  aria-label="Previous campaign"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m15 18-6-6 6-6"></path>
+                  </svg></button
+                ><button type="button" class="campaign-hero-arrow campaign-hero-arrow--next" aria-label="Next campaign">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </button>
+                <div class="campaign-hero-pagination">
+                  <div class="campaign-hero-pagination-list">
+                    <button
+                      type="button"
+                      class="campaign-hero-dot--active campaign-hero-dot"
+                      aria-label="Go to campaign 1"
+                      aria-current="true"
+                    ></button
+                    ><button type="button" class="campaign-hero-dot" aria-label="Go to campaign 2"></button
+                    ><button type="button" class="campaign-hero-dot" aria-label="Go to campaign 3"></button
+                    ><button type="button" class="campaign-hero-dot" aria-label="Go to campaign 4"></button>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <div data-studio-block="ticker" class="ticker-bar">
+              <div class="ticker-viewport">
+                <div class="ticker-track"><span class="ticker-item">恭喜 <span class="ticker-name">Player***123</span> 贏得 <span class="ticker-amount">RM 8,888</span> <span class="ticker-in">於</span> Gates of Olympus<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Lucky***456</span> 贏得 <span class="ticker-amount">RM 15,000</span> <span class="ticker-in">於</span> Sweet Bonanza<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Win***789</span> 贏得 <span class="ticker-amount">RM 3,200</span> <span class="ticker-in">於</span> Crazy Time<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Pro***321</span> 贏得 <span class="ticker-amount">RM 22,500</span> <span class="ticker-in">於</span> Lightning Roulette<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Star***654</span> 贏得 <span class="ticker-amount">RM 5,600</span> <span class="ticker-in">於</span> Mega Moolah<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Ace***987</span> 贏得 <span class="ticker-amount">RM 11,100</span> <span class="ticker-in">於</span> Book of Dead<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">King***147</span> 贏得 <span class="ticker-amount">RM 7,777</span> <span class="ticker-in">於</span> Starburst<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Rich***258</span> 贏得 <span class="ticker-amount">RM 19,900</span> <span class="ticker-in">於</span> Wolf Gold<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Player***123</span> 贏得 <span class="ticker-amount">RM 8,888</span> <span class="ticker-in">於</span> Gates of Olympus<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Lucky***456</span> 贏得 <span class="ticker-amount">RM 15,000</span> <span class="ticker-in">於</span> Sweet Bonanza<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Win***789</span> 贏得 <span class="ticker-amount">RM 3,200</span> <span class="ticker-in">於</span> Crazy Time<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Pro***321</span> 贏得 <span class="ticker-amount">RM 22,500</span> <span class="ticker-in">於</span> Lightning Roulette<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Star***654</span> 贏得 <span class="ticker-amount">RM 5,600</span> <span class="ticker-in">於</span> Mega Moolah<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Ace***987</span> 贏得 <span class="ticker-amount">RM 11,100</span> <span class="ticker-in">於</span> Book of Dead<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">King***147</span> 贏得 <span class="ticker-amount">RM 7,777</span> <span class="ticker-in">於</span> Starburst<span class="ticker-sep">·</span></span><span class="ticker-item">恭喜 <span class="ticker-name">Rich***258</span> 贏得 <span class="ticker-amount">RM 19,900</span> <span class="ticker-in">於</span> Wolf Gold<span class="ticker-sep">·</span></span></div>
+              </div>
+            </div>
+            <section data-studio-block="live-sport" class="live-sport-section">
+              <div class="app-container">
+                <div class="rail-head">
+                  <h2 class="rail-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-title-icon rail-title-icon--primary"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg
+                    ><span class="rail-title-text">體育直播</span>
+                  </h2>
+                  <div class="rail-actions">
+                    <a class="rail-view-all rail-view-all--icon" href="sport.html"
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-view-all-icon"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg
+                      >查看全部直播</a
+                    ><button class="rail-nav-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-nav-icon">
+                        <path d="m15 18-6-6 6-6"></path>
+                      </svg></button
+                    ><button class="rail-nav-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-nav-icon">
+                        <path d="m9 18 6-6-6-6"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="media-hero-art is-video-player">
+                  <div class="hero-player-box">
+                    <button type="button" class="live-sport-hero-play" aria-label="觀看直播"
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg
+                    ></button>
+                    <span class="live-sport-hero-live-badge"
+                      ><span class="live-sport-hero-live-dot"></span>LIVE</span
+                    >
+                    <div class="live-sport-hero-playerbar"><button type="button" class="live-sport-hero-playerbar-btn" aria-label="觀看直播"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></button><div class="live-sport-hero-playerbar-progress"><span class="live-sport-hero-playerbar-fill"></span></div><span class="live-sport-hero-playerbar-live">LIVE</span><button type="button" class="live-sport-hero-playerbar-btn" aria-label="靜音"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></button><button type="button" class="live-sport-hero-playerbar-btn" aria-label="全螢幕"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div>
+                  </div>
+                  <div class="hero-text-panel">
+                    <div class="live-sport-hero-badge">
+                      <div class="live-sport-hero-badge-icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="live-sport-hero-badge-icon"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+                      </div>
+                      <div>
+                        <p class="live-sport-hero-badge-title">UEFA</p>
+                        <p class="live-sport-hero-badge-sub">FIFA WORLD CUP</p>
+                      </div>
+                    </div>
+                    <div class="live-sport-hero-content">
+                      <div class="live-sport-hero-copy">
+                        <p class="live-sport-hero-eyebrow">The World's Biggest Event</p>
+                        <h3 class="live-sport-hero-title" style="font-weight: 800">FIFA WORLD CUP</h3>
+                        <p class="live-sport-hero-year" style="font-weight: 700">2026</p>
+                        <div class="live-sport-hero-prize">
+                          <span class="text-xs font-semibold">Prize Pool</span
+                          ><span class="text-xs font-semibold">: </span
+                          ><span class="text-sm font-bold">RM 4,700,000</span>
+                        </div>
+                      </div>
+                      <div class="live-sport-hero-decor">
+                        <svg width="100" height="120" viewBox="0 0 120 140" fill="none" class="text-primary">
+                          <path d="M30 10 h60 v50 a30 30 0 0 1 -60 0 Z" fill="none" stroke="currentColor" stroke-width="3"></path>
+                          <rect x="45" y="90" width="30" height="25" fill="currentColor" opacity="0.6"></rect>
+                          <rect x="30" y="115" width="60" height="8" rx="4" fill="currentColor" opacity="0.8"></rect>
+                          <path d="M10 10 h20 v30 a20 20 0 0 1 -20 0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+                          <path d="M90 10 h20 v30 a20 20 0 0 1 -20 0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="match-rail">
+                  <div class="match-card" style="min-width: 220px">
+                    <div class="match-card-body">
+                      <div class="match-card-head">
+                        <span class="match-card-league">Premier League</span
+                        ><span class="match-card-live-badge"
+                          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="match-card-live-icon"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg
+                          >LIVE</span
+                        >
+                      </div>
+                      <div class="match-card-teams">
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">MU</span>
+                          </div>
+                          <span class="match-card-team-name">Manchester United</span>
+                        </div>
+                        <div class="match-card-score-wrap">
+                          <div class="match-card-score">2 - 1</div>
+                          <div class="match-card-status">Live 67'</div>
+                        </div>
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">LIV</span>
+                          </div>
+                          <span class="match-card-team-name">Liverpool</span>
+                        </div>
+                      </div>
+                      <button class="match-card-cta">
+                        立即投注
+                      </button>
+                    </div>
+                  </div>
+                  <div class="match-card" style="min-width: 220px">
+                    <div class="match-card-body">
+                      <div class="match-card-head">
+                        <span class="match-card-league">NBA</span
+                        ><span class="match-card-live-badge"
+                          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="match-card-live-icon"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg
+                          >LIVE</span
+                        >
+                      </div>
+                      <div class="match-card-teams">
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">LAL</span>
+                          </div>
+                          <span class="match-card-team-name">Lakers</span>
+                        </div>
+                        <div class="match-card-score-wrap">
+                          <div class="match-card-score">98 - 105</div>
+                          <div class="match-card-status">Live Q3</div>
+                        </div>
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">GSW</span>
+                          </div>
+                          <span class="match-card-team-name">Warriors</span>
+                        </div>
+                      </div>
+                      <button class="match-card-cta">
+                        立即投注
+                      </button>
+                    </div>
+                  </div>
+                  <div class="match-card" style="min-width: 220px">
+                    <div class="match-card-body">
+                      <div class="match-card-head">
+                        <span class="match-card-league">La Liga</span
+                        ><span class="match-card-live-badge"
+                          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="match-card-live-icon"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg
+                          >LIVE</span
+                        >
+                      </div>
+                      <div class="match-card-teams">
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">RMA</span>
+                          </div>
+                          <span class="match-card-team-name">Real Madrid</span>
+                        </div>
+                        <div class="match-card-score-wrap">
+                          <div class="match-card-score">1 - 1</div>
+                          <div class="match-card-status">Live 82'</div>
+                        </div>
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">FCB</span>
+                          </div>
+                          <span class="match-card-team-name">Barcelona</span>
+                        </div>
+                      </div>
+                      <button class="match-card-cta">
+                        立即投注
+                      </button>
+                    </div>
+                  </div>
+                  <div class="match-card" style="min-width: 220px">
+                    <div class="match-card-body">
+                      <div class="match-card-head">
+                        <span class="match-card-league">MLB</span
+                        ><span class="match-card-live-badge"
+                          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="match-card-live-icon"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg
+                          >LIVE</span
+                        >
+                      </div>
+                      <div class="match-card-teams">
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">NYY</span>
+                          </div>
+                          <span class="match-card-team-name">Yankees</span>
+                        </div>
+                        <div class="match-card-score-wrap">
+                          <div class="match-card-score">4 - 3</div>
+                          <div class="match-card-status">Live 7th</div>
+                        </div>
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">BOS</span>
+                          </div>
+                          <span class="match-card-team-name">Red Sox</span>
+                        </div>
+                      </div>
+                      <button class="match-card-cta">
+                        立即投注
+                      </button>
+                    </div>
+                  </div>
+                  <div class="match-card" style="min-width: 220px">
+                    <div class="match-card-body">
+                      <div class="match-card-head">
+                        <span class="match-card-league">Champions League</span
+                        ><span class="match-card-live-badge"
+                          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="match-card-live-icon"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg
+                          >LIVE</span
+                        >
+                      </div>
+                      <div class="match-card-teams">
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">PSG</span>
+                          </div>
+                          <span class="match-card-team-name">PSG</span>
+                        </div>
+                        <div class="match-card-score-wrap">
+                          <div class="match-card-score">3 - 2</div>
+                          <div class="match-card-status">Live 55'</div>
+                        </div>
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">FCB</span>
+                          </div>
+                          <span class="match-card-team-name">Bayern Munich</span>
+                        </div>
+                      </div>
+                      <button class="match-card-cta">
+                        立即投注
+                      </button>
+                    </div>
+                  </div>
+                  <div class="match-card" style="min-width: 220px">
+                    <div class="match-card-body">
+                      <div class="match-card-head">
+                        <span class="match-card-league">NBA</span
+                        ><span class="match-card-live-badge"
+                          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="match-card-live-icon"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg
+                          >LIVE</span
+                        >
+                      </div>
+                      <div class="match-card-teams">
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">BOS</span>
+                          </div>
+                          <span class="match-card-team-name">Celtics</span>
+                        </div>
+                        <div class="match-card-score-wrap">
+                          <div class="match-card-score">102 - 99</div>
+                          <div class="match-card-status">Live Q4</div>
+                        </div>
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">MIA</span>
+                          </div>
+                          <span class="match-card-team-name">Heat</span>
+                        </div>
+                      </div>
+                      <button class="match-card-cta">
+                        立即投注
+                      </button>
+                    </div>
+                  </div>
+                  <div class="match-card" style="min-width: 220px">
+                    <div class="match-card-body">
+                      <div class="match-card-head">
+                        <span class="match-card-league">Premier League</span
+                        ><span class="match-card-live-badge"
+                          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="match-card-live-icon"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg
+                          >LIVE</span
+                        >
+                      </div>
+                      <div class="match-card-teams">
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">ARS</span>
+                          </div>
+                          <span class="match-card-team-name">Arsenal</span>
+                        </div>
+                        <div class="match-card-score-wrap">
+                          <div class="match-card-score">1 - 0</div>
+                          <div class="match-card-status">Live 78'</div>
+                        </div>
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">CHE</span>
+                          </div>
+                          <span class="match-card-team-name">Chelsea</span>
+                        </div>
+                      </div>
+                      <button class="match-card-cta">
+                        立即投注
+                      </button>
+                    </div>
+                  </div>
+                  <div class="match-card" style="min-width: 220px">
+                    <div class="match-card-body">
+                      <div class="match-card-head">
+                        <span class="match-card-league">Serie A</span
+                        ><span class="match-card-live-badge"
+                          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="match-card-live-icon"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg
+                          >LIVE</span
+                        >
+                      </div>
+                      <div class="match-card-teams">
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">JUV</span>
+                          </div>
+                          <span class="match-card-team-name">Juventus</span>
+                        </div>
+                        <div class="match-card-score-wrap">
+                          <div class="match-card-score">0 - 0</div>
+                          <div class="match-card-status">Live 23'</div>
+                        </div>
+                        <div class="match-card-team">
+                          <div class="match-card-team-badge">
+                            <span class="match-card-team-code">INT</span>
+                          </div>
+                          <span class="match-card-team-name">Inter Milan</span>
+                        </div>
+                      </div>
+                      <button class="match-card-cta">
+                        立即投注
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section data-studio-block="hot-games" class="hot-games-section">
+              <div class="app-container">
+                <div class="rail-head">
+                  <h2 class="rail-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-title-icon rail-title-icon--orange"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg
+                    ><span class="rail-title-text">熱門遊戲</span>
+                  </h2>
+                  <div class="rail-actions">
+                    <a
+                      class="rail-view-all"
+                      href="hot-games.html"
+                      >查看全部</a
+                    ><button class="rail-nav-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-nav-icon"><path d="m15 18-6-6 6-6"></path></svg
+                    </button
+                    ><button class="rail-nav-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-nav-icon"><path d="m9 18 6-6-6-6"></path></svg
+                    </button>
+                  </div>
+                </div>
+                <div class="game-rail">
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1606167668584-78701c57f13d__w-300_h-400_fit-crop"
+                        alt="Mega Fortune"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 1.2
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Mega Fortune</p>
+                      <p class="game-card-provider">Pocket Play</p>
+                    </div>
+                  </div>
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1596838132731-3301c3fd4317__w-300_h-400_fit-crop"
+                        alt="Starburst"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 1.5
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Starburst</p>
+                      <p class="game-card-provider">NetEnt</p>
+                    </div>
+                  </div>
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1511512578047-dfb367046420__w-300_h-400_fit-crop"
+                        alt="Book of Dead"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 2.0
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Book of Dead</p>
+                      <p class="game-card-provider">Play'n GO</p>
+                    </div>
+                  </div>
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1553481187-be93c21490a9__w-300_h-400_fit-crop"
+                        alt="Gonzo Quest"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 1.8
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Gonzo Quest</p>
+                      <p class="game-card-provider">NetEnt</p>
+                    </div>
+                  </div>
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1478720568477-152d9b164e26__w-300_h-400_fit-crop"
+                        alt="Gates of Olympus"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 1.3
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Gates of Olympus</p>
+                      <p class="game-card-provider">Pragmatic</p>
+                    </div>
+                  </div>
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1518895312237-a9e23508077d__w-300_h-400_fit-crop"
+                        alt="Dead or Alive"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 1.6
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Dead or Alive</p>
+                      <p class="game-card-provider">NetEnt</p>
+                    </div>
+                  </div>
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-300_h-400_fit-crop"
+                        alt="Limbo"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 1.4
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Limbo</p>
+                      <p class="game-card-provider">Pocket Play</p>
+                    </div>
+                  </div>
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1524985069026-dd778a71c7b4__w-300_h-400_fit-crop"
+                        alt="Aladdin"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 1.9
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Aladdin</p>
+                      <p class="game-card-provider">Pocket Play</p>
+                    </div>
+                  </div>
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-300_h-400_fit-crop"
+                        alt="Wolf Gold"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 1.5
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Wolf Gold</p>
+                      <p class="game-card-provider">Pragmatic</p>
+                    </div>
+                  </div>
+                  <div class="game-card">
+                    <div class="game-card-media">
+                      <img
+                        src="_external/images.unsplash.com/photo-1590336225155-d7e19a3a954f__w-300_h-400_fit-crop"
+                        alt="Crazy Time"
+                        class="game-card-img"
+                      />
+                      <div class="game-card-boost">
+                        <span class="boost-label">加碼</span> 1.7
+                      </div>
+                      <div
+                        class="game-card-overlay"
+                      >
+                        <button class="game-card-play-btn">立即遊玩</button>
+                      </div>
+                    </div>
+                    <div class="game-card-info">
+                      <p class="game-card-name">Crazy Time</p>
+                      <p class="game-card-provider">Evolution</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section data-studio-block="mini-games" class="mini-games-section">
+              <div class="app-container">
+                <div class="game-tabs-head">
+                  <div
+                    class="game-tabs"
+                    role="tablist"
+                    aria-label="Game categories"
+                  >
+                    <button
+                      id="games-tab-mini"
+                      type="button"
+                      role="tab"
+                      class="game-tab is-active"
+                      aria-selected="true"
+                      aria-controls="games-panel-mini"
+                      tabindex="0"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="game-tab-icon"><line x1="6" x2="10" y1="11" y2="11"></line><line x1="8" x2="8" y1="9" y2="13"></line><line x1="15" x2="15.01" y1="12" y2="12"></line><line x1="18" x2="18.01" y1="10" y2="10"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg>
+                      <span class="game-tab-label">迷你遊戲</span
+                      ><span aria-hidden="true" class="mini-countdown-bar"
+                        ><span style="width: 0%"></span
+                      ></span></button
+                    ><button
+                      id="games-tab-slot"
+                      type="button"
+                      role="tab"
+                      class="game-tab"
+                      aria-selected="false"
+                      aria-controls="games-panel-slot"
+                      tabindex="-1"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="game-tab-icon"><path d="M2 17a5 5 0 0 0 10 0c0-2.76-2.5-5-5-3-2.5-2-5 .24-5 3Z"></path><path d="M12 17a5 5 0 0 0 10 0c0-2.76-2.5-5-5-3-2.5-2-5 .24-5 3Z"></path><path d="M7 14c3.22-2.91 4.29-8.75 5-12 1.66 2.38 4.94 9 5 12"></path><path d="M22 9c-4.29 0-7.14-2.33-10-7 5.71 0 10 4.67 10 7Z"></path></svg>
+                      <span class="game-tab-label">老虎機</span></button
+                    ><button
+                      id="games-tab-live"
+                      type="button"
+                      role="tab"
+                      class="game-tab"
+                      aria-selected="false"
+                      aria-controls="games-panel-live"
+                      tabindex="-1"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="game-tab-icon"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path><rect x="2" y="6" width="14" height="12" rx="2"></rect></svg>
+                      <span class="game-tab-label">真人娛樂</span>
+                    </button>
+                  </div>
+                  <div class="game-tabs-actions">
+                    <a
+                      href="mini-games.html"
+                      class="game-tabs-view-all"
+                      >查看全部</a
+                    ><button
+                      type="button"
+                      aria-label="Previous games"
+                      class="game-tabs-nav-btn"
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sm">
+                        <path d="m15 18-6-6 6-6"></path>
+                      </svg></button
+                    ><button
+                      type="button"
+                      aria-label="Next games"
+                      class="game-tabs-nav-btn"
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sm">
+                        <path d="m9 18 6-6-6-6"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="mini-game-panel-wrap">
+                  <div
+                    id="games-panel-mini"
+                    role="tabpanel"
+                    aria-labelledby="games-tab-mini"
+                    class="mini-game-panel"
+                  >
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-200"
+                          alt="Mega Fortune"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Mega Fortune</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-200"
+                          alt="Starburst"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Starburst</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028296525-8304e1a4969f__w-200"
+                          alt="Limbo"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Limbo</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1771775606196-70dccc0d9bde__w-200"
+                          alt="Mines"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Mines</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1525018667593-176858caed6a__w-200"
+                          alt="Plinko"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Plinko</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1590336225155-d7e19a3a954f__w-200"
+                          alt="Dice"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Dice</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-200"
+                          alt="Tower"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Tower</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-200"
+                          alt="Keno"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Keno</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028296525-8304e1a4969f__w-200"
+                          alt="Hilo"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Hilo</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1771775606196-70dccc0d9bde__w-200"
+                          alt="Wheel"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Wheel</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1525018667593-176858caed6a__w-200"
+                          alt="Crash"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Crash</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1590336225155-d7e19a3a954f__w-200"
+                          alt="Coin Flip"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Coin Flip</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-200"
+                          alt="Rocket"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Rocket</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-200"
+                          alt="Caves"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Caves</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028296525-8304e1a4969f__w-200"
+                          alt="Video Poker"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Video Poker</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1771775606196-70dccc0d9bde__w-200"
+                          alt="Scratch Card"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Scratch Card</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1525018667593-176858caed6a__w-200"
+                          alt="Aviator"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Aviator</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1590336225155-d7e19a3a954f__w-200"
+                          alt="Spaceman"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Spaceman</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-200"
+                          alt="JetX"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">JetX</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-200"
+                          alt="Balloon"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Balloon</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028296525-8304e1a4969f__w-200"
+                          alt="Penalty Shoot-out"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Penalty Shoot-out</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1771775606196-70dccc0d9bde__w-200"
+                          alt="Goal Rush"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Goal Rush</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1525018667593-176858caed6a__w-200"
+                          alt="Cricket Crash"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Cricket Crash</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1590336225155-d7e19a3a954f__w-200"
+                          alt="Zeppelin"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Zeppelin</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-200"
+                          alt="Magic Keno"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Magic Keno</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-200"
+                          alt="Turbo Mines"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Turbo Mines</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028296525-8304e1a4969f__w-200"
+                          alt="Royal Dice"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Royal Dice</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1771775606196-70dccc0d9bde__w-200"
+                          alt="Lucky Wheel"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Lucky Wheel</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1525018667593-176858caed6a__w-200"
+                          alt="Neon Tower"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Neon Tower</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1590336225155-d7e19a3a954f__w-200"
+                          alt="Bomb Squad"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Bomb Squad</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-200"
+                          alt="Cave Dash"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Cave Dash</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-200"
+                          alt="Gem Flip"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Gem Flip</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028296525-8304e1a4969f__w-200"
+                          alt="Star Rocket"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Star Rocket</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1771775606196-70dccc0d9bde__w-200"
+                          alt="Hyper Plinko"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Hyper Plinko</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1525018667593-176858caed6a__w-200"
+                          alt="Double Hilo"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Double Hilo</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1590336225155-d7e19a3a954f__w-200"
+                          alt="Quantum Crash"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Quantum Crash</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-200"
+                          alt="Aqua Dice"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Aqua Dice</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-200"
+                          alt="Vegas Coin"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Vegas Coin</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028296525-8304e1a4969f__w-200"
+                          alt="Sky Drop"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Sky Drop</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1771775606196-70dccc0d9bde__w-200"
+                          alt="Loot Box"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Loot Box</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1525018667593-176858caed6a__w-200"
+                          alt="Chicken Road"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Chicken Road</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1590336225155-d7e19a3a954f__w-200"
+                          alt="Fortune Rings"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Fortune Rings</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-200"
+                          alt="Blast Off"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Blast Off</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-200"
+                          alt="Mine Runner"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Mine Runner</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028296525-8304e1a4969f__w-200"
+                          alt="Pixel Keno"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Pixel Keno</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1771775606196-70dccc0d9bde__w-200"
+                          alt="Flip Master"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Flip Master</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1525018667593-176858caed6a__w-200"
+                          alt="Rocket Queen"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Rocket Queen</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1590336225155-d7e19a3a954f__w-200"
+                          alt="Cosmic Caves"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Cosmic Caves</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1534620780923-1ce0db377c3f__w-200"
+                          alt="Turbo Tower"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Turbo Tower</h3>
+                    </div>
+                    <div data-game-card class="mini-game-card">
+                      <div
+                        class="mini-game-card-media"
+                      >
+                        <img
+                          src="_external/images.unsplash.com/photo-1604028297236-42130c7dcc3a__w-200"
+                          alt="Golden Plinko"
+                          class="mini-game-card-img"
+                          style="object-position: center"
+                          loading="lazy"
+                        />
+                      </div>
+                      <h3 class="mini-game-card-name">Golden Plinko</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section data-studio-block="promotion" class="promotion-section">
+              <div class="app-container">
+                <div class="rail-head">
+                  <h2 class="rail-title rail-title--tight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-title-icon rail-title-icon--primary rail-title-icon--responsive"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg
+                    ><span class="rail-title-text rail-title-text--compact">優惠活動</span>
+                  </h2>
+                  <div class="rail-actions rail-actions--tight">
+                    <a
+                      class="rail-view-all"
+                      href="promotion.html"
+                      >查看全部</a
+                    ><button
+                      class="rail-nav-btn rail-nav-btn--compact"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-nav-icon rail-nav-icon--responsive">
+                        <path d="m15 18-6-6 6-6"></path>
+                      </svg></button
+                    ><button
+                      class="rail-nav-btn rail-nav-btn--compact"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rail-nav-icon rail-nav-icon--responsive">
+                        <path d="m9 18 6-6-6-6"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="promo-grid-desktop">
+                    <div class="promo-tile">
+                      <div class="promo-tile-art promo-card-art">
+                        <img
+                          src="https://images.pexels.com/photos/7594128/pexels-photo-7594128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                          alt="RioBet Casino"
+                          class="operation-promo-media"
+                          style="object-position: 50% 52%"
+                          loading="lazy"
+                        />
+                        <div class="operation-promo-scrim"></div>
+                      </div>
+                      <div class="promo-tile-body">
+                        <h3 class="promo-tile-title">RioBet Casino</h3>
+                        <div class="promo-tile-actions">
+                          <button
+                            class="promo-tile-cta"
+                          >
+                            查看詳情
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="promo-tile">
+                      <div class="promo-tile-art promo-card-art">
+                        <img
+                          src="https://images.pexels.com/photos/29825627/pexels-photo-29825627.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                          alt="BitStarz Casino"
+                          class="operation-promo-media"
+                          style="object-position: 54% 50%"
+                          loading="lazy"
+                        />
+                        <div class="operation-promo-scrim"></div>
+                      </div>
+                      <div class="promo-tile-body">
+                        <h3 class="promo-tile-title">BitStarz Casino</h3>
+                        <div class="promo-tile-actions">
+                          <button
+                            class="promo-tile-cta"
+                          >
+                            查看詳情
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="promo-tile">
+                      <div class="promo-tile-art promo-card-art">
+                        <img
+                          src="https://images.pexels.com/photos/32100316/pexels-photo-32100316.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                          alt="IceCasino"
+                          class="operation-promo-media"
+                          style="object-position: 72% 28%"
+                          loading="lazy"
+                        />
+                        <div class="operation-promo-scrim"></div>
+                      </div>
+                      <div class="promo-tile-body">
+                        <h3 class="promo-tile-title">IceCasino</h3>
+                        <div class="promo-tile-actions">
+                          <button
+                            class="promo-tile-cta"
+                          >
+                            查看詳情
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="promo-tile">
+                      <div class="promo-tile-art promo-card-art">
+                        <img
+                          src="https://images.pexels.com/photos/27568815/pexels-photo-27568815.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                          alt="Gamdom Casino"
+                          class="operation-promo-media"
+                          style="object-position: 62% 50%"
+                          loading="lazy"
+                        />
+                        <div class="operation-promo-scrim"></div>
+                      </div>
+                      <div class="promo-tile-body">
+                        <h3 class="promo-tile-title">Gamdom Casino</h3>
+                        <div class="promo-tile-actions">
+                          <button
+                            class="promo-tile-cta"
+                          >
+                            查看詳情
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="promo-rail-mobile">
+                  <div class="promo-rail-mobile-item">
+                    <div class="promo-tile">
+                      <div class="promo-tile-art promo-card-art">
+                        <img
+                          src="https://images.pexels.com/photos/7594128/pexels-photo-7594128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                          alt="RioBet Casino"
+                          class="operation-promo-media"
+                          style="object-position: 50% 52%"
+                          loading="lazy"
+                        />
+                        <div class="operation-promo-scrim"></div>
+                      </div>
+                      <div class="promo-tile-body">
+                        <h3 class="promo-tile-title">RioBet Casino</h3>
+                        <div class="promo-tile-actions">
+                          <button
+                            class="promo-tile-cta"
+                          >
+                            查看詳情
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="promo-rail-mobile-item">
+                    <div class="promo-tile">
+                      <div class="promo-tile-art promo-card-art">
+                        <img
+                          src="https://images.pexels.com/photos/29825627/pexels-photo-29825627.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                          alt="BitStarz Casino"
+                          class="operation-promo-media"
+                          style="object-position: 54% 50%"
+                          loading="lazy"
+                        />
+                        <div class="operation-promo-scrim"></div>
+                      </div>
+                      <div class="promo-tile-body">
+                        <h3 class="promo-tile-title">BitStarz Casino</h3>
+                        <div class="promo-tile-actions">
+                          <button
+                            class="promo-tile-cta"
+                          >
+                            查看詳情
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="promo-rail-mobile-item">
+                    <div class="promo-tile">
+                      <div class="promo-tile-art promo-card-art">
+                        <img
+                          src="https://images.pexels.com/photos/32100316/pexels-photo-32100316.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                          alt="IceCasino"
+                          class="operation-promo-media"
+                          style="object-position: 72% 28%"
+                          loading="lazy"
+                        />
+                        <div class="operation-promo-scrim"></div>
+                      </div>
+                      <div class="promo-tile-body">
+                        <h3 class="promo-tile-title">IceCasino</h3>
+                        <div class="promo-tile-actions">
+                          <button
+                            class="promo-tile-cta"
+                          >
+                            查看詳情
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="promo-rail-mobile-item">
+                    <div class="promo-tile">
+                      <div class="promo-tile-art promo-card-art">
+                        <img
+                          src="https://images.pexels.com/photos/27568815/pexels-photo-27568815.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                          alt="Gamdom Casino"
+                          class="operation-promo-media"
+                          style="object-position: 62% 50%"
+                          loading="lazy"
+                        />
+                        <div class="operation-promo-scrim"></div>
+                      </div>
+                      <div class="promo-tile-body">
+                        <h3 class="promo-tile-title">Gamdom Casino</h3>
+                        <div class="promo-tile-actions">
+                          <button
+                            class="promo-tile-cta"
+                          >
+                            查看詳情
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <footer class="site-footer">
+            <div class="app-container">
+              <div class="site-footer-inner">
+                <img src="logo.png" alt="WIN100% Logo" class="site-footer-logo" />
+                <div class="site-footer-notice">
+                  <p>
+                    博彩可能造成成癮，請理性遊玩。如需支援資訊，請前往責任博彩協助頁面。
+                  </p>
+                  <p>
+                    當您存取、繼續使用或瀏覽本站，即表示您同意我們使用部分瀏覽器 Cookie，以改善您的使用體驗。
+                  </p>
+                </div>
+                <div class="site-footer-divider"></div>
+                <div class="site-footer-copyright">win10069 © 版權所有，受法律保護</div>
+              </div>
+            </div>
+          </footer>
+          <nav class="mobile-bottom-nav">
+            <div class="mobile-bottom-nav-grid">
+              <button class="mobile-bottom-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg
+                ><span class="mobile-bottom-nav-label">瀏覽</span></button
+              ><a
+                aria-current="page"
+                href="index.html"
+                class="mobile-bottom-nav-item is-active"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg
+                ><span class="mobile-bottom-nav-label">首頁</span></a
+              ><a href="deposit.html" class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><path d="M12 17V3"></path><path d="m6 11 6 6 6-6"></path><path d="M19 21H5"></path></svg
+                ><span class="mobile-bottom-nav-label">儲值</span></a
+              ><a
+                href="promotion.html"
+                class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg
+                ><span class="mobile-bottom-nav-label">優惠活動</span></a
+              ><a href="account.html" class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg
+                ><span class="mobile-bottom-nav-label">會員</span></a
+              >
+            </div>
+          </nav>
+        </div>
+        <div class="qr-rail">
+          <a href="#" class="qr-btn" aria-label="Live Chat" data-chat-open
+            ><img src="logo.png" alt /><span class="qr-label">Live Chat</span></a
+          ><a href="https://t.me/win10096cs" target="_blank" rel="noopener noreferrer" class="qr-btn" aria-label="Promo Channel"
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path>
+            </svg
+            ><span class="qr-label">Promo Channel</span></a
+          ><a href="about.html?tab=faq" class="qr-btn" aria-label="FAQ"
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path>
+            </svg
+            ><span class="qr-label">FAQ</span></a
+          >
+        </div>
+    </div>
+    <div id="teleports"></div>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/site.js"></script>
+  </body>
+</html>

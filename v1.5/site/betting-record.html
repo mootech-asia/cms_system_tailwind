@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+      <main class="usercenter-main">
+        <div data-mount="user-navbar"></div>
+        <div class="usercenter-grid">
+          <div data-mount="user-sidebar"></div>
+          <div class="usercenter-content">
+            <div class="record-page">
+              <h1 class="account-page-title" data-i18n="userCenter.sidebar.bettingRecord">베팅 기록</h1>
+              <div class="record-inner">
+                <div class="record-tags">
+                  <button type="button" class="record-date-btn">2026-08-01 ~ 2026-08-12</button>
+                  <button type="button" class="record-confirm-btn" data-i18n="common.confirm">확인</button>
+                </div>
+
+                <div class="record-table-wrap">
+                  <table class="record-table record-mobile-only record-mobile-table">
+                    <thead>
+                      <tr>
+                        <th data-i18n="userCenter.common.headers.orderNo">주문번호</th>
+                        <th data-i18n="userCenter.common.headers.game">게임</th>
+                        <th data-i18n="userCenter.common.headers.settlementTime">정산 시간</th>
+                        <th data-i18n="userCenter.common.headers.betPL">베팅 손익</th>
+                      </tr>
+                    </thead>
+                    <tbody data-record-body-mobile></tbody>
+                  </table>
+
+                  <table class="record-table record-desktop-only">
+                    <thead>
+                      <tr>
+                        <th data-i18n="userCenter.common.headers.orderNo">주문번호</th>
+                        <th data-i18n="userCenter.common.headers.game">게임</th>
+                        <th data-i18n="userCenter.common.headers.settlementTime">정산 시간</th>
+                        <th data-i18n="userCenter.common.headers.betAmount">베팅 금액</th>
+                        <th data-i18n="userCenter.common.headers.validBet">유효 베팅</th>
+                        <th data-i18n="userCenter.common.headers.winAmount">당첨 금액</th>
+                        <th data-i18n="userCenter.common.headers.result">결과</th>
+                        <th data-i18n="userCenter.common.headers.betPL">베팅 손익</th>
+                      </tr>
+                    </thead>
+                    <tbody data-record-body-desktop></tbody>
+                  </table>
+                </div>
+
+                <div class="record-footer-total">
+                  <div class="record-footer-total-inner">
+                    <span data-i18n="userCenter.common.headers.totalProfitAndLoss">총 손익</span>
+                    <span data-total-pl>0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        function fmt(n) { return Number(n).toLocaleString('en-US'); }
+        function plClass(n) { return n > 0 ? 'status-text-approved' : n < 0 ? 'status-text-reject' : ''; }
+
+        /* 體育串關展開列：只有 r.details 有內容的注單才附展開鈕（對照
+           Nuxt bettingRecord.vue 的 toggleExpand/isExpanded），子表欄位
+           對照同一份 pug template 的 detailHeaders（betType/leagueName/
+           eventName/betChoice/odds/matchResult/winLoss）。league_name/
+           event_name/bet_selection 是隊名等專有名詞，跟 game 欄位一樣
+           不跟 t() 走；betType(Parlay/Single) 是 UI 詞彙，補上翻譯。 */
+        function parlayDetailRows(r, colspan) {
+          if (!r.details || !r.details.length) return '';
+          var head = '<tr class="record-parlay-head">' +
+            '<th data-i18n="userCenter.bettingRecordPage.detailHeaders.betType">' + W.t('userCenter.bettingRecordPage.detailHeaders.betType') + '</th>' +
+            '<th data-i18n="userCenter.bettingRecordPage.detailHeaders.leagueName">' + W.t('userCenter.bettingRecordPage.detailHeaders.leagueName') + '</th>' +
+            '<th data-i18n="userCenter.bettingRecordPage.detailHeaders.eventName">' + W.t('userCenter.bettingRecordPage.detailHeaders.eventName') + '</th>' +
+            '<th data-i18n="userCenter.bettingRecordPage.detailHeaders.betChoice">' + W.t('userCenter.bettingRecordPage.detailHeaders.betChoice') + '</th>' +
+            '<th data-i18n="userCenter.bettingRecordPage.detailHeaders.odds">' + W.t('userCenter.bettingRecordPage.detailHeaders.odds') + '</th>' +
+            '<th data-i18n="userCenter.bettingRecordPage.detailHeaders.matchResult">' + W.t('userCenter.bettingRecordPage.detailHeaders.matchResult') + '</th>' +
+            '<th data-i18n="userCenter.bettingRecordPage.detailHeaders.winLoss">' + W.t('userCenter.bettingRecordPage.detailHeaders.winLoss') + '</th></tr>';
+          var rows = r.details.map(function (d) {
+            var betTypeKey = 'userCenter.bettingRecordPage.detailValues.' + (d.parlay ? 'parlay' : 'single');
+            return '<tr class="record-parlay-row">' +
+              '<td data-i18n="' + betTypeKey + '">' + W.t(betTypeKey) + '</td>' +
+              '<td>' + (d.league_name || '-') + '</td>' +
+              '<td>' + (d.event_name || '-') + '</td>' +
+              '<td>' + (d.bet_selection || '-') + '</td>' +
+              '<td>' + (d.odds != null ? d.odds : '-') + '</td>' +
+              '<td>' + (d.match_result || '-') + '</td>' +
+              '<td class="' + (d.bet_result === 'WIN' ? 'status-text-approved' : 'status-text-reject') + '">' + (d.bet_result || '-') + '</td></tr>';
+          }).join('');
+          return '<tr class="record-parlay-detail" hidden><td colspan="' + colspan + '"><div class="record-parlay-panel"><table class="record-parlay-table"><thead>' + head + '</thead><tbody>' + rows + '</tbody></table></div></td></tr>';
+        }
+        function expandBtn(r) {
+          if (!r.details || !r.details.length) return r.order_no;
+          return r.order_no + '<button type="button" class="record-parlay-toggle" data-parlay-toggle aria-expanded="false" aria-label="Show parlay legs">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></button>';
+        }
+
+        var mobile = D.BETTING_RECORDS.map(function (r) {
+          return '<tr class="' + (r.details && r.details.length ? 'record-parlay-order' : '') + '"><td>' + expandBtn(r) + '</td><td>' + r.game + '</td><td>' + r.time + '</td><td class="' + plClass(r.pl) + '">' + fmt(r.pl) + '</td></tr>' + parlayDetailRows(r, 4);
+        }).join('');
+        W.qs('[data-record-body-mobile]').innerHTML = mobile;
+
+        var desktop = D.BETTING_RECORDS.map(function (r) {
+          return '<tr class="' + (r.details && r.details.length ? 'record-parlay-order' : '') + '"><td>' + expandBtn(r) + '</td><td>' + r.game + '</td><td>' + r.time + '</td><td>' + fmt(r.bet_amount) + '</td><td>' + fmt(r.valid_bet) + '</td><td>' + fmt(r.win_amount) + '</td><td class="' + (r.result === 'WIN' ? 'status-text-approved' : 'status-text-reject') + '">' + r.result + '</td><td class="' + plClass(r.pl) + '">' + fmt(r.pl) + '</td></tr>' + parlayDetailRows(r, 8);
+        }).join('');
+        W.qs('[data-record-body-desktop]').innerHTML = desktop;
+
+        Array.prototype.slice.call(W.qsa('[data-parlay-toggle]')).forEach(function (btn) {
+          W.on(btn, 'click', function () {
+            var row = btn.closest('tr');
+            var detail = row && row.nextElementSibling;
+            if (!detail || !detail.classList.contains('record-parlay-detail')) return;
+            var open = row.classList.toggle('open');
+            detail.hidden = !open;
+            btn.setAttribute('aria-expanded', String(open));
+          });
+        });
+
+        var totalPl = D.BETTING_RECORDS.reduce(function (s, r) { return s + r.pl; }, 0);
+        W.qs('[data-total-pl]').textContent = fmt(totalPl);
+
+        W.initDateRangePicker(W.qs('.record-date-btn'));
+      };
+    </script>
+  </body>
+</html>

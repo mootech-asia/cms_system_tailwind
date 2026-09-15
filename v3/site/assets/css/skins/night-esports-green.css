@@ -1,0 +1,132 @@
+/* CMS v3 Emerald Nocturne skin.
+   Quiet charcoal surfaces use refined mint and restrained amber accents. */
+:root[data-skin="night-esports-green"] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #0d1316;
+  --bg-elev: #141e23;
+  --bg-card: #1a252b;
+  --bg-card-hi: #223138;
+  --line: rgba(159, 226, 209, 0.1);
+  --line-hi: rgba(159, 226, 209, 0.24);
+
+  /* Content */
+  --text: #f1f7f5;
+  --text-mid: rgba(226, 239, 235, 0.72);
+  --text-dim: rgba(226, 239, 235, 0.45);
+  --text-on-accent: #10201f;
+  --text-on-accent-soft: #f4fffc;
+  --icon-muted: rgba(226, 239, 235, 0.72);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: invert(91%) sepia(12%) saturate(380%) hue-rotate(86deg) brightness(1.08);
+  --calendar-indicator-hover-filter: invert(83%) sepia(75%) saturate(720%) hue-rotate(78deg) brightness(1.1);
+  --calendar-indicator-opacity: 0.76;
+
+  /* Brand and status */
+  --accent: #9fe2d1;
+  --accent-2: #b8eee1;
+  --accent-3: #efbd59;
+  --accent-ink: #10201f;
+  --accent-shade: #000000;
+  --primary-start: #c7f0e6;
+  --primary: #9fe2d1;
+  --primary-end: #70c8b4;
+  --live: #ff4545;
+  --positive: #70d9b4;
+  --negative: #ff626b;
+  --warning: #f5c451;
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --tier-next: #d6923e;
+  --status-success-bg: color-mix(in oklch, var(--positive) 14%, var(--bg-elev));
+  --status-success-text: #b8eee1;
+  --status-success-border: color-mix(in oklch, var(--positive) 42%, transparent);
+  --badge-highlight-bg: color-mix(in oklch, var(--accent) 24%, var(--bg-elev));
+  --badge-highlight-text: var(--text-on-accent-soft);
+  --badge-highlight-border: var(--accent);
+  --badge-highlight-shadow: none;
+
+  /* Reusable fills */
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 58%,
+    var(--primary-end) 100%
+  );
+  --gradient-primary-short: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 100%
+  );
+  --rollover-title-gradient: linear-gradient(
+    90deg,
+    var(--accent-2) 0%,
+    var(--accent) 40%,
+    #7ccfc9 68%,
+    var(--accent-3) 100%
+  );
+  --rollover-hero-gradient: linear-gradient(
+    95deg,
+    #fff0ad 0%,
+    var(--accent-3) 52%,
+    #d99328 100%
+  );
+  --accent-grad: linear-gradient(
+    135deg,
+    var(--primary-start) 0%,
+    var(--accent) 42%,
+    var(--primary-end) 100%
+  );
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 22%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 5%, transparent) 100%
+  );
+  --bg-grad-card: linear-gradient(
+    180deg,
+    var(--bg-card) 0%,
+    color-mix(in oklch, var(--bg-card) 82%, #000) 100%
+  );
+
+  /* Shared component states */
+  --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: var(--accent);
+  --control-hover-text: #ffffff;
+  --control-active-bg: color-mix(in oklch, var(--accent) 17%, var(--bg-elev));
+  --control-active-border: var(--accent);
+  --control-active-text: #ffffff;
+  --control-active-text-shadow: none;
+  --control-active-shadow: 0 0 0 1px color-mix(in oklch, var(--accent) 35%, transparent);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent) 66%, transparent);
+
+  /* Tables and feature surfaces */
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: linear-gradient(180deg, #202c32 0%, #172126 100%);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: linear-gradient(180deg, #223138 0%, #182329 100%);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+  --account-hero-bg: linear-gradient(180deg, #18352f 0%, #10231f 58%, #10191c 100%);
+  --account-hero-border: var(--line-hi);
+  --account-hero-shadow: none;
+  --secondary-button-bg: transparent;
+  --secondary-button-border: var(--line-hi);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent);
+  --secondary-button-hover-text: #ffffff;
+
+  /* Shadows */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.035) inset, 0 7px 20px rgba(0, 0, 0, 0.44);
+  --shadow-primary: 0 6px 18px rgba(0, 0, 0, 0.24);
+  --shadow-primary-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 0 1px var(--accent);
+  --accent-glow: 0 0 0 1px color-mix(in oklch, var(--accent) 42%, transparent) inset;
+}

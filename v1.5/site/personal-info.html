@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+      <main class="usercenter-main">
+        <div data-mount="user-navbar"></div>
+        <div class="usercenter-grid">
+          <div data-mount="user-sidebar"></div>
+          <div class="usercenter-content">
+            <div class="pi-page">
+              <h1 class="pay-page-title" data-i18n="userCenter.sidebar.personalInfo">개인 정보</h1>
+              <div class="pi-inner">
+                <p class="pi-username"><span data-i18n="userCenter.personalInfoPage.username">사용자명</span> : <span data-pi-username>meaomcao</span></p>
+
+                <div class="pi-field">
+                  <img class="pi-field-icon" src="assets/images/icon/usercenter/personal.svg" alt="user" />
+                  <input type="text" data-nickname-input placeholder="닉네임을 입력해 주세요" data-i18n-placeholder="userCenter.personalInfoPage.nicknamePlaceholder" />
+                </div>
+
+                <div class="pi-field">
+                  <img class="pi-field-icon" src="assets/images/icon/usercenter/birthday.svg" alt="birthday" style="z-index: 1" />
+                  <input type="text" value="2000-01-01" style="padding-left: 36px" />
+                </div>
+
+                <div class="pi-field-static">
+                  <img src="assets/images/icon/usercenter/mail.svg" alt="mail" />
+                  <span>meaomcao@example.com</span>
+                </div>
+                <div class="pi-field-static">
+                  <img src="assets/images/icon/usercenter/id.svg" alt="id" />
+                  <span>MEAOMCAO</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 130px 1fr; gap: 8px; margin-top: 16px">
+                  <div class="pi-field-static"><span>🇰🇷</span><span>+82</span></div>
+                  <div class="pi-field-static">
+                    <img src="assets/images/icon/usercenter/personal.svg" alt="phone" style="width: 14px; height: 14px" />
+                    <span>10-1234-5678</span>
+                  </div>
+                </div>
+
+                <div class="pi-privacy">
+                  <span class="pi-privacy-pill" data-i18n="userCenter.personalInfoPage.privacyCta">개인 정보 보호에 최선을 다합니다</span>
+                  <p data-i18n="userCenter.personalInfoPage.privacyNoteLine1">모든 사용자 데이터는 암호화되어 개인 정보가 안전하게 보호됩니다.</p>
+                  <p data-i18n="userCenter.personalInfoPage.privacyNoteLine2">개인 정보 수정이 필요한 경우 고객센터로 문의해 주세요.</p>
+                </div>
+
+                <div class="pay-btn-fixed-wrap pi-submit-wrap">
+                  <button type="button" class="pay-next-btn" data-pi-submit><span class="text-gradient" data-i18n="userCenter.personalInfoPage.submit">제출</span></button>
+                  <button type="button" class="pay-back-btn" data-nav-href="account.html" data-i18n="common.back">뒤로</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        var p = D.MOCK_PROFILE;
+        W.qs('[data-pi-username]').textContent = p.username;
+        W.qs('[data-nickname-input]').value = p.nickname;
+        W.on(W.qs('[data-pi-submit]'), 'click', function () {
+          W.showAlert({ type: 'success', message: W.t('common.profileUpdateSuccess') || '프로필이 성공적으로 업데이트되었습니다.' });
+        });
+      };
+    </script>
+  </body>
+</html>

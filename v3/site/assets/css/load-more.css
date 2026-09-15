@@ -1,0 +1,65 @@
+/* Compact Load More using the account Back button states */
+.cv-foot {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 32px auto 16px;
+}
+
+.cv-view-all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 240px);
+  min-height: 48px;
+  padding: 0 24px;
+  border: 1px solid var(--control-border);
+  border-radius: 10px;
+  background: var(--control-bg);
+  color: var(--control-text);
+  font-family: var(--font-display);
+  font-size: var(--type-group-title);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0;
+  line-height: 1;
+  text-align: center;
+  text-shadow: none;
+  box-shadow: none;
+  filter: none;
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    background var(--duration-fast) var(--ease-standard);
+}
+
+.cv-view-all:hover {
+  border-color: var(--control-hover-border);
+  background: var(--control-bg);
+  color: var(--control-hover-text);
+  box-shadow: none;
+  filter: none;
+  transform: none;
+}
+
+.cv-view-all:active {
+  border-color: var(--control-hover-border);
+  color: var(--control-hover-text);
+  transform: none;
+}
+
+.cv-view-all:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+@media (max-width: 700px) {
+  .cv-foot { margin-top: 28px; }
+
+  .cv-view-all {
+    width: min(100%, 220px);
+    min-height: 44px;
+    border-radius: 9px;
+    font-size: 15px;
+  }
+}

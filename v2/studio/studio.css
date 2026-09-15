@@ -1,0 +1,338 @@
+/* CMS_Studio_v2 — 靜態版版面樣式(vanilla,無框架、無 build)。
+ *
+ * 互動元件(收合分組、膠囊鈕、變體 chip 5 欄網格、小圓鈕)一律「復用」前台
+ * assets/css/app.css 已編好的共用 class:.collapse-sec/.collapse-head/
+ * .collapse-body/.collapse-chevron、.seg-btn(.active)/.seg-btn-sm(.active)、
+ * .variant-grid、.icon-btn-sm —— 與原 Nuxt 設計後台同一份視覺定義(復用鐵則)。
+ * 本檔只補「studio 自己的版面骨架與文字階層」,全部用 themes/*.css 的
+ * rgb(var(--c-*)) token,不寫死色碼,換膚時右側預覽與左側面板一起變色。
+ */
+
+/* ---------------------------------------------------------------- 版面骨架 */
+.st-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  min-height: 32rem;
+  overflow: hidden;
+  background-color: rgb(var(--c-bg));
+  color: rgb(var(--c-text));
+}
+
+/* 頂欄:← 回站點 + 標題 */
+.st-topbar {
+  z-index: 20;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-surface));
+  padding: 10px 16px;
+}
+.st-back {
+  flex-shrink: 0;
+  font-size: var(--fs-caption);
+  color: rgb(var(--c-text-3));
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.st-back:hover { color: rgb(var(--c-text)); }
+.st-title {
+  min-width: 0;
+  margin: 0;
+  font-size: var(--fs-body-lg);
+  font-weight: 700;
+  color: rgb(var(--c-text));
+}
+.st-title-sub {
+  margin-left: 4px;
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  color: rgb(var(--c-text-4));
+}
+
+/* 手機工作區切換(設定 / 即時預覽);桌機隱藏 */
+.st-panebar {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-surface));
+  padding: 8px 12px;
+}
+
+.st-main {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+}
+
+/* 左:控制欄 */
+.st-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  background-color: rgb(var(--c-surface));
+  padding: 12px;
+}
+/* 面板內容不得被 flex 壓縮:各區塊保持原高 → 內容超出時才會觸發上面的 overflow-y 捲動 */
+.st-panel > * { flex-shrink: 0; }
+/* 常駐可見捲軸(Chrome/Safari 用 webkit 偽元素取得佔位捲軸;Firefox 用預設可見捲軸) */
+.st-panel::-webkit-scrollbar { width: 10px; }
+.st-panel::-webkit-scrollbar-thumb { background: rgb(var(--c-text) / 0.28); border-radius: 6px; }
+.st-panel::-webkit-scrollbar-track { background: transparent; }
+
+/* 右:即時預覽 */
+.st-preview {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+@media (min-width: 1024px) {
+  .st-panebar { display: none !important; }
+  .st-panel {
+    width: 340px;
+    flex: none;
+    border-right: 1px solid rgb(var(--c-border-soft));
+    padding: 16px;
+  }
+}
+@media (max-width: 1023px) {
+  .st-panebar { display: grid; }
+  .st-shell[data-pane="controls"] [data-pane-target="preview"] { display: none; }
+  .st-shell[data-pane="preview"] [data-pane-target="controls"] { display: none; }
+}
+
+/* ---------------------------------------------------------------- 草稿操作 */
+.st-grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.st-applied-row {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* app.css 的 [hidden] 重設被包在 :where() 裡、優先權歸零，與上面的 .st-applied-row
+   同為 (0,1,0)，而 studio.css 較晚載入 —— 於是 display:flex 蓋掉 hidden，「已套用」
+   標籤從開頁就常駐，studio.js 的 2.5 秒自動隱藏也失效。這條把 hidden 補回來。 */
+.st-applied-row[hidden] {
+  display: none;
+}
+.st-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-ui);
+  padding: 3px 10px;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+}
+.st-tag-ok {
+  color: rgb(var(--c-success));
+  background-color: rgb(var(--c-success) / 0.14);
+  border: 1px solid rgb(var(--c-success) / 0.4);
+}
+
+/* Ghost 方鈕(重設草稿 / 套用到本站 / 新增)— 比照 seg-btn 視覺 */
+.st-btn {
+  border-radius: var(--radius-ui);
+  border: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-bg));
+  padding: 6px 12px;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: rgb(var(--c-text-3));
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+.st-btn:hover { color: rgb(var(--c-text)); border-color: rgb(var(--c-text-4)); }
+.st-btn:disabled { cursor: not-allowed; opacity: 0.4; }
+
+/* ---------------------------------------------------------- 分組內文字階層 */
+.st-head-text { min-width: 0; flex: 1; text-align: left; }
+.st-head-title {
+  display: block;
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgb(var(--c-text-3));
+}
+.st-head-sub {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-caption);
+  color: rgb(var(--c-text-4));
+}
+.st-sub-label {
+  margin: 0 0 8px;
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgb(var(--c-text-3));
+}
+.st-muted {
+  margin: 0 0 8px;
+  font-size: var(--fs-caption);
+  color: rgb(var(--c-text-4));
+}
+.st-mt { margin-top: 12px; }
+.st-mt-sm { margin-top: 8px; }
+.st-space > * + * { margin-top: 16px; }
+
+/* 文字輸入 / 下拉 */
+.st-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-bg));
+  color: rgb(var(--c-text));
+  border-radius: var(--radius-ui);
+  padding: 8px 10px;
+  font-size: var(--fs-body);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.st-input:focus { border-color: rgb(var(--c-primary)); }
+.st-select { cursor: pointer; }
+
+/* -------------------------------------------------------------- 頁面區塊卡 */
+.st-page-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.st-page-switch .st-sub-label { margin: 0; white-space: nowrap; }
+.st-page-switch .st-input { width: 8rem; }
+
+.st-section-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.st-section-empty {
+  font-size: var(--fs-caption);
+  color: rgb(var(--c-text-4));
+  padding: 8px 2px;
+}
+.st-section-card {
+  border: 1px solid rgb(var(--c-border-soft));
+  border-radius: var(--radius-ui);
+  background-color: rgb(var(--c-surface));
+  padding: 12px;
+  transition: border-color 0.15s;
+}
+.st-section-card.is-over { border-color: rgb(var(--c-primary)); }
+
+.st-section-row1 { display: flex; align-items: center; gap: 8px; }
+.st-drag {
+  flex-shrink: 0;
+  cursor: grab;
+  user-select: none;
+  color: rgb(var(--c-text-4));
+  font-size: 15px;
+  line-height: 1;
+}
+.st-section-name {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: rgb(var(--c-text));
+}
+.st-section-name.is-off { color: rgb(var(--c-text-4)); text-decoration: line-through; }
+
+/* 顯示開關 switch(復刻原設計後台 h-5 w-9 圓角滑塊) */
+.st-switch {
+  position: relative;
+  height: 20px;
+  width: 36px;
+  flex-shrink: 0;
+  border: 0;
+  padding: 0;
+  border-radius: 9999px;
+  background-color: rgb(var(--c-surface-2));
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.st-switch.is-on { background-image: var(--g-primary); }
+.st-switch-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  height: 16px;
+  width: 16px;
+  border-radius: 9999px;
+  background-color: rgb(var(--c-surface));
+  transition: left 0.15s;
+}
+.st-switch.is-on .st-switch-knob { left: 18px; }
+
+.st-icon-danger:hover { color: rgb(var(--c-danger)); }
+.st-section-row3 { margin-top: 8px; display: flex; justify-content: flex-end; gap: 4px; }
+
+.st-add-row { margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+.st-add-row .st-input { min-width: 0; flex: 1; }
+
+@media (max-width: 1023px) { .st-drag { display: none; } }
+
+/* --------------------------------------------------------------- 預覽區 */
+.st-preview-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgb(var(--c-border-soft));
+  background-color: rgb(var(--c-surface));
+  padding: 8px 16px;
+}
+.st-preview-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-caption);
+  color: rgb(var(--c-text-3));
+}
+.st-preview-toggle { display: flex; gap: 4px; flex-shrink: 0; }
+/* 預覽視口切換鈕:無邊透明,active 交給 .seg-btn.active 的漸層 */
+.st-seg-plain { border-color: transparent; background-color: transparent; }
+
+.st-preview-stage {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  justify-content: center;
+  overflow: auto;
+  background-color: rgb(var(--c-scrim) / 0.3);
+  padding: 16px;
+}
+.st-frame {
+  height: 100%;
+  width: 100%;
+  min-height: 20rem;
+  max-width: 100%;
+  border: 1px solid rgb(var(--c-border-soft));
+  border-radius: 8px;
+  background-color: rgb(var(--c-bg));
+}

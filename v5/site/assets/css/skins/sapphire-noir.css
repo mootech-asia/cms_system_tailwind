@@ -1,0 +1,15 @@
+/* CMS v5 skin — 尊爵藍鑽（Sapphire Noir）。
+   切換 skin 主要改變的是主按鈕/CTA（--accent 系列）與累積獎金 widget
+   （--jackpot-a/-b）配色；--badge（標籤/熱區次色）為全站固定警示橙紅，
+   不隨 skin 改變。深色骨架與奶油色登入卡與預設 ignite-classic 一致，
+   不覆寫。 */
+:root[data-skin="sapphire-noir"] {
+  --accent: #2563eb;
+  --accent-hi: #60a5fa;
+  --accent-deep: #1741a6;
+  --accent-grad: linear-gradient(180deg, #60a5fa 0%, #2563eb 55%, #1741a6 100%);
+  --accent-ink: #fff8f0;
+
+  --jackpot-a: #4338ca;
+  --jackpot-b: #7c3aed;
+}

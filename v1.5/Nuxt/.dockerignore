@@ -1,0 +1,12 @@
+.git
+.gitignore
+node_modules
+.nuxt
+.output
+dist
+npm-debug.log*
+pnpm-lock.yaml
+yarn.lock
+yarn-error.log*
+Dockerfile*
+.DS_Store

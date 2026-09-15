@@ -1,0 +1,14 @@
+/* CMS v4 skin — 尊爵藍鑽（Sapphire Blue）。
+   換色只換掉「紅色」這個主題色（header 漸層／notice 底色／--red 次品牌
+   強調色）,背景/面板/文字維持跟預設 festive-red-gold 一樣的白色基底,
+   不覆寫 --bg／--bg-panel／--text 等 token,直接繼承 main.css 的 :root
+   淺色預設值。金色（--gold 系列）為全 skin 共用品牌色,同樣不覆寫。 */
+:root[data-skin="sapphire-blue"] {
+  --header-grad: linear-gradient(180deg, #1b3f91 0%, #142f6e 100%);
+  --header-grad-hi: #3b6fe0;
+  --notice-bg: #eaf0fb;
+  --notice-text: #1b3f91;
+
+  --red: #1b3f91;
+  --red-deep: #142f6e;
+}

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+      <main class="usercenter-main">
+        <div data-mount="user-navbar"></div>
+        <div class="usercenter-grid">
+          <div data-mount="user-sidebar"></div>
+          <div class="usercenter-content">
+            <div class="record-page">
+              <h1 class="account-page-title" data-i18n="userCenter.sidebar.profitAndLoss">손익</h1>
+              <div class="record-inner">
+                <div class="record-tags">
+                  <button type="button" class="record-date-btn">2026-08-01 ~ 2026-08-12</button>
+                  <button type="button" class="record-confirm-btn" data-i18n="common.confirm">확인</button>
+                </div>
+
+                <div class="record-table-wrap">
+                  <table class="record-table record-mobile-only record-mobile-table">
+                    <thead>
+                      <tr>
+                        <th data-i18n="userCenter.common.headers.gameType">게임 종류</th>
+                        <th data-i18n="userCenter.common.headers.totalProfitAndLoss">총 손익</th>
+                        <th data-i18n="userCenter.common.headers.betting">베팅</th>
+                        <th data-i18n="userCenter.common.headers.validBet">유효 베팅</th>
+                      </tr>
+                    </thead>
+                    <tbody data-record-body-mobile></tbody>
+                  </table>
+
+                  <table class="record-table record-desktop-only">
+                    <thead>
+                      <tr>
+                        <th data-i18n="userCenter.common.headers.gameType">게임 종류</th>
+                        <th data-i18n="userCenter.common.headers.totalProfitAndLoss">총 손익</th>
+                        <th data-i18n="userCenter.common.headers.betting">베팅</th>
+                        <th data-i18n="userCenter.common.headers.validBet">유효 베팅</th>
+                        <th data-i18n="userCenter.common.headers.winAmount">당첨 금액</th>
+                        <th data-i18n="userCenter.common.headers.rebate">리베이트</th>
+                      </tr>
+                    </thead>
+                    <tbody data-record-body-desktop></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        function fmt(n) { return Number(n).toLocaleString('en-US'); }
+        function plClass(n) { return n > 0 ? 'status-text-approved' : n < 0 ? 'status-text-reject' : ''; }
+
+        W.qs('[data-record-body-mobile]').innerHTML = D.PROFIT_LOSS_RECORDS.map(function (r) {
+          return '<tr><td>' + r.game_type + '</td><td class="' + plClass(r.pnl) + '">' + fmt(r.pnl) + '</td><td>' + fmt(r.betting) + '</td><td>' + fmt(r.valid_bet) + '</td></tr>';
+        }).join('');
+        W.qs('[data-record-body-desktop]').innerHTML = D.PROFIT_LOSS_RECORDS.map(function (r) {
+          return '<tr><td>' + r.game_type + '</td><td class="' + plClass(r.pnl) + '">' + fmt(r.pnl) + '</td><td>' + fmt(r.betting) + '</td><td>' + fmt(r.valid_bet) + '</td><td>' + fmt(r.win) + '</td><td>' + fmt(r.rebate) + '</td></tr>';
+        }).join('');
+
+        W.initDateRangePicker(W.qs('.record-date-btn'));
+      };
+    </script>
+  </body>
+</html>

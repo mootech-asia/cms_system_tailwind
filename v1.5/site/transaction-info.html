@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+      <main class="usercenter-main">
+        <div data-mount="user-navbar"></div>
+        <div class="usercenter-grid">
+          <div data-mount="user-sidebar"></div>
+          <div class="usercenter-content">
+            <h1 class="txinfo-page-title" data-tx-title>거래 상세</h1>
+            <section class="txinfo-section">
+              <div class="txinfo-inner">
+                <span class="txinfo-pill" data-i18n="userCenter.transactionDetails">거래 상세</span>
+                <div class="txinfo-card">
+                  <div class="txinfo-row">
+                    <span class="label" data-tx-amount-label>입금 금액</span>
+                    <span class="value">₩ <span data-tx-amount>0</span></span>
+                  </div>
+                  <div class="txinfo-row is-bonus" data-tx-bonus-row style="display: none">
+                    <span class="label" data-tx-bonus-label>입금 프로모션</span>
+                    <span class="value">＋₩ <span data-tx-bonus>0</span> <span data-i18n="userCenter.bonus">보너스</span></span>
+                  </div>
+                  <div class="txinfo-row" data-tx-received-row style="display: none">
+                    <span class="label" data-i18n="userCenter.receivedAmount">실수령 금액</span>
+                    <span class="value">₩ <span data-tx-received>0</span></span>
+                  </div>
+                </div>
+
+                <div class="txinfo-account-row">
+                  <span data-tx-account-label>입금 계좌</span>
+                  <span data-tx-username>meaomcao</span>
+                </div>
+
+                <p class="txinfo-desc" data-tx-desc></p>
+                <a class="txinfo-cs-link" href="#" data-i18n="userCenter.customerService">고객센터</a>
+
+                <div class="txinfo-actions">
+                  <button type="button" class="txinfo-complete-btn" data-tx-complete>
+                    <span class="text-gradient" data-i18n="common.complete">완료</span>
+                  </button>
+                  <button type="button" class="txinfo-back-btn" data-tx-back data-i18n="common.back">뒤로</button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        var params = new URLSearchParams(location.search);
+        var type = params.get('type') || 'deposit';
+        var amount = Number((params.get('amount') || '0').replace(/,/g, '')) || 0;
+        var bonus = Number((params.get('bonus') || '0').replace(/,/g, '')) || 0;
+        var isWithdrawal = type === 'withdrawal';
+
+        document.querySelector('[data-tx-title]').textContent = isWithdrawal ? W.t('userCenter.withdrawal') : W.t('userCenter.deposit');
+        W.qs('[data-tx-amount-label]').textContent = isWithdrawal ? W.t('userCenter.withdrawalAmount') : W.t('userCenter.depositAmount');
+        W.qs('[data-tx-amount]').textContent = amount.toLocaleString('en-US');
+        W.qs('[data-tx-account-label]').textContent = isWithdrawal ? W.t('userCenter.withdrawalAccount') : W.t('userCenter.depositAccount');
+        W.qs('[data-tx-username]').textContent = D.MOCK_PROFILE.username;
+        W.qs('[data-tx-desc]').textContent = W.t('userCenter.transactionDescription').replace('{action}', isWithdrawal ? W.t('common.completeWithdrawal') : W.t('common.completeDeposit'));
+
+        if (!isWithdrawal && bonus > 0) {
+          W.qs('[data-tx-bonus-row]').style.display = 'flex';
+          W.qs('[data-tx-bonus-label]').textContent = W.t('userCenter.depositPromotions');
+          W.qs('[data-tx-bonus]').textContent = bonus.toLocaleString('en-US');
+          W.qs('[data-tx-received-row]').style.display = 'flex';
+          W.qs('[data-tx-received]').textContent = (amount + bonus).toLocaleString('en-US');
+        }
+
+        W.on(W.qs('[data-tx-back]'), 'click', function () { history.back(); });
+        W.on(W.qs('[data-tx-complete]'), 'click', function () {
+          W.showAlert({
+            type: 'success',
+            message: isWithdrawal ? W.t('common.withdrawalSuccess') : W.t('common.depositSuccess'),
+            redirectUrl: isWithdrawal ? 'withdrawal-record.html' : 'deposit-record.html',
+          });
+        });
+      };
+    </script>
+  </body>
+</html>

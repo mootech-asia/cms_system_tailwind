@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="win100" class="dark-mode">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Studio_v2</title>
+    <link rel="stylesheet" href="../site/assets/css/app.css" />
+    <link rel="stylesheet" href="../site/themes/win100.css" />
+    <link rel="stylesheet" href="studio.css" />
+  </head>
+  <body>
+    <div class="st-shell" data-pane="controls">
+      <!-- 頂欄 -->
+      <header class="st-topbar">
+        <a class="st-back" href="../site/index.html">← 回站點</a>
+        <h1 class="st-title">設計後台 <span class="st-title-sub">/studio</span></h1>
+      </header>
+
+      <!-- 手機工作區切換(窄螢幕只顯示一個主要任務) -->
+      <nav class="st-panebar" aria-label="設計後台工作區">
+        <button type="button" class="seg-btn active" data-pane-btn="controls">設定</button>
+        <button type="button" class="seg-btn" data-pane-btn="preview">即時預覽</button>
+      </nav>
+
+      <div class="st-main">
+        <!-- 左:控制欄 -->
+        <aside class="st-panel" data-pane-target="controls">
+          <!-- 草稿操作 -->
+          <div>
+            <div class="st-grid2">
+              <button type="button" class="st-btn" id="st-reset">重設草稿</button>
+              <button type="button" class="st-btn" id="st-apply">套用到本站</button>
+            </div>
+            <div class="st-applied-row" id="st-applied" hidden>
+              <span class="st-tag st-tag-ok">已套用(僅存於此瀏覽器)</span>
+            </div>
+          </div>
+
+          <!-- 站點名稱 / 預覽語言 -->
+          <section class="collapse-sec">
+            <button type="button" class="collapse-head" aria-expanded="true" data-group-toggle="site">
+              <span class="st-head-text">
+                <span class="st-head-title">站點名稱 / 預覽語言</span>
+                <span class="st-head-sub" id="st-summary-site">CMS_Frontend_v2 ・ 中文</span>
+              </span>
+              <svg class="collapse-chevron is-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <div class="collapse-body st-space" data-group-body="site">
+              <div>
+                <h3 class="st-sub-label">站點名稱</h3>
+                <input id="st-sitename" class="st-input" type="text" placeholder="站點名稱(瀏覽器分頁)" />
+              </div>
+              <div>
+                <h3 class="st-sub-label">預覽語言</h3>
+                <div class="st-grid2" id="st-preview-locales"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 前台可見語言 -->
+          <section class="collapse-sec">
+            <button type="button" class="collapse-head" aria-expanded="false" data-group-toggle="locales">
+              <span class="st-head-text">
+                <span class="st-head-title">前台可見語言</span>
+                <span class="st-head-sub" id="st-summary-locales"></span>
+              </span>
+              <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <div class="collapse-body" data-group-body="locales" hidden>
+              <p class="st-muted">控制玩家可以在前台語言選單切換到哪些語言</p>
+              <div class="st-grid2" id="st-public-locales"></div>
+            </div>
+          </section>
+
+          <!-- 皮膚 -->
+          <section class="collapse-sec">
+            <button type="button" class="collapse-head" aria-expanded="false" data-group-toggle="skin">
+              <span class="st-head-text">
+                <span class="st-head-title">皮膚</span>
+                <span class="st-head-sub" id="st-summary-skin"></span>
+              </span>
+              <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <div class="collapse-body" data-group-body="skin" hidden>
+              <p class="st-muted">本站套用</p>
+              <div class="st-grid2" id="st-skins"></div>
+              <p class="st-muted st-mt">前台可見</p>
+              <div class="st-grid2" id="st-public-skins"></div>
+              <p class="st-muted st-mt">外觀切換按鈕</p>
+              <div class="st-section-card">
+                <div class="st-section-row1">
+                  <span class="st-section-name">前台顯示「切換皮膚」按鈕</span>
+                  <button type="button" role="switch" class="st-switch is-on" id="st-skin-button-switch" aria-checked="true" title="顯示中"><span class="st-switch-knob"></span></button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 全站 CHROME -->
+          <section class="collapse-sec">
+            <button type="button" class="collapse-head" aria-expanded="false" data-group-toggle="chrome">
+              <span class="st-head-text">
+                <span class="st-head-title">全站 CHROME</span>
+                <span class="st-head-sub" id="st-summary-chrome">header:v1 / footer:v1</span>
+              </span>
+              <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <div class="collapse-body" data-group-body="chrome" id="st-chrome" hidden></div>
+          </section>
+
+          <!-- 頁面區塊 -->
+          <section class="collapse-sec">
+            <button type="button" class="collapse-head" aria-expanded="false" data-group-toggle="sections">
+              <span class="st-head-text">
+                <span class="st-head-title">頁面區塊</span>
+                <span class="st-head-sub" id="st-summary-sections">home ・ 6 個區塊</span>
+              </span>
+              <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <div class="collapse-body" data-group-body="sections" hidden>
+              <div class="st-page-switch">
+                <span class="st-sub-label">切換頁面</span>
+                <select id="st-page" class="st-input st-select"></select>
+              </div>
+              <ul class="st-section-list" id="st-sections"></ul>
+              <div class="st-add-row">
+                <select id="st-add-pick" class="st-input st-select"></select>
+                <button type="button" class="st-btn" id="st-add-btn" disabled>新增</button>
+              </div>
+            </div>
+          </section>
+        </aside>
+
+        <!-- 右:即時預覽 -->
+        <main class="st-preview" data-pane-target="preview">
+          <div class="st-preview-bar">
+            <span class="st-preview-label" id="st-preview-label">即時預覽 — home(iframe 真實視口)</span>
+            <span class="st-preview-toggle">
+              <button type="button" class="seg-btn st-seg-plain active" data-width="desktop">桌機</button>
+              <button type="button" class="seg-btn st-seg-plain" data-width="mobile">手機 390</button>
+            </span>
+          </div>
+          <div class="st-preview-stage">
+            <iframe id="st-frame" class="st-frame" title="studio preview" src="../site/index.html"></iframe>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="../site/assets/js/data.js"></script>
+    <script src="studio.js"></script>
+  </body>
+</html>

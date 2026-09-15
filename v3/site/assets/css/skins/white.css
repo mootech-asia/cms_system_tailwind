@@ -1,0 +1,130 @@
+/* CMS v3 Pearl Signature skin.
+   A restrained ivory palette with warm graphite contrast. */
+:root[data-skin="white"] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --bg: #ebe8df;
+  --bg-elev: #f5f2e9;
+  --bg-card: #faf8f2;
+  --bg-card-hi: #f0ece3;
+  --line: rgba(58, 53, 44, 0.11);
+  --line-hi: rgba(58, 53, 44, 0.24);
+  --page-background:
+    radial-gradient(ellipse 72% 48% at 0% 0%, rgba(255, 253, 246, 0.72) 0%, transparent 62%),
+    radial-gradient(ellipse 54% 44% at 100% 100%, rgba(166, 137, 88, 0.10) 0%, transparent 66%);
+
+  /* Content */
+  --text: #27241f;
+  --text-mid: rgba(39, 36, 31, 0.72);
+  --text-dim: rgba(39, 36, 31, 0.48);
+  --text-on-accent: #f7f1e5;
+  --text-on-accent-soft: #eee7da;
+  --icon-muted: rgba(39, 36, 31, 0.58);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: invert(26%) brightness(0.86);
+  --calendar-indicator-hover-filter: invert(24%) brightness(0.9);
+  --calendar-indicator-opacity: 0.72;
+
+  /* Brand and status */
+  --accent: #4d4941;
+  --accent-2: #635d53;
+  --accent-3: #b18444;
+  --accent-ink: #27241f;
+  --accent-shade: #faf8f2;
+  --balance-text: #705022;
+  --primary-start: #625c52;
+  --primary: #454139;
+  --primary-end: #2c2924;
+  --live: #e53945;
+  --positive: #1f9d68;
+  --negative: #d8424d;
+  --warning: #b18444;
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --tier-next: #8a5214;
+  --status-success-bg: #e5f2e9;
+  --status-success-text: #1f8a5b;
+  --status-success-border: #bfe6d2;
+  --badge-highlight-bg: #ebe6db;
+  --badge-highlight-text: #37332c;
+  --badge-highlight-border: #bdb5a6;
+  --badge-highlight-shadow: none;
+
+  /* Reusable fills */
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 60%,
+    var(--primary-end) 100%
+  );
+  --gradient-primary-short: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 100%
+  );
+  --rollover-title-gradient: linear-gradient(
+    90deg,
+    #777064 0%,
+    var(--primary) 48%,
+    #28251f 100%
+  );
+  --rollover-hero-gradient: linear-gradient(
+    95deg,
+    #c48718 0%,
+    #a96800 52%,
+    #8a5400 100%
+  );
+  --accent-grad: #d9d3c7;
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 14%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 4%, transparent) 100%
+  );
+  --bg-grad-card: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-hi) 100%);
+
+  /* Shared component states */
+  --control-bg: var(--bg-card);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: #71695d;
+  --control-hover-text: var(--text);
+  --control-active-bg: #e7e2d8;
+  --control-active-border: var(--accent);
+  --control-active-text: #2c2924;
+  --control-active-text-shadow: none;
+  --control-active-shadow: 0 0 0 1px var(--accent);
+  --focus-ring: 0 0 0 2px var(--bg-card), 0 0 0 4px rgba(77, 73, 65, 0.42);
+
+  /* Tables and feature surfaces */
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: var(--bg-card);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: var(--bg-card);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 1px 0 rgba(15, 23, 32, 0.04), 0 4px 14px rgba(15, 23, 32, 0.06);
+  --account-hero-bg: var(--bg-card);
+  --account-hero-border: var(--line);
+  --account-hero-shadow: 0 1px 0 rgba(15, 23, 32, 0.04), 0 4px 14px rgba(15, 23, 32, 0.06);
+  --secondary-button-bg: var(--bg-card);
+  --secondary-button-border: var(--line);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent);
+  --secondary-button-hover-text: var(--text);
+
+  /* Shadows */
+  --shadow-card: 0 1px 0 rgba(255, 253, 246, 0.72) inset, 0 4px 14px rgba(58, 53, 44, 0.08);
+  --shadow-primary: 0 2px 8px rgba(58, 53, 44, 0.16);
+  --shadow-primary-sm: 0 2px 8px rgba(58, 53, 44, 0.16);
+  --shadow-glow:
+    0 0 0 1px var(--accent),
+    0 5px 16px rgba(58, 53, 44, 0.14);
+  --accent-glow:
+    0 4px 14px rgba(58, 53, 44, 0.14),
+    0 0 0 1px rgba(58, 53, 44, 0.22) inset;
+}

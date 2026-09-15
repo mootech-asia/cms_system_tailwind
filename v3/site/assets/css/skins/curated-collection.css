@@ -1,0 +1,244 @@
+/* CMS v3 curated skin collection.
+   Component semantics are declared once; each skin below only supplies a palette. */
+:root:is(
+  [data-skin="obsidian-copper"],
+  [data-skin="arctic-cyan"],
+  [data-skin="crimson-noir"],
+  [data-skin="midnight-gold"],
+  [data-skin="sage-atelier"]
+) {
+  --icon-muted: var(--skin-icon-muted);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: var(--skin-calendar-filter);
+  --calendar-indicator-hover-filter: var(--skin-calendar-hover-filter);
+  --calendar-indicator-opacity: 0.76;
+
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --status-success-bg: color-mix(in oklch, var(--positive) 14%, var(--bg-elev));
+  --status-success-text: var(--positive);
+  --status-success-border: color-mix(in oklch, var(--positive) 42%, transparent);
+  --badge-highlight-bg: color-mix(in oklch, var(--accent) 18%, var(--bg-elev));
+  --badge-highlight-text: var(--text);
+  --badge-highlight-border: var(--accent);
+  --badge-highlight-shadow: none;
+
+  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 56%, var(--primary-end) 100%);
+  --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
+  --rollover-title-gradient: linear-gradient(90deg, var(--accent-2) 0%, var(--accent) 55%, var(--accent-3) 100%);
+  --rollover-hero-gradient: linear-gradient(95deg, var(--accent-2) 0%, var(--warning) 52%, var(--accent-3) 100%);
+  --accent-grad: linear-gradient(135deg, var(--primary-start) 0%, var(--accent) 52%, var(--primary-end) 100%);
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 18%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 4%, transparent) 100%
+  );
+  --bg-grad-card: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+
+  --control-bg: var(--bg-card);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: var(--accent);
+  --control-hover-text: var(--text);
+  --control-active-bg: color-mix(in oklch, var(--accent) 16%, var(--bg-card));
+  --control-active-border: var(--accent);
+  --control-active-text: var(--text);
+  --control-active-text-shadow: none;
+  --control-active-shadow: 0 0 0 1px color-mix(in oklch, var(--accent) 36%, transparent);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent) 58%, transparent);
+
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: var(--bg-card-hi);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: var(--bg-grad-card);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 8px 24px var(--skin-shadow);
+  --account-hero-bg: var(--bg-grad-card);
+  --account-hero-border: var(--line-hi);
+  --account-hero-shadow: none;
+  --secondary-button-bg: transparent;
+  --secondary-button-border: var(--line-hi);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent);
+  --secondary-button-hover-text: var(--text);
+
+  --shadow-card: 0 1px 0 var(--skin-inset) inset, 0 7px 20px var(--skin-shadow);
+  --shadow-primary: 0 6px 18px var(--skin-shadow);
+  --shadow-primary-sm: 0 4px 12px var(--skin-shadow);
+  --shadow-glow: 0 0 0 1px var(--accent);
+  --accent-glow: 0 0 0 1px color-mix(in oklch, var(--accent) 42%, transparent) inset;
+}
+
+:root[data-skin="obsidian-copper"] {
+  color-scheme: dark;
+  --bg: #0d0e0f;
+  --bg-elev: #151719;
+  --bg-card: #1d2022;
+  --bg-card-hi: #272b2d;
+  --line: rgba(222, 171, 122, 0.10);
+  --line-hi: rgba(222, 171, 122, 0.25);
+  --text: #f3eee8;
+  --text-mid: rgba(243, 238, 232, 0.72);
+  --text-dim: rgba(243, 238, 232, 0.45);
+  --text-on-accent: #21150d;
+  --text-on-accent-soft: #fff3e7;
+  --skin-icon-muted: rgba(243, 238, 232, 0.70);
+  --skin-calendar-filter: invert(91%) sepia(8%) saturate(270%) hue-rotate(342deg) brightness(1.05);
+  --skin-calendar-hover-filter: invert(74%) sepia(45%) saturate(620%) hue-rotate(341deg) brightness(1.05);
+  --accent: #d8a06b;
+  --accent-2: #edc49e;
+  --accent-3: #b87545;
+  --accent-ink: #21150d;
+  --accent-shade: #070707;
+  --primary-start: #edc49e;
+  --primary: #d8a06b;
+  --primary-end: #a9663c;
+  --live: #ff565e;
+  --positive: #65d5a1;
+  --negative: #ff7278;
+  --warning: #e8b85d;
+  --tier-next: #d58e45;
+  --skin-shadow: rgba(0, 0, 0, 0.36);
+  --skin-inset: rgba(255, 255, 255, 0.035);
+}
+
+:root[data-skin="arctic-cyan"] {
+  color-scheme: dark;
+  --bg: #071116;
+  --bg-elev: #0c1a21;
+  --bg-card: #12252d;
+  --bg-card-hi: #19323b;
+  --line: rgba(106, 210, 224, 0.10);
+  --line-hi: rgba(106, 210, 224, 0.26);
+  --text: #edf9fb;
+  --text-mid: rgba(237, 249, 251, 0.72);
+  --text-dim: rgba(237, 249, 251, 0.45);
+  --text-on-accent: #06181d;
+  --text-on-accent-soft: #edfdff;
+  --skin-icon-muted: rgba(237, 249, 251, 0.70);
+  --skin-calendar-filter: invert(94%) sepia(12%) saturate(290%) hue-rotate(146deg) brightness(1.04);
+  --skin-calendar-hover-filter: invert(83%) sepia(51%) saturate(615%) hue-rotate(142deg) brightness(1.04);
+  --accent: #62c8d8;
+  --accent-2: #a3e2ea;
+  --accent-3: #55a7bd;
+  --accent-ink: #06181d;
+  --accent-shade: #02080b;
+  --primary-start: #a3e2ea;
+  --primary: #62c8d8;
+  --primary-end: #368ca3;
+  --live: #ff5a67;
+  --positive: #65d4a5;
+  --negative: #ff6d78;
+  --warning: #e6bd61;
+  --tier-next: #c89047;
+  --skin-shadow: rgba(0, 0, 0, 0.34);
+  --skin-inset: rgba(255, 255, 255, 0.035);
+}
+
+:root[data-skin="crimson-noir"] {
+  color-scheme: dark;
+  --bg: #11090d;
+  --bg-elev: #1b1015;
+  --bg-card: #281820;
+  --bg-card-hi: #35212a;
+  --line: rgba(230, 125, 139, 0.10);
+  --line-hi: rgba(230, 125, 139, 0.25);
+  --text: #fbf0f2;
+  --text-mid: rgba(251, 240, 242, 0.72);
+  --text-dim: rgba(251, 240, 242, 0.45);
+  --text-on-accent: #280c14;
+  --text-on-accent-soft: #fff0f3;
+  --skin-icon-muted: rgba(251, 240, 242, 0.70);
+  --skin-calendar-filter: invert(92%) sepia(9%) saturate(260%) hue-rotate(304deg) brightness(1.04);
+  --skin-calendar-hover-filter: invert(73%) sepia(42%) saturate(860%) hue-rotate(306deg) brightness(1.03);
+  --accent: #df7b89;
+  --accent-2: #f0aeb7;
+  --accent-3: #b94f65;
+  --accent-ink: #280c14;
+  --accent-shade: #090305;
+  --primary-start: #f0aeb7;
+  --primary: #df7b89;
+  --primary-end: #ad4057;
+  --live: #ff435a;
+  --positive: #6bd3a0;
+  --negative: #ff6677;
+  --warning: #e8bd64;
+  --tier-next: #d28a43;
+  --skin-shadow: rgba(0, 0, 0, 0.38);
+  --skin-inset: rgba(255, 255, 255, 0.035);
+}
+
+:root[data-skin="midnight-gold"] {
+  color-scheme: dark;
+  --bg: #080d16;
+  --bg-elev: #101827;
+  --bg-card: #182236;
+  --bg-card-hi: #222f47;
+  --line: rgba(218, 188, 112, 0.10);
+  --line-hi: rgba(218, 188, 112, 0.26);
+  --text: #f5f2e9;
+  --text-mid: rgba(245, 242, 233, 0.72);
+  --text-dim: rgba(245, 242, 233, 0.45);
+  --text-on-accent: #211b0c;
+  --text-on-accent-soft: #fff8df;
+  --skin-icon-muted: rgba(245, 242, 233, 0.70);
+  --skin-calendar-filter: invert(92%) sepia(8%) saturate(230%) hue-rotate(356deg) brightness(1.04);
+  --skin-calendar-hover-filter: invert(79%) sepia(46%) saturate(620%) hue-rotate(5deg) brightness(1.02);
+  --accent: #d2b465;
+  --accent-2: #ead79c;
+  --accent-3: #9f7d36;
+  --accent-ink: #211b0c;
+  --accent-shade: #03070c;
+  --primary-start: #ead79c;
+  --primary: #d2b465;
+  --primary-end: #95732e;
+  --live: #ff5d63;
+  --positive: #68d3a0;
+  --negative: #ff7078;
+  --warning: #e9bd52;
+  --tier-next: #d79c43;
+  --skin-shadow: rgba(0, 0, 0, 0.36);
+  --skin-inset: rgba(255, 255, 255, 0.035);
+}
+
+:root[data-skin="sage-atelier"] {
+  color-scheme: light;
+  --bg: #dfe3dc;
+  --bg-elev: #ecefe9;
+  --bg-card: #f4f5ef;
+  --bg-card-hi: #e5e9e2;
+  --line: rgba(43, 62, 55, 0.12);
+  --line-hi: rgba(43, 62, 55, 0.26);
+  --page-background:
+    radial-gradient(ellipse 70% 48% at 0% 0%, rgba(242, 238, 222, 0.52) 0%, transparent 64%),
+    radial-gradient(ellipse 54% 44% at 100% 100%, rgba(78, 112, 99, 0.10) 0%, transparent 66%);
+  --text: #26332e;
+  --text-mid: rgba(38, 51, 46, 0.72);
+  --text-dim: rgba(38, 51, 46, 0.48);
+  --text-on-accent: #26332e;
+  --text-on-accent-soft: #31433c;
+  --skin-icon-muted: rgba(38, 51, 46, 0.62);
+  --skin-calendar-filter: invert(26%) sepia(10%) saturate(525%) hue-rotate(104deg) brightness(0.84);
+  --skin-calendar-hover-filter: invert(34%) sepia(25%) saturate(680%) hue-rotate(103deg) brightness(0.82);
+  --accent: #9ab7ac;
+  --accent-2: #4f695f;
+  --accent-3: #9a7844;
+  --accent-ink: #26332e;
+  --accent-shade: #f4f5ef;
+  --primary-start: #c5d6cf;
+  --primary: #9ab7ac;
+  --primary-end: #82a398;
+  --live: #c83f4d;
+  --positive: #267a57;
+  --negative: #bd3f4b;
+  --warning: #987034;
+  --balance-text: #705022;
+  --tier-next: #7c4b16;
+  --skin-shadow: rgba(43, 62, 55, 0.10);
+  --skin-inset: rgba(255, 255, 255, 0.45);
+}

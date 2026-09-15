@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+
+      <main class="promotion-list-page">
+        <section class="banner">
+          <div class="banner-slides" data-banner-slides>
+            <div class="banner-slide is-active"><img src="assets/images/banner/banner.jpg" alt="banner" /></div>
+            <div class="banner-slide"><img src="assets/images/banner/banner-2.jpg" alt="banner" /></div>
+          </div>
+          <div class="banner-dots" data-banner-dots>
+            <button type="button" class="banner-dot is-active" data-dot-index="0" aria-label="Go to slide 1"></button>
+            <button type="button" class="banner-dot" data-dot-index="1" aria-label="Go to slide 2"></button>
+          </div>
+        </section>
+
+        <div class="promotion-list-body">
+          <div class="promotion-list-title-row"><h1 class="text-gradient" data-i18n="navbar.desktop.promotion">프로모션</h1></div>
+
+          <nav class="promotion-categories no-scrollbar" data-promo-categories></nav>
+
+          <div data-promo-grid></div>
+        </div>
+      </main>
+
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        var PAGE_SIZE = 8;
+
+        /* ---- Banner(對照 components/Banner.vue,與首頁共用同一組輪播圖) ---- */
+        var slides = W.qsa('.banner-slide');
+        var dots = W.qsa('.banner-dot');
+        var bannerActive = 0;
+        function showBanner(i) {
+          bannerActive = i;
+          slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === i); });
+          dots.forEach(function (d, idx) { d.classList.toggle('is-active', idx === i); });
+        }
+        dots.forEach(function (d, i) { W.on(d, 'click', function () { showBanner(i); }); });
+        if (slides.length > 1) {
+          setInterval(function () { showBanner((bannerActive + 1) % slides.length); }, 6000);
+        }
+
+        /* ---- 分類頁籤 + 卡片清單(對照 pages/promotionList.vue) ---- */
+        var CATEGORIES = ['all', 'new', 'slot', 'live', 'sports'];
+        var activeCategory = 'all';
+        var visibleCount = PAGE_SIZE;
+
+        var catsEl = W.qs('[data-promo-categories]');
+        var gridEl = W.qs('[data-promo-grid]');
+
+        function renderCategories() {
+          catsEl.innerHTML = CATEGORIES.map(function (key) {
+            return '<button type="button" class="promotion-category-tab' + (key === activeCategory ? ' is-active' : '') +
+              '" data-promo-cat="' + key + '"><span class="' + (key === activeCategory ? 'text-gradient' : '') +
+              '" data-i18n="promotionList.categories.' + key + '">' + W.t('promotionList.categories.' + key) + '</span></button>';
+          }).join('');
+          W.qsa('[data-promo-cat]', catsEl).forEach(function (btn) {
+            W.on(btn, 'click', function () {
+              activeCategory = btn.getAttribute('data-promo-cat');
+              visibleCount = PAGE_SIZE;
+              renderCategories();
+              renderGrid();
+            });
+          });
+        }
+
+        function formatDate(ts) {
+          var d = new Date(ts * 1000);
+          function pad(n) { return String(n).padStart(2, '0'); }
+          return d.getUTCFullYear() + '.' + pad(d.getUTCMonth() + 1) + '.' + pad(d.getUTCDate());
+        }
+
+        function renderGrid() {
+          var loc = W.currentLocale();
+          var list = D.PROMOTIONS.filter(function (p) { return activeCategory === 'all' || p.category === activeCategory; });
+          if (!list.length) {
+            gridEl.innerHTML = '<div class="list-empty-state" data-i18n="common.noData">' + W.t('common.noData') + '</div>';
+            return;
+          }
+          var visible = list.slice(0, visibleCount);
+          gridEl.innerHTML = '<div class="promotion-grid">' + visible.map(function (p, idx) {
+            var badge = p.endDate ? formatDate(p.startDate) + ' - ' + formatDate(p.endDate) : '∞';
+            return (
+              '<div class="promotion-card" data-promo-card="' + idx + '">' +
+              '<div class="promotion-card-thumb"><img src="assets/images/index/promotion/' + p.image + '" alt="promotion"></div>' +
+              '<p class="promotion-card-badge">' + badge + '</p>' +
+              '<div class="promotion-card-footer"><h3 class="promotion-card-title">' + p.title[loc] + '</h3></div>' +
+              '</div>'
+            );
+          }).join('') + '</div>' +
+          (visible.length < list.length ? '<div class="load-more-wrap"><button type="button" class="load-more-btn border-gradient-mask" data-promo-more><span class="text-gradient" data-i18n="common.readMore">' + W.t('common.readMore') + '</span></button></div>' : '');
+          W.qsa('[data-promo-card]', gridEl).forEach(function (el) {
+            W.on(el, 'click', function () {
+              location.href = 'promotion-detail.html?id=' + visible[Number(el.getAttribute('data-promo-card'))].promotion_id;
+            });
+          });
+          W.on(W.qs('[data-promo-more]', gridEl), 'click', function () {
+            visibleCount += PAGE_SIZE;
+            renderGrid();
+          });
+        }
+
+        renderCategories();
+        renderGrid();
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,317 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Nanum Gothic';
+  src: url('/fonts/NanumGothicLight.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nanum Gothic';
+  src: url('/fonts/NanumGothic.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nanum Gothic';
+  src: url('/fonts/NanumGothicBold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nanum Gothic';
+  src: url('/fonts/NanumGothicExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary-dark-blue: #060c34;
+  --linear-gradient-orange: #f3ac2f;
+  --linear-gradient-pink: #e528a5;
+  --button-active-blue: #091042;
+  --link-hover: #00d0ff;
+  --sub-title: #b0b0b0;
+}
+
+
+@layer utilities {
+  .border-gradient-primary {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(#060C34, #060C34) padding-box,
+      linear-gradient(270deg, var(--linear-gradient-pink), var(--linear-gradient-orange)) border-box;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  .border-b-gradient-primary {
+    position: relative;
+  }
+  .border-b-gradient-primary::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--linear-gradient-pink), var(--linear-gradient-orange));
+    border-radius: 9999px;
+  }
+
+  .border-t-gradient-primary {
+    position: relative;
+  }
+  .border-t-gradient-primary::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--linear-gradient-pink), var(--linear-gradient-orange));
+    border-radius: 9999px;
+  }
+
+  .border-gradient-primary-mask {
+    position: relative;
+  }
+
+  .border-gradient-primary-mask::before {
+    --bgp-stroke: 1px;
+    --bgp-inset: 0px;
+    content: '';
+    position: absolute;
+    inset: var(--bgp-inset);
+    padding: var(--bgp-stroke);
+    border-radius: inherit;
+    background: linear-gradient(270deg, var(--linear-gradient-pink), var(--linear-gradient-orange));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: all 0.5s ease;
+  }
+
+  .border-gradient-primary-fill {
+    border: 2px solid transparent;
+    background:
+      linear-gradient(#060c34, #060c34) padding-box,
+      linear-gradient(270deg, var(--linear-gradient-pink), var(--linear-gradient-orange)) border-box;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #060c34;
+    --foreground: #ededed;
+    --linear-gradient-orange: #f3ac2f;
+    --linear-gradient-pink: #e528a5;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html[lang='en'] body {
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+}
+
+html[lang='ko'] body {
+  font-family: 'Nanum Gothic', Arial, Helvetica, sans-serif;
+}
+
+/* 隱藏 Edge / IE 的內建密碼眼睛與清除按鈕 */
+input[type='password']::-ms-reveal,
+input[type='password']::-ms-clear {
+  display: none;
+}
+
+/* 新版 Edge (Chromium) 也吃這組 */
+input[type='password']::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.text-gradient-primary {
+  background-image: linear-gradient(
+    90deg,
+    var(--linear-gradient-pink),
+    var(--linear-gradient-orange)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: currentColor;
+  color: transparent;
+}
+
+.bg-gradient-primary {
+  background-image: linear-gradient(
+    90deg,
+    var(--linear-gradient-pink),
+    var(--linear-gradient-orange)
+  ) !important;
+}
+
+.border-gradient-primary {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#0000, #0000) padding-box,
+    linear-gradient(270deg, var(--linear-gradient-pink), var(--linear-gradient-orange)) border-box;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.border-gradient-primary-mask {
+  position: relative;
+  overflow: hidden;
+}
+
+.border-gradient-primary-mask::before {
+  --bgp-stroke: 1px;
+  --bgp-inset: 0px;
+  content: '';
+  position: absolute;
+  inset: var(--bgp-inset);
+  z-index: 0;
+  padding: var(--bgp-stroke);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--linear-gradient-pink), var(--linear-gradient-orange));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: all 0.5s ease;
+}
+
+
+.border-gradient-primary-mask > * {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-hover-primary-pill.border-gradient-primary-mask {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  z-index: 0;
+}
+
+.btn-hover-primary-pill.border-gradient-primary-mask::before {
+  z-index: -1;
+}
+
+.btn-hover-primary-pill.border-gradient-primary-mask:hover::before {
+  opacity: 0;
+  background: transparent;
+}
+
+.btn-hover-primary-pill:hover {
+  background: #e52865;
+  box-shadow: 0 10px 0 rgba(6, 12, 52, 0.75);
+}
+
+.btn-hover-primary-pill-label {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.btn-hover-primary-pill:hover .btn-hover-primary-pill-label {
+  background-image: none;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+.btn-gradient-action {
+  background: linear-gradient(
+    90deg,
+    var(--linear-gradient-pink),
+    #f0646f 52%,
+    var(--linear-gradient-orange)
+  );
+  color: #060c34;
+  box-shadow: 0 7px 0 rgba(6, 12, 52, 0.75);
+}
+
+.btn-gradient-action:hover {
+  background: #e52865;
+  color: #fff;
+}
+
+.user-sidebar-nav-item:hover:not(.bg-gradient-primary) {
+  background: #e52865;
+  border-color: transparent;
+}
+
+.user-sidebar-nav-item:hover:not(.bg-gradient-primary) .user-sidebar-nav-label {
+  color: #fff;
+}
+
+.user-sidebar-nav-item:hover:not(.bg-gradient-primary) .user-sidebar-nav-icon {
+  background: #fff;
+  background-image: none;
+}
+
+.icon-gradient {
+  background-image: linear-gradient(
+    90deg,
+    var(--linear-gradient-pink),
+    var(--linear-gradient-orange)
+  );
+  -webkit-mask: var(--icon-url) no-repeat center / contain;
+  mask: var(--icon-url) no-repeat center / contain;
+}
+
+.border-b-gradient-primary {
+  position: relative;
+}
+
+.border-b-gradient-primary::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--linear-gradient-pink), var(--linear-gradient-orange));
+  border-radius: 9999px;
+}

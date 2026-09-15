@@ -1,0 +1,148 @@
+/* CMS v3 blue skin.
+   This file owns color, surface, border, shadow and interaction-state tokens.
+   Structural sizing and typography live in design-system/tokens.css. */
+:root:not([data-skin]),
+:root[data-skin="blue"] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #05080f;
+  --bg-elev: #0a0f1a;
+  --bg-card: #0f1623;
+  --bg-card-hi: #161f30;
+  --line: rgba(160, 210, 255, 0.07);
+  --line-hi: rgba(160, 210, 255, 0.16);
+
+  /* Content */
+  --text: #eaf5ff;
+  --text-mid: rgba(234, 245, 255, 0.7);
+  --text-dim: rgba(234, 245, 255, 0.42);
+  --text-on-accent: #04101a;
+  --text-on-accent-soft: #eafff6;
+  --icon-muted: rgba(234, 245, 255, 0.72);
+  --cal-icon: var(--icon-muted);
+  --calendar-indicator-filter: invert(88%) brightness(1.05);
+  --calendar-indicator-hover-filter: invert(80%) sepia(70%) saturate(700%) hue-rotate(120deg) brightness(1.15);
+  --calendar-indicator-opacity: 0.72;
+
+  /* Brand and status */
+  --accent: #2473ff;
+  --accent-2: #38bdf8;
+  --accent-3: #fbbf24;
+  --accent-ink: #04101a;
+  --accent-shade: #000000;
+  --primary-start: #38bdf8;
+  --primary: #2473ff;
+  --primary-end: #1e5fd8;
+  --live: #ff3b3b;
+  --positive: oklch(0.78 0.18 145);
+  --negative: oklch(0.7 0.22 25);
+  --warning: #facc15;
+  --success: var(--positive);
+  --danger: var(--negative);
+  --pos: var(--positive);
+  --neg: var(--negative);
+  --tier-next: #c47b22;
+  --status-success-bg: color-mix(in oklch, #1f8a5b 16%, var(--bg-elev));
+  --status-success-text: #2fd396;
+  --status-success-border: color-mix(in oklch, #1f8a5b 45%, transparent);
+  --badge-highlight-bg: color-mix(in oklch, var(--accent) 32%, var(--bg-elev));
+  --badge-highlight-text: var(--text-on-accent-soft);
+  --badge-highlight-border: var(--accent);
+  --badge-highlight-shadow: 0 0 6px color-mix(in oklch, var(--accent) 50%, transparent);
+
+  /* Reusable fills */
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 60%,
+    var(--primary-end) 100%
+  );
+  --gradient-primary-short: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 100%
+  );
+  --rollover-title-gradient: linear-gradient(
+    90deg,
+    #22d3ee 0%,
+    var(--primary) 35%,
+    #a855f7 65%,
+    #facc15 100%
+  );
+  --rollover-hero-gradient: linear-gradient(
+    95deg,
+    #fde68a 0%,
+    #facc15 50%,
+    #f59e0b 100%
+  );
+  --accent-grad: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 100%, white 20%) 0%,
+    var(--accent) 38%,
+    color-mix(in oklch, var(--accent) 78%, #000) 100%
+  );
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 22%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 6%, transparent) 100%
+  );
+  --bg-grad-card: linear-gradient(
+    180deg,
+    var(--bg-card) 0%,
+    color-mix(in oklch, var(--bg-card) 80%, #000) 100%
+  );
+
+  /* Shared component states */
+  --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --control-border: var(--line-hi);
+  --control-text: var(--text-mid);
+  --control-hover-border: var(--accent);
+  --control-hover-text: #ffffff;
+  --control-active-bg:
+    radial-gradient(
+      ellipse 80% 60% at 50% 50%,
+      color-mix(in oklch, var(--accent) 28%, var(--bg-elev)) 0%,
+      var(--bg-elev) 75%
+    ),
+    var(--bg-elev);
+  --control-active-border: var(--accent);
+  --control-active-text: #ffffff;
+  --control-active-text-shadow: 0 0 10px color-mix(in oklch, var(--accent) 70%, transparent);
+  --control-active-shadow:
+    0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent),
+    0 0 16px color-mix(in oklch, var(--accent) 55%, transparent),
+    0 0 20px color-mix(in oklch, var(--accent) 18%, transparent) inset;
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent) 65%, transparent);
+
+  /* Tables */
+  --table-header-bg: var(--gradient-primary);
+  --table-header-text: var(--text-on-accent);
+  --table-row-bg: var(--bg-card);
+  --table-row-border: var(--line);
+  --record-total-bg: linear-gradient(180deg, #1a1f2b 0%, #12151d 100%);
+  --record-total-border: var(--line-hi);
+  --rewards-banner-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --rewards-banner-border: var(--line);
+  --rewards-banner-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
+  --account-hero-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  --account-hero-border: var(--line-hi);
+  --account-hero-shadow: none;
+  --secondary-button-bg: transparent;
+  --secondary-button-border: var(--line-hi);
+  --secondary-button-text: var(--text);
+  --secondary-button-hover-border: var(--accent);
+  --secondary-button-hover-text: #ffffff;
+
+  /* Shadows */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 18px rgba(0, 0, 0, 0.4);
+  --shadow-primary: 0 0 16px color-mix(in oklch, var(--primary) 40%, transparent);
+  --shadow-primary-sm: 0 0 14px color-mix(in oklch, var(--primary) 35%, transparent);
+  --shadow-glow:
+    0 0 0 1px var(--accent),
+    0 8px 28px color-mix(in oklch, var(--accent) 30%, transparent);
+  --accent-glow:
+    0 6px 26px color-mix(in oklch, var(--accent) 38%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--accent) 50%, transparent) inset,
+    0 0 22px color-mix(in oklch, var(--accent) 28%, transparent) inset;
+}

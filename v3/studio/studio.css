@@ -1,0 +1,20 @@
+/* CMS_Studio_v3 — minimal shell reset only.
+   All studio styling is reused from ../site/assets/css/design-system/design-studio.css;
+   this file only resets the page box and fills the viewport so .studio-shell
+   (height:100vh) sits flush, plus a couple of small shell conveniences. */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", sans-serif);
+}
+
+/* Topbar page switcher: keep it compact and inline with the device control. */
+#st-page-control { flex: 0 0 auto; }
+#st-page-control .studio-select { min-width: 132px; }
+
+/* Locale flag chips render an inline SVG rather than a solid swatch colour. */
+.studio-locale-flag { overflow: hidden; background: transparent; }
+.studio-locale-flag svg { width: 100%; height: 100%; display: block; object-fit: cover; }

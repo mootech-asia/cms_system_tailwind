@@ -1,0 +1,67 @@
+/* CMS v6 — 首頁區塊「變體」樣式表。
+   每個首頁區塊（[data-section]，即 index.html 的 .panel）可套用
+   data-variant="v2"~"v10" 其中一種版式；v1 = 不覆寫任何樣式，維持現況版面。
+   只調整區塊卡片的形狀/邊框/陰影/間距等結構性外觀，色彩一律用 color-mix
+   疊加既有 --badge、--accent、--line 等 token，不寫死色碼，因此任一 skin 切換後
+   變體仍保持該 skin 的色彩身份（橙色主色不受影響）。
+   套用邏輯：v6/site/assets/js/site.js 的 applyLayout() 依 studio 選定的
+   variant 設定 data-variant 屬性；選單定義在 v6/studio/studio.js 的
+   VARIANTS 陣列（variant id 為 v1~v10，跟站台版本號 v5 是兩套獨立編號，
+   純屬巧合撞名）。 */
+
+/* v2：圓潤糖果 — 大圓角、暖橙細邊、柔和暈影 */
+[data-section][data-variant="v2"] { border-radius: 22px; border-color: color-mix(in oklch, var(--accent-hi) 40%, var(--line)); box-shadow: 0 14px 30px color-mix(in oklch, var(--accent) 18%, transparent); }
+[data-section][data-variant="v2"] .tile-grid { gap: 14px; }
+[data-section][data-variant="v2"] :is(.game-tile, .match-card) { border-radius: 16px; border-color: color-mix(in oklch, var(--accent-hi) 30%, var(--line)); }
+[data-section][data-variant="v2"] :is(.game-tile, .match-card):hover { box-shadow: var(--shadow-accent); border-color: var(--accent-hi); }
+[data-section][data-variant="v2"] .feature-card { border-radius: 22px; }
+
+/* v3：銳利競技 — 近直角、粗色邊、緊湊間距 */
+[data-section][data-variant="v3"] { border-radius: 4px; border-width: 2px; border-color: color-mix(in oklch, var(--badge) 55%, var(--line-hi)); box-shadow: 0 0 0 1px color-mix(in oklch, var(--badge) 15%, transparent), 0 16px 30px color-mix(in oklch, var(--badge) 12%, transparent); }
+[data-section][data-variant="v3"] .tile-grid { gap: 8px; }
+[data-section][data-variant="v3"] :is(.game-tile, .match-card) { border-radius: 4px; border-color: color-mix(in oklch, var(--badge) 40%, var(--line)); }
+[data-section][data-variant="v3"] :is(.game-tile, .match-card):hover { border-color: var(--badge); box-shadow: 0 0 0 1px color-mix(in oklch, var(--badge) 30%, transparent); }
+[data-section][data-variant="v3"] .feature-card { border-radius: 4px; }
+
+/* v4：金屬質感 — 橙色斜向暈染底、細橙邊、內緣亮邊 */
+[data-section][data-variant="v4"] { border-radius: 14px; border-color: color-mix(in oklch, var(--accent-hi) 30%, var(--line-hi)); background: linear-gradient(160deg, color-mix(in oklch, var(--accent) 10%, var(--bg-panel)) 0%, var(--bg-panel) 60%); }
+[data-section][data-variant="v4"] :is(.game-tile, .match-card) { border-radius: 10px; border-color: color-mix(in oklch, var(--accent) 26%, var(--line)); box-shadow: inset 0 1px 0 color-mix(in oklch, white 22%, transparent); }
+[data-section][data-variant="v4"] :is(.game-tile, .match-card):hover { box-shadow: inset 0 1px 0 color-mix(in oklch, white 22%, transparent), var(--shadow-accent); }
+[data-section][data-variant="v4"] .feature-card { border-radius: 14px; }
+
+/* v5：復古票根 — 虛線邊框、方角較小、無陰影 */
+[data-section][data-variant="v5"] { border-radius: 10px; border-style: dashed; border-color: color-mix(in oklch, var(--accent-deep) 50%, var(--line-hi)); box-shadow: none; }
+[data-section][data-variant="v5"] :is(.game-tile, .match-card) { border-radius: 8px; border-style: dashed; border-color: color-mix(in oklch, var(--accent-deep) 40%, var(--line)); }
+[data-section][data-variant="v5"] .feature-card { border-radius: 8px; }
+
+/* v6：霓虹夜店 — 標籤色光暈邊框 */
+[data-section][data-variant="v6"] { border-radius: 12px; border-color: color-mix(in oklch, var(--badge) 60%, var(--line-hi)); box-shadow: 0 0 0 1px color-mix(in oklch, var(--badge) 20%, transparent), 0 0 26px color-mix(in oklch, var(--badge) 22%, transparent); }
+[data-section][data-variant="v6"] :is(.game-tile, .match-card) { border-radius: 10px; border-color: color-mix(in oklch, var(--badge) 45%, var(--line)); }
+[data-section][data-variant="v6"] :is(.game-tile, .match-card):hover { box-shadow: 0 0 18px color-mix(in oklch, var(--badge) 32%, transparent); border-color: var(--badge); }
+[data-section][data-variant="v6"] .feature-card { border-radius: 10px; }
+
+/* v7：工業風格 — 幾乎直角、頂部粗色條、無陰影 */
+[data-section][data-variant="v7"] { border-radius: 2px; border-color: var(--line-hi); border-top: 3px solid var(--accent-deep); box-shadow: none; }
+[data-section][data-variant="v7"] .tile-grid { gap: 8px; }
+[data-section][data-variant="v7"] :is(.game-tile, .match-card) { border-radius: 2px; border-color: var(--line-hi); box-shadow: none; }
+[data-section][data-variant="v7"] .feature-card { border-radius: 2px; }
+
+/* v8：奢華尊爵 — 大圓角、橙色深陰影、寬間距 */
+[data-section][data-variant="v8"] { border-radius: 20px; border-color: color-mix(in oklch, var(--accent-hi) 50%, var(--line-hi)); box-shadow: var(--shadow-accent), 0 20px 40px color-mix(in oklch, var(--accent-deep) 20%, transparent); }
+[data-section][data-variant="v8"] .tile-grid { gap: 16px; }
+[data-section][data-variant="v8"] :is(.game-tile, .match-card) { border-radius: 14px; border-color: color-mix(in oklch, var(--accent-hi) 40%, var(--line)); }
+[data-section][data-variant="v8"] :is(.game-tile, .match-card):hover { box-shadow: var(--shadow-accent); }
+[data-section][data-variant="v8"] .feature-card { border-radius: 20px; }
+
+/* v9：極簡通風 — 無邊框無陰影、寬間距、微調底色 */
+[data-section][data-variant="v9"] { border-radius: 12px; border-color: transparent; box-shadow: none; background: var(--panel-tint); }
+[data-section][data-variant="v9"] .tile-grid { gap: 18px; }
+[data-section][data-variant="v9"] :is(.game-tile, .match-card) { border-radius: 10px; border-color: transparent; background: var(--panel-tint); }
+[data-section][data-variant="v9"] :is(.game-tile, .match-card):hover { border-color: var(--line-hi); background: var(--bg-panel); }
+[data-section][data-variant="v9"] .feature-card { border-radius: 12px; }
+
+/* v10：卡片疊層 — 位移實心陰影營造疊卡效果 */
+[data-section][data-variant="v10"] { border-radius: 14px; border-color: var(--line-hi); box-shadow: 6px 6px 0 color-mix(in oklch, var(--accent-hi) 30%, transparent), 0 10px 24px color-mix(in oklch, black 40%, transparent); }
+[data-section][data-variant="v10"] :is(.game-tile, .match-card) { border-radius: 10px; box-shadow: 3px 3px 0 color-mix(in oklch, var(--accent) 22%, transparent); }
+[data-section][data-variant="v10"] :is(.game-tile, .match-card):hover { box-shadow: 3px 3px 0 color-mix(in oklch, var(--accent) 22%, transparent), var(--shadow-card); }
+[data-section][data-variant="v10"] .feature-card { border-radius: 10px; }

@@ -1,0 +1,15 @@
+/* CMS v5 skin — 尊爵金鑲黑（Gold Noir）。
+   切換 skin 主要改變的是主按鈕/CTA（--accent 系列）與累積獎金 widget
+   （--jackpot-a/-b）配色；--badge（標籤/熱區次色）為全站固定警示橙紅，
+   不隨 skin 改變。深色骨架與奶油色登入卡與預設 ignite-classic 一致，
+   不覆寫。金黃主色偏亮，--accent-ink 改用深色文字以維持對比。 */
+:root[data-skin="gold-noir"] {
+  --accent: #d4a017;
+  --accent-hi: #f0c550;
+  --accent-deep: #9c780f;
+  --accent-grad: linear-gradient(180deg, #f0c550 0%, #d4a017 55%, #9c780f 100%);
+  --accent-ink: #2a1a04;
+
+  --jackpot-a: #92400e;
+  --jackpot-b: #d97706;
+}

@@ -1,0 +1,4454 @@
+/* ============================================================
+   CMS_Frontend_v1.5 — 手刻 HTML+CSS+JS,依 cms-customer-frontend-theme-purple
+   (Nuxt/Vue/Tailwind 原始碼)換算成純 CSS,不殘留任何 Tailwind/框架 class。
+   色彩/字級/間距數值皆對照原始碼 assets/styles/tailwind.css 與各元件
+   Pug 樣板裡的 arbitrary value(如 bg-[#060C34]、h-[132px])換算而來。
+   ============================================================ */
+
+:root {
+  /* ---- 品牌色(對照 assets/styles/tailwind.css :root) ---- */
+  --c-bg: #ffffff;
+  --c-text: #171717;
+  --c-navy: #060c34;
+  --c-navy-2: #0a1140;
+  --c-navy-soft: #1a214f;
+  --c-navy-active: #091042;
+  --c-pink: #e528a5;
+  --c-orange: #f3ac2f;
+  --c-pink-hover: #e52865;
+  --c-link-hover: #00d0ff;
+  --c-subtitle: #b0b0b0;
+  --c-danger: #e11d48;
+  --c-gold: #ffe373;
+  --c-yellow: #fde047;
+  --c-border: #e5e7eb;
+  --c-border-soft: #e7e7e7;
+  --g-primary: linear-gradient(90deg, var(--c-pink), var(--c-orange));
+  --g-primary-270: linear-gradient(270deg, var(--c-pink), var(--c-orange));
+  --g-action: linear-gradient(90deg, var(--c-pink) 0%, #f0646f 52%, var(--c-orange) 100%);
+
+  /* ---- 版面尺寸 ---- */
+  --header-h-mobile: 64px;
+  --header-h-desktop: 132px;
+  --radius-card: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: 'Pretendard', 'Nanum Gothic', Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+html[lang='en'] body {
+  font-family: 'Pretendard', Arial, Helvetica, sans-serif;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+button {
+  cursor: pointer;
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+input {
+  font: inherit;
+}
+
+@font-face {
+  font-family: 'Nanum Gothic';
+  src: url('../fonts/NanumGothicLight.woff') format('woff');
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nanum Gothic';
+  src: url('../fonts/NanumGothic.woff') format('woff');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nanum Gothic';
+  src: url('../fonts/NanumGothicBold.woff') format('woff');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nanum Gothic';
+  src: url('../fonts/NanumGothicExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-display: swap;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- 共用漸層工具 class(對照原始碼 .text-gradient-primary 等) ---- */
+.text-gradient {
+  background-image: var(--g-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.bg-gradient {
+  background-image: var(--g-primary) !important;
+}
+.border-gradient-pill {
+  position: relative;
+  border-radius: 9999px;
+}
+.border-gradient-pill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--g-primary-270);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.border-gradient-pill:hover {
+  background: var(--c-pink-hover);
+}
+.border-gradient-pill:hover::before {
+  opacity: 0;
+}
+.border-gradient-pill:hover .text-gradient {
+  background-image: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+}
+
+/* ============================================================
+   Site Header(Navbar.vue)
+   ============================================================ */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* .mobile-menu-panel(z-index:200)是這裡的子元素,子層 z-index 只在本身
+     建立的 stacking context 內生效,對外仍以 site-header 自己的 z-index
+     參與比較;必須高於 .quick-rail(z-index:100),選單展開
+     時才不會被浮動客服按鈕蓋住 */
+  z-index: 200;
+  background: var(--c-navy);
+}
+.site-header-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h-mobile);
+  padding: 0 20px;
+}
+.site-header-mobile .brand-logo {
+  height: 36px;
+  width: auto;
+}
+.header-menu-btn {
+  width: 36px;
+  height: 36px;
+}
+.header-menu-btn img {
+  width: 36px;
+  height: 36px;
+}
+
+.mobile-menu-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 63px;
+  z-index: 200;
+  background: rgba(6, 12, 52, 0.8);
+  color: #fff;
+  display: none;
+}
+.mobile-menu-panel.is-open {
+  display: block;
+}
+.mobile-menu-top {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 8px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+.mobile-menu-bottom-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 24px;
+  padding: 8px 20px;
+}
+.mobile-menu-item {
+  height: 57px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 16px;
+}
+.mobile-menu-item-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+.mobile-menu-item-icon img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+/* 選中狀態圖示改用漸層色呈現,與文字用同一組 --g-primary token;圖示本身
+   是外部 svg(白色填色),無法靠 filter 精準對應漸層,改用遮罩疊層:底下的
+   img 選中時隱藏,換成同尺寸、以該 svg 當 mask 的漸層色塊 */
+.mobile-menu-item-icon-active {
+  position: absolute;
+  inset: 0;
+  display: none;
+  background-image: var(--g-primary);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+.mobile-menu-item span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+}
+.mobile-menu-item.is-active {
+  background: var(--c-navy);
+}
+.mobile-menu-item.is-active .mobile-menu-item-icon img {
+  display: none;
+}
+.mobile-menu-item.is-active .mobile-menu-item-icon-active {
+  display: block;
+}
+.mobile-menu-item.is-active span {
+  background-image: var(--g-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.mobile-menu-account {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+}
+.mobile-menu-account .lv-badge {
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: #fff;
+  color: var(--c-navy);
+  font-size: 14px;
+  font-weight: 700;
+}
+.mobile-menu-account .username {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+.mobile-menu-account .balance {
+  color: var(--c-yellow);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.mobile-menu-auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 28px;
+}
+.pill-outline-btn {
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+}
+.pill-outline-btn .text-gradient {
+  display: block;
+}
+
+/* ---- Desktop header ---- */
+.site-header-desktop {
+  display: none;
+}
+.site-header-desktop-inner {
+  height: var(--header-h-desktop);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 96px;
+}
+.site-header-desktop-inner.is-usercenter {
+  padding: 0 40px;
+}
+.header-logo-col {
+  display: flex;
+  align-items: center;
+}
+.header-logo-col img {
+  width: 200px;
+  min-width: 200px;
+  cursor: pointer;
+}
+.header-main-col {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.header-account-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+.header-user-block {
+  display: flex;
+  align-items: center;
+}
+.header-user-id {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+.header-user-id img {
+  width: 20px;
+  height: 20px;
+  margin-right: 20px;
+}
+.header-user-id span {
+  color: #fff;
+}
+.header-user-id:hover span {
+  color: var(--c-link-hover);
+}
+.header-user-dropdown {
+  position: absolute;
+  left: -14px;
+  /* 對照原始碼 top-full:相對 .header-user-id 自己(relative 容器)的高度
+     算 100%,不是整個 header 的高度 */
+  top: 100%;
+  z-index: 70;
+  display: none;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  min-width: max-content;
+}
+.header-user-id:hover .header-user-dropdown {
+  display: block;
+}
+.header-user-dropdown button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #fff;
+}
+.header-user-dropdown button:hover {
+  background: #404040;
+}
+.header-level-badge {
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: #fff;
+  color: #1c378e;
+  font-weight: 700;
+  margin: 0 16px 0 8px;
+}
+.header-balance-block {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.header-balance-row {
+  display: flex;
+  font-size: 14px;
+}
+.header-balance-row .label {
+  width: 60px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-right: 8px;
+}
+.header-balance-row .value {
+  color: var(--c-yellow);
+}
+.header-logout-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 16px;
+}
+.header-logout-btn img {
+  width: 20px;
+  height: 20px;
+}
+.header-auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header-auth-btn {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid #fff;
+  color: #fff;
+  font-size: 16px;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+.header-lang-switcher {
+  position: relative;
+}
+.header-lang-trigger {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  gap: 4px;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.header-lang-panel {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 130px;
+  display: none;
+  z-index: 80;
+}
+.header-lang-switcher.is-open .header-lang-panel {
+  display: block;
+}
+.header-lang-panel button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 25px;
+  border-radius: 12px;
+  padding: 0 6px;
+  color: #fff;
+  font-size: 14px;
+}
+.header-lang-panel button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.header-lang-panel img {
+  width: 24px;
+  height: 14px;
+}
+
+.header-nav-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+  padding-bottom: 16px;
+  white-space: nowrap;
+}
+.header-nav-link {
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1.3px solid transparent;
+}
+.header-nav-link span {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.header-nav-link:hover span {
+  color: #fff;
+}
+.header-nav-link.is-active {
+  border-image: var(--g-primary-270);
+  border-image-slice: 1;
+}
+.header-nav-link.is-active span {
+  color: #fff;
+}
+
+@media (min-width: 1280px) {
+  .site-header-mobile {
+    display: none;
+  }
+  .mobile-menu-panel {
+    display: none !important;
+  }
+  .site-header-desktop {
+    display: block;
+  }
+}
+
+/* ============================================================
+   Footer(Footer.vue)
+   ============================================================ */
+.site-footer {
+  width: 100%;
+  background: var(--c-navy);
+  padding: 16px 24px 80px;
+}
+.footer-marquee {
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.footer-marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  width: max-content;
+  white-space: nowrap;
+  animation: footer-marquee 30s linear infinite;
+}
+.footer-marquee-track img {
+  height: 60px;
+  margin-right: 40px;
+}
+@keyframes footer-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.footer-lang {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 48px;
+}
+.footer-lang-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 130px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  padding: 0 8px;
+  color: #fff;
+  font-size: 14px;
+}
+.footer-logo-row {
+  display: flex;
+  justify-content: flex-start;
+}
+.footer-logo-row img {
+  width: 88px;
+}
+.footer-copy {
+  margin: 32px 0;
+}
+.footer-copy p {
+  color: var(--c-subtitle);
+  font-size: 14px;
+  margin: 0;
+}
+.footer-copy p.copyright {
+  color: #888;
+  margin-top: 8px;
+}
+@media (min-width: 1280px) {
+  .site-footer {
+    padding: 32px 84px;
+  }
+  .footer-lang {
+    display: none;
+  }
+  .footer-logo-row {
+    justify-content: center;
+  }
+  .footer-logo-row img {
+    width: 200px;
+  }
+  .footer-copy {
+    text-align: center;
+    margin-top: 56px;
+  }
+}
+
+/* ============================================================
+   Mobile bottom nav(BottomNavbar.vue)
+   ============================================================ */
+.mobile-bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  z-index: 20;
+  background: var(--c-navy);
+  border-top: 2px solid transparent;
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+/* account.html 同時有 .mobile-bottom-nav 與 .user-sidebar,兩者手機版
+   都是 fixed 且 z-index 相同,側欄展開時會疊在一起把底部導覽壓爛,
+   展開期間先隱藏(見 bindUserSidebar) */
+body.usc-sidebar-open .mobile-bottom-nav {
+  display: none;
+}
+.mobile-bottom-nav-list {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 8px 16px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  justify-content: center;
+}
+.mobile-bottom-nav-item {
+  /* 原本寫死 84px,5 個項目(新增提款後)在較窄的手機寬度下總寬度會超過
+     視口造成兩側裁切;改成撐滿 grid cell 寬度,由 grid 的 1fr 自動依
+     可用空間平分,不管幾個項目都不會溢出 */
+  width: 100%;
+  max-width: 84px;
+  height: 61px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 16px;
+  margin: 0 auto;
+}
+.mobile-bottom-nav-item img {
+  width: 28px;
+  height: 28px;
+}
+.mobile-bottom-nav-item span {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+.mobile-bottom-nav-item.is-active {
+  background: #fff;
+}
+.mobile-bottom-nav-item.is-active img {
+  filter: invert(1);
+}
+.mobile-bottom-nav-item.is-active span {
+  color: #0a1140;
+}
+@media (min-width: 1280px) {
+  .mobile-bottom-nav {
+    display: none;
+  }
+}
+
+/* ============================================================
+   浮動客服/活動快捷列(SideBar.vue;對齊其他版本統一為固定圖示
+   +hover 彈出黑底標籤,不再使用點擊展開的 popover 選單與禮物收合面板)
+   ============================================================ */
+.quick-rail {
+  position: fixed;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 18px 50px rgba(10, 17, 64, 0.18);
+}
+.quick-rail-btn {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--c-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 18px 50px rgba(10, 17, 64, 0.18);
+}
+.quick-rail-btn img {
+  width: 100%;
+  height: 100%;
+}
+.quick-rail-label {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.quick-rail-btn:hover .quick-rail-label,
+.quick-rail-btn:focus-visible .quick-rail-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+@media (max-width: 720px) {
+  .quick-rail { right: 6px; gap: 8px; }
+  .quick-rail-btn { width: 40px; height: 40px; }
+  .quick-rail-btn:hover .quick-rail-label { opacity: 0; transform: translateY(-50%) translateX(6px); }
+}
+
+/* ---- 客服選單彈窗(點擊 SideBar 客服 icon 彈出,取代原本直接 alert) ---- */
+.cs-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(40, 38, 46, 0.8);
+  padding: 16px;
+}
+.cs-modal {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cs-modal-close {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--c-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.cs-modal-close img {
+  width: 14px;
+  height: 14px;
+}
+.cs-modal-title {
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--c-border);
+  color: var(--c-navy);
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+.cs-modal-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background-image: var(--g-action);
+  color: var(--c-navy);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+}
+.cs-modal-option img {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── LIVE CHAT 對話視窗（點擊 SideBar「線上客服」開啟,右下角展開,
+   純前端模擬對話,無真實客服後端） ────────── */
+.chat-widget {
+  position: fixed; right: 18px; bottom: 18px; z-index: 1001;
+  width: 320px; max-width: calc(100vw - 36px);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--c-navy);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.chat-widget-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 14px 14px 16px;
+  background-image: var(--g-primary);
+  color: #fff;
+}
+.chat-widget-avatar { width: 32px; height: 32px; border-radius: 50%; background: #fff; object-fit: contain; padding: 3px; flex-shrink: 0; }
+.chat-widget-head-text { flex: 1 1 auto; min-width: 0; }
+.chat-widget-head-text strong { display: block; font-size: 14px; }
+.chat-widget-status { display: flex; align-items: center; gap: 5px; font-size: 11.5px; opacity: .9; }
+.chat-widget-status i { width: 6px; height: 6px; border-radius: 50%; background: #3ddc84; display: inline-block; }
+.chat-widget-min, .chat-widget-close {
+  width: 26px; height: 26px; flex-shrink: 0; display: grid; place-items: center;
+  border-radius: 50%; color: inherit;
+}
+.chat-widget-min:hover, .chat-widget-close:hover { background: rgba(255, 255, 255, .22); }
+.chat-widget-body { padding: 14px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.chat-msg { display: flex; align-items: flex-end; gap: 8px; max-width: 88%; }
+.chat-msg-avatar { width: 22px; height: 22px; border-radius: 50%; background: #f5f5f7; object-fit: contain; padding: 2px; flex-shrink: 0; }
+.chat-bubble { padding: 9px 12px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+.chat-msg-bot .chat-bubble { background: #f5f5f7; color: var(--c-navy); border-bottom-left-radius: 4px; }
+.chat-msg-user { align-self: flex-end; flex-direction: row-reverse; }
+.chat-msg-user .chat-bubble { background-image: var(--g-primary); color: #fff; border-bottom-right-radius: 4px; }
+.chat-widget-form { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--c-border); }
+.chat-widget-form input {
+  flex: 1 1 auto; min-width: 0; border: 1px solid var(--c-border); border-radius: 999px;
+  padding: 8px 14px; font-size: 13px; background: #f5f5f7; color: var(--c-navy);
+}
+.chat-widget-form button {
+  width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center;
+  background-image: var(--g-primary); color: #fff;
+}
+.chat-widget.is-minimized .chat-widget-body,
+.chat-widget.is-minimized .chat-widget-form { display: none; }
+@media (max-width: 520px) {
+  .chat-widget { right: 10px; bottom: 10px; width: calc(100vw - 20px); }
+}
+
+/* ============================================================
+   共用 page 容器
+   ============================================================ */
+.page-shell {
+  min-height: 100vh;
+  padding-top: var(--header-h-mobile);
+  padding-bottom: 96px;
+}
+@media (min-width: 1280px) {
+  .page-shell {
+    padding-top: var(--header-h-desktop);
+    padding-bottom: 0;
+  }
+}
+/* ============================================================
+   首頁 — Banner(components/Banner.vue)
+   ============================================================ */
+.home-main {
+  background: var(--c-navy);
+}
+.banner {
+  position: relative;
+  background: var(--c-navy);
+  overflow: hidden;
+}
+.banner-slides {
+  position: relative;
+  width: 100%;
+}
+.banner-slide {
+  width: 100%;
+  display: none;
+}
+.banner-slide.is-active {
+  display: block;
+}
+.banner-slide img {
+  width: 100%;
+  display: block;
+}
+.banner-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.banner-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.95);
+}
+.banner-dot.is-active {
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: 3px solid rgba(255, 255, 255, 0.95);
+}
+
+/* ---- Marquee(components/Marquee.vue,對照真實網站首頁截圖:粉色跑馬燈緊貼 Banner 下緣) ---- */
+.home-marquee {
+  width: 100%;
+  background: #c4416c;
+  height: 30px;
+  position: relative;
+  font-size: 13px;
+  overflow: hidden;
+}
+.home-marquee-viewport {
+  overflow: hidden;
+  margin-right: 190px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.home-marquee-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  will-change: transform;
+  animation: home-marquee 24s linear infinite;
+}
+.home-marquee-track span {
+  display: inline-block;
+  font-weight: 700;
+  color: #fff;
+  margin-right: 24px;
+}
+.home-marquee-track span b {
+  color: var(--c-gold);
+  font-weight: 700;
+}
+@keyframes home-marquee {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+.home-marquee-clock {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 12px;
+  white-space: nowrap;
+}
+@media (min-width: 1280px) {
+  .home-marquee {
+    font-size: 14px;
+  }
+}
+/* game-type.html 資訊條緊貼 banner,改用深色底(對照真實網站分類頁截圖,非首頁粉色) */
+.game-type-page .home-marquee {
+  background: var(--c-navy-2);
+}
+/* 對照真實原始碼 gameType.vue 的 Marquee 只加了 class="hidden xl:block",
+   桌機才顯示,手機隱藏(首頁的 Marquee 沒有這個限制) */
+.gf-marquee-desktop {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .gf-marquee-desktop {
+    display: block;
+  }
+}
+
+/* ---- HotGame(components/HotGame.vue) ---- */
+.hot-game {
+  position: relative;
+  width: 100%;
+  padding: 24px 20px;
+}
+.hot-game-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid transparent;
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+.hot-game-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--c-pink);
+}
+.hot-game-title img {
+  width: 24px;
+  height: 24px;
+}
+.hot-game-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hot-game-actions button:first-child {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+.hot-game-actions button:first-child:hover {
+  color: #fff;
+}
+.hot-game-arrow {
+  width: 20px;
+  height: 20px;
+}
+.hot-game-strip {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.hot-game-strip::-webkit-scrollbar {
+  display: none;
+}
+.hot-game-track {
+  display: flex;
+  gap: 20px;
+}
+.hot-game-card {
+  flex-shrink: 0;
+  width: 311px;
+  height: 145px;
+  background: var(--c-navy-soft);
+  border-radius: 16px;
+  padding: 8px;
+  display: flex;
+  gap: 12px;
+  cursor: pointer;
+}
+.hot-game-card-thumb {
+  width: 120px;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+.hot-game-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hot-game-card-thumb.is-placeholder img {
+  object-fit: contain;
+  padding: 12px;
+}
+.hot-game-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hot-game-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: #5b6ea8;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.hot-game-name {
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hot-game-subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.hot-game-play-btn {
+  margin-top: 8px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--g-primary);
+  color: var(--c-navy);
+  font-weight: 700;
+}
+@media (min-width: 1280px) {
+  .hot-game {
+    padding: 24px 96px;
+  }
+  .hot-game-title {
+    font-size: 24px;
+  }
+  .hot-game-card {
+    width: 465px;
+    height: 220px;
+  }
+  .hot-game-card-thumb {
+    width: 200px;
+  }
+  .hot-game-name {
+    font-size: 20px;
+  }
+  .hot-game-subtitle {
+    font-size: 14px;
+  }
+}
+
+/* ---- Live Casino / Live Sports(首頁,對照真實網站首頁截圖) ---- */
+.home-vendor-section {
+  padding: 24px 20px;
+}
+.home-vendor-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid transparent;
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+.home-vendor-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--c-pink);
+}
+.home-vendor-title img {
+  width: 24px;
+  height: 24px;
+}
+.home-vendor-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+.home-vendor-actions img {
+  width: 20px;
+  height: 20px;
+}
+/* Live Casino/Live Sports 額外疊加 .hot-game-actions,重用首頁熱門遊戲區
+   「全部查看 + 上一頁/下一頁」按鈕的 hover 樣式與 .hot-game-arrow 箭頭尺寸 */
+/* 卡片橫向捲動(跟 .hot-game-strip/.slot-strip 同一套手勢,.vendor-card-grid 本身當
+   flex track 用,不用另外包一層 -track class) */
+.vendor-strip {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.vendor-strip::-webkit-scrollbar {
+  display: none;
+}
+.vendor-card-grid {
+  display: flex;
+  gap: 16px;
+}
+/* flex-grow 讓卡片數量不多時自動撐滿整行(不留右側空白);min-width 保底,
+   卡片數量一多、撐滿後還是超出容器寬度,就改為 .vendor-strip 橫向捲動,
+   不會被壓縮變形 */
+.vendor-card {
+  flex: 1 1 220px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 180px;
+  border-radius: 16px;
+  background: var(--c-navy-soft);
+  cursor: pointer;
+  padding: 16px;
+}
+.vendor-card-logo {
+  max-width: 70%;
+  max-height: 48px;
+  object-fit: contain;
+}
+.vendor-card-play-btn {
+  padding: 8px 24px;
+  border-radius: 10px;
+  background: var(--g-primary);
+  color: var(--c-navy);
+  font-weight: 700;
+}
+@media (min-width: 768px) {
+  .vendor-card {
+    flex-basis: 260px;
+    min-width: 260px;
+  }
+}
+@media (min-width: 1280px) {
+  .home-vendor-section {
+    padding: 24px 96px;
+  }
+  .home-vendor-title {
+    font-size: 24px;
+  }
+  .vendor-card {
+    flex-basis: 311px;
+    min-width: 311px;
+    height: 220px;
+  }
+}
+
+/* ---- Slot Games 橫向捲動(首頁,對照真實網站首頁截圖) ---- */
+.slot-strip {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.slot-strip::-webkit-scrollbar {
+  display: none;
+}
+.slot-strip-track {
+  display: flex;
+  gap: 16px;
+}
+.slot-strip-card {
+  flex-shrink: 0;
+  width: 120px;
+}
+.slot-strip-thumb {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--c-navy-soft);
+}
+.slot-strip-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.slot-strip-name {
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.slot-strip-brand {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+}
+@media (min-width: 1280px) {
+  .slot-strip-card {
+    width: 165px;
+  }
+  .slot-strip-thumb {
+    width: 165px;
+    height: 165px;
+  }
+}
+
+/* ---- 首頁促銷卡片(對照真實網站首頁截圖「SPECIAL OFFER / PROMOTION」樣式) ---- */
+.promo-home-strip {
+  overflow-x: auto;
+}
+.promo-home-strip::-webkit-scrollbar {
+  display: none;
+}
+.promo-home-track {
+  display: flex;
+  gap: 16px;
+}
+.promo-home-card {
+  flex-shrink: 0;
+  width: 240px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.promo-home-banner {
+  position: relative;
+  height: 120px;
+  padding: 20px 16px;
+  background: linear-gradient(135deg, #2a2560, #100c2e);
+  overflow: hidden;
+}
+/* 背景大字浮水印,對照參考圖:PROMOTION 主標題後方疊一層更大、更淡的
+   同字樣,把 banner 下半部填滿,不再是空白底色 */
+.promo-home-banner::before {
+  content: 'PROMOTION';
+  position: absolute;
+  left: 16px;
+  bottom: -14px;
+  font-size: 46px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.promo-home-banner::after {
+  content: '%';
+  position: absolute;
+  right: 8px;
+  bottom: -20px;
+  font-size: 72px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+.promo-home-offer {
+  position: relative;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+.promo-home-title {
+  position: relative;
+  z-index: 1;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  margin-top: 8px;
+  background-image: linear-gradient(180deg, #ffd88a, #f3ac2f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.promo-home-coin {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 30% 30%, #ffe08a, #d98a1a);
+}
+.promo-home-coin.c1 { width: 26px; height: 26px; right: 34px; top: 16px; }
+.promo-home-coin.c2 { width: 38px; height: 38px; right: 14px; top: 26px; }
+.promo-home-coin.c3 { width: 18px; height: 18px; right: 30px; top: 68px; }
+.promo-home-date-bar {
+  margin: 0;
+  background: var(--g-primary);
+  color: var(--c-navy);
+  font-weight: 700;
+  font-size: 13px;
+  text-align: center;
+  padding: 8px 0;
+}
+.promo-home-footer {
+  margin: 0;
+  background: #d9dbe6;
+  color: #111;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 14px;
+}
+.promo-home-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+.promo-home-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.4);
+}
+.promo-home-dot.is-active {
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  border: 2px solid #fff;
+}
+.promo-home-readmore-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+.promo-home-readmore {
+  padding: 8px 20px;
+  border-radius: 9999px;
+  border: 1px solid var(--c-pink);
+  color: var(--c-pink);
+  font-weight: 700;
+  font-size: 14px;
+}
+.promo-home-readmore:hover {
+  background: var(--c-pink);
+  color: #fff;
+}
+@media (min-width: 1280px) {
+  .promo-home-card {
+    width: 280px;
+  }
+}
+
+/* ---- GameType(遊戲分類捷徑) ---- */
+.game-type-section {
+  padding: 12px 20px 24px;
+}
+.game-type-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.game-type-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 4px;
+  border-radius: 16px;
+  background: var(--c-navy-soft);
+}
+.game-type-item img {
+  width: 36px;
+  height: 36px;
+}
+.game-type-item span {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+@media (min-width: 1280px) {
+  .game-type-section {
+    padding: 12px 96px 32px;
+  }
+  .game-type-item img {
+    width: 48px;
+    height: 48px;
+  }
+  .game-type-item span {
+    font-size: 14px;
+  }
+}
+
+/* ---- Promotion(首頁優惠區) ---- */
+.home-promotion {
+  padding: 12px 20px 32px;
+}
+.home-promotion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.home-promotion-card {
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--c-navy-soft);
+}
+.home-promotion-card img {
+  width: 100%;
+  display: block;
+}
+@media (min-width: 1280px) {
+  .home-promotion {
+    padding: 12px 96px 48px;
+  }
+  .home-promotion-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================================
+   會員中心殼 — UserNavbar.vue(手機頂部標題列)+ UserSidebar.vue
+   ============================================================ */
+.user-navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 32px;
+  z-index: 50;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+.user-navbar-title {
+  color: var(--c-navy);
+  font-size: 20px;
+  text-align: center;
+  flex: 1;
+}
+.user-navbar-toggle {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-navbar-toggle svg {
+  width: 24px;
+  height: 24px;
+  color: var(--c-navy);
+}
+.user-navbar-home {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-navbar-home svg {
+  width: 22px;
+  height: 22px;
+  color: var(--c-navy);
+}
+@media (min-width: 1280px) {
+  .user-navbar {
+    display: none;
+  }
+}
+/* 會員中心頁面(deposit/withdrawal/account-record...)手機版改以
+   .user-navbar 當頂部列,不再重複顯示全站 .site-header;桌機不受影響,
+   仍是 .site-header-desktop + .user-navbar 一起顯示(對照原始設計,
+   桌機 .user-navbar 本身已被上面規則隱藏)。.page-shell 的 padding-top
+   是為了讓出 .site-header(fixed)的高度,這裡連同歸零,否則版面頂端會
+   留下一段等同 header 高度的空白,.user-navbar(sticky)也會跟著往下
+   偏移,和 .user-sidebar-mobile-panel(fixed,以 32px 為基準)對不齊 */
+@media (max-width: 1279px) {
+  body.is-usercenter .site-header-mobile {
+    display: none;
+  }
+  body.is-usercenter .page-shell {
+    padding-top: 0;
+  }
+}
+
+.usercenter-main {
+  padding-top: 0;
+}
+.usercenter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.usercenter-content {
+  width: 100%;
+  background: #fff;
+  overflow-x: hidden;
+}
+/* .user-sidebar 在桌機用 position:fixed 脫離文檔流(見下方規則),不佔用
+   grid 欄位,所以這裡維持單欄、改由 .usercenter-content 自己讓出左側
+   260px,避免 grid 誤留一欄空白導致內容被擠到看不見。 */
+@media (min-width: 1280px) {
+  .usercenter-content {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+  }
+}
+
+/* ---- UserSidebar ---- */
+.user-sidebar {
+  position: relative;
+  width: 100%;
+  background: #fff;
+}
+.user-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: 32px;
+  z-index: 10;
+  background: transparent;
+}
+.user-sidebar-overlay.is-open {
+  display: block;
+}
+.user-sidebar-mobile-panel {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.user-sidebar-mobile-panel.is-open {
+  display: block;
+  position: fixed;
+  top: 32px;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  overflow-y: auto;
+  z-index: 20;
+  background: #fff;
+}
+/* 桌機版 sidebar 頂部的 Deposit/Withdrawal 分頁指示器,手機版改用清單
+   底部的 .user-sidebar-mobile-actions 深色按鈕,兩者不並存 */
+.user-sidebar-toggles {
+  display: none;
+  gap: 8px;
+  padding: 6px 24px;
+  margin-bottom: 16px;
+}
+.user-sidebar-toggle-btn {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 6px;
+  border-radius: 10px;
+  background: transparent;
+}
+.user-sidebar-toggle-btn.is-active {
+  background-image: var(--g-primary);
+  color: var(--c-navy);
+}
+.user-sidebar-list-item {
+  padding: 0 24px;
+  margin-bottom: 16px;
+}
+.user-sidebar-nav-item {
+  width: 100%;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  border-radius: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--c-navy);
+}
+.user-sidebar-nav-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  background-image: var(--g-primary);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.user-sidebar-nav-label {
+  flex: 1;
+  background: #f4f4f4;
+  border-radius: 10px;
+  padding: 8px;
+  text-align: left;
+  font-weight: 600;
+}
+.user-sidebar-mobile-actions {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px 24px;
+}
+.user-sidebar-mobile-actions button {
+  flex: 1;
+  background: var(--c-navy);
+  color: #fff;
+  text-align: center;
+  font-weight: 700;
+  padding: 8px;
+  border-radius: 10px;
+}
+@media (min-width: 1280px) {
+  .user-sidebar {
+    position: fixed;
+    top: 124px;
+    bottom: 0;
+    left: 0;
+    width: 260px;
+    background: var(--c-navy);
+    padding: 18px 0;
+    overflow-y: auto;
+  }
+  .user-sidebar-overlay,
+  .user-sidebar-mobile-actions {
+    display: none !important;
+  }
+  .user-sidebar-mobile-panel {
+    display: block !important;
+    position: static;
+    background: transparent;
+  }
+  .user-sidebar-toggles {
+    display: flex;
+    gap: 12px;
+    padding: 0 32px;
+  }
+  .user-sidebar-list-item {
+    padding: 0 30px 0 32px;
+  }
+  .user-sidebar-nav-item {
+    color: #fff;
+    gap: 4px;
+  }
+  .user-sidebar-nav-label {
+    background: transparent;
+    padding: 0;
+  }
+  .user-sidebar-nav-item:hover:not(.is-active) {
+    background: var(--c-pink-hover);
+    border-color: transparent;
+  }
+  .user-sidebar-nav-item:hover:not(.is-active) .user-sidebar-nav-label {
+    color: #fff;
+    background: transparent;
+  }
+  .user-sidebar-nav-item:hover:not(.is-active) .user-sidebar-nav-icon {
+    background: #fff;
+  }
+  .user-sidebar-nav-item.is-active {
+    background-image: var(--g-primary);
+    border-color: transparent;
+  }
+  .user-sidebar-nav-item.is-active .user-sidebar-nav-icon {
+    background: var(--c-navy);
+  }
+  .user-sidebar-nav-item.is-active .user-sidebar-nav-label {
+    background: transparent;
+    color: var(--c-navy);
+  }
+}
+
+/* ============================================================
+   帳戶總覽(pages/userCenter/index.vue)
+   ============================================================ */
+.account-page {
+  background: #f4f4f4;
+  padding-bottom: 80px;
+  /* 灰底要延伸到視窗底部(跟固定側欄一樣高),不能只包住內容本身,否則
+     資料少的帳號(如剛註冊、無交易記錄)底下會露出 .usercenter-content
+     的白底,跟側欄深色背景脫節;算法對照 .record-page */
+  min-height: calc(100vh - var(--header-h-mobile));
+}
+@media (min-width: 1280px) {
+  .account-page {
+    min-height: calc(100vh - var(--header-h-desktop));
+  }
+}
+.account-page-title {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .account-page-title {
+    display: block;
+    height: 62px;
+    background: #fff;
+    color: var(--c-navy);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 64px;
+    border-bottom: 1px solid var(--c-border);
+    padding: 0 32px;
+    /* <h1> 瀏覽器預設 margin-block-start(≈0.67em)沒有重置,會讓標題列
+       跟固定定位的側欄頂端對不齊,margin 一律歸零再用 margin-bottom 補間距 */
+    margin: 0 0 16px;
+  }
+}
+.account-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1280px) {
+  .account-layout {
+    grid-template-columns: 1fr 320px;
+    padding: 0 40px 24px;
+  }
+}
+
+.account-hero {
+  background: var(--c-navy-2);
+  color: #fff;
+  overflow: hidden;
+}
+@media (min-width: 1280px) {
+  .account-hero {
+    border-radius: 10px;
+  }
+}
+.account-hero-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 16px 16px;
+}
+.account-hero-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 999px;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px #fff;
+}
+.account-hero-name-row {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 4px;
+}
+.account-hero-name-row .username {
+  font-size: 18px;
+  font-weight: 700;
+}
+.account-hero-level {
+  display: inline-flex;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-image: var(--g-primary);
+  color: var(--c-navy);
+  font-weight: 700;
+  font-size: 12px;
+}
+.account-hero-nickname {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.account-hero-balance {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.account-hero-balance .text-gradient {
+  font-weight: 700;
+}
+.account-hero-balance img {
+  width: 20px;
+  height: 20px;
+}
+.account-hero-actions-mobile {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+  flex-wrap: wrap;
+}
+.account-action-btn {
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 12px;
+  background: var(--g-action);
+  color: var(--c-navy);
+  font-weight: 700;
+  font-size: 16px;
+}
+.account-action-outline {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.account-hero-rollover-mobile {
+  padding: 16px;
+  text-align: right;
+}
+.account-rollover-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+.account-rollover-note {
+  font-weight: 700;
+  color: #fff;
+  margin: 4px 0 0;
+}
+.account-rollover-value {
+  margin: 4px 0 0;
+  font-weight: 400;
+}
+.account-hero-desktop-actions {
+  display: none;
+}
+.account-hero-desktop-rollover {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .account-hero-top {
+    padding: 24px 16px;
+  }
+  .account-hero-avatar {
+    width: 94px;
+    height: 94px;
+  }
+  .account-hero-name-row {
+    flex-direction: row;
+    align-items: center;
+  }
+  .account-hero-name-row .username {
+    font-size: 24px;
+  }
+  .account-hero-actions-mobile {
+    display: none;
+  }
+  .account-hero-rollover-mobile {
+    display: none;
+  }
+  .account-hero-top {
+    align-items: flex-start;
+  }
+  .account-hero-desktop-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-left: auto;
+  }
+  .account-hero-desktop-actions .btn-row {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .account-hero-desktop-rollover {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    flex-direction: column;
+  }
+  .account-hero-desktop-rollover .account-rollover-title {
+    font-size: 22px;
+  }
+  .account-hero-desktop-rollover .account-rollover-note,
+  .account-hero-desktop-rollover .account-rollover-value {
+    font-size: 14px;
+  }
+}
+
+.account-recent {
+  margin: 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+@media (min-width: 1280px) {
+  .account-recent {
+    margin: 24px 0;
+  }
+}
+.account-recent-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--c-border);
+  padding: 8px 0;
+}
+.account-recent-head h4 {
+  color: var(--c-navy-2);
+  font-weight: 700;
+  margin: 0;
+}
+.account-recent-more {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .account-recent-head {
+    justify-content: space-between;
+    padding: 16px 24px;
+  }
+  .account-recent-head h4 {
+    font-size: 22px;
+  }
+  .account-recent-more {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--c-navy);
+    font-weight: 700;
+    font-size: 15px;
+  }
+}
+.account-recent-body {
+  padding: 16px;
+}
+.account-recent-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--c-border);
+}
+.account-recent-row:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+.account-recent-row .type {
+  color: var(--c-navy);
+  font-weight: 700;
+  font-size: 14px;
+}
+.account-recent-row .time {
+  color: var(--c-navy);
+  font-size: 12px;
+  margin-top: 2px;
+}
+.account-recent-row .amount {
+  color: var(--c-navy);
+  font-size: 14px;
+  text-align: right;
+}
+.account-recent-row .status {
+  font-size: 12px;
+  text-align: right;
+  margin-top: 2px;
+}
+.status-approved { color: #1dbf73; }
+.status-reject { color: #e11d48; }
+.status-pending { color: #f0bc00; }
+
+.account-quick-links {
+  padding: 16px;
+}
+@media (min-width: 1280px) {
+  .account-quick-links {
+    padding: 0 0 0 32px;
+  }
+}
+.account-quick-list {
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+.account-quick-list > button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--c-border-soft);
+}
+.account-quick-list > button:last-child {
+  border-bottom: 0;
+}
+.account-quick-list img {
+  width: 20px;
+  height: 20px;
+}
+.account-quick-list .qtitle {
+  font-size: 14px;
+  color: var(--c-navy);
+  font-weight: 700;
+}
+.account-quick-list .qdesc {
+  font-size: 12px;
+  color: #6d6d6d;
+}
+.account-quick-status {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ============================================================
+   全站彈窗(components/AlertModal.vue)
+   ============================================================ */
+.alert-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(40, 38, 46, 0.8);
+  padding: 16px;
+}
+.alert-box {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 28px;
+  background: #3a3a3a;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 3px solid transparent;
+  background-image: linear-gradient(#3a3a3a, #3a3a3a), var(--g-primary);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+.alert-box-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 24px 16px;
+}
+.alert-icon {
+  width: 80px;
+  height: 80px;
+}
+.alert-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+.alert-message {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  text-align: center;
+  margin: 0;
+}
+.alert-actions {
+  padding: 0 24px 20px;
+}
+.alert-confirm-btn {
+  width: 100%;
+  height: 40px;
+  border-radius: 999px;
+  background-image: var(--g-primary);
+  color: rgba(6, 12, 52, 0.8);
+  font-size: 18px;
+  font-weight: 700;
+}
+.alert-cancel-btn {
+  margin-top: 8px;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+/* ============================================================
+   儲值頁(pages/userCenter/deposit.vue)
+   ============================================================ */
+.pay-page {
+  background: #fff;
+}
+.pay-page-title {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .pay-page-title {
+    display: block;
+    margin: 0;
+    color: var(--c-navy);
+    font-size: 32px;
+    font-weight: 700;
+    padding: 16px 32px 8px;
+    border-bottom: 1px solid var(--c-border-soft);
+  }
+}
+.pay-section {
+  padding: 16px 16px 80px;
+}
+@media (min-width: 1280px) {
+  .pay-section {
+    padding: 16px 32px 40px;
+  }
+}
+.pay-section-inner {
+  max-width: 945px;
+  margin: 0 auto;
+}
+.pay-pill-label {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 16px;
+  padding: 4px 24px;
+  border-radius: 999px;
+  background: var(--c-navy-2);
+  color: #fff;
+  font-size: 14px;
+}
+.pay-amount-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+@media (min-width: 1280px) {
+  .pay-amount-grid {
+    gap: 20px;
+  }
+}
+.pay-amount-btn {
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid var(--c-border);
+  background: #fff;
+  color: #6d6d6d;
+  font-size: 12px;
+}
+@media (min-width: 1280px) {
+  .pay-amount-btn {
+    height: 80px;
+    font-size: 16px;
+  }
+}
+.pay-amount-btn.is-selected {
+  border-color: var(--c-gold);
+  background: var(--c-gold);
+  color: var(--c-navy);
+  font-weight: 700;
+}
+/* 儲值頁付款通道分頁(通道 A/B/C/D):底線頁籤,無對應真實原始碼,純前端
+   分組展示用 */
+.pay-channel-tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid var(--c-border-soft);
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+.pay-channel-tab {
+  flex-shrink: 0;
+  padding: 8px 2px 10px;
+  color: #6d6d6d;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.pay-channel-tab.is-active {
+  color: var(--c-navy);
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+/* 出金方式分組(銀行卡／虛擬錢包),無對應真實原始碼,純前端分組展示用 */
+.pay-method-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.pay-method-tab {
+  flex: 1;
+  height: 44px;
+  border-radius: 10px;
+  border: 2px solid var(--c-border);
+  background: #fff;
+  color: #6d6d6d;
+  font-size: 14px;
+  font-weight: 600;
+}
+.pay-method-tab.is-selected {
+  border-color: var(--c-gold);
+  background: var(--c-gold);
+  color: var(--c-navy);
+}
+/* 儲值頁付款方式(銀行卡/LinePay/USDT)沿用同一套 tab 樣式,圖示對齊文字 */
+.pay-method-tab svg {
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+  margin-right: 6px;
+}
+/* 帳戶管理清單上方的「已登記/等록된 계좌 (N/5)」計數,無對應真實原始碼 */
+.wd-account-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--c-navy);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.wd-account-count::before {
+  content: '';
+  width: 4px;
+  height: 16px;
+  background: var(--c-gold);
+  border-radius: 2px;
+  display: inline-block;
+}
+.pay-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--c-subtitle);
+  padding: 0 16px;
+  color: var(--c-navy);
+  margin-top: 16px;
+}
+/* 儲值 QR 付款流程:付款網址欄位旁的複製按鈕,無對應真實原始碼(對照
+   其他版本補上的掃碼付款流程) */
+.pay-copy-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.pay-copy-row .pay-input {
+  flex: 1;
+  margin-top: 0;
+}
+.pay-copy-btn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 10px;
+  background: var(--c-gold);
+  color: var(--c-navy);
+  font-weight: 700;
+  white-space: nowrap;
+}
+@media (min-width: 1280px) {
+  .dp-amount-input {
+    height: 48px;
+  }
+}
+.pay-input::placeholder {
+  color: #6d6d6d;
+}
+.pay-note {
+  color: var(--c-danger);
+  font-size: 12px;
+  margin-top: 16px;
+}
+/* 手機版留白給頁尾固定的下一步/返回按鈕(對照原始碼 pb-40 xl:pb-0),
+   避免優惠券清單被蓋住 */
+.dp-promotion-wrap {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 160px;
+}
+@media (min-width: 1280px) {
+  .dp-promotion-wrap {
+    margin-top: 24px;
+    padding-bottom: 0;
+  }
+}
+.promo-card {
+  border-radius: 10px;
+  border: 1px solid var(--c-subtitle);
+  background: #fff;
+  padding: 4px 8px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+@media (min-width: 1280px) {
+  .promo-card {
+    padding: 12px 16px;
+  }
+}
+.promo-card.is-selected {
+  background: var(--c-gold);
+  border-color: transparent;
+  font-weight: 700;
+}
+.promo-card-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.promo-radio {
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 2px solid var(--c-navy-2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.promo-radio-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--c-navy-2);
+  display: none;
+}
+.promo-card.is-selected .promo-radio-dot {
+  display: block;
+}
+.promo-card-body {
+  flex: 1;
+  color: var(--c-navy);
+  font-size: 14px;
+}
+.promo-card-remarks {
+  margin: 4px 0 0;
+  padding-left: 16px;
+  color: var(--c-navy);
+  font-size: 12px;
+  font-weight: 400;
+}
+@media (min-width: 1280px) {
+  .promo-card-remarks {
+    font-size: 14px;
+  }
+}
+/* 選中優惠的紅利金額(對照設計稿:卡片清單下方的滿版漸層提示條) */
+.dp-bonus-bar {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--g-primary);
+  color: var(--c-navy);
+  font-weight: 700;
+}
+.pay-next-btn {
+  width: 100%;
+  height: 51px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--c-navy-2);
+  font-weight: 700;
+}
+.pay-next-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pay-back-btn {
+  width: 100%;
+  height: 48px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--c-navy);
+  color: var(--c-navy);
+  font-weight: 700;
+  background: #fff;
+}
+/* 手機版下一步/返回貼底固定(對照原始碼 fixed left-0 right-0 bottom-0),
+   桌機版恢復正常排版並補上原本由按鈕自己扛的間距(對照 xl:mt-10) */
+.pay-btn-fixed-wrap {
+  margin-top: 40px;
+}
+@media (max-width: 1279px) {
+  .pay-btn-fixed-wrap {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    margin-top: 0;
+  }
+}
+/* 出金頁 Submit/Back 間距跟入金頁不同(對照原始碼 mt-[52px] / xl:mt-4) */
+[data-withdrawal-submit] {
+  margin-top: 52px;
+}
+.wd-back-btn {
+  margin-top: 16px;
+}
+
+/* ============================================================
+   提款頁(pages/userCenter/withdrawal.vue)
+   ============================================================ */
+.wd-card-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #3f3f42;
+  margin-top: 8px;
+}
+.wd-card-nav img {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.wd-bank-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  color: #fff;
+  margin-top: 16px;
+  height: 190px;
+}
+.wd-bank-card img.card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wd-bank-card-inner {
+  position: relative;
+  height: 100%;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* 虛擬錢包卡片內容只有兩段(類型+地址),沿用 .wd-bank-card 的底圖/圓角
+   容器,但不套用銀行卡 inner 的 justify-content:space-between(內容會
+   被拉開到卡片頂部/底部),改成置中對齊;文字沿用 .bd-account-name/
+   .bd-account-number 的字重字級,只覆寫成白色系配色配合深色底圖;
+   新增按鈕移出 inner、絕對定位固定在卡片右上角,不參與置中 */
+.wd-wallet-card-inner {
+  position: relative;
+  height: 100%;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+.wd-wallet-card-inner .bd-account-name {
+  color: #fff;
+}
+.wd-wallet-card-inner .bd-account-number {
+  color: rgba(255, 255, 255, 0.7);
+}
+.wd-wallet-add-icon {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+}
+.wd-add-card-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+@media (min-width: 1280px) {
+  .wd-add-card-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+.wd-bank-name {
+  display: inline-block;
+  width: 114px;
+  height: 25px;
+  background: rgba(6, 12, 52, 0.8);
+  border-radius: 4px;
+  text-align: center;
+  line-height: 25px;
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wd-bank-card-mid {
+  text-align: center;
+}
+.wd-bank-card-mid p {
+  margin: 0;
+}
+.wd-bank-card-mid .num {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+.wd-bank-card-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.wd-bank-card-foot p {
+  margin: 0;
+}
+.wd-bank-card-foot .holder {
+  color: var(--c-gold);
+  font-weight: 700;
+}
+.wd-refresh-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 8px;
+  color: var(--c-navy-2);
+}
+.wd-refresh-row button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.wd-wallet-row {
+  display: flex;
+  justify-content: center;
+  gap: 210px;
+  text-align: center;
+  margin-top: 50px;
+}
+@media (min-width: 1280px) {
+  .wd-wallet-row {
+    margin-top: 24px;
+  }
+}
+.wd-wallet-row .wallet-label {
+  color: var(--c-navy);
+}
+.wd-wallet-row .wallet-amount {
+  color: var(--c-navy);
+  font-weight: 700;
+  font-size: 24px;
+}
+.wd-turnover-note {
+  text-align: center;
+  color: var(--c-danger);
+  font-size: 12px;
+  margin-top: 8px;
+}
+.wd-turnover-note .detail-btn {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 4px 10px;
+  border-radius: 15px;
+  background: var(--c-danger);
+  color: #fff;
+}
+.pw-input-wrap {
+  position: relative;
+  margin-top: 16px;
+}
+.pw-input-wrap .pay-input {
+  margin-top: 0;
+  padding-right: 40px;
+}
+.pw-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.pw-toggle img {
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================================================
+   轉帳明細(pages/userCenter/transactionInfo.vue)
+   ============================================================ */
+.txinfo-page-title {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .txinfo-page-title {
+    display: block;
+    margin: 0;
+    height: 62px;
+    color: var(--c-navy);
+    font-size: 32px;
+    font-weight: 700;
+    padding: 8px 32px;
+    border-bottom: 1px solid var(--c-border-soft);
+  }
+}
+.txinfo-section {
+  padding: 24px 28px 100px;
+}
+@media (min-width: 1280px) {
+  .txinfo-section {
+    padding: 32px 28px;
+  }
+}
+.txinfo-inner {
+  max-width: 945px;
+  margin: 0 auto;
+}
+.txinfo-pill {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 40px;
+  padding: 4px 24px;
+  border-radius: 999px;
+  background: var(--c-navy-2);
+  color: #fff;
+}
+.txinfo-card {
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 12px 24px 0;
+}
+.txinfo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+}
+.txinfo-row .label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-navy);
+}
+.txinfo-row .value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--c-navy);
+}
+.txinfo-row.is-bonus {
+  border-bottom: 1px solid var(--c-border-soft);
+}
+.txinfo-row.is-bonus .value {
+  color: #0e8d6c;
+  font-size: 16px;
+}
+.txinfo-account-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 16px;
+}
+.txinfo-account-row span {
+  color: var(--c-navy);
+  font-weight: 700;
+}
+.txinfo-desc {
+  color: #4f4f4f;
+  padding: 0 16px;
+  margin-top: 16px;
+}
+.txinfo-cs-link {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 0 16px;
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+.txinfo-actions {
+  margin-top: 64px;
+}
+.txinfo-complete-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--c-navy);
+  font-weight: 700;
+}
+.txinfo-back-btn {
+  width: 100%;
+  height: 48px;
+  margin-top: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--c-navy);
+  color: var(--c-navy);
+  font-weight: 700;
+  background: #fff;
+}
+
+/* ============================================================
+   會員中心紀錄類頁面共用(bettingRecord/depositRecord/withdrawalRecord/
+   withdrawalDetail/accountsRecord/profitAndLoss.vue)
+   ============================================================ */
+.record-page {
+  background: #f2f2f2;
+  /* .page-shell 已用 padding-top 讓出 header(fixed)高度,這裡再疊加 100vh
+     會多算一份 header 高度,導致內容整體變高、footer-total 被推出視窗底部
+     需要捲動才看得到,所以扣掉 header 高度 */
+  min-height: calc(100vh - var(--header-h-mobile));
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 1280px) {
+  .record-page {
+    min-height: calc(100vh - var(--header-h-desktop));
+  }
+}
+/* .account-page-title 是 .record-page 的直接子元素、.record-inner 的手足
+   元素;.record-page 本身不能有左右/上 padding,否則標題列的白底盒子會被
+   往內縮,兩側露出灰底變成一圈缺口(對照 .pay-page/.pay-section 完全不
+   在 .pay-page 上留 padding 的做法)。頁面內容的留白全部改放在
+   .record-inner 身上 */
+.record-inner {
+  max-width: 1190px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 12px 16px 96px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+@media (min-width: 1280px) {
+  .record-inner {
+    padding: 24px 32px 40px;
+  }
+}
+.record-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.record-status-wrap {
+  position: relative;
+}
+.record-status-btn {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  color: var(--c-navy);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.record-date-btn {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  color: var(--c-navy);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.record-confirm-btn {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--c-navy);
+  color: #fff;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.record-refresh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  color: #6d6d6d;
+  font-size: 14px;
+  margin-left: auto;
+}
+.record-refresh strong {
+  color: var(--c-navy);
+}
+.record-refresh img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.record-status-panel {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  margin-top: 4px;
+  overflow: hidden;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  z-index: 50;
+}
+.record-status-panel.is-open {
+  display: flex;
+}
+.record-status-panel button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  color: var(--c-navy);
+  font-size: 14px;
+  border-bottom: 1px solid var(--c-border);
+}
+.record-status-panel button:last-child {
+  border-bottom: 0;
+}
+.record-status-panel button:hover {
+  background: #f6f6f6;
+}
+.record-status-panel button.is-active {
+  background: #fff3d6;
+  font-weight: 700;
+}
+
+.record-table-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+.record-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 13px;
+  text-align: center;
+}
+.record-table thead {
+  background: #f6e27b;
+  color: var(--c-navy);
+  font-weight: 700;
+}
+.record-table th,
+.record-table td {
+  padding: 12px 8px;
+  white-space: nowrap;
+}
+.record-table tbody tr {
+  border-bottom: 1px solid var(--c-border);
+  color: var(--c-navy);
+}
+.record-table tbody tr:last-child {
+  border-bottom: 0;
+}
+.record-mobile-table {
+  min-width: 0;
+  font-size: 12px;
+}
+@media (min-width: 1280px) {
+  .record-desktop-only {
+    display: table !important;
+  }
+  .record-mobile-only {
+    display: none !important;
+  }
+}
+@media (max-width: 1279.98px) {
+  .record-desktop-only {
+    display: none !important;
+  }
+}
+.status-text-approved { color: #1dbf73; font-weight: 700; }
+.status-text-reject { color: #e11d48; font-weight: 700; }
+.status-text-pending { color: #d19200; font-weight: 700; }
+
+/* 體育串關展開列（對照 Nuxt bettingRecord.vue 的 toggleExpand/isExpanded
+   + 展開圖示旋轉）。.record-parlay-panel 多包一層拉高子表選擇器優先權，
+   避免被 .record-table th/.record-table td 的置中/留白蓋過（那組是
+   descendant selector，天生會吃到巢狀子表）。 */
+.record-parlay-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; margin-left: 6px;
+  border: 0; border-radius: 5px; background: transparent; color: var(--c-navy);
+  vertical-align: middle; cursor: pointer;
+}
+.record-parlay-toggle:hover { background: #00000010; }
+.record-parlay-toggle svg { display: block; transition: transform 0.2s; }
+.record-parlay-order.open .record-parlay-toggle svg { transform: rotate(180deg); }
+.record-parlay-detail > td { padding: 0; }
+.record-parlay-panel { padding: 10px 8px 14px; background: #f7f7f7; text-align: left; }
+.record-parlay-panel .record-parlay-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; color: var(--c-navy); }
+.record-parlay-panel .record-parlay-table th {
+  padding: 6px 8px; background: transparent; color: #6d6d6d;
+  font-weight: 700; font-size: 11px; border-bottom: 1px solid var(--c-border); white-space: nowrap;
+}
+.record-parlay-panel .record-parlay-table td { padding: 7px 8px; background: transparent; border-bottom: 1px solid var(--c-border); white-space: nowrap; }
+.record-parlay-panel .record-parlay-table tbody tr:last-child td { border-bottom: 0; }
+
+.record-footer-total {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: var(--c-navy-2);
+  color: #f6e27b;
+}
+@media (min-width: 1280px) {
+  .record-table-wrap {
+    margin-bottom: 16px;
+  }
+  .record-footer-total {
+    position: static;
+    /* 內容不足一頁時把 total 推到 .record-inner(flex column)底部,內容超過一頁時 auto margin 退化成 0,緊接在表格後面 */
+    margin-top: auto;
+    border-radius: 8px;
+  }
+}
+.record-footer-total-inner {
+  max-width: 1190px;
+  margin: 0 auto;
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ============================================================
+   日期範圍選擇器(components/DateRangePicker.vue,PrimeVue DatePicker
+   選 range + showButtonBar 快速鍵的純 HTML+CSS+JS 重製)
+   ============================================================ */
+.dr-panel {
+  position: fixed;
+  z-index: 260;
+  width: min(320px, calc(100vw - 24px));
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  padding: 12px;
+}
+@media (min-width: 768px) {
+  .dr-panel {
+    width: 552px;
+  }
+}
+.dr-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 1px solid var(--c-border);
+}
+.dr-quick button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--c-border);
+  color: var(--c-navy);
+  font-size: 12px;
+}
+.dr-grids {
+  display: flex;
+  gap: 16px;
+}
+.dr-grid {
+  flex: 1;
+  min-width: 0;
+}
+.dr-grid-2 {
+  display: none;
+}
+@media (min-width: 768px) {
+  .dr-grid-2 {
+    display: block;
+  }
+}
+/* 導覽箭頭附著在各自月曆頭部(對照真實雙月曆呈現:左月曆左上/右月曆
+   右上),.dr-next-mobile-only 只在單月曆(手機)版面顯示,桌機由右月曆
+   自己的箭頭負責換頁 */
+.dr-grid-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.dr-grid-nav {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--c-navy);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.dr-grid-nav:hover {
+  background: #f2f2f2;
+}
+.dr-next-mobile-only {
+  visibility: visible;
+}
+@media (min-width: 768px) {
+  .dr-next-mobile-only {
+    visibility: hidden;
+  }
+}
+.dr-grid-title {
+  flex: 1;
+  text-align: center;
+  color: var(--c-navy);
+  font-weight: 700;
+  font-size: 13px;
+}
+.dr-weekdays,
+.dr-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.dr-weekdays span {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 11px;
+  padding: 4px 0;
+}
+.dr-days button {
+  aspect-ratio: 1;
+  width: 100%;
+  border-radius: 8px;
+  color: var(--c-navy);
+  font-size: 12px;
+}
+.dr-days button:hover {
+  background: #f2f2f2;
+}
+.dr-days button.is-muted {
+  color: #d1d5db;
+}
+.dr-days button.is-disabled {
+  color: #e5e7eb;
+  cursor: not-allowed;
+}
+.dr-days button.is-range-start,
+.dr-days button.is-range-end {
+  background: var(--c-navy);
+  color: #fff;
+  font-weight: 700;
+}
+.dr-days button.is-in-range {
+  background: #e7e7e7;
+  color: #334155;
+  border-radius: 0;
+}
+.dr-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--c-border);
+}
+.dr-actions button {
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.dr-clear-btn {
+  color: var(--c-navy);
+  border: 1px solid var(--c-border);
+}
+.dr-apply-btn {
+  background: var(--g-primary);
+  color: var(--c-navy);
+}
+
+/* ============================================================
+   個人資料(personalInfo.vue)
+   ============================================================ */
+.pi-page {
+  background: #fff;
+  padding: 16px 16px 100px;
+}
+@media (min-width: 1280px) {
+  .pi-page {
+    padding: 24px 32px 40px;
+  }
+}
+/* 對照原始碼 mt-[52px](個人資料頁下一步/返回間距跟入金頁不同) */
+.pi-submit-wrap {
+  margin-top: 52px;
+}
+@media (max-width: 1279px) {
+  .pi-submit-wrap {
+    margin-top: 0;
+  }
+}
+.pi-inner {
+  max-width: 945px;
+  margin: 0 auto;
+}
+.pi-username {
+  color: var(--c-navy-2);
+  font-weight: 700;
+  font-size: 16px;
+}
+.pi-field {
+  position: relative;
+  margin-top: 16px;
+}
+.pi-field input,
+.pi-field-static {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--c-navy-2);
+  padding: 0 12px 0 36px;
+  color: var(--c-navy);
+  display: flex;
+  align-items: center;
+}
+.pi-field-static {
+  background: #d9d9d9;
+  border: 0;
+  color: #6d6d6d;
+  font-size: 14px;
+  gap: 8px;
+  margin-top: 16px;
+}
+.pi-field-static img {
+  width: 16px;
+  height: 16px;
+}
+.pi-field img.pi-field-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+}
+.pi-privacy {
+  text-align: center;
+  margin-top: 40px;
+}
+.pi-privacy-pill {
+  display: inline-block;
+  padding: 4px 24px;
+  border-radius: 999px;
+  background: var(--c-navy-2);
+  color: #fff;
+}
+.pi-privacy p {
+  color: var(--c-navy);
+  margin-top: 16px;
+}
+
+/* ============================================================
+   安全中心(securityCenter.vue)
+   ============================================================ */
+.sec-page {
+  background: #f2f2f2;
+  padding: 16px 0 100px;
+  /* 同 .account-page:灰底要延伸到視窗底部,不能只包住內容本身 */
+  min-height: calc(100vh - var(--header-h-mobile));
+}
+@media (min-width: 1280px) {
+  .sec-page {
+    min-height: calc(100vh - var(--header-h-desktop));
+  }
+}
+.sec-inner {
+  max-width: 945px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.sec-block-title {
+  color: var(--c-navy);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+.sec-card {
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+}
+.sec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--c-border-soft);
+}
+.sec-row:last-child {
+  border-bottom: 0;
+}
+.sec-row .label {
+  color: #6d6d6d;
+  font-size: 14px;
+}
+.sec-row .value {
+  color: var(--c-navy);
+  font-weight: 700;
+}
+.sec-list {
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+.sec-list > button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--c-border-soft);
+}
+.sec-list > button:last-child {
+  border-bottom: 0;
+}
+.sec-list img {
+  width: 24px;
+  height: 24px;
+}
+.sec-list .stitle {
+  font-size: 14px;
+  color: var(--c-navy);
+  font-weight: 700;
+}
+.sec-list .sdesc {
+  font-size: 12px;
+  color: #6d6d6d;
+}
+.sec-status {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ============================================================
+   密碼變更(changePassword.vue)
+   ============================================================ */
+.cp-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--c-navy-2);
+  font-size: 13px;
+}
+.cp-hint svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.cp-field {
+  position: relative;
+  margin-top: 16px;
+}
+.cp-field input {
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid var(--c-subtitle);
+  padding: 0 40px 0 16px;
+  color: var(--c-navy);
+}
+.cp-field.has-error input {
+  border-color: var(--c-danger);
+}
+.cp-field .cp-toggle {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 24px;
+  height: 24px;
+}
+.cp-field .cp-toggle img {
+  width: 20px;
+  height: 20px;
+}
+.cp-error {
+  color: var(--c-danger);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   結帳/銀行資料(bankingDetails.vue)
+   ============================================================ */
+.bd-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  background: #ededed;
+  border-radius: 10px;
+  padding: 32px;
+}
+.bd-empty img {
+  width: 100px;
+}
+.bd-empty p {
+  color: var(--c-navy);
+  font-size: 24px;
+  font-weight: 700;
+}
+.bd-empty button {
+  height: 27px;
+  border-radius: 999px;
+  background: var(--c-gold);
+  color: var(--c-navy);
+  font-weight: 700;
+  padding: 4px 16px;
+  box-shadow: 0 4px 0 var(--c-navy-2);
+}
+.bd-account-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  padding: 16px 24px;
+  margin-bottom: 8px;
+}
+.bd-account-card-info {
+  min-width: 0;
+  flex: 1;
+}
+.bd-account-delete {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  color: #e11d48;
+}
+.bd-account-delete img {
+  width: 18px;
+  height: 18px;
+}
+.bd-account-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--c-navy);
+  font-weight: 700;
+  font-size: 14px;
+}
+.bd-account-check img {
+  width: 20px;
+  height: 20px;
+}
+.bd-account-name {
+  color: var(--c-navy);
+  font-weight: 700;
+  margin-top: 4px;
+}
+.bd-account-name span {
+  font-weight: 400;
+}
+.bd-account-number {
+  color: #9ca3af;
+  font-size: 14px;
+  margin-top: 4px;
+}
+.bd-add-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 96px;
+  z-index: 40;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: #a6acd7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 8px rgba(6, 12, 52, 0.35);
+}
+.bd-add-fab img {
+  width: 32px;
+  height: 32px;
+}
+.bd-add-fab[disabled] {
+  opacity: 0.4;
+}
+/* 帳戶管理清單下方的「+ 新增」按鈕:對照其他版本(v4)做法改成清單下方
+   有文字說明的滿版按鈕,取代右下角浮動小圖示,新增入口更明確 */
+.bd-add-btn {
+  width: 100%;
+  height: 48px;
+  margin-top: 16px;
+  border-radius: 8px;
+  border: 1px dashed var(--c-gold);
+  background: #fff9ec;
+  color: var(--c-navy);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.bd-add-btn img {
+  width: 18px;
+  height: 18px;
+}
+/* 新增表單就地展開在「+ 新增」按鈕下方,補上間距避免表單緊貼按鈕 */
+[data-wd-mgmt-add-mode],
+[data-bd-add-mode] {
+  margin-top: 24px;
+}
+.bd-add-btn.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+@media (min-width: 1280px) {
+  .bd-add-fab {
+    right: 100px;
+    bottom: 100px;
+  }
+}
+.bd-select {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--c-navy-2);
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--c-navy);
+  background: #fff;
+}
+.bd-select-panel {
+  position: relative;
+}
+.bd-select-dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  background: #fff;
+  border: 1px solid rgba(10, 17, 64, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 50;
+  display: none;
+}
+.bd-select-dropdown.is-open {
+  display: block;
+}
+.bd-select-dropdown button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  color: var(--c-navy);
+  border-bottom: 1px solid var(--c-border-soft);
+}
+.bd-select-dropdown button:hover {
+  background: #f5f7fb;
+}
+
+/* ============================================================
+   Phase 5 — 共用漸層邊框(矩形版,對照原始碼 .border-gradient-primary-mask)
+   ============================================================ */
+.border-gradient-mask {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.border-gradient-mask::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--g-primary-270);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.border-gradient-mask:hover {
+  background: var(--c-pink-hover);
+}
+.border-gradient-mask:hover::before {
+  opacity: 0;
+}
+.border-gradient-mask:hover .text-gradient {
+  background-image: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+}
+
+/* ---- 返回連結(about.vue/promotionDetail.vue/gameList.vue 共用的「< 뒤로」箭頭連結) ---- */
+.page-back-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.page-back-link img {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---- 遊戲/促銷清單共用的「載入更多」按鈕與空狀態 ---- */
+.load-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+.load-more-btn {
+  padding: 10px 32px;
+  font-weight: 700;
+  background: transparent;
+}
+.list-empty-state {
+  padding: 64px 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+/* ============================================================
+   about.html(pages/about.vue)
+   ============================================================ */
+.about-page {
+  background: var(--c-navy);
+  min-height: 60vh;
+  padding: 16px 20px 48px;
+}
+.about-title-row {
+  display: inline-block;
+  border-bottom: 2px solid transparent;
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+.about-title-row h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+.about-tabs {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  border-bottom: 1px solid #4f4f4f;
+}
+.about-tabs::-webkit-scrollbar {
+  display: none;
+}
+.about-tab {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 8px 16px;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+}
+.about-tab.is-active {
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+.about-content {
+  margin-top: 16px;
+}
+.about-card {
+  background: #1d2647;
+  border: 1px solid #4f4f4f;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.about-card-title {
+  padding: 8px 16px;
+  font-weight: 700;
+}
+.about-card-title.has-detail {
+  border-bottom: 1px solid #4f4f4f;
+}
+.about-card-detail {
+  padding: 8px 16px;
+  color: #e7e7e7;
+  font-size: 14px;
+  white-space: pre-line;
+  line-height: 1.6;
+}
+.about-faq-category-title {
+  font-weight: 700;
+  margin: 16px 0;
+}
+.about-faq-item {
+  background: #1d2647;
+  border: 1px solid #4f4f4f;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.about-faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.about-faq-question svg {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  flex-shrink: 0;
+  margin-left: 12px;
+  transition: transform 0.3s;
+}
+.about-faq-item.is-open .about-faq-question svg {
+  transform: rotate(180deg);
+}
+.about-faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 16px;
+  color: #e7e7e7;
+  font-size: 14px;
+  white-space: pre-line;
+  line-height: 1.6;
+  transition: max-height 0.3s;
+}
+.about-faq-item.is-open .about-faq-answer {
+  max-height: 1000px;
+  padding: 0 16px 12px;
+}
+@media (min-width: 1280px) {
+  .about-page {
+    /* 原本 max-width:960px + margin:0 auto 會讓 .about-page 自己的深色
+       background 只蓋住中間 960px,兩側露出 body 的白底;改用 padding
+       內縮做出同樣的置中欄寬,讓 background 維持滿版鋪到底。 */
+    padding: 64px max(0px, calc(50% - 480px));
+  }
+  .about-title-row h1 {
+    font-size: 28px;
+  }
+  .about-tab {
+    font-size: 16px;
+  }
+  .about-card-title {
+    font-size: 18px;
+  }
+}
+
+/* ============================================================
+   GameFilter(components/GameFilter.vue) — game-type.html / game-list.html 共用
+   ============================================================ */
+.game-filter-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.game-filter-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+.game-filter-vendor-sep {
+  width: 1px;
+  height: 16px;
+  background: #b0b0b0;
+}
+.game-filter-vendor-name {
+  color: #b0b0b0;
+  font-weight: 700;
+}
+.game-filter-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+.game-filter-tabs {
+  display: flex;
+}
+.game-filter-tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 16px;
+  font-weight: 700;
+  color: #fff;
+  border-bottom: 1px solid #4f4f4f;
+  white-space: nowrap;
+}
+.game-filter-tab.is-active {
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+.game-filter-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.game-filter-search input {
+  flex: 1;
+  height: 40px;
+  border-radius: 8px;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 0 16px;
+  font-size: 14px;
+}
+.game-filter-search input::placeholder {
+  color: #e7e7e7;
+}
+.game-filter-search-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-weight: 700;
+}
+.game-filter-search-btn img {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+}
+@media (min-width: 768px) {
+  .game-filter-row {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  .game-filter-tabs {
+    flex: none;
+  }
+  .game-filter-tab {
+    flex: none;
+  }
+  .game-filter-search {
+    margin-left: auto;
+  }
+  .game-filter-search input {
+    width: 288px;
+  }
+}
+@media (min-width: 1280px) {
+  .game-filter-title {
+    font-size: 28px;
+  }
+}
+
+/* ============================================================
+   game-type.html / game-list.html — 遊戲/廠商卡片
+   ============================================================ */
+.game-type-page,
+.game-list-page {
+  background: var(--c-navy);
+  min-height: 60vh;
+}
+/* game-type.html 有 banner/資訊條需貼齊版面邊緣,padding 改由 .game-page-body 承載;
+   game-list.html 無 banner,沿用原本頁面級 padding */
+.game-list-page,
+.game-page-body {
+  padding: 24px 20px;
+}
+@media (min-width: 1280px) {
+  .game-list-page,
+  .game-page-body {
+    padding: 64px 96px;
+  }
+}
+
+.game-provider-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+.game-provider-card {
+  position: relative;
+  height: 160px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #0b1733;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+.game-provider-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.game-provider-card-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 55%;
+  max-height: 55%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+}
+@media (min-width: 768px) {
+  .game-provider-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  .game-provider-grid {
+    gap: 28px;
+  }
+}
+
+.game-list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+.game-card {
+  cursor: pointer;
+}
+.game-card-thumb {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  background: #0b1733;
+}
+.game-card-thumb img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: transform 1s ease-out;
+}
+.game-card:hover .game-card-thumb img {
+  transform: scale(1.15);
+}
+.game-card-thumb.is-placeholder img {
+  object-fit: contain;
+  padding: 16%;
+}
+.game-card-info {
+  padding: 8px 4px 0;
+}
+.game-card-name {
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.game-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+.game-card-provider {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.game-card-fav-btn {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+.game-card-fav-btn img {
+  width: 100%;
+  height: 100%;
+}
+@media (min-width: 768px) {
+  .game-list-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (min-width: 1536px) {
+  .game-list-grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  .game-card-name {
+    font-size: 18px;
+  }
+}
+
+/* ============================================================
+   promotion-list.html(pages/promotionList.vue)
+   ============================================================ */
+.promotion-list-page {
+  background: var(--c-navy);
+}
+.promotion-list-body {
+  padding: 16px 20px 48px;
+}
+.promotion-list-title-row {
+  display: inline-block;
+  border-bottom: 2px solid transparent;
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+.promotion-list-title-row h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+.promotion-categories {
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 1px solid #4f4f4f;
+}
+.promotion-categories::-webkit-scrollbar {
+  display: none;
+}
+.promotion-category-tab {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 8px 16px;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+}
+.promotion-category-tab.is-active {
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+.promotion-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 16px;
+}
+.promotion-card {
+  border-radius: 28px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.promotion-card-thumb {
+  height: 168px;
+  overflow: hidden;
+}
+.promotion-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease-out;
+}
+.promotion-card:hover .promotion-card-thumb img {
+  transform: scale(1.1);
+}
+.promotion-card-badge {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-navy);
+  background: var(--g-primary);
+  padding: 4px 0;
+}
+.promotion-card-footer {
+  background: #e7e7e7;
+  border-radius: 0 0 28px 28px;
+  padding: 16px;
+}
+.promotion-card-title {
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+}
+@media (min-width: 768px) {
+  .promotion-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  .promotion-list-body {
+    padding: 64px 96px;
+  }
+  .promotion-list-title-row h1 {
+    font-size: 28px;
+  }
+  .promotion-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}
+
+/* ============================================================
+   promotion-detail.html(pages/promotionDetail.vue)
+   ============================================================ */
+.promotion-detail-page {
+  background: var(--c-navy);
+  min-height: 60vh;
+  padding: 16px 20px 48px;
+}
+.promotion-detail-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+.promotion-detail-content {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #fff;
+}
+.promotion-detail-content p {
+  margin: 0 0 16px;
+  line-height: 1.7;
+}
+.promotion-detail-content img {
+  width: 100%;
+  border-radius: 12px;
+}
+@media (min-width: 1280px) {
+  .promotion-detail-page {
+    padding: 56px 96px;
+  }
+  .promotion-detail-title {
+    font-size: 28px;
+  }
+}
+
+/* ============================================================
+   sports.html(pages/sports.vue — 第三方遊戲開啟橋接頁)
+   ============================================================ */
+.game-frame-page {
+  background: var(--c-navy);
+  padding-top: 32px;
+}
+.game-frame-iframe {
+  width: 100%;
+  height: calc(100vh - 64px);
+  border: 0;
+  display: block;
+}
+.game-frame-mobile-msg {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  padding: 0 20px;
+}
+@media (min-width: 1280px) {
+  .game-frame-page {
+    padding-top: 64px;
+  }
+  .game-frame-iframe {
+    height: calc(100vh - 128px);
+  }
+}
+
+/* ============================================================
+   登入/註冊彈窗(components/Login.vue,對照真實網站截圖)
+   ============================================================ */
+.auth-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.auth-modal {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: var(--c-navy);
+  border-radius: 20px;
+  padding: 32px 20px 24px;
+}
+.auth-modal-close {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+}
+.auth-modal-close img {
+  width: 100%;
+  height: 100%;
+  filter: brightness(0) invert(1);
+}
+.auth-modal-art {
+  display: none;
+}
+.auth-modal-form {
+  display: flex;
+  flex-direction: column;
+}
+.auth-modal-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 4px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid transparent;
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+.auth-modal-desc {
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  margin: 20px 0;
+}
+.auth-field {
+  margin-top: 16px;
+}
+.auth-field label {
+  display: block;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.auth-field input {
+  width: 100%;
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #1e2450;
+  color: #fff;
+  padding: 0 14px;
+  font-size: 14px;
+}
+.auth-field input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+.auth-pw-field {
+  position: relative;
+}
+.auth-pw-field input {
+  padding-right: 42px;
+}
+.auth-pw-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}
+.auth-pw-toggle img {
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+}
+.auth-captcha-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.auth-captcha-row input {
+  flex: 1;
+}
+.auth-captcha-code {
+  flex-shrink: 0;
+  width: 84px;
+  height: 42px;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--c-navy);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.auth-checkbox-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--c-pink);
+}
+.auth-btn {
+  display: block;
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 16px;
+  text-align: center;
+  line-height: 44px;
+}
+.auth-btn-outline {
+  background: transparent;
+  border: 1px solid var(--c-pink);
+  color: var(--c-pink);
+}
+.auth-btn-fill {
+  background: var(--g-primary);
+  color: var(--c-navy);
+}
+.auth-forgot-link {
+  display: block;
+  text-align: right;
+  margin-top: 16px;
+  color: #fff;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .auth-modal {
+    /* 對照真實原始碼 Login.vue 的 xl:w-[760px] xl:h-[600px]:彈窗本身是固定尺寸,
+       不會因為登入/註冊/忘記密碼表單欄位數量不同而跟著變高,表單內容過長時
+       改由 .auth-modal-form 內部滾動,避免左側裝飾圖每次顯示的裁切範圍跑掉 */
+    max-width: 700px;
+    width: 100%;
+    height: 600px;
+    padding: 0;
+    display: flex;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .auth-modal-close img {
+    filter: none;
+  }
+  .auth-modal-art {
+    display: block;
+    flex-shrink: 0;
+    width: 46%;
+  }
+  .auth-modal-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .auth-modal-form {
+    flex: 1;
+    padding: 40px 36px 32px;
+    overflow-y: auto;
+    height: 100%;
+  }
+  .auth-modal-title {
+    text-align: left;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+/* ============================================================
+   首頁進站廣告彈窗(components/PromotionModal.vue,對照真實網站首頁截圖)
+   ============================================================ */
+.promo-popup-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 280;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.promo-popup-card {
+  display: flex;
+  flex-direction: column;
+  width: min(280px, calc(100vw - 32px));
+  height: min(436px, calc(100dvh - 32px));
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.promo-popup-head {
+  flex-shrink: 0;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.promo-popup-head img {
+  width: 84px;
+}
+.promo-popup-close {
+  width: 20px;
+  height: 20px;
+}
+.promo-popup-close img {
+  width: 100%;
+  height: 100%;
+}
+.promo-popup-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+.promo-popup-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.promo-popup-foot {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.5);
+}
+.promo-popup-foot span {
+  color: var(--c-navy);
+  font-size: 13px;
+}
+.promo-popup-foot input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--c-navy);
+}
+@media (min-width: 1280px) {
+  .promo-popup-card {
+    width: 430px;
+    height: 626px;
+  }
+  .promo-popup-head {
+    height: 72px;
+    padding: 0 28px;
+  }
+  .promo-popup-head img {
+    width: 140px;
+  }
+  .promo-popup-foot span {
+    font-size: 14px;
+    font-weight: 700;
+  }
+}

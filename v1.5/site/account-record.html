@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+      <main class="usercenter-main">
+        <div data-mount="user-navbar"></div>
+        <div class="usercenter-grid">
+          <div data-mount="user-sidebar"></div>
+          <div class="usercenter-content">
+            <div class="record-page">
+              <h1 class="account-page-title" data-i18n="userCenter.sidebar.accountRecord">계정 기록</h1>
+              <div class="record-inner">
+                <div class="record-tags">
+                  <div class="record-status-wrap">
+                    <button type="button" class="record-status-btn" data-toggle-status>
+                      <span data-i18n="userCenter.common.tags.status">상태</span><span data-status-text></span>
+                    </button>
+                    <div class="record-status-panel" data-status-panel>
+                      <button type="button" class="is-active" data-status-value="" data-i18n="userCenter.common.selectList.all">전체</button>
+                      <button type="button" data-status-value="Deposit" data-i18n="userCenter.deposit">입금</button>
+                      <button type="button" data-status-value="Withdrawal" data-i18n="userCenter.withdrawal">출금</button>
+                      <button type="button" data-status-value="Game" data-i18n="userCenter.common.headers.game">게임</button>
+                      <button type="button" data-status-value="Bonus" data-i18n="navbar.bottom.bonus">보너스</button>
+                    </div>
+                  </div>
+                  <button type="button" class="record-date-btn">2026-08-01 ~ 2026-08-12</button>
+                  <button type="button" class="record-confirm-btn" data-i18n="common.confirm">확인</button>
+                </div>
+
+                <div class="record-table-wrap">
+                  <table class="record-table record-mobile-only record-mobile-table">
+                    <thead>
+                      <tr>
+                        <th data-i18n="userCenter.common.headers.transactionType">거래 유형</th>
+                        <th data-i18n="userCenter.common.headers.time">시간</th>
+                        <th data-i18n="userCenter.common.headers.transactionAmount">거래 금액</th>
+                        <th data-i18n="userCenter.common.headers.transactionNo">거래 번호</th>
+                      </tr>
+                    </thead>
+                    <tbody data-record-body-mobile></tbody>
+                  </table>
+
+                  <table class="record-table record-desktop-only">
+                    <thead>
+                      <tr>
+                        <th data-i18n="userCenter.common.headers.transactionType">거래 유형</th>
+                        <th data-i18n="userCenter.common.headers.time">시간</th>
+                        <th data-i18n="userCenter.common.headers.transactionAmount">거래 금액</th>
+                        <th data-i18n="userCenter.common.headers.currentBalance">현재 잔액</th>
+                        <th data-i18n="userCenter.common.headers.transactionNo">거래 번호</th>
+                        <th data-i18n="userCenter.common.headers.content">내용</th>
+                      </tr>
+                    </thead>
+                    <tbody data-record-body-desktop></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        function fmt(n) { return Number(n).toLocaleString('en-US'); }
+        function statusClass(s) { return s === 'Approved' ? 'status-text-approved' : s === 'Reject' ? 'status-text-reject' : 'status-text-pending'; }
+        var TYPE_KEYS = { Deposit: 'userCenter.deposit', Withdrawal: 'userCenter.withdrawal', Game: 'userCenter.common.headers.game', Bonus: 'navbar.bottom.bonus' };
+        function typeText(ty) { return W.t(TYPE_KEYS[ty] || ''); }
+        function statusText(s) { return W.t(s === 'Approved' ? 'userCenter.common.selectList.approved' : s === 'Reject' ? 'userCenter.common.selectList.rejected' : 'userCenter.common.selectList.pending'); }
+        var currentType = '';
+
+        function render() {
+          var rows = D.ACCOUNT_RECORDS.filter(function (r) { return !currentType || r.type === currentType; });
+          W.qs('[data-record-body-mobile]').innerHTML = rows.map(function (r) {
+            return '<tr><td>' + typeText(r.type) + '</td><td>' + r.time + '</td><td>' + fmt(r.amount) + '</td><td class="' + statusClass(r.status) + '">' + statusText(r.status) + '</td></tr>';
+          }).join('');
+          W.qs('[data-record-body-desktop]').innerHTML = rows.map(function (r) {
+            return '<tr><td>' + typeText(r.type) + '</td><td>' + r.time + '</td><td>' + fmt(r.amount) + '</td><td>' + fmt(r.balance) + '</td><td>' + r.no + '</td><td class="' + statusClass(r.status) + '">' + statusText(r.status) + '</td></tr>';
+          }).join('');
+        }
+
+        var panel = W.qs('[data-status-panel]');
+        W.on(W.qs('[data-toggle-status]'), 'click', function () { panel.classList.toggle('is-open'); });
+        /* 對照設計稿:「상태」按鈕永遠要顯示目前選取的選項(含「전체」),
+           不是只有選了特定類型才補上文字 */
+        W.qs('[data-status-text]').textContent = '： ' + W.qs('[data-status-value].is-active').textContent;
+        W.qsa('[data-status-value]').forEach(function (btn) {
+          W.on(btn, 'click', function () {
+            currentType = btn.getAttribute('data-status-value');
+            W.qsa('[data-status-value]').forEach(function (b) { b.classList.remove('is-active'); });
+            btn.classList.add('is-active');
+            W.qs('[data-status-text]').textContent = '： ' + btn.textContent;
+            panel.classList.remove('is-open');
+            render();
+          });
+        });
+
+        render();
+        W.initDateRangePicker(W.qs('.record-date-btn'));
+        W.on(document, 'win15:localechange', render);
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+/* CMS v4 skin — 深海尊爵（Deep Ocean）。
+   第二個深色（dark）版本,跟尊爵黑金一樣背景/面板/文字全部改為深色調,
+   但走深邃青藍色調(而非黑金的暖棕黑),搭配寶石紅點綴色與金色 CTA,呈現
+   深海珠寶感;金色（--gold 系列）為全 skin 共用品牌色,不覆寫。 */
+:root[data-skin="deep-ocean"] {
+  --bg: #071a1c;
+  --bg-panel: #0e2528;
+  --header-grad: linear-gradient(180deg, #103c3f 0%, #051415 100%);
+  --header-grad-hi: #35d6c4;
+  --notice-bg: #0f2a2c;
+  --notice-text: #4fe0cd;
+  --line: #1c3a3d;
+  --line-hi: #2f8f85;
+  --text: #e3f5f2;
+  --text-mid: #8fb8b4;
+  --text-dim: #5c7c79;
+  --text-on-header: #eefaf8;
+  --panel-tint: #113034;
+  --shadow-card: 0 2px 0 rgba(0, 0, 0, 0.4), 0 10px 24px rgba(0, 0, 0, 0.6);
+  /* quick-rail 懸浮球玻璃底、footer logo 這兩處預設值是「白底站點」寫死
+     的白色/黑色,深色 skin 要跟著換,不然會在深色背景上顯得突兀或看不見。 */
+  --panel-glass: rgba(14, 37, 40, 0.85);
+  --footer-logo-filter: brightness(0) invert(1);
+
+  /* --red／--red-deep 在全站是「skin 識別色」而非固定警示色(熱門標籤、
+     hero 遮罩、快捷列圖示、record 負值...都直接吃這兩個 token,跟其他
+     light skin 一樣把它們換成主題色本身),之前留成寶石紅導致 hero 橫幅
+     跟快捷列圖示還是紅色,像沒換乾淨,改成跟 header 同一色系的青色才會
+     整頁一致。 */
+  --red: #1fae9f;
+  --red-deep: #116b62;
+}
