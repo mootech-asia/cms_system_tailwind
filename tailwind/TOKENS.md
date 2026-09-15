@@ -4,6 +4,19 @@
 `v4/site`、`v5/site`、`v6/site` 的 CSS。`studio/` 是設計後台工具，不是交付的
 前台頁面，這次沒有掃描；若需要也一併處理再說。
 
+## 工程師決議（已定案，非待確認事項）
+
+- **重複的 utility class 組合不抽 `@apply`／共用元件**，複製貼上就好，見
+  CLAUDE.md 鐵則 5。這點不影響本文件（token 清單），影響的是階段三/四的
+  頁面轉換方式。
+- **`@theme` 手機版與桌機版分成兩份獨立檔案，不共用**，見 CLAUDE.md 鐵則
+  6。這點會改變 `tailwind/` 的目錄結構：原本每版一份
+  `tailwind/src/vN/input.css`，改成 `tailwind/src/vN/pc/theme.css` 與
+  `tailwind/src/vN/mobile/theme.css` 兩份獨立檔案。下面各版本列出的 token
+  是**桌機版**的清單（掃描來源就是桌機版 CSS）；手機版是否需要不同數值，
+  等階段三真的碰到手機斷點、發現桌機版數值不適用時再各自定義，不會現在
+  就先猜一份手機版數值出來。
+
 ## 重要發現（會影響做法，需要你確認）
 
 1. **v3／v4／v5／v6 其實已經有一套完整的手寫 token 系統**，透過 CSS variable
