@@ -1,0 +1,23 @@
+/* ============================================================
+   main.css 全檔最後一次宣告 .tb-avatar/.rb-big-avatar 系列
+   box-shadow（第 5492-5500 行），排在所有其他 avatar 相關規則
+   （../shell.css 的 .tb-avatar 基礎規則、.rb-big-avatar 的 accent
+   光暈、[data-theme="light"] 的 --line 光暈）之後，逐字重現同優先權
+   selector 打平重疊時「最後宣告贏」的行為——實際視覺結果是不論深色/
+   淺色主題，topbar 圓形頭像跟 rewards-banner 大頭像都不該有任何
+   box-shadow 光暈。這份 CSS 必須在 import chain 排最後（僅次於
+   ui-components.css 前），確保跟同優先權的 shell.css/index.css 規則
+   比對時「後載入贏」。
+   ============================================================ */
+@layer components {
+
+.tb-avatar,
+.tb-avatar.circle,
+.tb-avatar.lg,
+.rb-big-avatar,
+.rb-avatar-wrap .tb-avatar.circle {
+  background: var(--bg-elev) !important;
+  box-shadow: none !important;
+}
+
+}

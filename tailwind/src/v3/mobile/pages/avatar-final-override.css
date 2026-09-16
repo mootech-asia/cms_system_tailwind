@@ -1,0 +1,17 @@
+/* ============================================================
+   跟 ../../pc/pages/avatar-final-override.css 內容逐字相同，理由同該
+   檔案開頭說明——main.css 桌機/手機版 byte-identical，assets/mobile.css
+   沒有覆寫 .tb-avatar/.rb-big-avatar。
+   ============================================================ */
+@layer components {
+
+.tb-avatar,
+.tb-avatar.circle,
+.tb-avatar.lg,
+.rb-big-avatar,
+.rb-avatar-wrap .tb-avatar.circle {
+  background: var(--bg-elev) !important;
+  box-shadow: none !important;
+}
+
+}

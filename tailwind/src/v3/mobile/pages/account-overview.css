@@ -369,7 +369,6 @@
 [data-theme="light"] .ap-tx-row span { color: var(--text) !important; }
 [data-theme="light"] .ap-hero-rollover .ap-rollover-title,
 [data-theme="light"] .ap-rollover-title { filter: none !important; }
-[data-theme="light"] .ap-hero-avatar { box-shadow: 0 0 0 1px var(--line) !important; }
 [data-theme="light"] .ap-hero-bg { opacity: .55; }
 [data-theme="light"] .level-progress-fill,
 [data-theme="light"] .level-tier-dot.next { box-shadow: none; }

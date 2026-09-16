@@ -1289,7 +1289,12 @@ section.lobby-section { margin-top: 44px; }
 [data-theme="light"] .topbar-logo { filter: none !important; }
 [data-theme="light"] .tb-avatar,
 [data-theme="light"] .tb-avatar.circle,
-[data-theme="light"] .tb-avatar.lg { box-shadow: 0 0 0 1px var(--line) !important; }
+[data-theme="light"] .tb-avatar.lg,
+[data-theme="light"] .rb-big-avatar,
+[data-theme="light"] .rb-avatar,
+[data-theme="light"] .ap-hero-avatar,
+[data-theme="light"] .cs-opt-ico,
+[data-theme="light"] .rb-big-tier { box-shadow: 0 0 0 1px var(--line) !important; }
 [data-theme="light"] .tb-menu,
 [data-theme="light"] .sb-lang-menu {
   box-shadow: 0 12px 32px rgba(15,15,23,.14) !important;
