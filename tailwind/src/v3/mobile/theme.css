@@ -29,7 +29,12 @@
 @import "./pages/personal-info.css";
 @import "./pages/security-center.css";
 @import "./pages/support.css";
+@import "./pages/index.css";
 @import "./ui-components.css";
+/* 必須排在 ui-components.css 之後，見該檔案開頭說明——site-mobile/
+   assets/mobile.css 在原始站台的 <head> 排在 components.css 之後，
+   兩邊撞到同一個 class 時要讓 mobile.css 那份贏。 */
+@import "./mobile-overlay-after-components.css";
 
 /* ============================================================
    v3 design token —— 手機版。桌機版另見 ../pc/theme.css（鐵則 6：
