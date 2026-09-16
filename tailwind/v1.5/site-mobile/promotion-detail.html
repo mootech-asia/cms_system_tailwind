@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/tailwind.css">
+</head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+
+      <main class="promotion-detail-page">
+        <a class="page-back-link" href="promotion-list.html">
+          <img src="assets/images/icon/back-white.svg" alt="back" />
+          <span data-i18n="common.back">뒤로</span>
+        </a>
+
+        <h1 class="promotion-detail-title text-gradient" data-i18n="navbar.desktop.promotion">프로모션</h1>
+        <div class="promotion-detail-content" data-promo-detail-content></div>
+      </main>
+
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        var id = Number(new URLSearchParams(location.search).get('id'));
+        var promo = D.PROMOTIONS.filter(function (p) { return p.promotion_id === id; })[0];
+        var contentEl = W.qs('[data-promo-detail-content]');
+        contentEl.innerHTML = promo ? promo.content[W.currentLocale()] : W.t('common.noData');
+      };
+    </script>
+  </body>
+</html>

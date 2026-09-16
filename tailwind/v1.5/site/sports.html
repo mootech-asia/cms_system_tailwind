@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/tailwind.css">
+</head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+
+      <main class="game-frame-page">
+        <div data-sf-body></div>
+      </main>
+
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var W = window.WIN15;
+        var params = new URLSearchParams(location.search);
+        var vendor = params.get('vendor') || '';
+        var gameId = params.get('gameId') || '';
+        var bodyEl = W.qs('[data-sf-body]');
+
+        if (!vendor || !gameId) {
+          W.showAlert({ type: 'error', message: W.t('common.error') });
+          return;
+        }
+
+        /* 靜態預覽無真實第三方遊戲伺服器,以 iframe srcdoc 模擬 api.openGame() 回傳的遊戲畫面 */
+        var placeholderHtml =
+          '<!doctype html><html><head><meta charset="utf-8"><style>' +
+          'html,body{margin:0;height:100%;background:#060c34;display:flex;align-items:center;justify-content:center;' +
+          'font-family:Arial,Helvetica,sans-serif;color:#fff;text-align:center}' +
+          '.box{padding:24px}.name{font-size:22px;font-weight:700;margin-bottom:8px}' +
+          '.sub{color:rgba(255,255,255,.6);font-size:14px}' +
+          '</style>  <link rel="stylesheet" href="assets/css/tailwind.css">
+</head><body><div class="box">' +
+          '<div class="name">' + vendor + '</div><div class="sub">game_id: ' + gameId + '</div>' +
+          '</div></body></html>';
+
+        if (window.matchMedia('(min-width: 1281px)').matches) {
+          bodyEl.innerHTML = '<iframe class="game-frame-iframe" srcdoc="' + placeholderHtml.replace(/"/g, '&quot;') + '" allowfullscreen></iframe>';
+        } else {
+          bodyEl.innerHTML = '<div class="game-frame-mobile-msg" data-i18n="common.openingGame">' + W.t('common.openingGame') + '</div>';
+          var blobUrl = 'data:text/html,' + encodeURIComponent(placeholderHtml);
+          window.open(blobUrl, '_blank');
+          setTimeout(function () { history.back(); }, 400);
+        }
+      };
+    </script>
+  </body>
+</html>

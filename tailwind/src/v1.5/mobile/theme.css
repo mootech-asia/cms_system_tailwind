@@ -51,10 +51,27 @@
     background: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-display);
+    /* 原始 main.css 完全沒設 line-height，吃瀏覽器預設 normal；Tailwind
+       Preflight 在 html 設 line-height:1.5，body 沒有自己覆寫就會繼承，
+       撐高所有沒有另外設 line-height 的文字元素——同 ../pc/theme.css。 */
+    line-height: normal;
     -webkit-font-smoothing: antialiased;
   }
   img { max-width: 100%; display: block; }
   button { cursor: pointer; font: inherit; background: none; border: 0; padding: 0; color: inherit; }
   a { color: inherit; text-decoration: none; }
   input { font: inherit; }
+  /* 同 ../pc/theme.css：還原 <p> 標籤的 UA 預設 margin:1em 0，
+     main.css 逐字搬過來的顯式 margin 宣告仍會照常覆寫這裡。 */
+  p { margin: 1em 0; }
+  /* 同 ../pc/theme.css：<h1>-<h6> UA 預設 margin。 */
+  h1 { margin: 0.67em 0; }
+  h2 { margin: 0.83em 0; }
+  h3 { margin: 1em 0; }
+  h4 { margin: 1.33em 0; }
+  h5 { margin: 1.67em 0; }
+  h6 { margin: 2.33em 0; }
 }
+
+@import "./shell.css";
+@import "./pages/index.css";
