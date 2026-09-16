@@ -915,6 +915,20 @@ section.lobby-section { margin-top: 44px; }
    版保持一致才同步加。 */
 .ap-page.ap-page-wide,
 .ap-page.rec-page { max-width: none; margin-inline: 0; }
+/* .rec-page 本身（跟上面 .ap-page.rec-page 是兩條不同規則：這條單獨
+   選 .rec-page，讓表格列頁面撐成 flex column，.rec-total 才能用
+   margin-top:auto 貼底）——betting/deposit/withdrawal-record、
+   profit-loss、withdrawal-detail、account-record 這批頁面共用，不是
+   單一頁面專屬，所以放這裡而不是個別 pages/*.css。 */
+.rec-page {
+  margin-top: 24px;
+  display: flex; flex-direction: column;
+  min-height: calc(100vh - var(--header-h) - 48px);
+}
+.rec-page .ap-back { align-self: flex-start; }
+@media (max-width: 768px) {
+  .rec-page { min-height: calc(100vh - var(--header-h) - var(--mobile-nav-h) - 48px); }
+}
 .ap-h1 {
   font-family: var(--font-display);
   font-size: 26px;

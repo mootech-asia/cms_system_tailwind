@@ -1,19 +1,31 @@
 @import "tailwindcss";
-/* 順序要對齊原始 <link> 順序：main.css/layout.css（= shell.css）在
-   design-system/components.css（= ui-components.css）之前載入，同一個
-   class 兩邊都有定義、優先權又相同時，後載入的贏。components.css 的
+/* 順序要對齊原始 <link> 順序：main.css/layout.css（= shell.css 跟
+   pages/*.css，都是 main.css 拆出來的內容）整份在 design-system/
+   components.css（= ui-components.css）之前載入，同一個 class 兩邊都
+   有定義、優先權又相同時，後載入的贏。components.css 的
    :is(.btn, .ap-btn, .ap-btn-wide, ...) { display: inline-flex; ... }
    會贏過 main.css 的 .ap-btn-wide { display: block; }，這裡如果順序
    反過來（曾經寫反過），.ap-btn-wide 會變成 display:block，跟旁邊
    兄弟元素的 margin 正常 collapse，視覺上比原始頁面（inline-flex，
    margin 不 collapse）少一截間距——截圖比對在 deposit.html 抓到
    Submit 按鈕位置差 12px 才連回這裡，flex/block 顯示類型不同才是
-   真正的根因，不是 margin 數值本身的問題。 */
+   真正的根因，不是 margin 數值本身的問題。
+
+   pages/*.css 一樣要排在 ui-components.css 之前：這批也是 main.css
+   拆出來的內容，跟 components.css 的 :is(...) 選擇器一樣有「同一個
+   class、同優先權」的情況（例如 .rec-confirm 同時出現在 main.css
+   自己的宣告跟 components.css 的
+   :is(.ui-button, .btn, .ap-btn, .ap-btn-wide, .rec-confirm, ...)
+   { border-radius: var(--radius-pill); } 裡）。betting-record.html
+   截圖比對抓到「Confirm 按鈕變方角」才發現 pages/*.css 原本排在
+   ui-components.css 之後，等於讓 main.css 這條贏，跟原始頁面
+   components.css 後載入贏、按鈕維持膠囊角的行為相反。 */
 @import "./shell.css";
-@import "./ui-components.css";
 @import "./pages/withdrawal.css";
 @import "./pages/deposit.css";
 @import "./pages/account-overview.css";
+@import "./pages/betting-record.css";
+@import "./ui-components.css";
 
 /* ============================================================
    v3 design token —— 桌機版。手機版另見 ../../v3/mobile/theme.css
