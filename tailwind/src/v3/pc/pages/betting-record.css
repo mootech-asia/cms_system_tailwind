@@ -239,6 +239,14 @@
     flex-wrap: nowrap;
     padding: 11px 14px;
   }
+  /* .rec-actions 沒有 display:contents 時，它本身會變成一個普通 grid
+     item（自己佔一格），裡面的 .rec-refresh 就不再是 .rec-toolbar 的
+     直接子項目，grid-column/grid-row 完全不生效——deposit-record.html
+     跟 withdrawal-record.html 的 .rec-refresh 因此落在錯的位置，但因為
+     視覺上位移不算誇張，第一輪截圖比對的 diff 百分比沒有超出門檻，
+     漏看了；profit-loss.html 沒有 .rec-status-wrap 佔用第一列，位移
+     幅度變超過一整列高度才在截圖比對明顯抓到（diff 8.26%）。 */
+  .rec-actions { display: contents; }
   .rec-confirm { grid-column: 1; grid-row: 3; width: auto; padding: 10px 24px; justify-self: start; }
 }
 
