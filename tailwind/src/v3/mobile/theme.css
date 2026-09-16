@@ -31,7 +31,12 @@
 @import "./pages/support.css";
 @import "./pages/index.css";
 @import "./pages/hot-games.css";
+@import "./pages/mini-games.css";
 @import "./ui-components.css";
+/* 必須排在 ui-components.css 之後，見該檔案開頭說明——assets/css/
+   load-more.css 在原始站台的 <head> 排在 components.css 之後、
+   assets/mobile.css 之前，完全重新定義 .cv-view-all/.cv-foot 的視覺。 */
+@import "./load-more-overlay.css";
 /* 必須排在 ui-components.css 之後，見該檔案開頭說明——site-mobile/
    assets/mobile.css 在原始站台的 <head> 排在 components.css 之後，
    兩邊撞到同一個 class 時要讓 mobile.css 那份贏。 */

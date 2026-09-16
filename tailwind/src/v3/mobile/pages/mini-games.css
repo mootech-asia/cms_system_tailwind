@@ -1,0 +1,124 @@
+/* ============================================================
+   v3 手機版 mini-games.html 專屬 CSS。這頁比 hot-games.html 多了
+   .cv-tabs 篩選列（All/Favorites）跟 .cv-view-all 載入更多鈕——跟
+   index.html 桌機版點分類頁籤動態渲染出來的是同一套 class
+   （site.js 的 renderCategoryView()，見 ../../pc/pages/index.css
+   開頭說明），只是這頁直接靜態渲染在 HTML 裡。.hero/.rewards-banner/
+   .section-head/.grid/.gcard(-fav) 都已經在 ../pages/index.css 跟
+   ../pages/hot-games.css 建過，這裡不重搬。
+   ============================================================ */
+@layer components {
+
+.cv-foot { display: flex; justify-content: center; margin-top: 24px; }
+.cv-view-all {
+  padding: 12px 28px;
+  border-radius: 12px;
+  border: 1.5px solid var(--accent);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, color-mix(in oklch, var(--accent) 22%, var(--bg-elev)) 0%, var(--bg-elev) 75%),
+    var(--bg-elev);
+  color: var(--control-text);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-shadow: var(--control-active-text-shadow);
+  box-shadow:
+    0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent),
+    0 0 18px color-mix(in oklch, var(--accent) 50%, transparent);
+  transition: filter .15s;
+}
+.cv-view-all:hover { filter: brightness(1.1); }
+.cv-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.cv-tab {
+  -webkit-appearance: none; appearance: none;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg-card);
+  color: var(--text-mid);
+  font: inherit; font-weight: 600; font-size: 13px;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.cv-tab:hover { color: var(--text); border-color: var(--line-hi); }
+.cv-tab.active {
+  color: var(--control-active-text);
+  border: 1.5px solid var(--accent);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, color-mix(in oklch, var(--accent) 26%, var(--bg-elev)) 0%, var(--bg-elev) 75%),
+    var(--bg-elev);
+  text-shadow: 0 0 8px color-mix(in oklch, var(--accent) 60%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 12%, transparent), 0 0 14px color-mix(in oklch, var(--accent) 40%, transparent);
+}
+.cv-tab svg { display: block; }
+.cv-tab-count {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 999px;
+  padding: 1px 6px;
+  font-weight: 700;
+}
+.cv-empty {
+  padding: 48px 20px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 14px;
+  border: 1px dashed var(--line-hi);
+  border-radius: var(--radius-lg);
+}
+/* 第二批：.cv-tabs 從可換行改成單行橫向捲動的膠囊列 */
+.cv-tabs {
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin: -6px -4px 12px;
+  padding: 6px 4px 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  scroll-padding-inline: 4px;
+}
+.cv-tabs::-webkit-scrollbar { display: none; }
+.cv-tab {
+  flex: 0 0 auto;
+  min-height: 40px;
+  line-height: 1;
+  transition: color var(--duration-fast), border-color var(--duration-fast), background var(--duration-fast);
+}
+.cv-tab.active {
+  text-shadow: none;
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--accent) 14%, transparent);
+}
+.cv-heart { overflow: visible; flex: 0 0 16px; }
+.cv-heart path {
+  transition: fill var(--duration-fast), stroke var(--duration-fast), transform var(--duration-fast);
+  transform-origin: center;
+}
+.cv-tab:hover .cv-heart path { transform: scale(1.05); }
+.cv-tab.active .cv-heart path { fill: currentColor; }
+
+[data-theme="light"] .cv-tab.active {
+  box-shadow: 0 0 0 1.5px var(--accent) !important;
+  background: var(--control-active-bg) !important;
+  text-shadow: none !important;
+}
+[data-theme="light"] .cv-tab.active { color: var(--accent-ink) !important; }
+[data-theme="light"] .cv-view-all { box-shadow: var(--shadow-primary) !important; }
+[data-theme="light"] .cv-view-all:hover { box-shadow: 0 4px 12px color-mix(in oklch, var(--accent) 22%, transparent) !important; }
+[data-theme="light"] .cv-tab { border-color: var(--line-hi) !important; background: var(--control-bg) !important; color: var(--text) !important; }
+[data-theme="light"] .cv-tab:hover:not(.active) { border-color: var(--control-hover-border) !important; background: var(--control-bg) !important; color: var(--text) !important; }
+[data-theme="light"] .cv-tab.active { background: var(--control-active-bg) !important; border: 1.5px solid var(--accent) !important; }
+[data-theme="light"] .cv-tab { color: var(--text) !important; }
+[data-theme="light"] .cv-tab:hover { color: var(--text) !important; }
+
+}
