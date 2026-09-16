@@ -30,6 +30,7 @@
 @import "./pages/security-center.css";
 @import "./pages/support.css";
 @import "./pages/index.css";
+@import "./pages/hot-games.css";
 @import "./ui-components.css";
 /* 必須排在 ui-components.css 之後，見該檔案開頭說明——site-mobile/
    assets/mobile.css 在原始站台的 <head> 排在 components.css 之後，

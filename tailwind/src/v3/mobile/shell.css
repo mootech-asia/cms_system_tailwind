@@ -1232,11 +1232,20 @@ section.lobby-section { margin-top: 44px; }
   border-top: 1px solid var(--line);
 }
 
-/* ── assets/mobile.css（v3 手機版專屬疊加層，只列 withdrawal.html
+/* ── assets/mobile.css（v3 手機版專屬疊加層，只列當時已轉換頁面
    實際用到的部分：頂列改成 .m-header 版型、底部導覽凸起主按鈕＋SVG
    缺口曲線。原檔整份都在同一個 @media(max-width:768px) 裡，逐字
-   保留同樣的斷點跟規則內容。 ── */
+   保留同樣的斷點跟規則內容。
+
+   .cat-tabs{display:none} 是補搬 hot-games.html 時才發現漏掉的
+   ——withdrawal.html 沒有 .cat-tabs 元素，當時沒搬到；這條在原檔案
+   排最前面，見 site.js 的 initPromosAndCategoryViews() 用
+   document.querySelector('.cat-tabs') 判斷「這是不是分類頁」的說明
+   （../pages/index.css 開頭也有一份一樣的背景說明）。手機寬度下這頁
+   的分類切換改用側欄導覽，.cat-tabs 元素本身仍留在 DOM 裡但視覺隱藏，
+   不能直接從 HTML 移除。 ── */
 @media (max-width: 768px) {
+  .cat-tabs { display: none; }
   .shell-mobile-nav { display: flex; }
   .shell-main { padding-bottom: var(--mobile-nav-h); }
   .sidebar-search { justify-content: space-between; gap: 10px; }
