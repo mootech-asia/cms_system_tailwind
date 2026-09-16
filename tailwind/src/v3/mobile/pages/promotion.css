@@ -1,0 +1,138 @@
+/* ============================================================
+   v3 手機版 promotion.html 專屬 CSS。.promo-card/.promo-grid 家族跟
+   .section-collapse/.section-title-group 已經在 ../../pc/pages/index.css
+   建過（桌機版 index.html 用到），但手機版共用檔案裡沒有，這裡補上——
+   main.css 本體內容，不是 assets/mobile.css 疊加層，逐字搬移。
+   .cv-tabs/.cv-view-all/.cv-foot/.section-head/.section-title/
+   .gcard(-fav) 已經在 ../pages/{index,hot-games,mini-games}.css
+   建過，這裡不重搬。
+   ============================================================ */
+@layer components {
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.promo-card {
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: 22px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 100% 0%, color-mix(in oklch, var(--promo-hue) 22%, transparent) 0%, transparent 60%),
+    var(--bg-card);
+  isolation: isolate;
+  min-height: 240px;
+  overflow: hidden;
+}
+.promo-card-link {
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .16s ease, transform .16s ease;
+}
+.promo-card-link:hover { border-color: var(--accent); transform: translateY(-2px); }
+.promo-card-link:focus-visible { outline: 0; box-shadow: var(--focus-ring); }
+.promo-card::before {
+  content: '';
+  position: absolute;
+  right: -50px; top: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklch, var(--promo-hue) 30%, transparent) 0%, transparent 70%);
+  z-index: -1;
+}
+.promo-card-tag {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--bg-card-hi);
+  border: 1px solid color-mix(in oklch, var(--promo-hue) 40%, var(--line));
+  color: var(--promo-hue);
+  margin-bottom: 14px;
+}
+.promo-card-art {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 1;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  background-color: var(--preview-neutral-900);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 1px solid var(--preview-neutral-line);
+}
+.promo-card-title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+  color: var(--text);
+}
+.promo-card-sub {
+  font-size: 12.5px;
+  color: var(--text-mid);
+  margin: 0 0 18px;
+  line-height: 1.5;
+  flex: 1;
+}
+.promo-card-cta {
+  align-self: flex-start;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line-hi);
+  background: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color .15s, color .15s, filter .15s;
+}
+.promo-card-cta:hover { color: var(--control-hover-text); border-color: var(--accent); filter: brightness(1.06); }
+
+.section-title-group { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.section-title-group .section-title { min-width: 0; }
+.section-collapse {
+  order: -1;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-card);
+  color: var(--text-mid);
+  display: grid;
+  place-items: center;
+  flex: 0 0 32px;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.section-collapse:hover { color: var(--text); border-color: var(--accent); background: var(--bg-card-hi); }
+.section-collapse svg { transition: transform .18s ease; }
+.section-collapse.active svg { transform: rotate(-90deg); }
+
+@media (max-width: 1100px) {
+  .promo-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .section-collapse { width: 36px; height: 36px; flex-basis: 36px; }
+}
+@media (max-width: 700px) {
+  .promo-grid { grid-template-columns: 1fr; }
+}
+
+[data-theme="light"] .promo-card-title { color: var(--text) !important; }
+[data-theme="light"] .promo-card { background: var(--bg-card) !important; box-shadow: 0 1px 0 rgba(15,15,23,.04), 0 4px 14px rgba(15,15,23,.06) !important; }
+[data-theme="light"] .promo-card::before { display: none !important; opacity: .55; }
+
+}
