@@ -54,7 +54,12 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 body { overflow-x: hidden; }
-button { font-family: inherit; cursor: pointer; }
+/* 原始站台只有 font-family:inherit，字級/行高刻意吃瀏覽器 <button> 原生
+   預設（Chrome 為 13.3333px / normal），不是繼承 body 的 14px/1.5。
+   Tailwind Preflight 對 button 是整組 font:inherit（含字級/行高），會把
+   沒有自己另外設字級的按鈕（例如 .match-odds-btn）撐高——桌機版
+   ../pc/shell.css 同一條規則已經先發現這個問題，這裡同步搬過來。 */
+button { font-family: inherit; font-size: 13.3333px; line-height: normal; cursor: pointer; }
 a { color: inherit; text-decoration: none; }
 img { display: block; }
 

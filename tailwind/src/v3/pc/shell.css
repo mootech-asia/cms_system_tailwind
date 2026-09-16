@@ -50,7 +50,14 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 body { overflow-x: hidden; }
-button { font-family: inherit; cursor: pointer; }
+/* 原始站台只有 font-family:inherit，字級/行高刻意吃瀏覽器 <button> 原生
+   預設（Chrome 為 13.3333px / normal），不是繼承 body 的 14px/1.5。
+   Tailwind Preflight 對 button 是整組 font:inherit（含字級/行高），會把
+   沒有自己另外設字級的按鈕（例如 .match-odds-btn）撐高——用截圖比對在
+   index.html 的 .match-odds-btn 抓到多 9.5px 高度才連回這裡，明確設定
+   字級/行高蓋掉 Preflight 即可；其餘已經自己設定字級的按鈕 class（同層
+   內選擇器優先權更高）不受影響。 */
+button { font-family: inherit; font-size: 13.3333px; line-height: normal; cursor: pointer; }
 a { color: inherit; text-decoration: none; }
 img { display: block; }
 
@@ -1277,6 +1284,8 @@ section.lobby-section { margin-top: 44px; }
 [data-theme="light"] .ap-btn.outline,
 [data-theme="light"] .ap-btn-wide.outline { color: var(--text) !important; }
 [data-theme="light"] .sb-withdraw:hover { color: var(--accent) !important; }
+[data-theme="light"] .footer-min-logo img { filter: none; }
+[data-theme="light"] .footer-min-logo img { filter: none !important; }
 [data-theme="light"] .topbar-logo { filter: none !important; }
 [data-theme="light"] .tb-avatar,
 [data-theme="light"] .tb-avatar.circle,
@@ -1316,6 +1325,53 @@ section.lobby-section { margin-top: 44px; }
 [data-theme="light"] .sb-withdraw:not(.is-current):hover,
 [data-theme="light"] .btn:hover {
   color: var(--text) !important;
+}
+
+/* ── 頁尾（main.css，index.html 用 <footer class="footer footer-min">，
+   兩個 class 疊加，.footer 在原始檔案裡排在 .footer-min 後面，同優先權
+   時共用屬性以 .footer 的值為準——例如 padding-bottom 32px 不是 40px，
+   照搬保留這個順序）。跟 ../mobile/shell.css 的同一塊逐字對應，那邊是
+   轉換 withdrawal.html 手機版時先發現的。 ── */
+.footer-min {
+  margin-top: 80px;
+  padding: 60px 0 40px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+.footer-min .container { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.footer-min-logo {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.footer-min-logo:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+}
+.footer-min-logo img {
+  height: 28px;
+  width: auto;
+  filter: drop-shadow(0 0 16px color-mix(in oklch, var(--accent) 35%, transparent));
+}
+.footer-min-notice {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-mid);
+  max-width: 900px;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+.footer-min-copy {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+.footer {
+  margin-top: 80px;
+  padding: 60px 0 32px;
+  border-top: 1px solid var(--line);
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
