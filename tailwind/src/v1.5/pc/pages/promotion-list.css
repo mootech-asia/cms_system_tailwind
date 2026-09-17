@@ -1,0 +1,127 @@
+/* ============================================================
+   promotion-list.html(pages/promotionList.vue)——.promotion-categories
+   ::-webkit-scrollbar{display:none} 跟 shell.css 既有的 .no-scrollbar
+   （HTML 上 .promotion-categories 本來就同時掛這個 class）效果重複，
+   依鐵則 1 不重複搬移。
+   ============================================================ */
+/* main.css 首頁 Banner 章節裡的 .banner-dots/.banner-dot，index.html
+   單張 banner 不需要 dots 沒有搬移，這頁的多張輪播 banner 才用到 */
+.banner-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.banner-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.95);
+}
+.banner-dot.is-active {
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: 3px solid rgba(255, 255, 255, 0.95);
+}
+
+.promotion-list-page {
+  background: var(--color-navy);
+}
+.promotion-list-body {
+  padding: 16px 20px 48px;
+}
+.promotion-list-title-row {
+  display: inline-block;
+  border-bottom: 2px solid transparent;
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+.promotion-list-title-row h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+.promotion-categories {
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 1px solid #4f4f4f;
+}
+.promotion-category-tab {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 8px 16px;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+}
+.promotion-category-tab.is-active {
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+.promotion-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 16px;
+}
+.promotion-card {
+  border-radius: 28px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.promotion-card-thumb {
+  height: 168px;
+  overflow: hidden;
+}
+.promotion-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease-out;
+}
+.promotion-card:hover .promotion-card-thumb img {
+  transform: scale(1.1);
+}
+.promotion-card-badge {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-navy);
+  background: var(--g-primary);
+  padding: 4px 0;
+}
+.promotion-card-footer {
+  background: #e7e7e7;
+  border-radius: 0 0 28px 28px;
+  padding: 16px;
+}
+.promotion-card-title {
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+}
+@media (min-width: 768px) {
+  .promotion-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  .promotion-list-body {
+    padding: 64px 96px;
+  }
+  .promotion-list-title-row h1 {
+    font-size: 28px;
+  }
+  .promotion-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}
