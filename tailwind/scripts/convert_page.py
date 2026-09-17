@@ -32,7 +32,12 @@ if not removed_any:
     print('WARNING: no stylesheet links removed - check source structure', file=sys.stderr)
     sys.exit(1)
 
-content = content.replace('</head>', '  <link rel="stylesheet" href="assets/css/tailwind.css">\n</head>')
+head_close_count = content.count('</head>')
+if head_close_count > 1:
+    print(f'WARNING: {head_close_count} literal "</head>" occurrences found '
+          '(likely one is inside a JS string, e.g. an iframe srcdoc template) '
+          '- only the first (the real closing head tag) is replaced', file=sys.stderr)
+content = content.replace('</head>', '  <link rel="stylesheet" href="assets/css/tailwind.css">\n</head>', 1)
 
 with open(dst_path, 'w', encoding='utf-8') as f:
     f.write(content)
