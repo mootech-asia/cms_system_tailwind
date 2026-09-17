@@ -1,0 +1,117 @@
+/* ============================================================
+   結帳/銀行資料(bankingDetails.vue)——.bd-* 帳戶卡片元件也被
+   withdrawal.html 的帳戶管理分頁共用(見 pages/withdrawal.css)。
+   main.css 原始章節裡的 .bd-add-fab/.bd-select* 全站沒有任何頁面使用
+   (死代碼),依鐵則 1 不搬移。
+   ============================================================ */
+.bd-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  background: #ededed;
+  border-radius: 10px;
+  padding: 32px;
+}
+.bd-empty img {
+  width: 100px;
+}
+.bd-empty p {
+  color: var(--color-navy);
+  font-size: 24px;
+  font-weight: 700;
+}
+.bd-empty button {
+  height: 27px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-navy);
+  font-weight: 700;
+  padding: 4px 16px;
+  box-shadow: 0 4px 0 var(--color-navy-2);
+}
+.bd-account-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  padding: 16px 24px;
+  margin-bottom: 8px;
+}
+.bd-account-card-info {
+  min-width: 0;
+  flex: 1;
+}
+.bd-account-delete {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: #e11d48;
+}
+.bd-account-delete img {
+  width: 18px;
+  height: 18px;
+}
+.bd-account-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-navy);
+  font-weight: 700;
+  font-size: 14px;
+}
+.bd-account-check img {
+  width: 20px;
+  height: 20px;
+}
+.bd-account-name {
+  color: var(--color-navy);
+  font-weight: 700;
+  margin-top: 4px;
+}
+.bd-account-name span {
+  font-weight: 400;
+}
+.bd-account-number {
+  color: #9ca3af;
+  font-size: 14px;
+  margin-top: 4px;
+}
+/* 帳戶管理清單下方的「+ 新增」按鈕:對照其他版本(v4)做法改成清單下方
+   有文字說明的滿版按鈕,取代右下角浮動小圖示,新增入口更明確 */
+.bd-add-btn {
+  width: 100%;
+  height: 48px;
+  margin-top: 16px;
+  border-radius: 8px;
+  border: 1px dashed var(--color-gold);
+  background: #fff9ec;
+  color: var(--color-navy);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.bd-add-btn img {
+  width: 18px;
+  height: 18px;
+}
+/* 新增表單就地展開在「+ 新增」按鈕下方,補上間距避免表單緊貼按鈕 */
+[data-wd-mgmt-add-mode],
+[data-bd-add-mode] {
+  margin-top: 24px;
+}
+.bd-add-btn.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
