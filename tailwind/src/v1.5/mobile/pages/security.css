@@ -1,0 +1,85 @@
+/* ============================================================
+   安全中心(securityCenter.vue)
+   ============================================================ */
+.sec-page {
+  background: #f2f2f2;
+  padding: 16px 0 100px;
+  /* 同 .account-page:灰底要延伸到視窗底部,不能只包住內容本身 */
+  min-height: calc(100vh - var(--header-h));
+}
+@media (min-width: 1280px) {
+  .sec-page {
+    min-height: calc(100vh - var(--header-h));
+  }
+}
+.sec-inner {
+  max-width: 945px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.sec-block-title {
+  color: var(--color-navy);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+.sec-card {
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+}
+.sec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--color-border-soft);
+}
+.sec-row:last-child {
+  border-bottom: 0;
+}
+.sec-row .label {
+  color: #6d6d6d;
+  font-size: 14px;
+}
+.sec-row .value {
+  color: var(--color-navy);
+  font-weight: 700;
+}
+.sec-list {
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+.sec-list > button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-soft);
+}
+.sec-list > button:last-child {
+  border-bottom: 0;
+}
+.sec-list img {
+  width: 24px;
+  height: 24px;
+}
+.sec-list .stitle {
+  font-size: 14px;
+  color: var(--color-navy);
+  font-weight: 700;
+}
+.sec-list .sdesc {
+  font-size: 12px;
+  color: #6d6d6d;
+}
+.sec-status {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
