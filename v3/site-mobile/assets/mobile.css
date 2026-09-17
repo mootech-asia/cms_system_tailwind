@@ -115,7 +115,7 @@
     margin-bottom: 2px;
   }
   .m-header-bell { position: relative; flex-shrink: 0; }
-  .m-header-bell-wrap { position: relative; flex-shrink: 0; }
+  .m-header-bell-wrap { position: relative; flex-shrink: 0; display: none; }
   .m-header-badge {
     position: absolute;
     top: -2px; right: -2px;

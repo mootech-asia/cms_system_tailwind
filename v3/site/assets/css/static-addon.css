@@ -20,6 +20,12 @@
   .cms-cs-fab { bottom: 76px; }
 }
 
+/* 桌機版客服入口移到左側「我的帳戶」側欄選單，漂浮鈕僅保留給手機版
+   (跟 .shell-sidebar 的手機收合斷點 768px 對齊，見 layout.css)。 */
+@media (min-width: 769px) {
+  .cms-cs-fab { display: none; }
+}
+
 /* 覆寫 components.css 的膠囊按鈕(--radius-pill)為方角；同為 0,1,0 優先權時
    本檔最後載入即可勝出，沿用既有 token --radius-control，不新增任意值。 */
 .sb-deposit,

@@ -723,6 +723,49 @@
     btn.setAttribute('data-action', 'open-cs');
     btn.innerHTML = MENU_ICONS.cs;
     document.body.appendChild(btn);
+    makeFabDraggable(btn);
+  }
+
+  /* 手機版客服漂浮鈕可用手指拖曳移動：Pointer Events 統一處理觸控/
+     滑鼠，移動距離超過門檻才視為拖曳。放開後短暫標記
+     data-just-dragged，讓下面 open-cs 的委派點擊判斷跳過這次觸發——
+     否則手指放開瀏覽器仍會補發一次 click，把剛拖完位置的視窗跳出來。 */
+  function makeFabDraggable(btn) {
+    var DRAG_THRESHOLD = 6;
+    var dragging = false, moved = false;
+    var startX = 0, startY = 0, startLeft = 0, startTop = 0;
+    btn.style.touchAction = 'none';
+    btn.addEventListener('pointerdown', function (e) {
+      if (e.button != null && e.button !== 0) return;
+      var rect = btn.getBoundingClientRect();
+      dragging = true; moved = false;
+      startX = e.clientX; startY = e.clientY;
+      startLeft = rect.left; startTop = rect.top;
+      try { btn.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    btn.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - startX;
+      var dy = e.clientY - startY;
+      if (!moved && Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) return;
+      moved = true;
+      var maxLeft = Math.max(window.innerWidth - btn.offsetWidth - 6, 6);
+      var maxTop = Math.max(window.innerHeight - btn.offsetHeight - 6, 6);
+      btn.style.left = Math.min(Math.max(startLeft + dx, 6), maxLeft) + 'px';
+      btn.style.top = Math.min(Math.max(startTop + dy, 6), maxTop) + 'px';
+      btn.style.right = 'auto';
+      btn.style.bottom = 'auto';
+    });
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      if (moved) {
+        btn.setAttribute('data-just-dragged', '1');
+        setTimeout(function () { btn.removeAttribute('data-just-dragged'); }, 0);
+      }
+    }
+    btn.addEventListener('pointerup', endDrag);
+    btn.addEventListener('pointercancel', endDrag);
   }
 
   /* ============================================================
@@ -1364,7 +1407,11 @@
       return;
     }
     var openCs = t.closest('[data-action="open-cs"]');
-    if (openCs) { showModalEl(document.getElementById('cms-modal-customerservice')); return; }
+    if (openCs) {
+      if (openCs.getAttribute('data-just-dragged')) return;
+      showModalEl(document.getElementById('cms-modal-customerservice'));
+      return;
+    }
     var logoutBtn = t.closest('[data-action="logout"]');
     if (logoutBtn) { doLogout(); return; }
 
