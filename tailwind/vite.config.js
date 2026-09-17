@@ -30,6 +30,8 @@ export default defineConfig({
         'v5-mobile': resolve(__dirname, 'src/v5/mobile/theme.css'),
         'v6-pc': resolve(__dirname, 'src/v6/pc/theme.css'),
         'v6-mobile': resolve(__dirname, 'src/v6/mobile/theme.css'),
+        'v2-pc': resolve(__dirname, 'src/v2/pc/theme.css'),
+        'v2-mobile': resolve(__dirname, 'src/v2/mobile/theme.css'),
       },
     },
   },
