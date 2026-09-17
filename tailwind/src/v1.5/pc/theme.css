@@ -86,9 +86,18 @@
      Preflight 把 font-weight 重置成 inherit，沒有顯式覆寫的標題（例如
      .user-navbar-title 是 <h1>）會變回一般字重。 */
   h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+  /* main.css 沒有全域 svg 規則，UA 預設 display:inline，圖示常常直接
+     緊接文字构成 inline 排版（不靠 flex），文字置中/靠齊全部算在同一行
+     裡；Preflight 把 svg 重置成 display:block，圖示會斷成獨立一行，
+     文字被推到另一行（例如 .pay-method-tab 的圖示+「LinePay」文字）。
+     這裡還原成 inline 不影響已經用 flex 對齊圖示的地方（flex item 不
+     論本身 display 是 inline 還是 block，都會被父層 flex context
+     blockify，版面不變）。 */
+  svg { display: inline; }
 }
 
 @import "./shell.css";
 @import "./pages/index.css";
 @import "./pages/record.css";
 @import "./pages/account.css";
+@import "./pages/pay.css";

@@ -74,9 +74,13 @@
   /* 同 ../pc/theme.css：<h1>-<h6> UA 預設 font-weight:bold 被 Preflight
      重置成 inherit。 */
   h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+  /* 同 ../pc/theme.css：svg UA 預設 display:inline 被 Preflight 重置成
+     block，沒靠 flex 對齊的圖示+文字 inline 排版會斷行。 */
+  svg { display: inline; }
 }
 
 @import "./shell.css";
 @import "./pages/index.css";
 @import "./pages/record.css";
 @import "./pages/account.css";
+@import "./pages/pay.css";

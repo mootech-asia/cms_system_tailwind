@@ -1,0 +1,313 @@
+/* ============================================================
+   儲值頁(pages/userCenter/deposit.vue)——.pay-*/.dp-*/.promo-* 也被
+   withdrawal.html 共用(見 pages/withdrawal.css 的說明)
+   ============================================================ */
+.pay-page {
+  background: #fff;
+}
+.pay-page-title {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .pay-page-title {
+    display: block;
+    margin: 0;
+    color: var(--color-navy);
+    font-size: 32px;
+    font-weight: 700;
+    padding: 16px 32px 8px;
+    border-bottom: 1px solid var(--color-border-soft);
+  }
+}
+.pay-section {
+  padding: 16px 16px 80px;
+}
+@media (min-width: 1280px) {
+  .pay-section {
+    padding: 16px 32px 40px;
+  }
+}
+.pay-section-inner {
+  max-width: 945px;
+  margin: 0 auto;
+}
+.pay-pill-label {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 16px;
+  padding: 4px 24px;
+  border-radius: 999px;
+  background: var(--color-navy-2);
+  color: #fff;
+  font-size: 14px;
+}
+.pay-amount-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+@media (min-width: 1280px) {
+  .pay-amount-grid {
+    gap: 20px;
+  }
+}
+.pay-amount-btn {
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid var(--color-border);
+  background: #fff;
+  color: #6d6d6d;
+  font-size: 12px;
+}
+@media (min-width: 1280px) {
+  .pay-amount-btn {
+    height: 80px;
+    font-size: 16px;
+  }
+}
+.pay-amount-btn.is-selected {
+  border-color: var(--color-gold);
+  background: var(--color-gold);
+  color: var(--color-navy);
+  font-weight: 700;
+}
+/* 儲值頁付款通道分頁(通道 A/B/C/D):底線頁籤,無對應真實原始碼,純前端
+   分組展示用 */
+.pay-channel-tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid var(--color-border-soft);
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+.pay-channel-tab {
+  flex-shrink: 0;
+  padding: 8px 2px 10px;
+  color: #6d6d6d;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.pay-channel-tab.is-active {
+  color: var(--color-navy);
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+/* 出金方式分組(銀行卡／虛擬錢包),無對應真實原始碼,純前端分組展示用 */
+.pay-method-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.pay-method-tab {
+  flex: 1;
+  height: 44px;
+  border-radius: 10px;
+  border: 2px solid var(--color-border);
+  background: #fff;
+  color: #6d6d6d;
+  font-size: 14px;
+  font-weight: 600;
+}
+.pay-method-tab.is-selected {
+  border-color: var(--color-gold);
+  background: var(--color-gold);
+  color: var(--color-navy);
+}
+/* 儲值頁付款方式(銀行卡/LinePay/USDT)沿用同一套 tab 樣式,圖示對齊文字 */
+.pay-method-tab svg {
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+  margin-right: 6px;
+}
+/* 帳戶管理清單上方的「已登記/등록된 계좌 (N/5)」計數,無對應真實原始碼 */
+.wd-account-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--color-navy);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.wd-account-count::before {
+  content: '';
+  width: 4px;
+  height: 16px;
+  background: var(--color-gold);
+  border-radius: 2px;
+  display: inline-block;
+}
+.pay-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--color-subtitle);
+  padding: 0 16px;
+  color: var(--color-navy);
+  margin-top: 16px;
+}
+/* 儲值 QR 付款流程:付款網址欄位旁的複製按鈕,無對應真實原始碼(對照
+   其他版本補上的掃碼付款流程) */
+.pay-copy-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.pay-copy-row .pay-input {
+  flex: 1;
+  margin-top: 0;
+}
+.pay-copy-btn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 10px;
+  background: var(--color-gold);
+  color: var(--color-navy);
+  font-weight: 700;
+  white-space: nowrap;
+}
+@media (min-width: 1280px) {
+  .dp-amount-input {
+    height: 48px;
+  }
+}
+.pay-input::placeholder {
+  color: #6d6d6d;
+}
+.pay-note {
+  color: var(--color-danger);
+  font-size: 12px;
+  margin-top: 16px;
+}
+/* 手機版留白給頁尾固定的下一步/返回按鈕(對照原始碼 pb-40 xl:pb-0),
+   避免優惠券清單被蓋住 */
+.dp-promotion-wrap {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 160px;
+}
+@media (min-width: 1280px) {
+  .dp-promotion-wrap {
+    margin-top: 24px;
+    padding-bottom: 0;
+  }
+}
+.promo-card {
+  border-radius: 10px;
+  border: 1px solid var(--color-subtitle);
+  background: #fff;
+  padding: 4px 8px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+@media (min-width: 1280px) {
+  .promo-card {
+    padding: 12px 16px;
+  }
+}
+.promo-card.is-selected {
+  background: var(--color-gold);
+  border-color: transparent;
+  font-weight: 700;
+}
+.promo-card-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.promo-radio {
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 2px solid var(--color-navy-2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.promo-radio-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-navy-2);
+  display: none;
+}
+.promo-card.is-selected .promo-radio-dot {
+  display: block;
+}
+.promo-card-body {
+  flex: 1;
+  color: var(--color-navy);
+  font-size: 14px;
+}
+.promo-card-remarks {
+  margin: 4px 0 0;
+  padding-left: 16px;
+  color: var(--color-navy);
+  font-size: 12px;
+  font-weight: 400;
+}
+@media (min-width: 1280px) {
+  .promo-card-remarks {
+    font-size: 14px;
+  }
+}
+/* 選中優惠的紅利金額(對照設計稿:卡片清單下方的滿版漸層提示條) */
+.dp-bonus-bar {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--g-primary);
+  color: var(--color-navy);
+  font-weight: 700;
+}
+.pay-next-btn {
+  width: 100%;
+  height: 51px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--color-navy-2);
+  font-weight: 700;
+}
+.pay-next-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pay-back-btn {
+  width: 100%;
+  height: 48px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--color-navy);
+  color: var(--color-navy);
+  font-weight: 700;
+  background: #fff;
+}
+/* 手機版下一步/返回貼底固定(對照原始碼 fixed left-0 right-0 bottom-0),
+   桌機版恢復正常排版並補上原本由按鈕自己扛的間距(對照 xl:mt-10) */
+.pay-btn-fixed-wrap {
+  margin-top: 40px;
+}
+@media (max-width: 1279px) {
+  .pay-btn-fixed-wrap {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    margin-top: 0;
+  }
+}
+/* 出金頁 Submit/Back 間距跟入金頁不同(對照原始碼 mt-[52px] / xl:mt-4) */
+[data-withdrawal-submit] {
+  margin-top: 52px;
+}
+.wd-back-btn {
+  margin-top: 16px;
+}
