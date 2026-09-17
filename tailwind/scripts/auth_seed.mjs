@@ -12,6 +12,7 @@ const AUTH_VALUE = { name: 'meqomcao', balance: '₩1,000,000,000', points: '0.0
 const SEEDS = {
   v4: { authKey: 'cms-v4-auth', authValue: AUTH_VALUE, memberPages: MEMBER_PAGES },
   v5: { authKey: 'cms-v5-auth', authValue: AUTH_VALUE, memberPages: MEMBER_PAGES },
+  v6: { authKey: 'cms-v6-auth', authValue: AUTH_VALUE, memberPages: MEMBER_PAGES },
 };
 
 // 在瀏覽器 context 建立的頁面上，於任何頁面腳本執行前寫入 localStorage

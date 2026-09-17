@@ -1,0 +1,250 @@
+/* ============================================================
+   index.html 專屬 —— 首頁 hero 輪播、快捷圖示、跑馬燈資訊條、雙欄
+   hero、淺色內容區、促銷橫幅、累積獎金 widget、12 欄可編輯版位。
+   手機版。手機 bundle 只服務 <720px，main.css 的
+   @media(max-width:720px) 覆寫攤平成無條件 base 規則；900/520px
+   仍是巢狀 @media（見 ../shell.css 檔頭說明）。
+   ============================================================ */
+
+/* ── HERO 輪播控制項 ── */
+.hero-carousel .hero-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+.hero-carousel .hero-slide.active { opacity: 1; pointer-events: auto; }
+.hero-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border: none; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  z-index: 5;
+  transition: background 0.15s;
+}
+.hero-arrow:hover { background: rgba(0, 0, 0, 0.55); }
+.hero-arrow svg { width: 16px; height: 16px; }
+.hero-arrow-prev { left: 14px; }
+.hero-arrow-next { right: 14px; }
+.hero-dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 5; }
+.hero-dot { width: 8px; height: 8px; padding: 0; border: none; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transition: background 0.15s, width 0.15s; }
+.hero-dot.active { width: 20px; border-radius: 4px; background: #fff; }
+
+/* ── 快捷圖示格 ── */
+.quick-icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 4px; padding: 18px 4px; }
+.quick-icon-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 4px; border-radius: var(--radius-md); color: var(--text-mid); font-size: 11.5px; font-weight: 700; text-align: center; transition: background 0.15s, color 0.15s; }
+.quick-icon-item:hover { background: var(--bg-soft); color: var(--text); }
+.quick-icon-badge { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--bg-panel); color: var(--accent); border: 1px solid var(--line); }
+.quick-icon-badge svg { width: 20px; height: 20px; }
+
+/* ── 跑馬燈式資訊條（近期提款／中獎紀錄）── */
+.ticker-panel { background: var(--bg-panel); border: 1px solid var(--line); border-radius: var(--radius-lg); margin-bottom: 18px; }
+.ticker-section { padding: 14px 18px; }
+.ticker-section + .ticker-section { border-top: 1px solid var(--line); }
+.ticker-panel-title { margin: 0 0 4px; font-size: 12px; color: var(--text-dim); }
+.ticker-panel-value { margin: 0 0 10px; font-size: 20px; font-weight: 900; font-style: italic; color: var(--text); letter-spacing: 0.02em; }
+.ticker-viewport { overflow: hidden; }
+.ticker-track { display: flex; gap: 10px; width: max-content; animation: ticker-scroll 30s linear infinite; }
+.ticker-panel:hover .ticker-track { animation-play-state: paused; }
+@keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-chip-badge { display: flex; align-items: center; gap: 4px; flex-shrink: 0; font-weight: 900; font-size: 12px; }
+.ticker-chip-badge svg { width: 17px; height: 17px; flex-shrink: 0; }
+.ticker-chip-badge.gem { color: var(--accent-hi); }
+.ticker-chip-badge.star { color: var(--badge); }
+.ticker-chip-body { display: flex; flex-direction: column; gap: 1px; }
+.ticker-chip-row { display: flex; align-items: center; gap: 6px; }
+.ticker-chip-arrow { width: 11px; height: 11px; color: var(--text-dim); }
+.ticker-chip-sub { font-size: 10.5px; color: var(--text-dim); }
+.ticker-chip { flex-shrink: 0; display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--line); font-size: 12px; white-space: nowrap; }
+.ticker-chip-mult { font-weight: 900; color: var(--accent-hi); }
+.ticker-chip-id { color: var(--text-dim); }
+.ticker-chip-amt { font-weight: 800; color: var(--text); }
+.ticker-chip-win { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--line); font-size: 12px; white-space: nowrap; }
+.ticker-chip-win img, .ticker-chip-win .ticker-chip-art { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+.ticker-chip-win-name { font-weight: 700; color: var(--text); }
+.ticker-chip-win-amt { font-weight: 900; color: var(--accent-hi); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
+
+/* ── HERO（雙欄版型；900px 斷點下改直向堆疊，手機服務範圍 <720px
+   恆真，維持巢狀寫法與桌機版對照一致） ── */
+.hero-wrap {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 18px;
+  padding-left: max(20px, calc((100% - 1320px) / 2));
+  padding-right: max(20px, calc((100% - 1320px) / 2));
+}
+.hero {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 320px;
+  isolation: isolate;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(100deg, rgba(10, 8, 7, 0.94) 0%, color-mix(in oklch, var(--accent) 46%, rgba(10, 8, 7, 0.85)) 42%, color-mix(in oklch, var(--accent) 10%, transparent) 78%), var(--hero-image);
+  background-size: cover;
+  background-position: var(--hero-position, center);
+  z-index: -1;
+}
+.hero-duo { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 40px; min-height: 320px; padding: 32px 56px; }
+.hero-content { padding: 0; max-width: 560px; color: var(--text-on-header); }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--accent-hi);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.hero-title { font-size: 27px; font-weight: 900; line-height: 1.12; margin: 0 0 10px; text-transform: uppercase; letter-spacing: -0.01em; text-shadow: 0 3px 14px rgba(0, 0, 0, 0.5); }
+.hero-title em { font-style: normal; color: var(--accent-hi); }
+.hero-sub { font-size: 14.5px; color: rgba(245, 242, 236, 0.82); margin: 0; text-transform: none; }
+.hero-promo .hero-title em { display: block; font-size: 56px; line-height: 1; margin-bottom: 6px; }
+.hero-promo .hero-title { font-size: 32px; }
+@media (max-width: 900px) {
+  .hero-duo { flex-direction: column; align-items: stretch; justify-content: flex-start; padding: 24px; gap: 20px; }
+}
+/* 320~520px 更窄的機型再進一步縮小，跟桌機版的巢狀寫法對照一致
+   （手機服務範圍 <720px 內兩者都可能出現，非恆真，維持真的
+   @media，不攤平）。 */
+@media (max-width: 520px) {
+  .hero-content { max-width: 100%; }
+  .hero-title { font-size: 21px; }
+  .hero-promo .hero-title em { font-size: 42px; }
+  .hero-sub { font-size: 12.5px; }
+  .hero-eyebrow { font-size: 10.5px; padding: 3px 10px; margin-bottom: 10px; }
+}
+
+/* ── 內容區淺色底 ── */
+.content-light {
+  --bg: #f2efe6;
+  --bg-soft: #ffffff;
+  --bg-panel: #ffffff;
+  --line: #e3ded0;
+  --line-hi: #d8cfb0;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  background: var(--bg);
+  color: var(--text);
+}
+.content-light .hero-wrap { background: var(--header-bg); }
+.content-light .testimonial-card {
+  --bg-panel: #1c1c1e;
+  --line: #333335;
+  --text: #f5f2ec;
+  --text-mid: #b6b1a7;
+}
+
+/* ── 首頁促銷橫幅 ── */
+.home-promo-strip { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 24px 0; }
+.home-promo-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 84px;
+  padding: 20px 26px;
+  border-radius: var(--radius-lg);
+  color: #fff;
+  font-size: 17px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.01em;
+}
+.home-promo-banner-icon { width: 46px; height: 46px; flex-shrink: 0; opacity: 0.85; }
+.home-promo-banner-cta { flex-shrink: 0; padding: 9px 18px; border-radius: 999px; background: rgba(255, 255, 255, 0.2); font-size: 12.5px; white-space: nowrap; }
+.home-promo-banner-accent { background: var(--accent-grad); color: var(--accent-ink); }
+.home-promo-banner-accent .home-promo-banner-cta { background: rgba(0, 0, 0, 0.18); }
+.home-promo-banner-jackpot { background: linear-gradient(120deg, var(--jackpot-a) 0%, var(--jackpot-b) 100%); }
+
+/* ── JACKPOT PANEL ── */
+.jackpot-panel {
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--jackpot-a) 0%, var(--jackpot-b) 100%);
+  box-shadow: var(--shadow-card);
+}
+.jackpot-title {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 0 14px;
+  font-size: 15px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: #fff;
+}
+.jackpot-title svg { flex-shrink: 0; color: var(--accent-hi); }
+.jackpot-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.jackpot-pill {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.jackpot-pill.is-hourly { background: linear-gradient(135deg, rgba(244, 121, 31, 0.35), rgba(0, 0, 0, 0.22)); }
+.jackpot-pill-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.78); margin: 0 0 4px; }
+.jackpot-pill-value { font-size: 19px; font-weight: 900; color: #fff; margin: 0 0 4px; font-variant-numeric: tabular-nums; }
+.jackpot-pill-note { font-size: 11px; color: rgba(255, 255, 255, 0.65); margin: 0; }
+/* 得獎名單橫幅：桌機版固定 3/6 欄，900/520px 縮欄，在手機服務範圍
+   <720px 內恆真，維持巢狀寫法與桌機版對照一致。 */
+.jackpot-grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
+@media (max-width: 900px) { .jackpot-grid.cols-6 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .jackpot-grid.cols-6 { grid-template-columns: 1fr; } }
+.jackpot-panel-foot { display: flex; justify-content: flex-end; margin-top: 14px; }
+
+/* ── SECTION GRID：12 欄可編輯版位 ── */
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+  padding-top: 20px; padding-bottom: 40px;
+  align-items: stretch;
+}
+.grid12 > [data-span="3"] { grid-column: span 3; }
+.grid12 > [data-span="4"] { grid-column: span 4; }
+.grid12 > [data-span="5"] { grid-column: span 5; }
+.grid12 > [data-span="6"] { grid-column: span 6; }
+.grid12 > [data-span="7"] { grid-column: span 7; }
+.grid12 > [data-span="8"] { grid-column: span 8; }
+.grid12 > [data-span="9"] { grid-column: span 9; }
+.grid12 > [data-span="10"] { grid-column: span 10; }
+.grid12 > [data-span="11"] { grid-column: span 11; }
+.grid12 > [data-span="12"] { grid-column: span 12; }
+/* 中寬度以下每個版位模組都改滿版堆疊,不管 data-span 設多少（main.css
+   原本是 @media(max-width:1080px)，手機服務範圍 <720px 恆真，攤平成
+   無條件規則；跟上面逐一 span 規則同選擇器特異度，靠源碼順序排在
+   後面覆寫）。 */
+.grid12 > [data-span] { grid-column: 1 / -1; }
+.grid12-drag-handle { display: none; position: absolute; top: 8px; left: 8px; z-index: 5; width: 26px; height: 26px; border-radius: 50%; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.55); color: #fff; cursor: grab; }
+.cms-v6-grid-edit .grid12-drag-handle { display: flex; }
+.grid12-dragging { opacity: 0.4; }
+.grid12-drop-target { outline: 2px dashed var(--accent-hi); outline-offset: 4px; }
+
+/* 首頁 grid12 之後新增的「熱血開賭／得獎名單／品牌短文／玩家評價」區塊 */
+.home-extra { display: flex; flex-direction: column; gap: 20px; padding-bottom: 20px; }
+.home-extra > .jackpot-panel { margin-top: 0; }
+
+/* 玩家評價卡（首頁「HEAR FROM OUR PLAYERS」） */
+.tile-grid.rail.testimonial-rail { grid-auto-columns: 240px; }
+.testimonial-card {
+  height: 100%;
+  display: flex; flex-direction: column;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-card);
+}
+.testimonial-card-quote-icon { color: var(--accent-hi); margin-bottom: 10px; flex-shrink: 0; }
+.testimonial-card-text { font-size: 13px; line-height: 1.7; color: var(--text-mid); margin: 0 0 14px; flex: 1; }
+.testimonial-card-name { font-size: 12.5px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; color: var(--text); margin: 0; }
+
+/* 「Premier Online Gambling Destination」置中行銷短文（首頁專用） */
+.spotlight-block { max-width: 760px; margin: 0 auto; padding: 6px 0; text-align: center; }
+.spotlight-block-title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 10px; color: var(--text); }
+.spotlight-block-text { font-size: 13.5px; line-height: 1.8; color: var(--text-mid); margin: 0; }
+.spotlight-block-text a { color: var(--accent-hi); font-weight: 700; }
+.spotlight-block-text a:hover { color: var(--accent); }

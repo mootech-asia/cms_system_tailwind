@@ -1,4 +1,4 @@
-# Phase 3 交接文件（v1.5／v4／v5 已完成，下一步 v6）
+# Phase 3 交接文件（v1.5／v4／v5／v6 已完成，下一步 v2）
 
 > 給接手這個任務的新 session 看的交接文件。這份文件本身會被 commit
 > 進 repo，新 session 一開始就能讀到。閱讀順序建議：先看 repo 根目錄
@@ -14,7 +14,7 @@
   （base 設在 `phase-1-design-tokens`，因為依賴它還沒合併的 token
   修正；每完成一頁/一個里程碑就更新這個 PR 的標題與內容，不開新 PR）
 - **v1.5 全 21 頁已完成**；**v4 全 22 頁已完成**；**v5 全 22 頁
-  已完成**（最新 commit `6802164`）。
+  已完成**；**v6 全 22 頁已完成**。
 
 ## 五階段總進度
 
@@ -22,19 +22,18 @@
 |---|---|
 | Phase 1（設計 token） | v1.5/v3/v4/v5/v6 已完成；v2 延後（PR #1，未合併） |
 | Phase 2（斷點策略） | 已定案（PR #3，未合併） |
-| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5：**22/22 完成**；v6：0/22；v2：0（卡在自己的 Phase 1） |
+| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5：**22/22 完成**；v6：**22/22 完成**；v2：0（卡在自己的 Phase 1） |
 | Phase 4（`@apply`/格式檢查） | 未開始 |
 | Phase 5（`MIGRATION.md`） | 未開始 |
 
-**下一步是開始 v6**，流程/方法論跟 v1.5、v3、v4、v5 完全一樣，直接
-沿用下方「逐頁 SOP」「測試基建」。開始前務必先看下方「v4 過程中新
-發現的問題」與「v5 過程中新發現的問題」兩節——尤其是 v5 那節的
-「區域覆寫變數 vs 全域 --color-\* token」陷阱，如果 v6 的 main.css
-也有 `.content-light`／`.hero-signup` 這類局部覆寫變數值的機制，
-直接照 v5 記錄的原則寫（component CSS 一律用原始 --xxx 變數名，
-不要用 --color-xxx），不要重踩一次。`v4/site/live.html` 是命名法
-定案前的試點頁，之後 v4 正式收尾時已經整頁重做過，如果 v6 也有類似
-殘留，處理方式可以直接參考。
+**下一步是 v2**，但 v2 的 CSS 是舊版 Tailwind 編譯輸出＋PrimeVue
+殘留（非手寫），沒有語意化 token 可以直接搬，需要先做自己的 Phase 1
+token 工作，流程會跟 v1.5/v3/v4/v5/v6 不同，開工前先重新評估。
+如果之後還有其他版本要走這套 SOP，直接沿用下方「逐頁 SOP」「測試
+基建」，開始前務必先看下方 v4/v5/v6 三節「過程中新發現的問題」——
+尤其是 v5 那節的「區域覆寫變數 vs 全域 --color-\* token」陷阱，跟
+v6 那節的「手機斷點攤平時漏掉選擇器的 ancestor scope」陷阱，這兩類
+是目前踩過最貴的坑，不要重踩一次。
 
 ## 本 repo 的核心任務性質
 
@@ -455,6 +454,124 @@ Preflight 回歸清單整套搬過去，不要假設「這版目前看起來沒�
 
 全部數字遠低於雜訊上限，console 錯誤數量兩邊一致。
 
+## v6 架構決策
+
+跟 v4/v5 同構（桌機優先＋`max-width` 斷點，原始站台單一 `site/`），
+但視覺／版面改版幅度是三個版本中最大的一次（「巔峰盤口 Apex」風格，
+深邃墨綠 header/內容、亮綠主 CTA），連帶架構也變了：
+
+- **拿掉 v4/v5 的每頁 `.member-sidebar`**，改成 `.v6-sidebar`——
+  一個橫跨所有頁面（含首頁、清單頁）常駐的左側欄，取代原本「站內
+  導覽」與「會員選單」兩套並存的設計。`.member-shell` 因此從
+  v4/v5 的兩欄 grid（`220px minmax(0,1fr)`）改成單欄
+  （`minmax(0,1fr)`），不再有自己的側欄。
+- **拿掉 v4 的 `.quick-rail`／v5 的側邊快捷列**，改成單顆
+  `.v6-chat-fab` 客服浮動鈕。
+- 新增 `.v6-betslip`（右側佔位欄，純裝飾、`<=1320px` 隱藏）、
+  `.v6-sidebar` 在 `<=1080px` 變成離屏抽屜（左滑入）、在
+  `<=720px` 再變成貼底 bottom sheet（跟 `.mobile-tabbar` 共用同一
+  斷點）。
+- token 新增 `--header-h`（`.v6-shell` 橫跨滿版寬度常駐條的高度，
+  sidebar/betslip 的 sticky 定位要扣掉這個高度）。
+- 同樣有 `.feature-carousel`/`.feature-card`/`.feature-vendor-chip`
+  死代碼（JS 找 `#featureCarousel` 掛載點，全站沒有任何頁面有），
+  依鐵則 1 不搬移。
+- `pages/index.css` 除了 hero 輪播控制項／快捷圖示格／跑馬燈資訊條／
+  雙欄 hero／`.content-light`／促銷橫幅／`.jackpot-panel`／12 欄
+  可編輯版位（`.grid12`）之外，main.css 裡在 `.grid12` 之後、
+  `.promo-card`（優惠活動卡，屬於 promotion.css）之前還夾了一段
+  「熱血開賭／得獎名單／品牌短文／玩家評價」（`.home-extra`／
+  `.testimonial-card`／`.spotlight-block`），物理位置不連續、容易
+  漏抄，見下方問題 15。
+
+## v6 過程中新發現的問題（在 v4/v5 的基礎上，新增/更新）
+
+前面 v4/v5 兩節列的問題（全站 Preflight 回歸、auth_seed 登入態、
+`--color-*` vs `--xxx`、手動合併漏改屬性、`Read` 分段漏讀檔尾）在
+v6 開工前就直接補進 theme.css/auth_seed.mjs 了，但 v6 又踩到幾個
+**新的**、且更貴的坑：
+
+14. **`auth_seed.mjs` 忘記幫新版本加一筆 `SEEDS` 設定**：`v4`/`v5`
+    寫完後 `SEEDS` 物件只有這兩個 key，開始寫 v6 頁面轉換時完全忘記
+    补上 `v6: { authKey: 'cms-v6-auth', ... }`。後果比 v4 當初發現
+    時更隱蔽：因為所有 12 個會員限定頁（account/deposit/
+    withdrawal/各類紀錄/personal-info/security/change-password）
+    在未登入時會被 `initAuthGuard()` 導回 `index.html`，測試腳本量到
+    的其實都是「index.html 對比 index.html」，而 index.html 本身當時
+    **剛好也有另一個真的 bug**（問題 15），兩個問題的診斷結果混在
+    一起、數字看起來完全不合理（12 個毫不相干的頁面全部卡在同一組
+    5.6~7.2% diff、同一個「新版矮 72px」的高度落差），一度以為是
+    v6-sidebar 或 mobile-tabbar 的系統性大 bug。**教訓**：每次新增
+    一個版本，`auth_seed.mjs` 的 `SEEDS` 物件、`MEMBER_PAGES`
+    清單是清單型設定，最容易漏加而不是漏改，寫完 `initAuthGuard`
+    比對後第一件事就該去確認 `auth_seed.mjs` 有沒有對應的版本 key，
+    不要等會員頁 diff 異常才回頭查。
+15. **手機斷點「攤平」時，把 scope 在特定祖先底下的覆寫，錯寫成
+    覆寫全域基礎規則**：main.css 檔尾 RESPONSIVE 區塊裡，
+    `@media (max-width: 720px)` 內有兩條這樣的規則：
+    `.header-auth .btn-accent { padding: 7px 10px; font-size: 11px; }`
+    跟 `.header-auth .header-nav-link { padding: 6px 2px; font-size: 12px; }`
+    ——這兩條**只**縮小 header 內登入/註冊捷徑鈕跟使用者導覽連結，
+    不影響其餘用到 `.btn-accent`／`.header-nav-link` 的地方。手機版
+    攤平時漏看了 `.header-auth` 這個 ancestor scope，直接把縮小後的
+    `padding`/`font-size` 寫進 `.btn-accent`／`.header-nav-link`
+    **全域基礎規則**，等於手機版全站所有用 `.btn-accent` 的地方
+    （帳戶頁「DEPOSIT NOW」/「REQUEST WITHDRAWAL」、儲值/提款/改密碼
+    表單送出鈕等）都被跟著縮小、变窄。窄到某些按鈕文字（如
+    "REQUEST WITHDRAWAL"）從一行擠成兩行，卡片高度、以下所有內容
+    整段往上位移，account/change-password/deposit/withdrawal 四頁
+    手機版一度 4.8~7.2% diff。**教訓**：手機斷點攤平時，先確認
+    要攤平的選擇器是「純 class」還是「`.祖先 .目標`」這種 scoped
+    寫法——後者攤平後**必須保留祖先 scope**，不能直接改寫目標
+    class 的全域基礎規則；改完用 `grep` 找一下這個 class 還有沒有
+    在其他跟這次改動無關的地方被用到，數量異常多的話就要懷疑是不是
+    誤傷了範圍。
+16. **main.css 裡跟目標元件「物理位置不相鄰」的一段，整段漏抄**：
+    首頁 `.grid12`（12 欄可編輯版位）結束後，main.css 先接了
+    `.game-tile-fav`（屬於 cards.css，已收錄），再接一段沒有獨立
+    章節標題、只有行內註解「首頁 grid12 之後新增的『熱血開賭／得獎
+    名單／品牌短文／玩家評價』區塊」的 `.home-extra`／
+    `.testimonial-card`／`.spotlight-block`，然後才進到有明確章節
+    標題「── 優惠活動卡 ──」的 `.promo-card`（屬於 promotion.css）。
+    比對 main.css 全部章節標題逐段抄錄 index.css 時，這段夾在兩個
+    「看起來都不屬於首頁」的區塊中間、且本身沒有章節標題，直接被
+    跳過。結果首頁「PREMIER ONLINE GAMBLING DESTINATION」品牌短文、
+    「HEAR FROM OUR PLAYERS」玩家評價 rail、`.home-extra` 的
+    直向排列間距全部使用瀏覽器預設樣式，index.html PC 一度 2.26%
+    diff、手機 3.84% diff，且高度都差 35~72px。同一批遺漏也連帶
+    讓 `.grid12 > [data-span]` 的 `@media(max-width:1080px)`「中寬度
+    以下滿版堆疊」覆寫、`.hero-title`/`.hero-promo .hero-title em`
+    的 720px／520px 縮小字級、`.notice-links` 的 520px 縮小間距
+    一併漏攤平進手機版（這幾條物理位置在 main.css 檔尾 RESPONSIVE
+    區塊，寫 index.css/shell.css 當下沒有意識到要回頭核對）。
+    **教訓**：不能只憑「章節標題」切分抄錄範圍——main.css 有些
+    小段落用行內註解取代章節標題、或直接接在無關章節中間；抄完
+    一個 pages/*.css 後，額外跑一次「main.css 出現的所有 class
+    名稱 vs 我寫的檔案是否都出現過」的機械式核對（可以寫小 script
+    抓兩邊 `.class-name` 集合做差集），比單靠人工逐段閱讀更可靠，
+    這次就是靠這個核對抓到 `.home-extra` 等一整段遺漏。
+
+## v6 完成總表（22/22，PC／手機 pixelmatch，已含上述修正後回歸）
+
+| 頁面 | PC | 手機 | 備註 |
+|---|---|---|---|
+| index.html | 0.160% | 0.124% | 曾因問題 14/15/16 三個 bug 疊加一度 2.26%/3.84%，已修正；殘留雜訊主要來自跑馬燈/廠商 marquee 動畫擷取時機；互動：漢堡側欄開啟 0.701% |
+| hot-games/slot/fish/mini-games/live.html | 0.067~0.134% | 0.165~0.188% | 6 個清單頁共用 listing.css |
+| sport.html | 0.025% | 0.054% | |
+| promotion.html | 0.004% | 0.015% | |
+| account.html | 0.090% | 0.000% | 曾因問題 14/15 疊加一度 6.3%，已修正 |
+| deposit.html | 0.084% | 0.000% | 同上 |
+| withdrawal.html | 0.070% | 0.059% | 同上 |
+| change-password.html | 0.012% | 0.081% | 同上 |
+| betting/deposit/withdrawal-record、withdrawal-detail、account-record、profit-loss | 0.079~0.114% | 0.000~0.078% | 記錄家族 6 頁共用 member-shell.css |
+| personal-info.html | 0.112% | 0.088% | |
+| security.html | 0.092% | 0.082% | |
+| about.html | 0.014% | 0.000% | |
+| ui-kit.html | 0.021% | 0.043% | |
+
+全部數字遠低於雜訊上限，console 錯誤數量兩邊一致（僅環境層級的
+外部資源連線失敗，orig/new 兩邊一致，非本次轉換引入）。
+
 ## 逐頁 SOP（沿用 v3 建立的方法論，適用所有版本）
 
 1. `grep -oE 'class="[^"]*"' <頁面>.html | tr ' "' '\n\n' | sort -u`
@@ -566,10 +683,9 @@ Preflight 回歸清單整套搬過去，不要假設「這版目前看起來沒�
 
 ## 其餘版本現況
 
-- **v6**：完全沒開始 Phase 3，下一步從 v6 開始。
 - **v2**：CSS 是舊版 Tailwind 編譯輸出＋PrimeVue 殘留（非手寫），
   沒有語意化 token 可以直接搬，需要先做自己的 Phase 1 token 工作，
-  故意留到最後處理。
+  故意留到最後處理，是目前唯一還沒開始的版本。
 
 ## 環境須知
 

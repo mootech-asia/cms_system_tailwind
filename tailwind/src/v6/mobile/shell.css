@@ -28,7 +28,7 @@
 .site-footer-logo.brand-mark .brand-mark-text { font-size: 17px; }
 .header-nav-link {
   display: flex; align-items: center; gap: 6px;
-  padding: 6px 2px;
+  padding: 9px 10px;
   border-radius: 999px;
   color: var(--text-mid);
   font-size: 12px;
@@ -40,19 +40,22 @@
 }
 .header-nav-link:hover { background: var(--bg-soft); color: #fff; }
 .header-nav-icon { width: 16px; height: 16px; flex-shrink: 0; }
+/* .header-nav-link-user 借用 .header-nav-link 樣式，但那份 padding
+   是給桌機頂部整排分類頁籤用的，塞進窄螢幕 header-auth 裡會被撐爆。 */
+.header-auth .header-nav-link { padding: 6px 2px; font-size: 12px; }
 .header-nav-link-user span { max-width: 46px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .header-auth { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
 .header-auth-badge-wrap { position: relative; }
 .header-auth-badge { position: absolute; top: -4px; right: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--badge); border: 2px solid var(--header-bg); }
 .header-forgot { display: none; font-size: 11.5px; color: rgba(245, 242, 236, 0.6); white-space: nowrap; }
 .btn-accent {
-  padding: 7px 10px;
+  padding: 9px 20px;
   border: 1px solid transparent;
   border-radius: 999px;
   background: var(--accent-grad);
   color: var(--accent-ink);
   font-weight: 800;
-  font-size: 11px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -64,6 +67,10 @@
 .btn-accent.quiet { background: rgba(255, 255, 255, 0.08); color: var(--text-on-header); box-shadow: none; border-color: rgba(255, 255, 255, 0.18); }
 .btn-accent.outline { background: none; border-color: rgba(255, 255, 255, 0.6); color: #fff; box-shadow: none; }
 .btn-accent.outline:hover { filter: none; background: rgba(255, 255, 255, 0.12); }
+/* 手機斷點窄縮版：只有 header 登入/註冊捷徑要縮小，其餘（帳戶頁操作
+   鈕、儲值/提款表單送出鈕等）維持桌機尺寸——main.css 這條原本就是
+   scope 在 .header-auth 底下，不是覆寫 .btn-accent 全域基礎值。 */
+.header-auth .btn-accent { padding: 7px 10px; font-size: 11px; }
 
 /* ── V6 SHELL（左側欄／右側 Betslip）── */
 .v6-shell { display: flex; align-items: flex-start; min-height: calc(100vh - var(--header-h)); }
@@ -472,6 +479,7 @@ body { padding-bottom: 56px; }
 @media (max-width: 1320px) { .v6-betslip { display: none; } }
 @media (max-width: 520px) {
   .chat-widget { right: 10px; width: calc(100vw - 20px); }
+  .notice-links { gap: 10px; }
 }
 @media (max-width: 600px) {
   .header-menu-panel { max-width: 100%; }

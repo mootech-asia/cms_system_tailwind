@@ -1,0 +1,11 @@
+/* ============================================================
+   ui-kit.html 專屬 —— 元件展示頁（開發參考用）。桌機版。
+   ============================================================ */
+.uikit-wrap { padding-top: 24px; padding-bottom: 48px; }
+@media (max-width: 720px) { .uikit-wrap { padding-right: 20px; } }
+.uikit-section { margin-bottom: 32px; }
+.uikit-section-title { font-size: 16px; font-weight: 900; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); display: inline-block; text-transform: uppercase; }
+.uikit-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 16px; border-radius: var(--radius-md); background: var(--bg-panel); border: 1px solid var(--line); }
+.uikit-swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--text-dim); }
+.uikit-swatch-color { width: 56px; height: 56px; border-radius: var(--radius-md); border: 1px solid var(--line); }
+.uikit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }

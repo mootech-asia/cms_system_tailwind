@@ -1,0 +1,296 @@
+/* ============================================================
+   index.html 專屬 —— 首頁 hero 輪播、快捷圖示、跑馬燈資訊條、雙欄
+   hero（也被分類頁的單一版 hero 共用，見各自 HTML 是否帶多張
+   slide）、淺色內容區、促銷橫幅、累積獎金 widget、12 欄可編輯版位。
+   桌機版。（.panel/.tile-grid/.game-tile 見 ../pages/cards.css；
+   .notice-links/.site-footer-links 見 ../shell.css）
+   ============================================================ */
+
+/* ── HERO 輪播控制項（首頁專用；分類頁 hero 是單一版面，見
+   .hero-wrap 之後的 JS：initHeroCarousel 偵測不到多張 slide 時不會
+   套用這裡的樣式也不影響版面） ── */
+.hero-carousel .hero-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+.hero-carousel .hero-slide.active { opacity: 1; pointer-events: auto; }
+.hero-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border: none; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  z-index: 5;
+  transition: background 0.15s;
+}
+.hero-arrow:hover { background: rgba(0, 0, 0, 0.55); }
+.hero-arrow svg { width: 16px; height: 16px; }
+.hero-arrow-prev { left: 14px; }
+.hero-arrow-next { right: 14px; }
+.hero-dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 5; }
+.hero-dot { width: 8px; height: 8px; padding: 0; border: none; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transition: background 0.15s, width 0.15s; }
+.hero-dot.active { width: 20px; border-radius: 4px; background: #fff; }
+
+/* ── 快捷圖示格（首頁 hero 下方，比照參考站 Bonuses/Slots/Live casino/
+   Deposit/Help 這排大圖示捷徑）── */
+.quick-icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 4px; padding: 18px 4px; }
+.quick-icon-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 4px; border-radius: var(--radius-md); color: var(--text-mid); font-size: 11.5px; font-weight: 700; text-align: center; transition: background 0.15s, color 0.15s; }
+.quick-icon-item:hover { background: var(--bg-soft); color: var(--text); }
+.quick-icon-badge { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--bg-panel); color: var(--accent); border: 1px solid var(--line); }
+.quick-icon-badge svg { width: 20px; height: 20px; }
+
+/* ── 跑馬燈式資訊條（近期提款／中獎紀錄，比照參考站首頁的
+   Recent withdrawals／Winning bets 橫幅），跟 .notice-msg 同一招用
+   padding-left:100% + keyframe 位移做無縫捲動，只是改成一整排卡片
+   一起平移，不是單行文字。近期提款／中獎紀錄合併成同一張卡片,兩節
+   之間用分隔線區分,不再是各自獨立、彼此有間距的兩張卡片。 */
+.ticker-panel { background: var(--bg-panel); border: 1px solid var(--line); border-radius: var(--radius-lg); margin-bottom: 18px; }
+.ticker-section { padding: 14px 18px; }
+.ticker-section + .ticker-section { border-top: 1px solid var(--line); }
+.ticker-panel-title { margin: 0 0 4px; font-size: 12px; color: var(--text-dim); }
+.ticker-panel-value { margin: 0 0 10px; font-size: 20px; font-weight: 900; font-style: italic; color: var(--text); letter-spacing: 0.02em; }
+.ticker-viewport { overflow: hidden; }
+.ticker-track { display: flex; gap: 10px; width: max-content; animation: ticker-scroll 30s linear infinite; }
+.ticker-panel:hover .ticker-track { animation-play-state: paused; }
+@keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* 提款跑馬燈的倍率徽章:鑽石(一般倍率,綠色)／星形(高倍率,警示
+   紅)取代純文字 ×N,比照參考站用圖形分級一眼看出倍率高低;箭頭
+   圖示＋「存款」副標則說明這筆提款對應的原始存款金額。 */
+.ticker-chip-badge { display: flex; align-items: center; gap: 4px; flex-shrink: 0; font-weight: 900; font-size: 12px; }
+.ticker-chip-badge svg { width: 17px; height: 17px; flex-shrink: 0; }
+.ticker-chip-badge.gem { color: var(--accent-hi); }
+.ticker-chip-badge.star { color: var(--badge); }
+.ticker-chip-body { display: flex; flex-direction: column; gap: 1px; }
+.ticker-chip-row { display: flex; align-items: center; gap: 6px; }
+.ticker-chip-arrow { width: 11px; height: 11px; color: var(--text-dim); }
+.ticker-chip-sub { font-size: 10.5px; color: var(--text-dim); }
+.ticker-chip { flex-shrink: 0; display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--line); font-size: 12px; white-space: nowrap; }
+.ticker-chip-mult { font-weight: 900; color: var(--accent-hi); }
+.ticker-chip-id { color: var(--text-dim); }
+.ticker-chip-amt { font-weight: 800; color: var(--text); }
+.ticker-chip-win { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--line); font-size: 12px; white-space: nowrap; }
+.ticker-chip-win img, .ticker-chip-win .ticker-chip-art { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+.ticker-chip-win-name { font-weight: 700; color: var(--text); }
+.ticker-chip-win-amt { font-weight: 900; color: var(--accent-hi); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
+
+/* ── HERO ─────────────────────────────────
+   雙欄版型：左側文案疊圖、右側奶油色快速註冊卡（對齊參考站 hero 內嵌
+   註冊表單的版面），單一版面不再輪播，故不需要 .hero-slide/-dots/-arrow。
+   .hero-wrap 在 HTML 上同時掛 .container：直接沿用 .container 的
+   max-width/margin 會讓這層的深色背景（見下方 .content-light .hero-wrap）
+   在寬螢幕被截在 1360px 處，.content-light 的米白底色就會在兩側露出一截，
+   跟滿版深色的 header 斷開、看起來像邊緣被切掉。改成滿版寬度，改用
+   padding 複現 .container 原本的 1320px 內容寬（1360 扣掉左右各 20
+   padding），背景才能一路貼到視窗邊界，內容寬度則維持不變。 */
+.hero-wrap {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 18px;
+  padding-left: max(20px, calc((100% - 1320px) / 2));
+  padding-right: max(20px, calc((100% - 1320px) / 2));
+}
+.hero {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 320px;
+  isolation: isolate;
+}
+/* hero 疊色原本混 --badge(警示紅),跟站內主色調、參考站的綠色
+   主視覺不一致,改用 --accent 呼應站內綠色識別。 */
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(100deg, rgba(10, 8, 7, 0.94) 0%, color-mix(in oklch, var(--accent) 46%, rgba(10, 8, 7, 0.85)) 42%, color-mix(in oklch, var(--accent) 10%, transparent) 78%), var(--hero-image);
+  background-size: cover;
+  background-position: var(--hero-position, center);
+  z-index: -1;
+}
+/* justify-content:space-between 把註冊卡推到跟 hero 右邊界齊平,避免
+   文案較短時卡片跟邊界之間留一大片沒用到的暗底空白。 */
+.hero-duo { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 40px; min-height: 320px; padding: 32px 56px; }
+.hero-content { padding: 0; max-width: 560px; color: var(--text-on-header); }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--accent-hi);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.hero-title { font-size: 42px; font-weight: 900; line-height: 1.12; margin: 0 0 10px; text-transform: uppercase; letter-spacing: -0.01em; text-shadow: 0 3px 14px rgba(0, 0, 0, 0.5); }
+.hero-title em { font-style: normal; color: var(--accent-hi); }
+.hero-sub { font-size: 14.5px; color: rgba(245, 242, 236, 0.82); margin: 0; text-transform: none; }
+/* 首頁 hero 數字獨立一行放大顯示,比照參考站;背景圖沿用 .hero-bg
+   共用規則(照片 + 深色漸層蓋版),只有首頁這組 hero-duo 用得到
+   hero-promo,其餘頁面的 .hero-bg 各自的宣傳圖不受影響。 */
+.hero-promo .hero-title em { display: block; font-size: 88px; line-height: 1; margin-bottom: 6px; }
+.hero-promo .hero-title { font-size: 32px; }
+@media (max-width: 900px) {
+  .hero-duo { flex-direction: column; align-items: stretch; justify-content: flex-start; padding: 24px; gap: 20px; }
+}
+
+/* ── 內容區淺色底（對齊參考設計：hero 之後整段是米白底色）──
+   跟 .auth-modal-box／.hero-signup 同一招：只覆寫 --bg/--bg-panel/--text
+   等 token 的「值」，套在 <main class="content-light">，子層沿用
+   var(--text)/var(--bg-panel) 等既有寫法的 .listing-*／.panel／
+   .promo-card／.about-*／.match-card／.uikit-* 等元件會自動換成淺色，
+   不必另外複寫一份淺色樣式。套用範圍是首頁與會員區以外的所有頁面
+   （slot/live/hot-games/fish/sport/mini-games/promotion/about/ui-kit）；
+   會員區(帳戶總覽/儲值/提款/各類紀錄/個人資料/安全中心等)表單/表格
+   較多,維持既有深色不動。hero 本身用 --text-on-header 與疊圖漸層,
+   不吃這幾個 token,不受影響。 */
+.content-light {
+  --bg: #f2efe6;
+  --bg-soft: #ffffff;
+  --bg-panel: #ffffff;
+  --line: #e3ded0;
+  --line-hi: #d8cfb0;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  background: var(--bg);
+  /* color 是一般屬性、繼承的是「已算好的值」而非 var() 運算式本身：
+     body 早就用 var(--text) 把自己的 color 定成深色主題那份值,子孫元素
+     沒有另外自己宣告 color 的話,繼承到的是 body 那個已經算完、不會再
+     跟著這裡改掉的 --text 重新求值的舊值。這裡明講一次 color,強迫在
+     .content-light 這層重新用（新的）--text 求值,才會整段淺色底下的
+     文字顏色一起換過來。 */
+  color: var(--text);
+}
+/* hero 外圍留白（.hero-wrap 的 padding-top）維持深色,跟 header 銜接不
+   露出一截淺色,hero 本身的疊圖內容不受影響（蓋在上面）。 */
+.content-light .hero-wrap { background: var(--header-bg); }
+/* 玩家評價卡（首頁）沿用參考設計的深色卡片對比,在淺色區塊裡局部覆寫
+   回深色。 */
+.content-light .testimonial-card {
+  --bg-panel: #1c1c1e;
+  --line: #333335;
+  --text: #f5f2ec;
+  --text-mid: #b6b1a7;
+}
+
+/* ── 首頁促銷橫幅(插在遊戲列之間,比照參考站遊戲列間穿插的雙欄促銷
+   橫幅;色底沿用既有 --accent-grad／--jackpot-a/-b 漸層,不新增任意值
+   色碼,圖示沿用站內既有手繪線條 SVG 風格) ── */
+.home-promo-strip { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; }
+.home-promo-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 84px;
+  padding: 20px 26px;
+  border-radius: var(--radius-lg);
+  color: #fff;
+  font-size: 17px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.01em;
+}
+.home-promo-banner-icon { width: 46px; height: 46px; flex-shrink: 0; opacity: 0.85; }
+.home-promo-banner-cta { flex-shrink: 0; padding: 9px 18px; border-radius: 999px; background: rgba(255, 255, 255, 0.2); font-size: 12.5px; white-space: nowrap; }
+.home-promo-banner-accent { background: var(--accent-grad); color: var(--accent-ink); }
+.home-promo-banner-accent .home-promo-banner-cta { background: rgba(0, 0, 0, 0.18); }
+.home-promo-banner-jackpot { background: linear-gradient(120deg, var(--jackpot-a) 0%, var(--jackpot-b) 100%); }
+@media (max-width: 720px) {
+  .home-promo-strip { grid-template-columns: 1fr; }
+}
+
+/* ── JACKPOT PANEL（累積獎金 widget，首頁專用，用 --jackpot-a/-b 跟主色調
+   同色系的漸層做輕微層次區隔） ── */
+.jackpot-panel {
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--jackpot-a) 0%, var(--jackpot-b) 100%);
+  box-shadow: var(--shadow-card);
+}
+.jackpot-title {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 0 14px;
+  font-size: 15px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: #fff;
+}
+.jackpot-title svg { flex-shrink: 0; color: var(--accent-hi); }
+.jackpot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.jackpot-pill {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.jackpot-pill.is-hourly { background: linear-gradient(135deg, rgba(244, 121, 31, 0.35), rgba(0, 0, 0, 0.22)); }
+.jackpot-pill-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.78); margin: 0 0 4px; }
+.jackpot-pill-value { font-size: 19px; font-weight: 900; color: #fff; margin: 0 0 4px; font-variant-numeric: tabular-nums; }
+.jackpot-pill-note { font-size: 11px; color: rgba(255, 255, 255, 0.65); margin: 0; }
+@media (max-width: 720px) { .jackpot-grid { grid-template-columns: 1fr; } }
+/* 得獎名單橫幅（首頁專用）沿用 .jackpot-panel／.jackpot-pill 的漸層卡+
+   格狀 pill 版型，只加一個 6 欄 modifier（原本固定 3 欄）與底部按鈕列。 */
+.jackpot-grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
+@media (max-width: 900px) { .jackpot-grid.cols-6 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .jackpot-grid.cols-6 { grid-template-columns: 1fr; } }
+.jackpot-panel-foot { display: flex; justify-content: flex-end; margin-top: 14px; }
+
+/* ── SECTION GRID：12 欄可編輯版位 ─────────── */
+/* 首頁遊戲分類區塊改成 12 欄 grid,每個模組用 data-span="3"~"12" 決定要
+   跨幾欄,不寫死 grid-column/grid-row——照 HTML 順序用 grid 內建的
+   auto-flow 自動接排,調 data-span 或搬動 HTML 順序就能重新編排版位,
+   不需要另外改 nth-child 規則。目前 5/4/3、9/3、12 的組合是還原改版前
+   「大欄(熱門+迷你/電子遊戲) + 固定小欄(真人娛樂/捕魚達人) + 體育滿版
+   跨欄」的版面比例。 */
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+  padding-top: 20px; padding-bottom: 40px;
+  align-items: stretch;
+}
+.grid12 > [data-span="3"] { grid-column: span 3; }
+.grid12 > [data-span="4"] { grid-column: span 4; }
+.grid12 > [data-span="5"] { grid-column: span 5; }
+.grid12 > [data-span="6"] { grid-column: span 6; }
+.grid12 > [data-span="7"] { grid-column: span 7; }
+.grid12 > [data-span="8"] { grid-column: span 8; }
+.grid12 > [data-span="9"] { grid-column: span 9; }
+.grid12 > [data-span="10"] { grid-column: span 10; }
+.grid12 > [data-span="11"] { grid-column: span 11; }
+.grid12 > [data-span="12"] { grid-column: span 12; }
+/* 版位拖曳編輯模式:只有 studio 呼叫 __cmsV6StudioSetEditMode(true) 後
+   <html> 才會帶 .cms-v6-grid-edit,一般訪客瀏覽不會看到這顆把手。 */
+.grid12-drag-handle { display: none; position: absolute; top: 8px; left: 8px; z-index: 5; width: 26px; height: 26px; border-radius: 50%; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.55); color: #fff; cursor: grab; }
+.cms-v6-grid-edit .grid12-drag-handle { display: flex; }
+.grid12-dragging { opacity: 0.4; }
+.grid12-drop-target { outline: 2px dashed var(--accent-hi); outline-offset: 4px; }
+
+/* 首頁 grid12 之後新增的「熱血開賭／得獎名單／品牌短文／玩家評價」區塊
+   統一用 flex 直向排列＋固定 gap 抓間距，取代逐一手動加 margin-top；
+   .jackpot-panel 自帶的 margin-top 在這裡改由 gap 頂替，故歸零避免疊加。 */
+.home-extra { display: flex; flex-direction: column; gap: 20px; padding-bottom: 20px; }
+.home-extra > .jackpot-panel { margin-top: 0; }
+
+/* 玩家評價卡（首頁「HEAR FROM OUR PLAYERS」）：沿用 rail 橫向捲動機制，
+   卡片本身是新元件（引號 icon + 評語 + 署名）。 */
+.tile-grid.rail.testimonial-rail { grid-auto-columns: 240px; }
+.testimonial-card {
+  height: 100%;
+  display: flex; flex-direction: column;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-card);
+}
+.testimonial-card-quote-icon { color: var(--accent-hi); margin-bottom: 10px; flex-shrink: 0; }
+.testimonial-card-text { font-size: 13px; line-height: 1.7; color: var(--text-mid); margin: 0 0 14px; flex: 1; }
+.testimonial-card-name { font-size: 12.5px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; color: var(--text); margin: 0; }
+
+/* 「Premier Online Gambling Destination」置中行銷短文（首頁專用） */
+.spotlight-block { max-width: 760px; margin: 0 auto; padding: 6px 0; text-align: center; }
+.spotlight-block-title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 10px; color: var(--text); }
+.spotlight-block-text { font-size: 13.5px; line-height: 1.8; color: var(--text-mid); margin: 0; }
+.spotlight-block-text a { color: var(--accent-hi); font-weight: 700; }
+.spotlight-block-text a:hover { color: var(--accent); }
