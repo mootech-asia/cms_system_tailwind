@@ -1,0 +1,53 @@
+/* ============================================================
+   分類頁列表元件 —— hot-games/slot/fish/mini-games/live/sport 共用的
+   搜尋列＋頁籤＋空狀態；promotion.html 只共用頁籤/標題/wrap 部分（沒有
+   搜尋框/空狀態）。.game-tile-fav/.listing-search/.listing-tab 的
+   :hover/.active 狀態原本是 Phase 1 遺留在 theme.css 的 @layer
+   components 示範版本，這裡整併進來。
+   ============================================================ */
+/* 右側留出浮動客服列的寬度,避免搜尋框/卡片被蓋住。 */
+.listing-wrap { padding-top: 20px; padding-bottom: 40px; padding-right: 92px; }
+.listing-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.listing-title { font-size: 22px; font-weight: 800; margin: 0; flex: 1; }
+.listing-search {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 6px 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: var(--color-bg-panel);
+  color: var(--color-text-dim);
+}
+.listing-search input {
+  border: 0; outline: 0; background: none;
+  width: 180px;
+  font-family: inherit; font-size: 13px; color: var(--color-text);
+}
+.listing-search input::placeholder { color: var(--color-text-dim); }
+.listing-search button {
+  padding: 7px 18px;
+  border: 1px solid var(--color-gold-hi);
+  border-radius: 999px;
+  background: var(--gold-grad);
+  color: var(--color-ink-on-gold);
+  font-size: 12.5px; font-weight: 700;
+  transition: filter 0.15s;
+}
+.listing-search button:hover { filter: brightness(1.06); }
+.listing-tabs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.listing-tab {
+  padding: 7px 18px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-bg-panel);
+  color: var(--color-text-mid);
+  font-size: 13px; font-weight: 700;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.listing-tab:hover { border-color: var(--color-gold-hi); color: var(--color-gold-deep); }
+.listing-tab.active { background: var(--gold-grad); border-color: var(--color-gold-hi); color: var(--color-ink-on-gold); }
+.listing-wrap .tile-grid.compact { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
+.listing-empty { padding: 48px 0; text-align: center; color: var(--color-text-dim); font-size: 14px; }
+
+@media (max-width: 720px) {
+  .listing-wrap { padding-right: 20px; }
+}
