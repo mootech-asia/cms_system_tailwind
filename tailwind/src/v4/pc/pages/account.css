@@ -1,0 +1,61 @@
+/* ============================================================
+   account.html 專屬 —— 帳戶總覽卡片（會員中心共用殼層見
+   ../pages/member-shell.css）。
+   ============================================================ */
+.acct-hero {
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  background: linear-gradient(135deg, var(--color-panel-tint) 0%, var(--color-bg-panel) 60%);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-card);
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.acct-avatar {
+  width: 64px; height: 64px; flex-shrink: 0;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--gold-grad);
+  color: var(--color-ink-on-gold);
+}
+.acct-avatar svg { width: 30px; height: 30px; }
+.acct-info { flex: 1; min-width: 200px; }
+.acct-name-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.acct-name { font-size: 19px; font-weight: 800; margin: 0; color: var(--color-text); }
+.acct-vip-badge { padding: 3px 10px; border-radius: 999px; background: var(--gold-grad); color: var(--color-ink-on-gold); font-size: 11.5px; font-weight: 800; }
+.acct-stats-grid { display: flex; gap: 32px; flex-wrap: wrap; }
+.acct-stat-label { font-size: 12px; color: var(--color-text-dim); margin: 0 0 2px; }
+.acct-stat-value { font-size: 17px; font-weight: 800; color: var(--color-gold-deep); margin: 0; }
+.acct-actions { display: flex; gap: 10px; flex-shrink: 0; }
+/* 會員等級/獎勵進度條:金色漸層沿用 --gold-grad,跟站內其他 CTA 一致;
+   「下一級」用 --gold-deep 標示,不是任意色碼——銅色調本身就接近既有
+   金色系,不需要另外新增 token。 */
+.acct-level { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--color-line); display: grid; gap: 8px; }
+.acct-level-label { margin: 0; color: var(--color-text-mid); font-size: 12px; font-weight: 700; }
+.acct-level-track { height: 8px; overflow: hidden; border: 1px solid var(--color-line); border-radius: 999px; background: var(--color-bg); }
+.acct-level-fill { height: 100%; border-radius: inherit; background: var(--gold-grad); transition: width 0.3s ease; }
+.acct-level-meta { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; color: var(--color-text-mid); font-size: 12px; }
+.acct-level-meta strong { color: var(--color-text); font-weight: 800; }
+.acct-level-value { color: var(--color-text-dim); text-align: center; }
+.acct-level-next { text-align: right; }
+.acct-level-next strong { color: var(--color-gold-deep); }
+.acct-level-dot { display: inline-block; width: 8px; height: 8px; margin-left: 4px; border-radius: 50%; vertical-align: 1px; }
+.acct-level-dot.current { background: var(--color-text-dim); }
+.acct-level-dot.next { background: var(--color-gold-deep); }
+@media (max-width: 400px) { .acct-level-meta { font-size: 11px; gap: 8px; } }
+
+/* 窄屏下 .acct-hero 原本的橫向 flex-wrap 排列（頭像/資訊/按鈕三塊自由
+   換行）會讓頭像因 align-items:center 飄在很高的多行內容正中間,跟旁邊
+   文字對不齊;統計數據 32px 固定 gap 換行後也長短不一、間距失控。改成
+   直向堆疊 + 統計數據用三欄等寬 grid,對齊更清楚。 */
+@media (max-width: 720px) {
+  .acct-hero { flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+  .acct-info { width: 100%; }
+  .acct-name-row { justify-content: center; }
+  /* 三欄等寬會讓「目前餘額」這種長數字擠到換行,改成餘額獨占一整行、
+     其餘兩項平分,較長的金額才有足夠寬度。 */
+  .acct-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 14px; text-align: center; }
+  .acct-stats-grid > div:first-child { grid-column: 1 / -1; }
+  .acct-stat-value { font-size: 16px; word-break: break-word; }
+  .acct-actions { width: 100%; }
+  .acct-actions .btn-gold { flex: 1; text-align: center; }
+}
