@@ -1,4 +1,4 @@
-# Phase 3 交接文件（v1.5 已完成，下一步 v4）
+# Phase 3 交接文件（v1.5／v4 已完成，下一步 v5）
 
 > 給接手這個任務的新 session 看的交接文件。這份文件本身會被 commit
 > 進 repo，新 session 一開始就能讀到。閱讀順序建議：先看 repo 根目錄
@@ -13,7 +13,8 @@
 - PR：#4 <https://github.com/mootech-asia/cms_system_tailwind/pull/4>
   （base 設在 `phase-1-design-tokens`，因為依賴它還沒合併的 token
   修正；每完成一頁/一個里程碑就更新這個 PR 的標題與內容，不開新 PR）
-- **v1.5 全 21 頁已完成**（最新 commit `8ba4d01`）。
+- **v1.5 全 21 頁已完成**；**v4 全 22 頁已完成**（最新 commit
+  `163a73e`）。
 
 ## 五階段總進度
 
@@ -21,15 +22,15 @@
 |---|---|
 | Phase 1（設計 token） | v1.5/v3/v4/v5/v6 已完成；v2 延後（PR #1，未合併） |
 | Phase 2（斷點策略） | 已定案（PR #3，未合併） |
-| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4/v5/v6：0/22；v2：0（卡在自己的 Phase 1） |
+| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5/v6：0/22；v2：0（卡在自己的 Phase 1） |
 | Phase 4（`@apply`/格式檢查） | 未開始 |
 | Phase 5（`MIGRATION.md`） | 未開始 |
 
-**下一步是開始 v4**（v4/site/live.html 是命名法定案前的試點頁，不算
-Phase 3 已完成——見本文件最後「其餘版本現況」一節），流程/方法論跟
-v1.5、v3 完全一樣，直接沿用下方「逐頁 SOP」「測試基建」。v4 沒有
-v1.5 那種「單一響應式原始碼」的特殊情況，架構更接近 v3（原始站台
-`site/`+`site-mobile/` 本來就分開）。
+**下一步是開始 v5**，流程/方法論跟 v1.5、v3、v4 完全一樣，直接沿用
+下方「逐頁 SOP」「測試基建」。開始前務必先看下方「v4 架構決策」與
+「v4 過程中新發現的問題」——`v4/site/live.html` 是命名法定案前的
+試點頁，之後 v4 正式收尾時已經整頁重做過，如果 v5/v6 也有類似的
+「命名法定案前試點頁」殘留，處理方式可以直接參考。
 
 ## 本 repo 的核心任務性質
 
@@ -241,6 +242,121 @@ class，再決定要不要搬、要不要當死代碼跳過（也要檢查 `site
 已個別 crop 比對確認差異只在跑馬燈/即時時鐘/彈窗 GIF 動畫時序，不是
 結構性問題（詳見各自的 commit message）。
 
+## v4 架構決策
+
+原始站台 `main.css` 是**桌機優先＋`max-width` 斷點**（跟 v1.5 的
+mobile-first 相反，PC/手機本來就是分開的 `site/`+`site-mobile/`，
+跟 v3 同構）。沿用 Phase 2 已定案策略：
+
+- 手機 bundle 只服務 `<720px`，把 `max-width:1080px`/
+  `max-width:720px` 的覆寫**攤平**成無條件 base 規則；真正巢狀的
+  內部斷點（`max-width:520px`/`400px`/`900px`）維持真的 `@media`
+  區塊。桌機 bundle 保留原始站台**全部** media query 不變（服務到
+  0，測試斷點固定 1440px）。
+- 手機專屬、重複出現超過一次的斷點數值（quick-rail 收窄尺寸、hero
+  高度/內距、`.about-wrap`/`.uikit-wrap` 側留白收窄值）抽成
+  `--mobile-*` 變數，宣告在 `mobile/theme.css` 的 `:root`（桌機版
+  沒有這些變數，因為用不到）。
+
+`tailwind/src/v4/{pc,mobile}/` 目錄結構：
+
+- `shell.css`：Header/QuickRail/MobileTabbar/Footer/VendorMarquee/
+  LangSwitch/MobileMenu/AuthModal/CsModal/ChatWidget。
+- `pages/cards.css`：遊戲/賽事卡片共用元件（`.game-tile*`/
+  `.match-card*`/`.rail-arrow`）。
+- `pages/index.css`、`pages/section-variants.css`：首頁專屬。
+- `pages/listing.css`：6 個電子遊戲/真人/體育清單頁共用
+  （`.listing-*`）。
+- `pages/promotion.css`：`.promo-*`。
+- `pages/member-shell.css`：會員中心殼層＋銀行卡/儲值/提款/交易
+  紀錄共用元件（`.member-*`/`.bank-row*`/`.pay-*`/`.wd-*`/
+  `.record-*`/`.rt-parlay-*`/`.form-*`），覆蓋 `account.html`、
+  `deposit.html`、`withdrawal.html`、6 個紀錄頁、
+  `change-password.html`。
+- `pages/account.css`、`pages/personal-info.css`、
+  `pages/security.css`、`pages/about.css`、`pages/ui-kit.css`：
+  各頁專屬的少量剩餘 class。
+
+## v4 過程中新發現的問題（在 v1.5 的 4 個基礎上）
+
+上面「四個影響全站的 Preflight 回歸 bug」（body line-height、
+p/h1-h6 margin、h1-h6 font-weight、svg display）**同樣適用 v4**，
+但 v4 一開始只補了下面第 5 點（v4 專屬），漏掉了 1.5 已知的那 4 個，
+因為 v4 預設可見畫面剛好沒有明顯受影響的元素，**直到
+`withdrawal.html` 的加密錢包分頁——藏在 `hidden` 屬性後面才顯形**
+（互動測試才會點開，靜態截圖測不到）。已於 v4 收尾時全部補齊並對
+所有已完成頁面回歸測試。**教訓：新版本一開始就要把已知的全站
+Preflight 回歸清單整套搬過去，不要假設「這版目前看起來沒事」。**
+
+5. **表單控制項（`button`/`input`/`select`/`textarea`）UA 預設
+   `line-height:normal` 被 Preflight 的 `font:inherit` 改成繼承
+   `body` 的 `line-height`**（v4 專屬，其他版本 body 沒設具體
+   line-height 所以不會踩到）：v4 的 `main.css` 對 body 設了具體的
+   `line-height:1.5`（不是 v1.5 那種吃瀏覽器預設 `normal` 的情況），
+   表單元件繼承後被撐高（例如 `.header-lang-trigger` 33px 變
+   36.75px）。**修法**：`@layer base` 補
+   `button, input, select, textarea { line-height: normal; }`。
+
+6. **`input[type=radio]`/`checkbox` 的 UA 預設 margin 被 Preflight
+   歸零**（`deposit.html` 優惠選項單選鈕）：main.css 沒有對這兩種
+   input 設 margin，UA 預設值（這個環境的 Chromium 實測
+   `margin:3px 3px 0px 5px`）被 `*{margin:0}` 歸零，單選鈕貼齊旁邊
+   文字，撐大文字可用寬度、換行點跟著位移（互動測試一度量到 4.5%
+   diff，點開加密錢包分頁才會顯形）。**修法**：`@layer base` 補
+   `input[type="checkbox"], input[type="radio"] { margin: 3px 3px
+   0px 5px; }`。
+
+7. **少數頁面內嵌 `style="...var(--gold)"` 這類舊變數名稱失效**：
+   顏色 token 搬進 `@theme` 後全部改用 `--color-*` 命名空間生成
+   Tailwind utility，但 `deposit.html`/`account.html`/
+   `ui-kit.html`/4 個紀錄頁的 inline style 仍直接寫舊名稱
+   （`--gold`/`--text`/`--bg` 等）——依規定 body 逐字保留不能改字，
+   不能去改 HTML。**修法**：在 `:root` 補上舊名別名回新變數
+   （`--gold: var(--color-gold)` 等），換膚時仍會正確重新解析。
+   **如果之後版本也有這種 inline `var(--舊名)` 殘留，同樣用別名
+   解法，不要動 HTML。**
+
+8. **測試腳本沒有處理會員限定頁登入態**：`deposit.html`/
+   `withdrawal.html` 等 12 個頁面（完整清單見
+   `v4/site/assets/js/site.js` 的 `MEMBER_PAGES`）是會員限定頁，
+   `initAuthGuard` 在未登入時會把整個瀏覽器 top-level 導向
+   `index.html`（studio iframe 預覽時因為 `window!==window.top` 會
+   跳過這個導向，設計後台預覽不受影響）。Playwright 直接
+   `page.goto()` 這些頁面時，因為沒有登入態，兩邊（原始／轉換版）
+   都被靜默導回 `index.html`——pixelmatch 比對到的其實是兩份
+   `index.html`，**數字好看但完全沒測到真正的頁面內容**（這是這次
+   debug 花最多力氣才發現的陷阱：`deposit.html`/`withdrawal.html`
+   一開始的 pixelmatch 數字全部正常，是因為兩邊比較的都是
+   index.html）。**修法**：新增 `tailwind/scripts/auth_seed.mjs`，
+   兩支 pixelmatch 腳本呼叫測試頁面前都會檢查該頁是否在
+   `MEMBER_PAGES` 清單裡，是的話先用 `context.addInitScript()` 寫入
+   登入用的 localStorage（`cms-v4-auth`）。**之後 v5/v6 如果也有
+   類似的會員限定頁登入導向機制，先確認 key 名稱/清單，在
+   `auth_seed.mjs` 的 `SEEDS` 物件裡加一個對應版本的 entry 即可**
+   （不用整支重寫）。**任何版本新增會員限定頁時，測試前務必先確認
+   `page.goto()` 後的 `page.url()` 有沒有被導走，不要只看 diff
+   百分比多低就信了。**
+
+## v4 完成總表（22/22，PC／手機 pixelmatch，已含上述修正後回歸）
+
+| 頁面 | PC | 手機 | 備註 |
+|---|---|---|---|
+| index.html | 0.096% | 0.145% | |
+| hot-games/slot/fish/mini-games/live.html | 0.100~0.160% | 0.151~0.171% | 6 個清單頁共用 listing.css |
+| sport.html | 0.066% | 0.145% | |
+| promotion.html | 0.000% | 0.017% | |
+| account.html | 0.039% | 0.743% | 會員卡片標題列文字 kerning + footer 雜訊 |
+| deposit.html | 0.064% | 0.412% | 互動：channel切換0.151%／金額選擇0.178% |
+| withdrawal.html | 0.055% | 0.003% | 互動：帳戶管理tab 0.177%／加密錢包分頁 0.000% |
+| betting/deposit/withdrawal-record、withdrawal-detail、account-record、profit-loss | 0.009~0.078% | 0.034~0.603% | 記錄家族 6 頁共用 member-shell.css，zero new CSS；betting-record 串關展開互動 0.188% |
+| personal-info.html | 0.075% | 0.497% | |
+| security.html | 0.069% | 0.547% | |
+| change-password.html | 0.069% | 0.453% | zero new CSS（form-* 已在 member-shell.css） |
+| about.html | 0.103% | 0.332% | 互動：分頁切換0.146%／FAQ展開0.151% |
+| ui-kit.html | 0.014% | 0.271% | 展示元件全部重用既有 CSS，zero new component CSS |
+
+全部數字遠低於雜訊上限，console 錯誤數量兩邊一致。
+
 ## 逐頁 SOP（沿用 v3 建立的方法論，適用所有版本）
 
 1. `grep -oE 'class="[^"]*"' <頁面>.html | tr ' "' '\n\n' | sort -u`
@@ -306,6 +422,11 @@ class，再決定要不要搬、要不要當死代碼跳過（也要檢查 `site
     `node scripts/pixelmatch_interact.mjs v1.5 deposit method-linepay '[data-dp-method-btn="linepay"]' 1440`。
   - 截圖/diff 圖輸出到 `tailwind/.pixelmatch-out/`（已加進
     `.gitignore`，不進版控）。
+  - `scripts/auth_seed.mjs`：兩支 pixelmatch 腳本內部都會呼叫，若
+    測試頁面在該版本的 `SEEDS[version].memberPages` 清單裡，會先
+    寫入登入用的 localStorage，避免會員限定頁被 `initAuthGuard`
+    導回首頁（見上「v4 過程中新發現的問題」第 8 點）。新版本如果有
+    類似機制，在這支腳本的 `SEEDS` 物件裡加一個 entry 即可。
   - 腳本內部重點（沿用 v3 建立的寫法，繼續維持）：
     - `probe` 階段量 `document.body.scrollHeight` 之前，**務必先等
       `<img>` 全部 `complete`**，不然大圖片還沒載入完成時量到的高度
@@ -330,7 +451,8 @@ class，再決定要不要搬、要不要當死代碼跳過（也要檢查 `site
 - `tailwind/scripts/convert_page.py`：HTML `<link>` 骨架轉換（見上，
   含 `</head>` 只取代第一個的修正）。
 - `tailwind/scripts/pixelmatch_compare.mjs`／
-  `tailwind/scripts/pixelmatch_interact.mjs`：見上「測試基建」。
+  `tailwind/scripts/pixelmatch_interact.mjs`／
+  `tailwind/scripts/auth_seed.mjs`：見上「測試基建」。
 - `tailwind/scripts/publish.mjs`：build 產物搬到各版本 `site`/
   `site-mobile` 目錄（既有，不用動）。
 - `tailwind/vite.config.js`：build entry 設定（v1.5 的 `v1_5-pc`/
@@ -346,11 +468,7 @@ class，再決定要不要搬、要不要當死代碼跳過（也要檢查 `site
 
 ## 其餘版本現況
 
-- **v4**：`tailwind/v4/site/live.html` 是很早期（命名法定案前）的
-  試點頁，用了舊的 `--bg`/`--gold-hi` 變數名，跟現在的
-  `--color-bg`/`--color-gold-hi` 不一致，之後真正開始 v4 的 Phase 3
-  時要重做這頁，不能當作已完成。
-- **v5/v6**：完全沒開始 Phase 3。
+- **v5/v6**：完全沒開始 Phase 3，下一步從 v5 開始。
 - **v2**：CSS 是舊版 Tailwind 編譯輸出＋PrimeVue 殘留（非手寫），
   沒有語意化 token 可以直接搬，需要先做自己的 Phase 1 token 工作，
   故意留到最後處理。
