@@ -1,4 +1,4 @@
-# Phase 3 交接文件（v1.5／v4／v5／v6 已完成，下一步 v2 逐頁轉換）
+# Phase 3 交接文件（v1.5／v3／v4／v5／v6／v2 全部完成）
 
 > 給接手這個任務的新 session 看的交接文件。這份文件本身會被 commit
 > 進 repo，新 session 一開始就能讀到。閱讀順序建議：先看 repo 根目錄
@@ -14,7 +14,8 @@
   （base 設在 `phase-1-design-tokens`，因為依賴它還沒合併的 token
   修正；每完成一頁/一個里程碑就更新這個 PR 的標題與內容，不開新 PR）
 - **v1.5 全 21 頁已完成**；**v4 全 22 頁已完成**；**v5 全 22 頁
-  已完成**；**v6 全 22 頁已完成**。
+  已完成**；**v6 全 22 頁已完成**；**v2 全 22 頁已完成**。六個版本
+  Phase 3 逐頁轉換**全部完成**。
 
 ## 五階段總進度
 
@@ -22,28 +23,15 @@
 |---|---|
 | Phase 1（設計 token） | v1.5/v2/v3/v4/v5/v6 **全部完成**（PR #1，未合併；v2 原本「延後」的前提是誤判，已補完，見 `TOKENS.md`） |
 | Phase 2（斷點策略） | 已定案（PR #3，未合併） |
-| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5：**22/22 完成**；v6：**22/22 完成**；v2：0（尚未開始，Phase 1 token 已就緒） |
+| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5：**22/22 完成**；v6：**22/22 完成**；v2：**22/22 完成**——**六版全數完成** |
 | Phase 4（`@apply`/格式檢查） | 未開始 |
 | Phase 5（`MIGRATION.md`） | 未開始 |
 
-**下一步是 v2 的 Phase 3（逐頁轉換）**。v2 的 Phase 1 token 已補完
-（`tailwind/src/v2/{pc,mobile}/theme.css`，見 `TOKENS.md`「v2」章節）：
-先前判斷「v2 是舊 Tailwind 編譯輸出＋PrimeVue 殘留、非手寫」是誤判，
-只看了未被任何頁面載入的死檔案 `app.css`；實際載入的 `main.css` +
-`themes/*.css` 架構跟其他版本一樣乾淨（手寫語意化 class + 人類可讀
-`:root` token），可以直接沿用下方「逐頁 SOP」「測試基建」開工，流程
-跟 v1.5/v3/v4/v5/v6 相同。v2 有 5 組換皮（`aurora`/`cosmic-pink`/
-`fashion-blue`/`noir`/`rose-graphite`，透過 `:root[data-theme='x']`
-切換）、色彩存值是「R G B」三個十進位數字（不是 hex，main.css 全站
-用 `rgb(var(--c-x) / 1)` 取值，逐字保留這個慣例，不要改寫成別的格式）。
-開工前務必先看下方 v4/v5/v6 三節「過程中新發現的問題」——尤其是 v5
-那節的「區域覆寫變數 vs 全域 --color-\* token」陷阱，跟 v6 那節的
-「手機斷點攤平時漏掉選擇器的 ancestor scope」陷阱，這兩類是目前踩過
-最貴的坑，不要重踩一次；另外 v2 的 pc/mobile theme.css 一開工就已經
-補了 `--sidebar-w`/`--mobile-nav-h` 兩個結構常數避免編譯輸出逐 byte
-相同（Vite 會把完全相同的兩個 CSS entry 去重成一個檔案，害
-`site-mobile/` 建置後缺 CSS），之後每寫一版新的 pages/*.css 都要留意
-這件事還成立。
+**Phase 3 六個版本已全數完成**，下一步是 Phase 4（`@apply`/格式檢查）
+或 Phase 5（`MIGRATION.md`），尚未開始規劃。v2 收尾時發現的
+`source(none)` 系統性問題（見下方「v2 過程中發現並修正的問題」第 19
+點）**建議在 Phase 4 一併檢查其餘 5 個版本是否也受影響**——目前只
+確認並修正了 v2，其他版本尚未逐一驗證。
 
 ## 本 repo 的核心任務性質
 
@@ -691,13 +679,157 @@ v6 開工前就直接補進 theme.css/auth_seed.mjs 了，但 v6 又踩到幾個
 問題是**同一類「Preflight vs 原始站台假設」衝突**，只是具體表現不同）。
 詳見 PR #4 的完整說明與 git log。
 
-## 其餘版本現況
+## v2 架構決策
 
-- **v2**：Phase 1 token 已完成（見 `TOKENS.md`「v2」章節），Phase 3
-  逐頁轉換尚未開始，是目前唯一還沒開始頁面轉換的版本。原本以為 v2
-  的 CSS 是舊版 Tailwind 編譯輸出＋PrimeVue 殘留（非手寫）而故意排到
-  最後，後來查證是誤判——那份判斷依據的 `app.css` 其實沒有被任何頁面
-  載入，真正使用的 `main.css`＋`themes/*.css` 架構跟其他版本一樣乾淨。
+跟 v1.5 同構（**mobile-first**：main.css base 規則本來就是手機版，
+`@media(min-width:...)` 疊加桌機覆寫），是六個版本裡除 v1.5 外唯一
+的 mobile-first 架構，其餘 v3/v4/v5/v6 都是 desktop-first（base=桌機、
+`max-width` 覆寫手機）。這個差異對逐頁轉換的實務影響：
+
+- **pc/pages/\*.css 與 mobile/pages/\*.css 逐 byte 相同，不需要
+  「攤平」手機斷點**——同一份含 `min-width` 巢狀 media query 的內容，
+  在 PC bundle（1440px 測試寬）跟手機 bundle（390px 測試寬）各自的
+  實際 viewport 下，`min-width` 判斷自然只會命中該命中的那組，
+  不像 v3~v6 desktop-first 架構需要手動把 `max-width` 覆寫「攤平」
+  成手機版的無條件基礎規則。這個結論在 v2 開工前已用 v1.5 既有的
+  `pc/pages/account.css` vs `mobile/pages/account.css`（100% byte
+  相同，314 行）驗證過。
+- 色彩存值慣例是「R G B」三個十進位數字（不是 hex），main.css 全站
+  用 `rgb(var(--c-x) / 1)` 取值，逐字保留這個慣例，不新增
+  `--color-*` 別名以外的格式轉換（`--color-*` 別名包一層
+  `rgb(var(--c-x))`，供 Tailwind utility 命名空間用）。
+- 有 5 組換皮（`aurora`/`cosmic-pink`/`fashion-blue`/`noir`/
+  `rose-graphite`，透過 `:root[data-theme='x']` 切換，Phase 1 已建立）。
+- **沒有 v4/v5/v6 那種登入導向 `initAuthGuard()` 機制**（跟 v1.5
+  一樣，`auth_seed.mjs` 的註解本身就寫明「v4 起有這個機制，v1.5
+  沒有」）——`MEMBER_PAGES`/`isMemberPage()` 只用來控制「Back」按鈕等
+  UI 顯示，不會把未登入訪客導回首頁，因此**不需要**在 `auth_seed.mjs`
+  的 `SEEDS` 物件裡加 `v2` entry。
+- main.css 開頭「Reset」區塊（4-45 行）本身就是一份逐字手抄的
+  Tailwind 風格 Preflight（`*{box-sizing:border-box}`、
+  `h1~h6{margin:0}`、`blockquote,dd,dl,figure,p,pre{margin:0}` 等），
+  代表 v2 原站本來就已經把標題/段落 margin 歸零，**不需要**像
+  v4/v5/v6 那樣額外在 `@layer base` 補回瀏覽器預設 margin。但
+  `html{font-family:...}`／`color-scheme:dark`／`tab-size:4`／
+  `-webkit-tap-highlight-color:transparent` 這幾條 Tailwind Preflight
+  沒有預設值、且 Phase 1 沒有收進 token 的，Phase 3 開工時才補進
+  `@layer base`（見下方問題 17）。
+- 沿用 v1.5/v3/v4/v5/v6 建立的 `pages/*.css` 拆檔慣例，但
+  `shell.css` 這次一開始誤放進 `pc/pages/shell.css`（其餘版本都是
+  `pc/shell.css`，跟 `pages/` 同層而非其子目錄），收尾前已改正並同步
+  `mobile/shell.css`。
+
+## v2 過程中發現並修正的問題（接續 v6 的第 16 點編號）
+
+17. **main.css 有些「Tailwind Preflight 沒有預設值」的 html 層級
+    規則，Phase 1 沒收進 token**：`--font-display`（對應 main.css
+    Reset 區塊的 `html{font-family:'Pretendard',...}`）Phase 1 完全
+    沒建，Phase 3 開工才補進 `theme.css` 的 `:root` 加 `@layer base`
+    （`html{font-family:var(--font-display);color-scheme:dark;
+    tab-size:4;-webkit-tap-highlight-color:transparent}`）。**教訓**：
+    Phase 1 核對 token 時，除了顏色/字級/圓角這類「有名字的變數」，
+    也要核對 main.css Reset 區塊裡 `html`/`body` 選擇器本身的宣告，
+    這些沒有變數名稱、容易被忽略，但一樣是「全站視覺參數」。
+18. **CSS `url()` 相對路徑在巢狀 `pages/` 目錄下被 Vite bundler
+    重新計算，多算掉一層 `../`**：cards.css 裡
+    `.game-listing-card-media.is-broken { background-image:
+    url(../game-fallback.svg); }` 逐字照抄自 main.css（相對於
+    `assets/css/main.css` 這一層，`../` 正確指向 `assets/
+    game-fallback.svg`）。但 cards.css 實際檔案位置是
+    `tailwind/src/v2/pc/pages/cards.css`，比 `theme.css`
+    （`tailwind/src/v2/pc/theme.css`）多一層 `pages/` 目錄，Vite
+    在把 `@import` 進來的內容內聯進最終 bundle 時，會把這個
+    「build-time 無法解析」的 url() 依「來源檔案相對於 entry
+    theme.css 的目錄深度」重新計算一次——多出的那層 `pages/` 目錄
+    導致算出來的最終路徑少了一層 `../`（變成
+    `assets/css/game-fallback.svg`，實際檔案在
+    `assets/game-fallback.svg`，404）。**影響**：只有觸發
+    `site.js` 圖片載入失敗回退（`.is-broken` + `[hidden]`）時才會
+    顯形——hot-games/slot/fish/mini-games.html 用外部 pexels.com
+    縮圖，這個測試環境連不上外部圖床，每張圖都會觸發回退，因此在
+    這幾頁被抓到；但原站本身圖片全部載入失敗時本來就會顯示同一顆
+    fallback SVG，兩邊都會觸發、只是路徑算法不同才產生落差。
+    **修正**：改寫成 `url(../../game-fallback.svg)`，多寫一層
+    `../` 抵銷 `pages/` 目錄多出的深度，並不是把原始 main.css 的
+    值直接照抄就好，逐字搬移的路徑要換算成新檔案的實際層級。
+    **教訓**：main.css 裡任何 `url()` 相對路徑寫進新的 `pages/*.css`
+    子目錄檔案時，都要重新換算「檔案實際存放深度」，抄完後務必找一個
+    真的會觸發該分支（例如強制圖片 404）的頁面驗證，不能只看
+    `npm run build` 的「unresolved, left unchanged」警告字面上的路徑
+    字串是否「看起來合理」。
+19. **Tailwind 自動掃描到 HTML 裡「巧合同名」的死 class，讓它們從
+    原站的死重量變成真的有作用的樣式**：main.css 從未定義
+    `.text-xs`/`.flex`/`.gap-1`/`.items-center`/`.justify-center`/
+    `.leading-tight`/`.ml-1`/`.ml-auto`/`.mt-8`/`.text-sm`/
+    `.cursor-pointer`/`.whitespace-nowrap` 這些 class（`ui-kit.html`
+    示範文字的 `<span class="text-xs font-semibold">`、record 家族
+    頁面表格內的 `class="flex items-center gap-1"` 等，都是原始
+    Vue→靜態站轉換遺留的死重量，原站瀏覽器直接忽略、毫無視覺效果）。
+    但 `tailwind/src/v2/{pc,mobile}/theme.css` 的
+    `@import "tailwindcss"` 預設會自動掃描專案內的 HTML/JS 找
+    class 使用紀錄，**這些名字剛好都是合法的 Tailwind utility
+    語法**，於是被自動產生成真正有作用的樣式，跟原站行為不一致
+    （`ui-kit.html` 手機寬度一度因為 `.text-xs` 真的把文字縮小、
+    造成一行文字提早換行，累積出 24px 的高度落差、4.49% diff 先
+    抓到這個問題；系統性排查後在 record 家族頁面等處還找到其餘
+    11 個同類巧合）。**修正**：把兩份 `theme.css` 的
+    `@import "tailwindcss";` 改成
+    `@import "tailwindcss" source(none);`，關掉自動掃描——v2 本來就
+    是逐字手動搬移 main.css 樣式到 `pages/*.css`，不依賴 Tailwind
+    自動產生任何 utility class，關閉掃描後編譯體積還縮小約 4%
+    （135.8kB → 130.0kB），純屬移除誤生成的死重量。**教訓／待辦**：
+    這是「Tailwind 自動內容偵測」跟「逐字保留死代碼」這條專案鐵則
+    天生衝突的系統性問題，**不是 v2 獨有**——v1.5/v3/v4/v5/v6 的
+    `theme.css` 目前都還是 `@import "tailwindcss";`（沒有
+    `source(none)`），理論上任何一版的 HTML 只要有巧合同名的死
+    class，就會踩到同一個問題，只是還沒被對應的測試頁面抓到。
+    建議在 Phase 4 或下一次維護時，對其餘 5 個版本比照這次的排查
+    方法（列出「HTML 用到但版本自己的 `pages/*.css` 沒定義」的
+    class 集合，逐一比對編譯後 bundle 是否意外產生了同名 utility）
+    做一次全面複查。
+20. **`shell.css` 檔案位置放錯目錄層級**：v1.5/v3/v4/v5/v6 都是
+    `pc/shell.css`／`mobile/shell.css`（跟 `pages/` 同層），v2 開工
+    時誤放成 `pc/pages/shell.css`／`mobile/pages/shell.css`，直到
+    要接 `theme.css` 的 `@import` chain、比對其他版本目錄結構時才
+    發現並移正。**教訓**：新版本開工前，先用 `ls` 看一眼其他已完成
+    版本的 `src/vN/pc/` 目錄結構，不要只憑記憶或猜測建立新檔案的
+    路徑。
+
+## v2 完成總表（22/22，PC／手機 pixelmatch，已含上述修正後回歸）
+
+| 頁面 | PC | 手機 | 備註 |
+|---|---|---|---|
+| index.html | 0.121% | 0.000% | |
+| hot-games/slot/fish/mini-games.html | 0.184~0.372% | 0.294~0.702% | 4 個清單頁共用 cards.css；雜訊主要來自外部 pexels 縮圖全部載入失敗、fallback SVG 圖示在多張卡片重複出現的疊加抗鋸齒雜訊（見問題 18 修正後仍殘留的正常雜訊） |
+| live.html | 0.011% | 0.016% | |
+| sport.html | 0.011% | 0.019% | |
+| promotion.html | 0.120% | 0.339% | 含 site.js 動態插入的 promotion-detail-* 詳情彈窗 |
+| about.html（含 `?tab=faq`） | 0.004% | 0.000% | FAQ 手風琴互動已驗證 |
+| account.html | 0.003% | 0.000% | |
+| personal-info.html | 0.004% | 0.000% | |
+| security.html | 0.004% | 0.000% | |
+| change-password.html | 0.004% | 0.000% | |
+| deposit.html | 0.003% | 0.000% | |
+| withdrawal.html | 0.038% | 0.088% | 含 `?tab=management` 銀行/錢包管理面板 |
+| withdrawal-detail.html | 0.005% | 0.000% | |
+| account-record/betting-record/deposit-record/profit-loss/withdrawal-record.html | 0.004~0.008% | 0.000~0.013% | 記錄家族 5 頁共用 records.css；betting-record 串關展開互動已驗證 |
+| ui-kit.html | 0.024% | 0.007% | 曾因問題 17/19 疊加一度 2.02%(PC)/5.59%(手機)，已修正 |
+
+全部數字遠低於雜訊上限，console 錯誤數量兩邊一致（僅環境層級的外部
+資源連線失敗/game-fallback.svg 404 這類本次已修正的項目，orig/new
+兩邊現在一致）。互動測試涵蓋：auth modal 開關、語系 dd-panel 下拉、
+sport.html 搜尋輸入＋分頁、deposit.html mode-tabs/payment-tabs 切換、
+withdrawal.html 帳戶管理面板、betting-record 串關展開、
+account-record 日期區間彈出行事曆、skin switcher 換膚（`data-theme`
+切換）、hot-games.html 收藏愛心、account.html 側欄導覽——全部行為
+與原站一致、無新增 console 錯誤。
+
+其餘 v1.5/v3/v4/v5/v6 版本經抽測（v4/account.html、v5/index.html、
+v6/index.html 維持原本驗收數字；v1.5/v3 的 index.html 因跑馬燈/
+輪播動畫擷取時機關係，同一頁重跑兩次 diff 數字會在 0.2~2.2% 之間
+浮動，屬於已知的時序雜訊，非本次 v2 改動造成的迴歸——本次 v2 的
+改動範圍完全侷限在 `tailwind/src/v2/`、`tailwind/v2/` 底下，未觸及
+其他版本任何檔案）確認未受影響。
 
 ## 環境須知
 

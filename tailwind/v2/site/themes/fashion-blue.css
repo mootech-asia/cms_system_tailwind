@@ -1,0 +1,66 @@
+/* ============================================================
+   Fashion Blue 皮膚 — 時尚藍：石墨黑基底、電光藍主色、冰藍高光。
+   結構逐一對照 win100.css；狀態色保留香檳金、薄荷綠與珊瑚紅，
+   避免介面落入單一藍色色階。
+   套用方式：<html data-theme="fashion-blue">。
+   ============================================================ */
+:root[data-theme='fashion-blue'] {
+  /* ---- 主色(R G B) ---- */
+  --c-primary: 93 169 255;       /* #5DA9FF 電光藍 */
+  --c-primary-soft: 199 230 255; /* #C7E6FF 冰藍 */
+  --c-primary-faint: 29 53 82;   /* #1D3552 */
+  --c-on-primary: 7 17 31;       /* #07111F */
+  --c-accent: 119 227 232;       /* #77E3E8 冰青 */
+
+  /* ---- 面板(石墨黑與藍灰) ---- */
+  --c-bg: 8 12 18;          /* #080C12 */
+  --c-surface: 17 25 37;    /* #111925 */
+  --c-surface-2: 29 42 58;  /* #1D2A3A */
+  --c-border: 61 82 110;    /* #3D526E */
+  --c-border-soft: 29 43 61; /* #1D2B3D */
+  --c-disabled: 83 100 122; /* #53647A */
+
+  /* ---- 文字四階 ---- */
+  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-text-2: 216 227 239; /* #D8E3EF */
+  --c-text-3: 151 170 192; /* #97AAC0 */
+  --c-text-4: 102 121 144; /* #667990 */
+
+  /* ---- 狀態/強調 ---- */
+  --c-danger: 255 122 138; /* #FF7A8A 珊瑚紅 */
+  --c-scrim: 0 0 0;
+  --c-success: 88 214 167; /* #58D6A7 薄荷綠 */
+  --c-gold: 234 203 129;   /* #EACB81 香檳金 */
+
+  /* ---- 漸層 / 陰影 ---- */
+  --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
+  --g-hero: linear-gradient(90deg, #081220 0%, #145EBD 56%, #70D4E8 100%);
+  --shadow-mint: 0 8px 24px rgb(var(--c-primary) / .24);
+
+  /* ---- PrimeVue ramp:primary 50–950 ---- */
+  --c-primary-50: 240 248 255;
+  --c-primary-100: 224 241 255;
+  --c-primary-200: 199 230 255;
+  --c-primary-300: 158 211 255;
+  --c-primary-400: 116 190 255;
+  --c-primary-500: 93 169 255;
+  --c-primary-600: 67 145 235;
+  --c-primary-700: 49 116 204;
+  --c-primary-800: 42 92 163;
+  --c-primary-900: 38 76 132;
+  --c-primary-950: 20 42 78;
+
+  /* ---- PrimeVue ramp:surface 0–950 ---- */
+  --c-surface-0: 255 255 255;
+  --c-surface-50: 216 227 239;
+  --c-surface-100: 151 170 192;
+  --c-surface-200: 102 121 144;
+  --c-surface-300: 83 100 122;
+  --c-surface-400: 61 82 110;
+  --c-surface-500: 29 42 58;
+  --c-surface-600: 23 34 48;
+  --c-surface-700: 29 43 61;
+  --c-surface-800: 17 25 37;
+  --c-surface-900: 8 12 18;
+  --c-surface-950: 4 7 11;
+}

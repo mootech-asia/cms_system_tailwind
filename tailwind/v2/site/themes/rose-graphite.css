@@ -1,0 +1,66 @@
+/* ============================================================
+   Rose Graphite 皮膚 — 石墨黑基底、柔霧玫瑰主色、冷調青綠輔色。
+   文字使用高對比珍珠白階，狀態色保留薄荷綠、警示紅與香檳金，
+   讓表單、訊息與操作狀態清晰分離，不落入單一粉色色階。
+   套用方式:<html data-theme="rose-graphite">。
+   ============================================================ */
+:root[data-theme='rose-graphite'] {
+  /* ---- 主色(R G B) ---- */
+  --c-primary: 242 154 184;      /* #F29AB8 柔霧玫瑰 */
+  --c-primary-soft: 255 212 225; /* #FFD4E1 珍珠粉 */
+  --c-primary-faint: 83 49 66;   /* #533142 */
+  --c-on-primary: 36 17 26;      /* #24111A */
+  --c-accent: 125 226 209;       /* #7DE2D1 冷調青綠 */
+
+  /* ---- 面板(中性石墨階) ---- */
+  --c-bg: 12 14 18;          /* #0C0E12 */
+  --c-surface: 24 27 33;     /* #181B21 */
+  --c-surface-2: 38 42 50;   /* #262A32 */
+  --c-border: 70 75 88;      /* #464B58 */
+  --c-border-soft: 39 43 52; /* #272B34 */
+  --c-disabled: 91 96 108;   /* #5B606C */
+
+  /* ---- 文字四階(珍珠白至冷灰) ---- */
+  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-text-2: 228 226 232; /* #E4E2E8 */
+  --c-text-3: 174 171 182; /* #AEABB6 */
+  --c-text-4: 125 122 134; /* #7D7A86 */
+
+  /* ---- 狀態/強調:與主色刻意拉開色相 ---- */
+  --c-danger: 255 107 121; /* #FF6B79 */
+  --c-scrim: 0 0 0;
+  --c-success: 91 218 166; /* #5BDAA6 */
+  --c-gold: 235 199 126;   /* #EBC77E */
+
+  /* ---- 漸層 / 陰影 ---- */
+  --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
+  --g-hero: linear-gradient(90deg, #55233F 0%, #D65F89 55%, #7DE2D1 100%);
+  --shadow-mint: 0 8px 24px rgb(var(--c-primary) / .22);
+
+  /* ---- PrimeVue ramp:primary 50–950 ---- */
+  --c-primary-50: 255 247 250;
+  --c-primary-100: 255 235 242;
+  --c-primary-200: 255 212 225;
+  --c-primary-300: 250 184 205;
+  --c-primary-400: 246 166 191;
+  --c-primary-500: 242 154 184;
+  --c-primary-600: 221 126 158;
+  --c-primary-700: 193 95 132;
+  --c-primary-800: 157 72 106;
+  --c-primary-900: 125 56 84;
+  --c-primary-950: 78 31 51;
+
+  /* ---- PrimeVue ramp:surface 0–950 ---- */
+  --c-surface-0: 255 255 255;
+  --c-surface-50: 228 226 232;
+  --c-surface-100: 174 171 182;
+  --c-surface-200: 125 122 134;
+  --c-surface-300: 91 96 108;
+  --c-surface-400: 70 75 88;
+  --c-surface-500: 38 42 50;
+  --c-surface-600: 32 35 42;
+  --c-surface-700: 39 43 52;
+  --c-surface-800: 24 27 33;
+  --c-surface-900: 12 14 18;
+  --c-surface-950: 7 8 11;
+}

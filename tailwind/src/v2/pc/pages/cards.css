@@ -1,0 +1,198 @@
+/* ============================================================
+   v2（WIN100）遊戲卡／廠商卡／賽事卡／分類頁 hero banner —— 跨頁重用
+   元件（首頁 rail 預覽 + hot-games/slot/live/fish/mini-games/sport
+   清單頁 + promotion.html 共用）。桌機/手機共用同一份內容（見
+   shell.css 檔頭關於 mobile-first 架構的說明）。
+   ============================================================ */
+
+/* ── Game card（rail item；首頁與各清單頁重用）── */
+.game-rail { display: flex; overflow-x: auto; gap: 0.75rem; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; }
+.game-card { flex-shrink: 0; width: 130px; scroll-snap-align: start; cursor: pointer; }
+@media (min-width: 768px) { .game-card { width: 150px; } }
+.game-card-media { position: relative; border-radius: 0.75rem; overflow: hidden; background-color: rgb(var(--c-surface) / 1); height: 170px; }
+.game-card-img { width: 100%; height: 100%; object-fit: cover; transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.3s; }
+.game-card:hover .game-card-img { transform: scale(1.05); }
+.game-card-boost { position: absolute; top: 0.5rem; left: 0.5rem; background-color: rgb(var(--c-scrim) / 0.7); color: rgb(var(--c-text) / 1); font-size: 10px; padding: 0.125rem 0.5rem; border-radius: 0.25rem; }
+.game-card-overlay {
+  position: absolute; inset: 0; background-color: rgb(var(--c-scrim) / 0.4); opacity: 0; display: flex; align-items: center; justify-content: center;
+  transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s;
+}
+.game-card:hover .game-card-overlay { opacity: 1; }
+.game-card-play-btn { background-image: var(--g-primary); color: rgb(var(--c-on-primary) / 1); font-size: 0.75rem; line-height: 1rem; padding: 0.375rem 0.75rem; border-radius: 0.5rem; }
+.game-card-info { margin-top: 0.375rem; }
+.game-card-name { color: rgb(var(--c-text) / 1); font-size: 0.75rem; line-height: 1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.game-card-provider { color: rgb(var(--c-text-4) / 1); font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── Category listing grid（hot-games/slot/live/fish/mini-games 清單頁
+   共用外殼；卡片本身跟首頁 game-card 是不同元件，用完整縮圖+價位牌） ── */
+.game-listing-section { padding: 2rem 0; background-color: rgb(var(--c-bg) / 1); min-height: 400px; }
+.game-listing-section > .app-container { padding-left: 1rem; padding-right: 1rem; }
+.game-listing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+@media (min-width: 768px) { .game-listing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .game-listing-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.game-listing-card {
+  overflow: hidden; border-radius: 0.5rem; border: 1px solid rgb(var(--c-border-soft) / 1); background-color: rgb(var(--c-surface) / 1); cursor: pointer;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s;
+}
+.game-listing-card:hover { border-color: rgb(var(--c-primary) / 1); }
+.game-listing-card-media { position: relative; overflow: hidden; aspect-ratio: 4 / 3; }
+.game-listing-card-img { height: 100%; width: 100%; object-fit: cover; transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.5s; }
+.game-listing-card:hover .game-listing-card-img { transform: scale(1.05); }
+/* 圖片載入失敗時 site.js 會設 hidden 並掛 .is-broken；Tailwind preflight
+   的 img{display:block} 是較低 specificity 的 reset，這條才擋得住。 */
+.game-listing-card-img[hidden] { display: none; }
+.game-listing-card-media.is-broken { background-image: url(../../game-fallback.svg); background-size: cover; background-position: center; }
+.game-listing-card-body { padding: 1rem; }
+.game-listing-card-name { margin-bottom: 0.25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgb(var(--c-text) / 1); }
+.game-listing-card-provider { margin-bottom: 0.75rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-caption); line-height: var(--lh-body); color: rgb(var(--c-text-3) / 1); }
+.game-listing-card-body .btn-primary { width: 100%; }
+.game-listing-card-live-scrim { position: absolute; inset: 0; background-image: linear-gradient(to top, rgb(var(--c-bg) / 0.65) 0%, transparent 50%, transparent 100%); }
+.game-listing-card-live-badge {
+  position: absolute; left: 0.5rem; top: 0.5rem; display: inline-flex; align-items: center; gap: 0.375rem;
+  border-radius: 9999px; border: 1px solid rgb(var(--c-border) / 1); background: rgb(var(--c-bg) / 0.9);
+  padding: 0.25rem 0.5rem; font-size: 10px; font-weight: 800; letter-spacing: 0.12em; color: rgb(var(--c-text) / 1);
+}
+
+/* ── Vendor browser（favorites toggle / back / load-more / tabs）── */
+.fav-toggle {
+  position: absolute; right: 8px; bottom: 8px; z-index: 2; display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 999px; border: 1px solid rgb(var(--c-border-soft)); background-color: rgb(var(--c-bg) / 0.72);
+  color: rgb(var(--c-text-3)); cursor: pointer; transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+.fav-toggle svg { width: 16px; height: 16px; }
+.fav-toggle:hover { color: rgb(var(--c-primary)); border-color: rgb(var(--c-primary)); }
+.fav-toggle.is-active { color: rgb(var(--c-primary)); border-color: rgb(var(--c-primary) / 0.5); }
+.fav-toggle.is-active svg { fill: currentColor; }
+.fav-empty { grid-column: 1 / -1; padding: 64px 16px; text-align: center; font-size: 14px; color: rgb(var(--c-text-3)); }
+.mode-tabs.vnd-tabs { max-width: none; margin-left: 0; margin-right: auto; }
+.vnd-back-wrap { padding-bottom: 18px; }
+
+.vnd-head { display: flex; flex-direction: column; gap: 16px; margin-bottom: 26px; }
+@media (min-width: 768px) { .vnd-head { flex-direction: row; align-items: center; justify-content: space-between; } }
+.vnd-title { color: rgb(var(--c-text) / 1); font-size: 26px; font-weight: 800; margin: 0; }
+.vnd-title.vnd-title-inline { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.vnd-provider-badge {
+  border-color: rgb(var(--c-primary) / 0.3); background-color: rgb(var(--c-primary) / 0.1); color: rgb(var(--c-primary) / 1);
+  display: inline-flex; align-items: center; justify-content: center; min-height: 28px; padding: 5px 12px;
+  border-radius: 999px; border-width: 1px; font-size: 14px; font-weight: 800; line-height: 1;
+}
+.vnd-search { position: relative; display: flex; gap: 10px; }
+.vnd-search input {
+  border-color: rgb(var(--c-border) / 1); background-color: rgb(var(--c-surface) / 1); color: rgb(var(--c-text) / 1);
+  border-width: 1px; border-radius: 10px; padding: 11px 14px 11px 38px; outline: none; min-width: 220px;
+}
+.vnd-search input:focus { border-color: rgb(var(--c-primary) / 1); }
+.vnd-search .s-icon { color: rgb(var(--c-text-3) / 1); position: absolute; left: 13px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; }
+.vnd-search .s-btn { background-image: var(--g-primary); color: rgb(var(--c-on-primary) / 1); border: 0; border-radius: 10px; padding: 0 20px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.vnd-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 16px; }
+@media (min-width: 640px) { .vnd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .vnd-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.vnd-card {
+  position: relative; display: flex; align-items: center; justify-content: center; height: 112px; min-height: 136px;
+  isolation: isolate; border-radius: 14px; border: 1px solid rgb(var(--c-card-border)); overflow: hidden; cursor: pointer;
+  background: rgb(var(--c-card-face-2)); transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.vnd-card:hover { border-color: rgb(var(--c-primary) / 1); transform: translateY(-2px); box-shadow: 0 10px 26px #00000073; }
+.vnd-card:focus-visible { outline: 2px solid rgb(var(--c-primary)); outline-offset: 3px; }
+.vnd-card-media { position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover; filter: saturate(0.82) contrast(1.08) brightness(0.76); transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.5s; }
+.vnd-card:hover .vnd-card-media { transform: scale(1.05); }
+.vnd-card-scrim { background: linear-gradient(180deg, rgb(var(--c-scrim) / 0.08) 0, rgb(var(--c-bg) / 0.62) 58%, rgb(var(--c-bg) / 0.96)); }
+.vnd-card .vnd-name {
+  color: rgb(var(--c-text) / 1); padding: 0 16px; text-align: center; font-size: 20px; font-weight: 800; line-height: 1.2;
+  letter-spacing: 0.01em; text-shadow: 0 2px 14px rgb(var(--c-scrim) / 0.9);
+}
+.vnd-card-body { position: relative; z-index: 1; display: flex; height: 100%; width: 100%; flex-direction: column; align-items: center; justify-content: flex-end; gap: 0.5rem; padding: 1rem; }
+.vnd-card-live-badge {
+  display: inline-flex; align-items: center; gap: 0.375rem; border-radius: 9999px; border: 1px solid rgb(var(--c-border) / 1);
+  background: rgb(var(--c-bg) / 0.85); padding: 0.25rem 0.625rem; font-size: 10px; font-weight: 800; letter-spacing: 0.14em; color: rgb(var(--c-text-2) / 1);
+}
+.vnd-card-live-dot { height: 0.375rem; width: 0.375rem; border-radius: 9999px; background-color: rgb(var(--c-danger) / 1); animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@keyframes pulse { 50% { opacity: 0.5; } }
+
+/* ── 賽事卡（首頁 live-sport rail 預覽 + sport.html 完整清單共用）── */
+.match-rail { display: flex; overflow-x: auto; gap: 0.75rem; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; }
+.match-card {
+  flex-shrink: 0; scroll-snap-align: start; cursor: pointer; background-color: rgb(var(--c-surface) / 1);
+  border: 1px solid rgb(var(--c-border-soft) / 1); border-radius: 0.75rem; min-width: 220px;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s;
+}
+.match-card:hover { border-color: rgb(var(--c-primary) / 1); }
+.match-card-body { padding: 1rem; }
+.match-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+.match-card-league { color: rgb(var(--c-text-4) / 1); font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
+.match-card-live-badge {
+  display: flex; align-items: center; gap: 0.25rem; font-size: 10px;
+  background-color: rgb(var(--c-danger) / 0.2); color: rgb(var(--c-danger) / 1);
+  border: 1px solid rgb(var(--c-danger) / 0.3); padding: 0.125rem 0.375rem; border-radius: 0.25rem;
+}
+.match-card-live-icon { width: 0.625rem; height: 0.625rem; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.match-card-teams { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 1rem; }
+.match-card-team { display: flex; flex-direction: column; align-items: center; gap: 0.375rem; flex: 1 1 auto; }
+.match-card-team-badge {
+  width: 2.25rem; height: 2.25rem; border-radius: 9999px; background-color: rgb(var(--c-bg) / 1);
+  border: 1px solid rgb(var(--c-border) / 1); display: flex; align-items: center; justify-content: center;
+}
+.match-card-team-code { font-size: 10px; color: rgb(var(--c-text-2) / 1); font-weight: 600; }
+.match-card-team-name { color: rgb(var(--c-text) / 1); font-size: 10px; text-align: center; line-height: 1.25; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; min-height: 2.5em; }
+.match-card-score-wrap { text-align: center; flex-shrink: 0; }
+.match-card-score { color: rgb(var(--c-primary) / 1); font-size: 1.25rem; line-height: 1; font-weight: 700; }
+.match-card-status { color: rgb(var(--c-text-4) / 1); font-size: 10px; margin-top: 0.125rem; }
+.match-card-cta {
+  width: 100%; padding: 0.375rem 0; border-radius: 0.5rem; font-size: 0.75rem; line-height: 1rem;
+  color: rgb(var(--c-on-primary) / 1); background-image: var(--g-primary);
+  transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s;
+}
+.match-card-cta:hover { opacity: 0.9; }
+
+/* ── Category page hero banner（promotion/hot-games/slot/fish/live/sport/
+   mini-games 清單頁共用大圖 banner） ── */
+.category-hero-media {
+  position: relative; overflow: hidden; background-image: var(--g-hero); padding: 4rem 0;
+  min-height: 300px; background-color: rgb(var(--c-bg)); border-block: 2px solid rgb(var(--c-primary) / 0.62); isolation: isolate;
+}
+@media (min-width: 768px) { .category-hero-media { padding: 5rem 0; } }
+.category-hero-image, .operation-banner-media, .operation-promo-media, .operation-promo-poster-media {
+  filter: saturate(1.32) contrast(1.2) brightness(1.04);
+  transition: filter 0.32s ease, transform 0.7s ease;
+}
+.category-hero-image { position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover; transform: scale(1.02); }
+.operation-banner-media { transform: scale(1.015); }
+.operation-promo-poster-media { opacity: 0.22; filter: saturate(0.72) contrast(1.12); }
+.operation-banner-scrim {
+  background: radial-gradient(circle at 78% 52%, rgb(var(--c-primary) / 0.16), transparent 34%),
+    linear-gradient(90deg, rgb(var(--c-bg) / 0.98) 0, rgb(var(--c-bg) / 0.88) 27%, rgb(var(--c-bg) / 0.45) 48%, rgb(var(--c-scrim) / 0.08) 72%, rgb(var(--c-scrim) / 0.18));
+}
+.category-hero-scrim {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 76% 52%, rgb(var(--c-primary) / 0.28), transparent 32%),
+    linear-gradient(90deg, rgb(var(--c-bg) / 0.88) 0, rgb(var(--c-bg) / 0.66) 38%, rgb(var(--c-surface) / 0.18) 66%, rgb(var(--c-scrim) / 0.22));
+  box-shadow: inset 0 1px rgb(var(--c-primary) / 0.52), inset 0 -1px rgb(var(--c-primary) / 0.48), inset 0 -24px 54px rgb(var(--c-primary) / 0.08);
+}
+.category-hero-content {
+  min-height: inherit; position: relative; z-index: 10; display: flex; flex-direction: column; justify-content: center;
+  text-align: left; padding: 0 1.5rem;
+}
+@media (min-width: 768px) { .category-hero-content { padding: 0 3rem; } }
+@media (min-width: 1280px) { .category-hero-content { padding: 0 4rem; } }
+.category-hero-eyebrow {
+  margin-bottom: 0.75rem; font-size: var(--fs-caption); line-height: var(--lh-body); font-weight: 700; letter-spacing: var(--ls-wide);
+  color: rgb(var(--c-primary-soft) / 1); width: fit-content; padding: 7px 12px; border: 1px solid rgb(var(--c-primary) / 0.56); border-radius: 4px;
+  background: rgb(var(--c-bg) / 0.58); box-shadow: 0 0 20px rgb(var(--c-primary) / 0.16); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.category-hero-title {
+  max-width: 900px; font-style: italic; text-transform: uppercase; letter-spacing: 0; color: rgb(var(--c-text) / 1);
+  font-size: 2.25rem; line-height: 2.5rem; font-weight: 800;
+  text-shadow: 0 3px 0 rgb(var(--c-bg) / 0.92), 0 0 18px rgb(var(--c-primary) / 0.76), 0 0 46px rgb(var(--c-primary) / 0.42);
+}
+@media (min-width: 768px) { .category-hero-title { font-size: 4.5rem; line-height: 1; } }
+.category-hero-title-break { display: block; }
+@media (min-width: 768px) { .category-hero-title-break { display: inline; } }
+@media (max-width: 767px) {
+  .category-hero-media { min-height: 220px; }
+  .category-hero-scrim {
+    background: linear-gradient(180deg, rgb(var(--c-scrim) / 0.06), rgb(var(--c-bg) / 0.62)),
+      linear-gradient(90deg, rgb(var(--c-bg) / 0.86) 0, rgb(var(--c-bg) / 0.62) 64%, rgb(var(--c-scrim) / 0.22));
+  }
+  .category-hero-title { max-width: 88%; }
+}

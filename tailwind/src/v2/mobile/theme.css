@@ -1,4 +1,10 @@
-@import "tailwindcss";
+/* source(none)：main.css 逐字搬移，樣式全部來自本檔案 + ../pages/*.css
+   手寫規則，不依賴 Tailwind 自動掃描 HTML 產生的 utility class——關掉
+   自動掃描，避免 HTML 裡跟 main.css 無關、原站沒作用的「巧合同名」
+   class（例如 ui-kit.html 示範文字用的 text-xs/flex/gap-1，main.css
+   從未定義、原站是死重量）被 Tailwind 認出來變成有作用的真樣式，
+   跟原站渲染不一致（ui-kit.html 手機寬度先踩到這個問題）。 */
+@import "tailwindcss" source(none);
 
 /* ============================================================
    v2（WIN100）design token —— 手機版。桌機版另見
@@ -26,6 +32,10 @@
   /* ---- 結構常數（main.css `.mobile-bottom-nav-grid` 的 height，
      底部導覽列在 min-width:768px 隱藏，跟桌機版 `--sidebar-w` 二擇一） ---- */
   --mobile-nav-h: 4rem;
+
+  /* ---- 全站字體（main.css Reset 區塊 html{font-family:...}，Phase 1
+     時漏掉，Phase 3 補上） ---- */
+  --font-display: 'Pretendard', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   /* ---- 字級階梯(7 階) ---- */
   --fs-display: 30px;
@@ -396,3 +406,40 @@
   --leading-body: var(--lh-body);
   --radius-ui: 10px;
 }
+
+/* main.css Reset 區塊（html{...}）裡，Tailwind Preflight 沒有預設值、
+   且會影響實際渲染的幾條，逐字保留；main.css 本身已經把 p/h1-h6
+   margin 歸零（跟 Tailwind Preflight 行為一致），不像 v4/v5/v6 需要
+   額外補回瀏覽器預設 margin，這裡不需要那組修正。 */
+@layer base {
+  html {
+    font-family: var(--font-display);
+    color-scheme: dark;
+    tab-size: 4;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* main.css 沒有針對 code/kbd/samp/pre 的規則，走純瀏覽器預設
+     font-family:monospace；Tailwind Preflight 改設一組
+     ui-monospace/SFMono-Regular/... 字型堆疊，跟瀏覽器預設 monospace
+     的實際字重/行高量測不同，混排在同一行內文字時會讓該行 line box
+     多撐出 1px（ui-kit.html 的 <code> 範例文字先發現）——改回瀏覽器
+     預設，不用 Tailwind 那組。 */
+  code, kbd, samp, pre {
+    font-family: monospace;
+  }
+}
+
+@import "./shell.css";
+@import "./pages/cards.css";
+@import "./pages/index.css";
+@import "./pages/listing.css";
+@import "./pages/promotion.css";
+@import "./pages/deposit.css";
+@import "./pages/withdrawal.css";
+@import "./pages/records.css";
+@import "./pages/account.css";
+@import "./pages/personal-info.css";
+@import "./pages/security.css";
+@import "./pages/change-password.css";
+@import "./pages/about.css";
+@import "./pages/ui-kit.css";

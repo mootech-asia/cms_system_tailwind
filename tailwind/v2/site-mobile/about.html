@@ -1,0 +1,518 @@
+<!doctype html>
+<html data-theme="win100">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v2</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/tailwind.css">
+</head>
+  <body>
+    <div class="page-shell">
+          <header class="site-header">
+            <div class="app-container app-header-desktop">
+              <a href="index.html" class="app-header-logo-link"><img src="logo.png" alt="Casino Logo" class="brand-logo" /></a>
+              <div class="app-header-main">
+                <div class="app-header-top-row">
+                  <button class="app-header-login-btn">登入</button>
+                  <button class="app-header-register-btn">註冊</button>
+                  <div class="dd-trigger-wrap">
+                    <button type="button" class="skin-switcher-trigger" aria-label="Switch skin" title="切換皮膚">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-lg">
+                        <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path>
+                        <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
+                        <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="dd-trigger-wrap">
+                    <button class="header-locale-trigger">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sm">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                        <path d="M2 12h20"></path>
+                      </svg><span>中文</span
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <nav class="app-header-nav">
+                  <a href="index.html" class="app-nav-link"><span>首頁</span></a
+                  ><a href="hot-games.html" class="app-nav-link"><span>熱門遊戲</span></a
+                  >
+                  <div class="dd-trigger-wrap">
+                    <a href="sport.html" class="app-nav-link"><span>體育</span
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg></a
+                    >
+                    <div class="dd-panel dd-panel--nav" style="display: none">
+                      <a href="sport.html?tab=BTI" class="dd-panel-link" style="text-decoration: none">BTI</a
+                      ><a href="sport.html?tab=SABA" class="dd-panel-link" style="text-decoration: none">SABA</a>
+                    </div>
+                  </div>
+                  <div class="dd-trigger-wrap">
+                    <a href="live.html" class="app-nav-link"><span>真人娛樂</span
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg></a
+                    >
+                    <div class="dd-panel dd-panel--nav" style="display: none">
+                      <a href="live.html?tab=Sexy" class="dd-panel-link" style="text-decoration: none">Sexy</a
+                      ><a href="live.html?tab=Pragmatic+Play" class="dd-panel-link" style="text-decoration: none">Pragmatic Play</a
+                      ><a href="live.html?tab=Yeebet" class="dd-panel-link" style="text-decoration: none">Yeebet</a>
+                    </div>
+                  </div>
+                  <a href="slot.html" class="app-nav-link"><span>老虎機</span></a
+                  ><a href="fish.html" class="app-nav-link"><span>捕魚</span></a
+                  ><a href="mini-games.html" class="app-nav-link"><span>迷你遊戲</span></a
+                  ><a href="promotion.html" class="app-nav-link"><span>優惠活動</span></a
+                  >
+                </nav>
+              </div>
+            </div>
+            <div class="app-header-mobile">
+              <a href="index.html" class="app-header-logo-link"><img src="logo.png" alt="Casino Logo" class="brand-logo" /></a>
+              <div class="app-header-mobile-controls">
+                <div class="dd-trigger-wrap">
+                  <button type="button" class="skin-switcher-trigger" aria-label="Switch skin" title="切換皮膚">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-lg">
+                      <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path>
+                      <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
+                      <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+                    </svg>
+                  </button>
+                </div>
+                <div class="dd-trigger-wrap">
+                  <button class="header-locale-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sm">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                      <path d="M2 12h20"></path>
+                    </svg><span>中文</span
+                    ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                  </button>
+                </div>
+                <button class="menu-trigger" aria-label="Menu">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-lg">
+                    <line x1="4" x2="20" y1="12" y2="12"></line>
+                    <line x1="4" x2="20" y1="6" y2="6"></line>
+                    <line x1="4" x2="20" y1="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </header>
+          <div>
+            <section class="about-page-section">
+              <div class="app-container">
+                <h1
+                  class="about-page-title"
+                >
+                  ABOUT US
+                </h1>
+                <div class="mode-tabs">
+                  <button class="active">Support</button><button class="">Notice</button><button class="">About</button
+                  ><button class="">Privacy</button><button class="">Info</button><button class="">Addiction</button
+                  ><button class="">Rules</button><button class="">FAQ</button>
+                </div>
+                <div style="">
+                  <div class="card-ui about-card">
+                    <div>
+                      <p class="about-text">
+                        Please contact customer service.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: none">
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">
+                      Urgent Notice - WIN100% official Telegram updated.
+                    </h3>
+                    <div>
+                      <p class="about-text">
+                        There has been an increase in impersonators pretending to be WIN100%. WIN100% provides guidance
+                        only through one official Telegram. If there is an issue with the existing Telegram, we will
+                        announce it only via this channel or live chat.
+                      </p>
+                      <p class="about-text">
+                        Official WIN100% Telegram announcement channel: https://t.me/win100kor
+                      </p>
+                      <p class="about-text">
+                        If you cannot reach us through the previous Telegram, please contact us via live chat to verify
+                        and proceed to avoid impersonation.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">How to inquire about deposit account</h3>
+                    <div>
+                      <p class="about-text">
+                        For deposit account inquiries, please register first and then contact us via live chat or the
+                        customer service Telegram.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: none">
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">About WIN100%</h3>
+                    <div>
+                      <p class="about-text">
+                        This policy describes how WIN100% (&quot;we&quot;) uses the information and data provided by
+                        customers and how it is handled between WIN100% and customers.
+                      </p>
+                      <p class="about-text">
+                        We process your personal information based on the provisions provided through the WIN100% (or
+                        website) registration form or other methods, or based on personal information we already hold.
+                        By submitting your information and using the site, you agree to the use of your information in
+                        accordance with this Privacy Policy. If you do not agree with this policy, please do not use the
+                        site or provide personal information.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: none">
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">Privacy Policy</h3>
+                    <div>
+                      <p class="about-text">
+                        This policy explains how your personal information is collected, used, and protected by WIN100%.
+                        We only provide guidance via our official channels. If the existing channel has issues,
+                        announcements will be made via this page or live chat only.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">Data collection and usage</h3>
+                    <div>
+                      <p class="about-text">
+                        We collect, use, and dispose of information and data about you including: 1. Any information
+                        submitted via email or the website; 2. Any other means that record communications via email,
+                        phone, or chat; 3. Responses to surveys or customer questionnaires; 4. Transaction history
+                        related to the website; 5. Details of site visits such as traffic data, location data, blogs,
+                        and other communication data.
+                      </p>
+                      <p class="about-text">
+                        Your personal information is processed for the following purposes: 1. Payment transactions,
+                        including offline and online payments; 2. Betting transactions; 3. Managing customer accounts
+                        and building member profiles; 4. Compliance with our legal and regulatory obligations; 5.
+                        Customer research, surveys, and analytics; 6. Events, products, and services; 7. Preventing
+                        fraud, irregular betting activity, money laundering, bonus abuse, collusion, and monitoring
+                        transactions between customers for misconduct.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: none">
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">Additional Information</h3>
+                    <div>
+                      <p class="about-text">
+                        WIN100% is not responsible for the content or accuracy of internal or external websites. All
+                        information provided by the company is based on facts; however, the company is not liable for
+                        errors or omissions related to the information. The company reserves the right to correct
+                        obvious errors. We reserve the exclusive right to amend, update, and modify these Terms of Use
+                        from time to time. Revised, updated, or modified terms will be posted on the website(s) and will
+                        take effect immediately upon posting.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: none">
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">Responsible Gaming</h3>
+                    <div>
+                      <p class="about-text">
+                        WIN100% encourages members to enjoy gaming while preventing excessive play. We help members
+                        recognize their limits and set their own responsible gaming limits through the account
+                        management page. Gaming is a form of entertainment and should not become an emotional or
+                        financial burden. Borrowing money or using funds for other purposes is unwise and can cause
+                        serious problems for you and those around you. We hope you enjoy games responsibly at WIN100%!
+                        If you have questions about responsible gaming, please contact customer support. We offer help
+                        such as: 1. Self-assessment 2. Bet management 3. Deposit limits 4. Parental protection 5. Help
+                        and suggestions
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">Self-assessment</h3>
+                    <div>
+                      <p class="about-text">
+                        1. Do you play to escape from a boring or unhappy life? 2. After losing, do you feel the urge to
+                        win back what you lost as soon as possible? 3. When you play, do you tend to continue until all
+                        available funds are exhausted? 4. Have you ever lied to conceal the amount of money or time
+                        spent on gambling? 5. Have you lost interest in family, friends, or hobbies because of gambling?
+                        6. When you run out of money while playing, have you felt despair or disappointment and wanted
+                        to play again quickly?
+                      </p>
+                      <p class="about-text">
+                        Do you feel depressed or suicidal due to gambling? If most of your answers are &quot;Yes&quot;,
+                        you may be experiencing gambling addiction. For free and independent advice, please contact
+                        organizations such as Gambling Therapy (https://www.gamblingtherapy.org/) or contact us.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">Bet management</h3>
+                    <div>
+                      <p class="about-text">
+                        While most people gamble recreationally, for some it can become a problem. You may find it
+                        helpful to remember: 1. Gambling should be fun and not seen as a way to make money. 2. Only
+                        gamble within your financial means. 3. Keep track of the time and money you spend on gambling.
+                        4. Consider installing gambling site blocking software such as Betfilter (www.betfilter.com) or
+                        Gamblock (www.gamblock.com) on your mobile or tablet. 5. If you want to talk to someone about
+                        problem gambling, contact us or one of the organizations mentioned above.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: none">
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">Rules and Regulations</h3>
+                    <div>
+                      <p class="about-text">
+                        WIN100% strictly penalizes members who register with the intention of using the site in abnormal
+                        ways such as arbitrage betting, using betting tools, reporting and hacking, intimidation,
+                        promotion abuse, or organized group betting. If a member is determined to have violated the
+                        stated rules and regulations, WIN100% reserves the right to confiscate the member&#39;s account
+                        without prior warning. By registering and using WIN100%, you are considered to understand and
+                        agree to all terms, rules, and regulations.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-ui about-card">
+                    <h3 class="about-card-title">Deposits and Withdrawals</h3>
+                    <div>
+                      <p class="about-text">
+                        - If you deposit to an incorrect account without prior verification, WIN100% is not responsible
+                        for any resulting loss. - Unless otherwise stated in the event/promotion, all time references
+                        are based on GMT+8. - Deposit and withdrawal requests can only be made using the account
+                        holder&#39;s own registered bank details; requests using another person&#39;s details cannot be
+                        processed. - Bank account information cannot be registered under family, relatives,
+                        acquaintances, or any other names; it must match the actual user of the site. - The use of
+                        virtual accounts is strictly prohibited. Deposits or withdrawals using virtual accounts are not
+                        allowed. - If you deposit using an account that is not in your name, the deposit cannot be
+                        processed and WIN100% may request related documents to handle the transaction. - To prevent
+                        money laundering and financial fraud, the deposited amount must be wagered in full before
+                        withdrawals are allowed. - Deposits via checks or bills are not accepted.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: none">
+                  <h3 class="about-group-title">General Information</h3>
+                  <div class="card-ui faq-card">
+                    <button
+                      class="faq-trigger"
+                      type="button"
+                    >
+                      <span>About WIN100%</span
+                      ><svg
+                        class="faq-chevron"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </button>
+                    <div class="faq-body">
+                      <p class="faq-answer">
+                        WIN100% is an overseas betting site that provides trusted and verified games. From sports, slot
+                        games, live casinos to mini games, we are doing our best to closely follow the trends of online
+                        entertainment products. You can experience exciting games while receiving various benefits such
+                        as attractive promotions and bonuses like various customer loyalty programs.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-ui faq-card">
+                    <button
+                      class="faq-trigger"
+                      type="button"
+                    >
+                      <span>Are the games provided on the site fair?</span
+                      ><svg
+                        class="faq-chevron"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </button>
+                    <div class="faq-body">
+                      <p class="faq-answer">
+                        The WIN100% site is a legally registered company, and all game results are absolutely fair,
+                        impartial, and based on factual outcomes.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-ui faq-card">
+                    <button
+                      class="faq-trigger"
+                      type="button"
+                    >
+                      <span>Is my personal information safe?</span
+                      ><svg
+                        class="faq-chevron"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </button>
+                    <div class="faq-body">
+                      <p class="faq-answer">
+                        We prioritize your personal information above all else. WIN100% will never share your
+                        information with any third party unless required by regulations, applicable laws and
+                        regulations, or a court order.
+                      </p>
+                    </div>
+                  </div>
+                  <h3 class="about-group-title">Account Management</h3>
+                  <div class="card-ui faq-card">
+                    <button
+                      class="faq-trigger"
+                      type="button"
+                    >
+                      <span>How do I change my password?</span
+                      ><svg
+                        class="faq-chevron"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </button>
+                    <div class="faq-body">
+                      <p class="faq-answer">
+                        After logging into the site, click Information Center &gt; My Information. You can change your
+                        password through the &quot;Login Password&quot; menu.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-ui faq-card">
+                    <button
+                      class="faq-trigger"
+                      type="button"
+                    >
+                      <span>I lost my password, how can I get it reissued?</span
+                      ><svg
+                        class="faq-chevron"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </button>
+                    <div class="faq-body">
+                      <p class="faq-answer">
+                        If you have forgotten your account password, please click the &quot;Forgot Password&quot;
+                        button. Enter your username and the email address registered during signup. If the information
+                        provided is correct, a temporary password will be sent to your email.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+                    <footer class="site-footer">
+            <div class="app-container">
+              <div class="site-footer-inner">
+                <img src="logo.png" alt="WIN100% Logo" class="site-footer-logo" />
+                <div class="site-footer-notice">
+                  <p>
+                    博彩可能造成成癮，請理性遊玩。如需支援資訊，請前往責任博彩協助頁面。
+                  </p>
+                  <p>
+                    當您存取、繼續使用或瀏覽本站，即表示您同意我們使用部分瀏覽器 Cookie，以改善您的使用體驗。
+                  </p>
+                </div>
+                <div class="site-footer-divider"></div>
+                <div class="site-footer-copyright">win10069 © 版權所有，受法律保護</div>
+              </div>
+            </div>
+          </footer>
+          <nav class="mobile-bottom-nav">
+            <div class="mobile-bottom-nav-grid">
+              <button class="mobile-bottom-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg
+                ><span class="mobile-bottom-nav-label">瀏覽</span></button
+              ><a
+                href="index.html"
+                class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg
+                ><span class="mobile-bottom-nav-label">首頁</span></a
+              ><a href="deposit.html" class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><path d="M12 17V3"></path><path d="m6 11 6 6 6-6"></path><path d="M19 21H5"></path></svg
+                ><span class="mobile-bottom-nav-label">儲值</span></a
+              ><a
+                href="promotion.html"
+                class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg
+                ><span class="mobile-bottom-nav-label">優惠活動</span></a
+              ><a href="account.html" class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg
+                ><span class="mobile-bottom-nav-label">會員</span></a
+              >
+            </div>
+          </nav>
+    </div>
+    <div class="qr-rail">
+      <a href="#" class="qr-btn" aria-label="Live Chat" data-chat-open
+        ><img src="logo.png" alt /><span class="qr-label">Live Chat</span></a
+      ><a href="https://t.me/win10096cs" target="_blank" rel="noopener noreferrer" class="qr-btn" aria-label="Promo Channel"
+        ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path>
+            </svg
+            ><span class="qr-label">Promo Channel</span></a
+      ><a href="about.html?tab=faq" class="qr-btn" aria-label="FAQ"
+        ><svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path>
+        </svg
+        ><span class="qr-label">FAQ</span></a
+      >
+    </div>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/site.js"></script>
+  </body>
+</html>

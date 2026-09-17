@@ -1,0 +1,72 @@
+/* ============================================================
+   v2（WIN100）ui-kit.html 設計 token 參考頁專屬（含少數跨頁重用的
+   text-/bg- 工具 class，例如 record 家族頁面的 .text-primary/
+   .text-body/.text-ink-3）。桌機/手機共用同一份內容（見 shell.css
+   檔頭關於 mobile-first 架構的說明）。
+   ============================================================ */
+.bg-primary { background-color: rgb(var(--c-primary) / 1); }
+.bg-primary-soft { background-color: rgb(var(--c-primary-soft) / 1); }
+.bg-accent { background-color: rgb(var(--c-accent) / 1); }
+.bg-surface-deep { background-color: rgb(var(--c-bg) / 1); }
+.bg-surface { background-color: rgb(var(--c-surface) / 1); }
+.bg-surface-2 { background-color: rgb(var(--c-surface-2) / 1); }
+.bg-line { background-color: rgb(var(--c-border) / 1); }
+.bg-gold { background-color: rgb(var(--c-gold) / 1); }
+.bg-success { background-color: rgb(var(--c-success) / 1); }
+.bg-danger { background-color: rgb(var(--c-danger) / 1); }
+.text-ink { color: rgb(var(--c-text) / 1); }
+.text-ink-2 { color: rgb(var(--c-text-2) / 1); }
+.text-ink-3 { color: rgb(var(--c-text-3) / 1); }
+.text-ink-4 { color: rgb(var(--c-text-4) / 1); }
+.text-primary { color: rgb(var(--c-primary) / 1); }
+.text-display { font-size: var(--fs-display); line-height: var(--lh-heading); }
+.text-h1 { font-size: var(--fs-h1); line-height: var(--lh-heading); }
+.text-h2 { font-size: var(--fs-h2); line-height: var(--lh-heading); }
+.text-body-lg { font-size: var(--fs-body-lg); line-height: var(--lh-body); }
+.text-body { font-size: var(--fs-body); line-height: var(--lh-body); }
+.text-note { font-size: var(--fs-caption); line-height: var(--lh-body); }
+.text-micro { font-size: var(--fs-micro); line-height: var(--lh-solid); }
+.tracking-wide2 { letter-spacing: var(--ls-wide); }
+.rounded-ui { border-radius: var(--radius-ui); }
+.section-title { border-left-width: 4px; border-color: rgb(var(--c-accent) / 1); padding-left: 0.75rem; font-size: var(--fs-h2); line-height: var(--lh-heading); font-weight: 600; color: rgb(var(--c-accent) / 1); }
+.section-title.uikit-demo-title { margin-bottom: 1rem; }
+.seg-btn {
+  border-radius: var(--radius-ui); border-width: 1px; border-color: rgb(var(--c-border-soft) / 1); background-color: rgb(var(--c-bg) / 1);
+  padding: 0.375rem 0.75rem; font-size: var(--fs-caption); line-height: var(--lh-body); font-weight: 600; color: rgb(var(--c-text-3) / 1);
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s;
+}
+.seg-btn:hover { color: rgb(var(--c-text) / 1); }
+.seg-btn.active { border-color: transparent; background-image: var(--g-primary); color: rgb(var(--c-on-primary) / 1); }
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.uikit-page { margin: 0 auto; max-width: 64rem; padding: 2rem 1rem 4rem; }
+.uikit-page > * + * { margin-top: 2rem; }
+.uikit-header { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.uikit-skin-switch { display: flex; flex-shrink: 0; align-items: center; gap: 0.5rem; border-radius: var(--radius-ui); border: 1px solid rgb(var(--c-border-soft) / 1); background-color: rgb(var(--c-surface) / 1); padding: 0.25rem; }
+.uikit-skin-switch .seg-btn { border-width: 0; background-color: transparent; }
+.uikit-desc { margin-top: 0.25rem; font-size: var(--fs-body); line-height: var(--lh-body); color: rgb(var(--c-text-3) / 1); }
+.uikit-card { padding: 1.25rem; }
+.uikit-token-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.75rem; }
+.uikit-token-item { text-align: center; }
+.uikit-token-swatch { height: 3rem; width: 100%; border-radius: 0.5rem; border: 1px solid rgb(var(--c-border-soft) / 1); }
+.uikit-token-label { margin-top: 0.25rem; font-size: var(--fs-caption); line-height: var(--lh-body); color: rgb(var(--c-text-3) / 1); }
+.uikit-type-scale { margin-top: 1.5rem; }
+.uikit-type-scale > * + * { margin-top: 0.25rem; }
+.uikit-demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+.uikit-variant-row { margin-bottom: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.uikit-variant-row .uikit-variant-active-label { margin-left: auto; font-size: var(--fs-caption); line-height: var(--lh-body); color: rgb(var(--c-primary) / 1); }
+.uikit-preview-frame { overflow: hidden; border-radius: 0.75rem; border: 1px solid rgb(var(--c-border-soft) / 1); background-color: rgb(var(--c-bg) / 1); }
+.uikit-catalog-header { padding-top: 2rem; }
+.uikit-accordion-panel { border-bottom: 1px solid rgb(var(--c-border-soft) / 1); }
+.uikit-accordion-header {
+  all: unset; box-sizing: border-box; display: flex; width: 100%; align-items: center; justify-content: space-between; cursor: pointer;
+  background-color: rgb(var(--c-bg) / 1); padding: 18px; font-size: 1rem; font-weight: 600; color: rgb(55, 65, 81);
+}
+.uikit-accordion-icon { width: 1rem; height: 1rem; flex-shrink: 0; transition: transform 0.2s; }
+.uikit-accordion-panel.is-open .uikit-accordion-icon { transform: rotate(180deg); }
+.uikit-accordion-body { background-color: rgb(var(--c-bg) / 1); padding: 0 18px 18px; }
+.uikit-demo-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(1, minmax(0, 1fr)); }
+@media (min-width: 768px) { .uikit-demo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.uikit-demo-note { margin-top: 0.75rem; font-size: var(--fs-caption); line-height: var(--lh-body); color: rgb(var(--c-text-4) / 1); }
+.btn-spinner-icon { margin-right: 0.5rem; height: 1rem; width: 1rem; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(1turn); } }
