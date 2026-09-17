@@ -10,6 +10,7 @@ import { PNG } from 'pngjs';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { seedAuthIfNeeded } from './auth_seed.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const [version, page_name, stepLabel, selector, widthArg] = process.argv.slice(2);
@@ -29,6 +30,7 @@ const urlB = `http://127.0.0.1:8902/${version}/${pathSeg}/${suffix}`;
 
 async function run(browser, url) {
   const ctx = await browser.newContext({ viewport: { width, height: 1000 } });
+  await seedAuthIfNeeded(ctx, version, page_name);
   const p = await ctx.newPage();
   const errs = [];
   p.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });

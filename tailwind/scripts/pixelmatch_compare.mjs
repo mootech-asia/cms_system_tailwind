@@ -14,6 +14,7 @@ import { PNG } from 'pngjs';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { seedAuthIfNeeded } from './auth_seed.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const [version, page_name, widthArg] = process.argv.slice(2);
@@ -57,6 +58,7 @@ async function waitImages(page) {
 
 async function shoot(browser, url, width, outfile) {
   const ctx = await browser.newContext({ viewport: { width, height: 900 } });
+  await seedAuthIfNeeded(ctx, version, page_name);
   const page = await ctx.newPage();
   const consoleMsgs = [];
   page.on('console', (msg) => {

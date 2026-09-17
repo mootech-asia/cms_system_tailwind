@@ -67,6 +67,27 @@
   --logo-filter: brightness(0) invert(1);
   --footer-logo-filter: brightness(0);
 
+  /* 同 ../pc/theme.css：少數頁面 body（依規定逐字保留）內嵌
+     style="...var(--gold)" 這類舊變數名稱，這裡別名回 --color-* 新
+     命名空間，換膚時會跟著 --color-* 重新解析。 */
+  --bg: var(--color-bg);
+  --bg-panel: var(--color-bg-panel);
+  --header-grad-hi: var(--color-header-grad-hi);
+  --notice-bg: var(--color-notice-bg);
+  --notice-text: var(--color-notice-text);
+  --line: var(--color-line);
+  --line-hi: var(--color-line-hi);
+  --text: var(--color-text);
+  --text-mid: var(--color-text-mid);
+  --text-dim: var(--color-text-dim);
+  --text-on-header: var(--color-text-on-header);
+  --panel-tint: var(--color-panel-tint);
+  --gold: var(--color-gold);
+  --gold-hi: var(--color-gold-hi);
+  --gold-deep: var(--color-gold-deep);
+  --red: var(--color-red);
+  --red-deep: var(--color-red-deep);
+
   /* ── 手機專屬結構常數（來自 main.css @media 區塊，桌機版沒有這些
      變數，因為桌機用不到）：quick-rail 收窄尺寸、hero 高度/內距、
      about/uikit 側留白收窄值——抓的是「重複出現超過一次」的手機斷點值。 ── */
@@ -165,6 +186,26 @@
   /* 同 ../pc/theme.css：表單控制項 UA 預設 line-height:normal，Preflight
      的 font:inherit 讓它們繼承 body 的 line-height:1.5，這裡還原。 */
   button, input, select, textarea { line-height: normal; }
+  /* 同 ../pc/theme.css：main.css 沒有 *{margin:0} 通用 reset，<p>/<h1>-
+     <h6> 靠瀏覽器 UA 預設 margin 撐間距，這裡還原 UA 預設值（數值對照
+     Chrome UA 樣式表），main.css 逐字搬過來的顯式 margin 宣告仍照常
+     覆寫這裡。 */
+  p { margin: 1em 0; }
+  h1 { margin: 0.67em 0; }
+  h2 { margin: 0.83em 0; }
+  h3 { margin: 1em 0; }
+  h4 { margin: 1.33em 0; }
+  h5 { margin: 1.67em 0; }
+  h6 { margin: 2.33em 0; }
+  /* 同 ../pc/theme.css：h1-h6 UA 預設 font-weight:bold，Preflight 重置成
+     inherit。 */
+  h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+  /* 同 ../pc/theme.css：svg UA 預設 display:inline，Preflight 重置成
+     block。 */
+  svg { display: inline; }
+  /* 同 ../pc/theme.css：input[type=radio]/checkbox 的 UA 預設 margin
+     被 Preflight 歸零。 */
+  input[type="checkbox"], input[type="radio"] { margin: 3px 3px 0px 5px; }
 }
 
 @import "./shell.css";

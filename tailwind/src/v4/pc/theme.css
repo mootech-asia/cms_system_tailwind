@@ -70,6 +70,30 @@
   --panel-glass: rgba(255, 255, 255, 0.85);
   --logo-filter: brightness(0) invert(1);
   --footer-logo-filter: brightness(0);
+
+  /* HTML body 依規定逐字保留、不得改字（見 convert_page.py 檔頭說明），
+     但少數頁面（deposit.html/ui-kit.html/*-record.html 等）有內嵌
+     style="...var(--gold)" 這類直接寫舊變數名稱的用法；上面顏色 token
+     搬進 @theme 後改用 --color-* 命名空間，這裡把舊名稱別名回新變數，
+     讓這些 inline style 不必改字也能繼續解析到正確顏色（換膚時
+     --color-* 變了，這裡的別名會跟著重新解析，不用另外處理）。 */
+  --bg: var(--color-bg);
+  --bg-panel: var(--color-bg-panel);
+  --header-grad-hi: var(--color-header-grad-hi);
+  --notice-bg: var(--color-notice-bg);
+  --notice-text: var(--color-notice-text);
+  --line: var(--color-line);
+  --line-hi: var(--color-line-hi);
+  --text: var(--color-text);
+  --text-mid: var(--color-text-mid);
+  --text-dim: var(--color-text-dim);
+  --text-on-header: var(--color-text-on-header);
+  --panel-tint: var(--color-panel-tint);
+  --gold: var(--color-gold);
+  --gold-hi: var(--color-gold-hi);
+  --gold-deep: var(--color-gold-deep);
+  --red: var(--color-red);
+  --red-deep: var(--color-red-deep);
 }
 
 /* ── 換膚：5 個非預設 skin，逐字對照原 skins 目錄下的 CSS ── */
@@ -170,6 +194,35 @@
      高度（例如 .header-lang-trigger 33px 變 36.75px）。這裡還原成
      UA 預設值。 */
   button, input, select, textarea { line-height: normal; }
+  /* main.css 沒有 *{margin:0} 這種通用 reset，全站大量 <p>/<h1>-<h6>
+     （例如 withdrawal.html 的 .wallet-label/.wallet-amount）靠瀏覽器 UA
+     預設 margin 撐間距，main.css 常只覆寫部分屬性（如 font-size/color）
+     不覆寫 margin。Tailwind Preflight 的 *{margin:0} 把這些 UA 預設
+     margin 歸零，這裡的優先權比 Preflight 高（本檔在 @import
+     "tailwindcss" 之後宣告，同層後宣告贏），先還原 UA 預設值，main.css
+     逐字搬過來的顯式 margin 宣告仍會照常覆寫這裡。數值對照 Chrome UA
+     樣式表（margin 是 em，跟著各元素自己套用的 font-size 走）。 */
+  p { margin: 1em 0; }
+  h1 { margin: 0.67em 0; }
+  h2 { margin: 0.83em 0; }
+  h3 { margin: 1em 0; }
+  h4 { margin: 1.33em 0; }
+  h5 { margin: 1.67em 0; }
+  h6 { margin: 2.33em 0; }
+  /* 同一類問題：main.css 沒設 h1-h6 的 font-weight，UA 預設 bold；
+     Preflight 把 font-weight 重置成 inherit，沒有顯式覆寫的標題會變回
+     一般字重。 */
+  h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+  /* main.css 沒有全域 svg 規則，UA 預設 display:inline；Preflight 把 svg
+     重置成 display:block，緊接文字的圖示會斷成獨立一行。這裡還原成
+     inline，不影響已用 flex 對齊圖示的地方（flex item 不論本身 display
+     是 inline 還是 block，都會被父層 flex context blockify）。 */
+  svg { display: inline; }
+  /* 同一類問題：main.css 沒有針對 input[type=radio]/checkbox 的 margin
+     覆寫（例如 deposit.html 的優惠選項單選鈕），UA 預設 margin 被
+     Preflight 的 *{margin:0} 歸零，單選鈕往左貼齊文字，撐大旁邊文字的
+     可用寬度，換行點跟著位移。數值對照這個環境用的 Chromium 實測值。 */
+  input[type="checkbox"], input[type="radio"] { margin: 3px 3px 0px 5px; }
 }
 
 @import "./shell.css";
