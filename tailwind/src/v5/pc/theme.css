@@ -61,6 +61,33 @@
   --panel-glass: rgba(33, 33, 35, 0.82);
   --footer-opacity: 0.85;
   --accent-grad: linear-gradient(180deg, #ff9a3d 0%, #f4791f 55%, #e0600a 100%);
+
+  /* HTML body 依規定逐字保留、不得改字（見 convert_page.py 檔頭
+     說明），但少數頁面（deposit.html 等）有內嵌
+     style="...var(--accent)" 這類直接寫舊變數名稱的用法；上面顏色
+     token 搬進 @theme 後改用 --color-* 命名空間，這裡把舊名稱別名
+     回新變數，換膚時 --color-* 變了，這裡的別名會跟著重新解析
+     （比照 v4 theme.css 同一手法，這次一開始就做，避免像 v4 那樣
+     逐頁踩到才補）。 */
+  --bg: var(--color-bg);
+  --bg-soft: var(--color-bg-soft);
+  --bg-panel: var(--color-bg-panel);
+  --header-bg: var(--color-header-bg);
+  --line: var(--color-line);
+  --line-hi: var(--color-line-hi);
+  --text: var(--color-text);
+  --text-mid: var(--color-text-mid);
+  --text-dim: var(--color-text-dim);
+  --text-on-header: var(--color-text-on-header);
+  --panel-tint: var(--color-panel-tint);
+  --accent: var(--color-accent);
+  --accent-hi: var(--color-accent-hi);
+  --accent-deep: var(--color-accent-deep);
+  --accent-ink: var(--color-accent-ink);
+  --badge: var(--color-badge);
+  --badge-deep: var(--color-badge-deep);
+  --jackpot-a: var(--color-jackpot-a);
+  --jackpot-b: var(--color-jackpot-b);
 }
 
 :root[data-skin="gold-noir"] {
@@ -137,4 +164,31 @@
   a:focus-visible, button:focus-visible { outline: 2px solid var(--color-accent-hi); outline-offset: 2px; }
   button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   img { max-width: 100%; display: block; }
+  /* 以下 5 條是 v4 逐頁轉換時才發現的全站 Preflight 回歸（詳見
+     tailwind/PHASE3-HANDOFF.md「v4 過程中新發現的問題」），main.css
+     跟 v4 一樣沒有 *{margin:0} 這種全站 reset，這次一開始就補齊，
+     不用等踩到才補。 */
+  button, input, select, textarea { line-height: normal; }
+  p { margin: 1em 0; }
+  h1 { margin: 0.67em 0; }
+  h2 { margin: 0.83em 0; }
+  h3 { margin: 1em 0; }
+  h4 { margin: 1.33em 0; }
+  h5 { margin: 1.67em 0; }
+  h6 { margin: 2.33em 0; }
+  h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+  svg { display: inline; }
+  input[type="checkbox"], input[type="radio"] { margin: 3px 3px 0px 5px; }
 }
+
+@import "./shell.css";
+@import "./pages/cards.css";
+@import "./pages/index.css";
+@import "./pages/listing.css";
+@import "./pages/promotion.css";
+@import "./pages/member-shell.css";
+@import "./pages/account.css";
+@import "./pages/personal-info.css";
+@import "./pages/security.css";
+@import "./pages/about.css";
+@import "./pages/ui-kit.css";

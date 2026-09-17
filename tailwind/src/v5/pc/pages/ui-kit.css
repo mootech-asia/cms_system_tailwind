@@ -1,0 +1,13 @@
+/* ============================================================
+   ui-kit.html 專屬 —— 元件展示頁外殼（展示用到的個別元件皆已在
+   cards.css/listing.css/promotion.css/member-shell.css/about.css/
+   account.css 定義，這裡只補頁面本身的排版）。
+   ============================================================ */
+.uikit-wrap { padding-top: 24px; padding-bottom: 48px; padding-right: 92px; }
+.uikit-section { margin-bottom: 32px; }
+.uikit-section-title { font-size: 16px; font-weight: 900; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); display: inline-block; text-transform: uppercase; }
+.uikit-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 16px; border-radius: var(--radius-md); background: var(--bg-panel); border: 1px solid var(--line); }
+.uikit-swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--text-dim); }
+.uikit-swatch-color { width: 56px; height: 56px; border-radius: var(--radius-md); border: 1px solid var(--line); }
+
+@media (max-width: 720px) { .uikit-wrap { padding-right: 20px; } }

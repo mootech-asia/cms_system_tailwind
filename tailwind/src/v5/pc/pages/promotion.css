@@ -1,0 +1,36 @@
+/* ============================================================
+   優惠活動卡（promotion.html 的完整網格 + index.html 首頁 rail 變體 +
+   ui-kit.html 展示）—— 桌機版。
+   ============================================================ */
+.promo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.promo-card {
+  display: flex; flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s, border-color 0.15s;
+}
+.promo-card:hover { transform: translateY(-3px); border-color: var(--line-hi); }
+.promo-card-art { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--line); }
+.promo-card-art img { width: 100%; height: 100%; object-fit: cover; }
+.promo-card-tag {
+  position: absolute; top: 10px; left: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--badge);
+  color: #fff;
+  font-size: 11px; font-weight: 800;
+  text-transform: uppercase;
+}
+.promo-card-body { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.promo-card-title { font-size: 15.5px; font-weight: 800; margin: 0; color: var(--text); }
+.promo-card-desc { font-size: 13px; line-height: 1.6; color: var(--text-mid); margin: 0; flex: 1; }
+.promo-card-actions { display: flex; align-items: center; gap: 14px; }
+.promo-card-more { font-size: 12.5px; font-weight: 700; color: var(--accent-hi); }
+.promo-card-more:hover { color: var(--accent); }
+/* rail 版推廣卡（首頁「GET FIRED UP TO PLAY」）：沿用 .promo-card 元件，
+   只加寬度 modifier 讓它塞進 .tile-grid.rail 橫向捲動。 */
+.tile-grid.rail.promo-rail { grid-auto-columns: 260px; }
+.promo-card .promo-card-actions .btn-accent { padding: 8px 16px; font-size: 11.5px; }

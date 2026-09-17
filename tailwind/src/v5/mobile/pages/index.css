@@ -1,0 +1,237 @@
+/* ============================================================
+   index.html 專屬 —— NOTICE BAR／HERO／內容區淺色底／信任指標列／
+   累積獎金 widget／12 欄可編輯版位／置底提示條堆疊／玩家評價／品牌
+   短文 —— 手機版。手機 bundle 只服務 <720px，main.css 的
+   @media(max-width:1080px/720px) 覆寫攤平成無條件 base 規則（見
+   ../shell.css 檔頭說明）；@media(max-width:900px/520px) 維持真的
+   巢狀 @media（跟桌機版一致，即使在 <720px 一定命中）。
+   ============================================================ */
+.notice-bar {
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--line);
+}
+.notice-bar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px;
+  padding-top: 9px; padding-bottom: 9px;
+  font-size: 12.5px;
+  color: var(--text-mid);
+}
+.notice-msg { display: flex; align-items: center; gap: 8px; flex: 1 1 auto; min-width: 0; overflow: hidden; }
+.notice-msg svg { flex-shrink: 0; position: relative; z-index: 1; background: var(--bg-soft); }
+.notice-msg span {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: notice-marquee 16s linear infinite;
+}
+@keyframes notice-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notice-msg span { animation: none; padding-left: 0; }
+}
+.notice-links { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.notice-links a { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+.notice-links a:hover { color: var(--accent-hi); }
+
+/* ── HERO（手機斷點：單欄堆疊，見下方攤平規則） ── */
+.hero-wrap {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 18px;
+  padding-left: max(20px, calc((100% - 1320px) / 2));
+  padding-right: max(20px, calc((100% - 1320px) / 2));
+}
+.hero {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 320px;
+  isolation: isolate;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(100deg, rgba(10, 8, 7, 0.94) 0%, color-mix(in oklch, var(--badge) 46%, rgba(10, 8, 7, 0.85)) 42%, color-mix(in oklch, var(--badge) 10%, transparent) 78%), var(--hero-image);
+  background-size: cover;
+  background-position: var(--hero-position, center);
+  z-index: -1;
+}
+.hero-duo { position: relative; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 20px; min-height: 320px; padding: 24px; padding-right: 64px; }
+.hero-content { padding: 0; max-width: 100%; color: var(--text-on-header); }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--accent-hi);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.hero-title { font-size: 27px; font-weight: 900; line-height: 1.12; margin: 0 0 10px; text-transform: uppercase; letter-spacing: -0.01em; text-shadow: 0 3px 14px rgba(0, 0, 0, 0.5); }
+.hero-title em { font-style: normal; color: var(--accent-hi); }
+.hero-sub { font-size: 14.5px; color: rgba(245, 242, 236, 0.82); margin: 0; text-transform: none; }
+.hero-promo .hero-title em { display: block; font-size: 56px; line-height: 1; margin-bottom: 6px; }
+.hero-promo .hero-title { font-size: 32px; }
+.hero-signup {
+  --bg: #ffffff;
+  --bg-panel: #ffffff;
+  --line: #ded6c4;
+  --line-hi: #e7c99a;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  flex: none;
+  background: var(--bg);
+  color: var(--text);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-card);
+}
+.hero-signup-title { margin: 0 0 14px; font-size: 15px; font-weight: 900; text-align: center; text-transform: uppercase; letter-spacing: 0.02em; color: var(--accent-deep); }
+.hero-signup .acct-level-track { height: 4px; margin-bottom: 20px; border: none; background: var(--line); }
+.hero-signup-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hero-signup .form-field { margin-bottom: 16px; }
+.hero-signup .form-input { border: none; border-radius: 0; padding-left: 0; padding-right: 0; background: transparent; border-bottom: 1px solid var(--line); }
+.form-field-dob { position: relative; }
+.form-field-dob .form-input { padding-right: 22px; }
+.form-field-dob-icon { position: absolute; right: 0; bottom: 11px; color: var(--text-dim); pointer-events: none; }
+.hero-signup .hero-signup-submit { display: table; width: auto; margin: 4px 0 0 auto; padding: 10px 28px; opacity: 0.62; }
+
+/* ── 內容區淺色底（hero 之後整段是米白底色） ── */
+.content-light {
+  --bg: #f2efe6;
+  --bg-soft: #ffffff;
+  --bg-panel: #ffffff;
+  --line: #e3ded0;
+  --line-hi: #d8cfb0;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  background: var(--bg);
+  color: var(--text);
+}
+.content-light .hero-wrap { background: var(--header-bg); }
+.content-light .testimonial-card {
+  --bg-panel: #1c1c1e;
+  --line: #333335;
+  --text: #f5f2ec;
+  --text-mid: #b6b1a7;
+}
+
+/* ── TRUST STRIP（首頁 hero 正下方） ── */
+.trust-strip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  margin-top: 20px;
+  padding: 8px;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+.trust-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
+.trust-item-icon { width: 34px; height: 34px; flex-shrink: 0; display: grid; place-items: center; color: var(--accent); }
+.trust-item-text { font-size: 12.5px; font-weight: 800; line-height: 1.3; color: var(--text); text-transform: uppercase; letter-spacing: 0.01em; }
+
+/* ── JACKPOT PANEL（累積獎金 widget，紫色為識別色） ── */
+.jackpot-panel {
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--jackpot-a) 0%, var(--jackpot-b) 100%);
+  box-shadow: var(--shadow-card);
+}
+.jackpot-title {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 0 14px;
+  font-size: 15px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: #fff;
+}
+.jackpot-title svg { flex-shrink: 0; color: var(--accent-hi); }
+.jackpot-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.jackpot-pill {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.jackpot-pill.is-hourly { background: linear-gradient(135deg, rgba(244, 121, 31, 0.35), rgba(0, 0, 0, 0.22)); }
+.jackpot-pill-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.78); margin: 0 0 4px; }
+.jackpot-pill-value { font-size: 19px; font-weight: 900; color: #fff; margin: 0 0 4px; font-variant-numeric: tabular-nums; }
+.jackpot-pill-note { font-size: 11px; color: rgba(255, 255, 255, 0.65); margin: 0; }
+.jackpot-grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
+.jackpot-panel-foot { display: flex; justify-content: flex-end; margin-top: 14px; }
+
+/* ── SECTION GRID：12 欄可編輯版位（手機斷點：每個模組滿版堆疊） ── */
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+  padding-top: 20px; padding-bottom: 40px;
+  align-items: stretch;
+}
+.grid12 > [data-span] { grid-column: 1 / -1; }
+.grid12-drag-handle { display: none; position: absolute; top: 8px; left: 8px; z-index: 5; width: 26px; height: 26px; border-radius: 50%; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.55); color: #fff; cursor: grab; }
+.cms-v5-grid-edit .grid12-drag-handle { display: flex; }
+.grid12-dragging { opacity: 0.4; }
+.grid12-drop-target { outline: 2px dashed var(--accent-hi); outline-offset: 4px; }
+
+.home-extra { display: flex; flex-direction: column; gap: 20px; padding-bottom: 20px; }
+.home-extra > .jackpot-panel { margin-top: 0; }
+
+/* 玩家評價卡 */
+.tile-grid.rail.testimonial-rail { grid-auto-columns: 240px; }
+.testimonial-card {
+  height: 100%;
+  display: flex; flex-direction: column;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-card);
+}
+.testimonial-card-quote-icon { color: var(--accent-hi); margin-bottom: 10px; flex-shrink: 0; }
+.testimonial-card-text { font-size: 13px; line-height: 1.7; color: var(--text-mid); margin: 0 0 14px; flex: 1; }
+.testimonial-card-name { font-size: 12.5px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; color: var(--text); margin: 0; }
+
+/* 「Premier Online Gambling Destination」置中行銷短文 */
+.spotlight-block { max-width: 760px; margin: 0 auto; padding: 6px 0; text-align: center; }
+.spotlight-block-title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 10px; color: var(--text); }
+.spotlight-block-text { font-size: 13.5px; line-height: 1.8; color: var(--text-mid); margin: 0; }
+.spotlight-block-text a { color: var(--accent-hi); font-weight: 700; }
+.spotlight-block-text a:hover { color: var(--accent); }
+
+/* ── 置底提示條堆疊：手機已有 .mobile-tabbar 常駐導覽，隱藏。 ── */
+.bottom-promo-stack { display: none; }
+.app-banner { display: flex; align-items: center; gap: 16px; padding: 12px 20px; background: var(--header-bg); border-top: 1px solid var(--line); }
+.app-banner-icon { width: 44px; height: 44px; border-radius: var(--radius-md); flex-shrink: 0; display: grid; place-items: center; background: var(--panel-tint); color: var(--accent); }
+.app-banner-body { flex: 1; min-width: 0; }
+.app-banner-title { margin: 0 0 2px; font-size: 15px; font-weight: 900; letter-spacing: 0.01em; text-transform: uppercase; color: var(--text-on-header); }
+.app-banner-desc { display: none; margin: 0; font-size: 12px; line-height: 1.5; color: var(--text-mid); }
+.app-banner-cta { flex-shrink: 0; padding: 8px 18px; font-size: 12px; }
+.app-banner-close { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); color: var(--text-mid); }
+.app-banner-close:hover { color: var(--text-on-header); border-color: var(--line-hi); }
+.join-bar { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 12px 20px; background: var(--accent-grad); box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3); }
+.join-bar-text { color: var(--accent-ink); font-size: 13px; font-weight: 700; }
+
+@media (max-width: 900px) {
+  .trust-strip { grid-template-columns: repeat(2, 1fr); }
+  .jackpot-grid.cols-6 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+  .hero-title { font-size: 21px; }
+  .hero-promo .hero-title em { font-size: 42px; }
+  .hero-sub { font-size: 12.5px; }
+  .hero-eyebrow { font-size: 10.5px; padding: 3px 10px; margin-bottom: 10px; }
+  .trust-item-text { font-size: 11.5px; }
+  .trust-item-icon { width: 28px; height: 28px; }
+  .jackpot-grid.cols-6 { grid-template-columns: 1fr; }
+}
