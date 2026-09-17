@@ -1,4 +1,4 @@
-# Phase 3 交接文件（v1.5／v4 已完成，下一步 v5）
+# Phase 3 交接文件（v1.5／v4／v5 已完成，下一步 v6）
 
 > 給接手這個任務的新 session 看的交接文件。這份文件本身會被 commit
 > 進 repo，新 session 一開始就能讀到。閱讀順序建議：先看 repo 根目錄
@@ -13,8 +13,8 @@
 - PR：#4 <https://github.com/mootech-asia/cms_system_tailwind/pull/4>
   （base 設在 `phase-1-design-tokens`，因為依賴它還沒合併的 token
   修正；每完成一頁/一個里程碑就更新這個 PR 的標題與內容，不開新 PR）
-- **v1.5 全 21 頁已完成**；**v4 全 22 頁已完成**（最新 commit
-  `163a73e`）。
+- **v1.5 全 21 頁已完成**；**v4 全 22 頁已完成**；**v5 全 22 頁
+  已完成**（最新 commit `6802164`）。
 
 ## 五階段總進度
 
@@ -22,15 +22,19 @@
 |---|---|
 | Phase 1（設計 token） | v1.5/v3/v4/v5/v6 已完成；v2 延後（PR #1，未合併） |
 | Phase 2（斷點策略） | 已定案（PR #3，未合併） |
-| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5/v6：0/22；v2：0（卡在自己的 Phase 1） |
+| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5：**22/22 完成**；v6：0/22；v2：0（卡在自己的 Phase 1） |
 | Phase 4（`@apply`/格式檢查） | 未開始 |
 | Phase 5（`MIGRATION.md`） | 未開始 |
 
-**下一步是開始 v5**，流程/方法論跟 v1.5、v3、v4 完全一樣，直接沿用
-下方「逐頁 SOP」「測試基建」。開始前務必先看下方「v4 架構決策」與
-「v4 過程中新發現的問題」——`v4/site/live.html` 是命名法定案前的
-試點頁，之後 v4 正式收尾時已經整頁重做過，如果 v5/v6 也有類似的
-「命名法定案前試點頁」殘留，處理方式可以直接參考。
+**下一步是開始 v6**，流程/方法論跟 v1.5、v3、v4、v5 完全一樣，直接
+沿用下方「逐頁 SOP」「測試基建」。開始前務必先看下方「v4 過程中新
+發現的問題」與「v5 過程中新發現的問題」兩節——尤其是 v5 那節的
+「區域覆寫變數 vs 全域 --color-\* token」陷阱，如果 v6 的 main.css
+也有 `.content-light`／`.hero-signup` 這類局部覆寫變數值的機制，
+直接照 v5 記錄的原則寫（component CSS 一律用原始 --xxx 變數名，
+不要用 --color-xxx），不要重踩一次。`v4/site/live.html` 是命名法
+定案前的試點頁，之後 v4 正式收尾時已經整頁重做過，如果 v6 也有類似
+殘留，處理方式可以直接參考。
 
 ## 本 repo 的核心任務性質
 
@@ -357,6 +361,100 @@ Preflight 回歸清單整套搬過去，不要假設「這版目前看起來沒�
 
 全部數字遠低於雜訊上限，console 錯誤數量兩邊一致。
 
+## v5 架構決策
+
+跟 v4 同構：`main.css` 桌機優先＋`max-width` 斷點，原始站台單一
+`site/`（無獨立 `site-mobile/`），沿用同一套「手機 bundle 攤平
+1080/720px 覆寫，900/520/400px 等維持真的巢狀 @media」策略。差異：
+
+- v5 的 `max-width` 斷點覆寫**集中寫在 main.css 檔尾一個大的
+  RESPONSIVE 區塊**，不像 v4 大多是緊跟在元件規則後面就地覆寫——
+  要花更多力氣把每條覆寫歸類回正確的元件屬於哪個 pages/*.css。
+- `tailwind/src/v5/{pc,mobile}/pages/index.css` 比 v4 多了
+  `.jackpot-panel`（累積獎金 widget）、`.hero-signup`（首頁 hero
+  內嵌快速註冊卡）、`.content-light`（見下方問題 1）、
+  `.testimonial-card`、`.spotlight-block`、`.bottom-promo-stack`
+  （APP 推廣條 + 加入提示條，桌機/平板專屬，手機用
+  `.mobile-tabbar` 頂替）。
+- main.css 有一組 `.feature-carousel`/`.feature-card`/
+  `.feature-vendor-chip` 樣式與對應的 `initFeatureCarousel()`/
+  `initVendorSelect()`，但全站 grep 沒有任何頁面掛出 JS 找的
+  `id="featureCarousel"` 掛載點——是死代碼，依鐵則 1 不搬移。
+
+## v5 過程中新發現的問題（在 v4 的基礎上，新增/更新）
+
+上面 v4 那節列的 6 個問題（含全站 Preflight 回歸、auth_seed 登入態
+陷阱）在 v5 開工前就直接補進 theme.css/auth_seed.mjs 了，沒有重踩。
+這次新踩到的是：
+
+11. **區域覆寫變數（`--bg`/`--text` 等）vs 全域 `--color-*`
+    token 搞混，範圍比 v4 的彈窗大很多**：v5 有 `.content-light`
+    這種「套在 `<main>` 上、局部覆寫 `--bg`/`--bg-soft`/`--text`/
+    `--line` 等變數值」的淺色主題機制，套用範圍橫跨 slot/live/
+    hot-games/fish/sport/mini-games/promotion/about/ui-kit
+    共 9 個頁面（不只 v4 那種侷限在小彈窗框裡的
+    `.auth-modal-box`/`.cs-modal-box`/`.chat-widget`）。一開始比照
+    v4 把 shell.css/pages/*.css 裡所有顏色用途都寫成
+    `var(--color-xxx)`（`@theme` 的全域命名空間），這樣寫在語法上
+    沒錯、預設情況下也能正確顯示（因為 `:root` 有
+    `--xxx: var(--color-xxx)` 別名橋接），但 `--color-xxx` 是全域
+    token、**不會**被 `.content-light` 的區域覆寫影響，只有原始
+    main.css 用的 `--xxx`（純變數、會被區域覆寫）才會正確跟著換色。
+    index.html 首頁截圖一度整頁 18% diff（`PREMIER ONLINE GAMBLING
+    DESTINATION` 標題整段變成看不見的深色、hero-signup 輸入框
+    標籤消失）才連回這裡。**修法／教訓**：component/page CSS 一律
+    使用 main.css 原始的 `--xxx` 變數名，**不要**用 `--color-xxx`；
+    只有 `theme.css` 的 `@theme` 區塊本身（`@theme` 語法強制要求
+    `--color-*` 前綴才能生成 Tailwind utility）跟 `:root` 的別名
+    橋接（`--xxx: var(--color-xxx)`）該用 `--color-xxx`，其餘任何
+    手寫 CSS 規則都跟原始碼一樣用 `--xxx`。這樣預設情況透過別名正確
+    解析、換膚時跟著變、又不會擋掉任何區域覆寫。**這是這次除錯耗
+    最多力氣才找到的問題，v6 如果也有類似的區域換色機制，直接照這個
+    原則寫，不要重踩一次。**
+12. **手動合併「base 規則 + 斷點覆寫」成單一規則時，漏改其中一個
+    被覆寫的屬性值**：`.acct-hero` 手機斷點把 `flex-direction`
+    改成 `column`（直向堆疊）時，原始 `main.css` 同時也把 `gap`
+    從 20px 改成 14px；手動合併成攤平後的單一規則時，只加了
+    `flex-direction`/`text-align`，忘記把 `gap` 一併改成 14px，
+    手機版卡片內距因此多了 12px（account.html Mobile 一度 9.6%
+    diff，且高度不對）。**教訓**：手動合併 base+覆寫成單一規則時，
+    要逐一核對覆寫區塊裡列出的**每一個**屬性都有對應改到，不能只改
+    「看起來主要」的那幾個；比對完務必看 pixelmatch 的
+    `orig height`/`new height` 是否完全相等，高度只要有落差幾 px
+    就代表某個屬性沒改對。
+13. **`Read` 工具的 `offset`+`limit` 分段讀取，剛好卡在檔案最後
+    一行前漏讀**：抄錄 main.css UI Kit 那節（檔案最後一段）時，
+    一次 `Read(offset=1159, limit=230)` 只讀到第 1388 行，檔案其實
+    有 1389 行，最後一行 `.uikit-grid { ... }` 因此被漏抄。
+    ui-kit.html 的 game-tile 展示卡沒有其他寬度來源、完全依賴
+    `.uikit-grid` 的 `grid-template-columns` 撐出 grid track
+    寬度，缺了這條規則後在 flex 版面退化成撐滿整行寬度（PC 一度
+    64% diff、高度多了 1000px+）。**教訓**：用 `Read` 分段讀取
+    main.css 這類長檔案時，讀到接近檔尾的最後一段，**務必額外確認
+    這次讀取範圍有沒有精確涵蓋到檔案的最後一行**（例如讀完後檢查
+    回傳內容的最後一行是否就是用 `wc -l` 量到的檔案總行數），不要
+    假設「offset+limit 夠大」就一定涵蓋到底。
+
+## v5 完成總表（22/22，PC／手機 pixelmatch，已含上述修正後回歸）
+
+| 頁面 | PC | 手機 | 備註 |
+|---|---|---|---|
+| index.html | 0.018~0.051% | 0.024% | 互動：語系切換0.406%／漢堡選單0.014% |
+| hot-games/slot/fish/mini-games/live.html | 0.074~0.138% | 0.156~0.197% | 6 個清單頁共用 listing.css；slot 收藏切換互動 0.134% |
+| sport.html | 0.024% | 0.054% | |
+| promotion.html | 0.000~0.058% | 0.015~0.022% | |
+| account.html | 0.066~0.081% | 0.103% | 曾因手機斷點合併漏改 gap 一度 9.6%，已修正 |
+| deposit.html | 0.062% | 0.000% | 互動：通道切換0.144%／金額選擇0.146% |
+| withdrawal.html | 0.053% | 0.063% | 互動：帳戶管理tab 0.161% |
+| betting/deposit/withdrawal-record、withdrawal-detail、account-record、profit-loss | 0.076~0.104% | 0.000~0.129% | 記錄家族 6 頁共用 member-shell.css，zero new CSS；betting-record 串關展開互動 0.146% |
+| personal-info.html | 0.073% | 0.000% | |
+| security.html | 0.066% | 0.129% | |
+| change-password.html | 0.000% | 0.084% | zero new CSS |
+| about.html | 0.000% | 0.000% | 互動：FAQ展開 0.146% |
+| ui-kit.html | 0.059% | 0.046% | 曾因漏抄 .uikit-grid 一度 64%，已修正 |
+
+全部數字遠低於雜訊上限，console 錯誤數量兩邊一致。
+
 ## 逐頁 SOP（沿用 v3 建立的方法論，適用所有版本）
 
 1. `grep -oE 'class="[^"]*"' <頁面>.html | tr ' "' '\n\n' | sort -u`
@@ -468,7 +566,7 @@ Preflight 回歸清單整套搬過去，不要假設「這版目前看起來沒�
 
 ## 其餘版本現況
 
-- **v5/v6**：完全沒開始 Phase 3，下一步從 v5 開始。
+- **v6**：完全沒開始 Phase 3，下一步從 v6 開始。
 - **v2**：CSS 是舊版 Tailwind 編譯輸出＋PrimeVue 殘留（非手寫），
   沒有語意化 token 可以直接搬，需要先做自己的 Phase 1 token 工作，
   故意留到最後處理。
