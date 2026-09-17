@@ -3,16 +3,15 @@
 // page.goto() 這些頁面會被導向首頁，導致 pixelmatch 比對的其實是兩份
 // index.html。測試前要先在該來源(origin)注入登入用的 localStorage。
 //
-// 目前只有 v4 有這個登入導向機制（v1.5 沒有），v5/v6 若比照 v4 做法，
-// 到時候把對應的 MEMBER_PAGES/AUTH_KEY 加進 SEEDS 即可。
+// v4 起有這個登入導向機制（v1.5 沒有），v5/v6 比照 v4 做法（AUTH_KEY
+// 命名規則同為 cms-<version>-auth），MEMBER_PAGES 清單目前跟 v4 一致。
+const MEMBER_PAGES = ['account.html', 'deposit.html', 'withdrawal.html', 'betting-record.html',
+  'deposit-record.html', 'withdrawal-record.html', 'withdrawal-detail.html', 'account-record.html',
+  'profit-loss.html', 'personal-info.html', 'security.html', 'change-password.html'];
+const AUTH_VALUE = { name: 'meqomcao', balance: '₩1,000,000,000', points: '0.00' };
 const SEEDS = {
-  v4: {
-    authKey: 'cms-v4-auth',
-    authValue: { name: 'meqomcao', balance: '₩1,000,000,000', points: '0.00' },
-    memberPages: ['account.html', 'deposit.html', 'withdrawal.html', 'betting-record.html',
-      'deposit-record.html', 'withdrawal-record.html', 'withdrawal-detail.html', 'account-record.html',
-      'profit-loss.html', 'personal-info.html', 'security.html', 'change-password.html'],
-  },
+  v4: { authKey: 'cms-v4-auth', authValue: AUTH_VALUE, memberPages: MEMBER_PAGES },
+  v5: { authKey: 'cms-v5-auth', authValue: AUTH_VALUE, memberPages: MEMBER_PAGES },
 };
 
 // 在瀏覽器 context 建立的頁面上，於任何頁面腳本執行前寫入 localStorage
