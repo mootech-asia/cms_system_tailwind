@@ -33,14 +33,19 @@ async function run(browser, url) {
   const errs = [];
   p.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
   p.on('pageerror', (e) => errs.push('pageerror: ' + e.message));
-  await p.goto(url, { waitUntil: 'networkidle' });
+  await p.goto(url, { waitUntil: 'networkidle', timeout: 20000 }).catch(() => {});
   await p.waitForTimeout(300);
   await p.click(selector, { timeout: 5000 });
   await p.waitForTimeout(300);
   return { p, ctx, errs };
 }
 
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+// 見 pixelmatch_compare.mjs 同一組旗標的說明：關掉 Chromium 背景遙測
+// 連線，避免這個環境的出口代理讓 networkidle 卡住。
+const browser = await chromium.launch({
+  executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
+  args: ['--disable-background-networking', '--disable-sync', '--disable-translate', '--no-first-run', '--disable-features=OptimizationHints'],
+});
 let A, B;
 try {
   A = await run(browser, urlA);

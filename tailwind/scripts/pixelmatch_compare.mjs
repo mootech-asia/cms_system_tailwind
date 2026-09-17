@@ -26,7 +26,20 @@ const OUT_DIR = path.join(__dirname, '..', '.pixelmatch-out');
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
 async function waitImages(page) {
-  await page.evaluate(() => {
+  // 手機寬度(390px)下頁面拉得很長,loading="lazy" 的圖片遠離視窗時瀏覽器
+  // 根本不會開始下載,onload/onerror 永遠不觸發——先整頁滾一輪觸發
+  // lazy-load,並替這個等待包一層逾時(3s),不讓極端情況卡死整個測試
+  // （fullPage screenshot 本身在擷取時也會虛擬捲動一次,兩者算雙重保險）。
+  await page.evaluate(async () => {
+    const step = window.innerHeight;
+    const max = document.body.scrollHeight;
+    for (let y = 0; y < max; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 20));
+    }
+    window.scrollTo(0, 0);
+  });
+  const waitAll = page.evaluate(() => {
     const imgs = Array.from(document.images);
     return Promise.all(
       imgs.map((img) =>
@@ -39,6 +52,7 @@ async function waitImages(page) {
       )
     );
   });
+  await Promise.race([waitAll, new Promise((res) => setTimeout(res, 3000))]);
 }
 
 async function shoot(browser, url, width, outfile) {
@@ -51,7 +65,7 @@ async function shoot(browser, url, width, outfile) {
     }
   });
   page.on('pageerror', (err) => consoleMsgs.push(`pageerror: ${err.message}`));
-  await page.goto(url, { waitUntil: 'networkidle' });
+  await page.goto(url, { waitUntil: 'networkidle', timeout: 20000 }).catch(() => {});
   await waitImages(page);
   await page.waitForTimeout(300);
   const height = await page.evaluate(() => document.body.scrollHeight);
@@ -83,8 +97,13 @@ function compare(fileA, fileB, diffOut) {
   return { numDiff, pct, width, height, origSize: [imgA.width, imgA.height], newSize: [imgB.width, imgB.height] };
 }
 
+// --disable-background-networking 等旗標：這個環境的出口代理會擋掉
+// Chromium 背景遙測連線（Google 安全瀏覽/同步等），代理擋的方式是讓
+// 連線一直重試而不是立刻回絕，導致 page.goto 的 networkidle 永遠等
+// 不到、整個測試卡住。關掉這些背景連線來源，networkidle 才會正常觸發。
 const browser = await chromium.launch({
   executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
+  args: ['--disable-background-networking', '--disable-sync', '--disable-translate', '--no-first-run', '--disable-features=OptimizationHints'],
 });
 
 const suffix = page_name.includes('.html') ? page_name : `${page_name}.html`;
