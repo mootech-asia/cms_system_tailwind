@@ -3,7 +3,7 @@
 /* ============================================================
    v4 design token —— 桌機版。手機版另見 ../mobile/theme.css（鐵則 6：
    兩邊各自獨立檔案，不共用，即使目前數值相同）。
-   來源：v4/site/assets/css/main.css 的 :root 區塊 + skins/*.css，數值
+   來源：v4/site/assets/css/main.css 的 :root 區塊 + skins 目錄下的 CSS，數值
    逐一對照搬移，不改值；顏色改用 Tailwind `--color-*` 命名空間好生成
    bg-／text-／border- 等 utility，執行期換膚機制不變（下面
    :root[data-skin] 覆寫同一批變數）。
@@ -72,7 +72,7 @@
   --footer-logo-filter: brightness(0);
 }
 
-/* ── 換膚：5 個非預設 skin，逐字對照原 skins/*.css ── */
+/* ── 換膚：5 個非預設 skin，逐字對照原 skins 目錄下的 CSS ── */
 :root[data-skin="onyx-gold"] {
   --color-bg: #0d0b08;
   --color-bg-panel: #18140f;
@@ -162,88 +162,17 @@
   a { color: inherit; text-decoration: none; }
   button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   img { max-width: 100%; display: block; }
+  /* main.css 的 body 設了具體的 line-height:1.5（不是 v1.5 那種吃瀏覽器
+     預設 normal 的情況）。原始站台的表單控制項（button/input/select/
+     textarea）UA 預設 line-height 是獨立的 normal，不會繼承 body 的
+     line-height；Tailwind Preflight 對這些元素套用 font:inherit（含
+     line-height 在內），讓它們變成繼承 body 的 1.5，撐高了按鈕/輸入框
+     高度（例如 .header-lang-trigger 33px 變 36.75px）。這裡還原成
+     UA 預設值。 */
+  button, input, select, textarea { line-height: normal; }
 }
 
-@layer components {
-  .header-nav-link:hover,
-  .header-nav-link.active { background: rgba(255, 255, 255, 0.16); }
-
-  .header-forgot {
-    font-size: 11.5px;
-    color: rgba(255, 246, 234, 0.75);
-    white-space: nowrap;
-  }
-  .header-forgot[data-auth-open] { cursor: pointer; }
-  .header-forgot[data-auth-open]:hover { color: var(--color-gold-hi); }
-
-  .btn-gold {
-    padding: 9px 20px;
-    border: 1px solid var(--color-gold-hi);
-    border-radius: 999px;
-    background: var(--gold-grad);
-    color: var(--color-ink-on-gold);
-    font-weight: 700;
-    font-size: 13px;
-    white-space: nowrap;
-    box-shadow: var(--shadow-gold);
-    transition: filter 0.15s, transform 0.15s;
-  }
-  .btn-gold:hover { filter: brightness(1.06); transform: translateY(-1px); }
-  .btn-gold[disabled] { opacity: 0.5; cursor: default; pointer-events: none; box-shadow: none; }
-  .btn-gold.quiet { background: rgba(255, 255, 255, 0.12); color: var(--color-text-on-header); box-shadow: none; border-color: rgba(255, 255, 255, 0.3); }
-
-  .header-input {
-    width: 128px;
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(0, 0, 0, 0.12);
-    color: var(--color-text-on-header);
-    font-size: 12.5px;
-  }
-  .header-input::placeholder { color: rgba(255, 246, 234, 0.6); }
-
-  .header-lang-trigger:hover { background: rgba(255, 255, 255, 0.22); }
-  .header-lang-menu[hidden] { display: none; }
-  .header-lang-option:hover { background: var(--color-bg); }
-  .header-lang-option.active { color: var(--color-gold-deep); background: rgba(207, 154, 62, 0.12); font-weight: 800; }
-
-  .header-menu-trigger:hover { background: rgba(255, 255, 255, 0.22); }
-
-  .hero-slide { opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
-  .hero-slide.active { opacity: 1; pointer-events: auto; }
-  .hero-bg {
-    background-image: linear-gradient(100deg, color-mix(in oklch, var(--color-red-deep) 94%, transparent) 0%, color-mix(in oklch, var(--color-red) 55%, transparent) 42%, color-mix(in oklch, var(--color-red) 6%, transparent) 78%), var(--hero-image);
-    background-position: var(--hero-position, center);
-  }
-  .hero-title em { font-style: normal; color: var(--color-gold-hi); }
-
-  .game-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--color-line-hi); }
-  .game-tile-art img[hidden] { display: none; }
-  .game-tile-fav:hover { color: var(--color-gold-hi); border-color: var(--color-gold-hi); }
-  .game-tile-fav.is-active { color: var(--color-gold-hi); border-color: var(--color-gold-hi); }
-  .game-tile-fav.is-active svg { fill: currentColor; }
-
-  .listing-search button:hover { filter: brightness(1.06); }
-  .listing-tab:hover { border-color: var(--color-gold-hi); color: var(--color-gold-deep); }
-  .listing-tab.active { background: var(--gold-grad); border-color: var(--color-gold-hi); color: var(--color-ink-on-gold); }
-
-  .quick-rail-btn:hover { transform: scale(1.08); background: color-mix(in oklch, var(--color-red) 8%, transparent); border-color: var(--color-red); color: var(--color-red-deep); }
-  .quick-rail-btn[data-chat-open] { background: var(--header-grad); border-color: var(--color-gold-hi); }
-  .quick-rail-btn:hover .quick-rail-label,
-  .quick-rail-btn:focus-visible .quick-rail-label { opacity: 1; transform: translateY(-50%) translateX(0); }
-
-  .mobile-tabbar-btn.active { color: var(--color-red); }
-
-  .vendor-marquee-track { animation: vendor-marquee-scroll 48s linear infinite; }
-  .vendor-marquee-track:hover { animation-play-state: paused; }
-  @keyframes vendor-marquee-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .vendor-marquee-track { animation: none; }
-  }
-
-  .site-footer-copyright a:hover { color: var(--color-gold-hi); }
-}
+@import "./shell.css";
+@import "./pages/cards.css";
+@import "./pages/index.css";
+@import "./pages/section-variants.css";
