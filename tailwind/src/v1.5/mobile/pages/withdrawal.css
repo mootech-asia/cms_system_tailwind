@@ -1,0 +1,183 @@
+/* ============================================================
+   提款頁(pages/userCenter/withdrawal.vue)—— pay、bd 開頭的 class 共用部分見
+   pages/pay.css、pages/banking-details.css
+   ============================================================ */
+.wd-card-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #3f3f42;
+  margin-top: 8px;
+}
+.wd-card-nav img {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.wd-bank-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  color: #fff;
+  margin-top: 16px;
+  height: 190px;
+}
+.wd-bank-card img.card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wd-bank-card-inner {
+  position: relative;
+  height: 100%;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* 虛擬錢包卡片內容只有兩段(類型+地址),沿用 .wd-bank-card 的底圖/圓角
+   容器,但不套用銀行卡 inner 的 justify-content:space-between(內容會
+   被拉開到卡片頂部/底部),改成置中對齊;文字沿用 .bd-account-name/
+   .bd-account-number 的字重字級,只覆寫成白色系配色配合深色底圖;
+   新增按鈕移出 inner、絕對定位固定在卡片右上角,不參與置中 */
+.wd-wallet-card-inner {
+  position: relative;
+  height: 100%;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+.wd-wallet-card-inner .bd-account-name {
+  color: #fff;
+}
+.wd-wallet-card-inner .bd-account-number {
+  color: rgba(255, 255, 255, 0.7);
+}
+.wd-wallet-add-icon {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+}
+.wd-add-card-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+@media (min-width: 1280px) {
+  .wd-add-card-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+.wd-bank-name {
+  display: inline-block;
+  width: 114px;
+  height: 25px;
+  background: rgba(6, 12, 52, 0.8);
+  border-radius: 4px;
+  text-align: center;
+  line-height: 25px;
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wd-bank-card-mid {
+  text-align: center;
+}
+.wd-bank-card-mid p {
+  margin: 0;
+}
+.wd-bank-card-mid .num {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+.wd-bank-card-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.wd-bank-card-foot p {
+  margin: 0;
+}
+.wd-bank-card-foot .holder {
+  color: var(--color-gold);
+  font-weight: 700;
+}
+.wd-refresh-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 8px;
+  color: var(--color-navy-2);
+}
+.wd-refresh-row button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.wd-wallet-row {
+  display: flex;
+  justify-content: center;
+  gap: 210px;
+  text-align: center;
+  margin-top: 50px;
+}
+@media (min-width: 1280px) {
+  .wd-wallet-row {
+    margin-top: 24px;
+  }
+}
+.wd-wallet-row .wallet-label {
+  color: var(--color-navy);
+}
+.wd-wallet-row .wallet-amount {
+  color: var(--color-navy);
+  font-weight: 700;
+  font-size: 24px;
+}
+.wd-turnover-note {
+  text-align: center;
+  color: var(--color-danger);
+  font-size: 12px;
+  margin-top: 8px;
+}
+.wd-turnover-note .detail-btn {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 4px 10px;
+  border-radius: 15px;
+  background: var(--color-danger);
+  color: #fff;
+}
+.pw-input-wrap {
+  position: relative;
+  margin-top: 16px;
+}
+.pw-input-wrap .pay-input {
+  margin-top: 0;
+  padding-right: 40px;
+}
+.pw-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.pw-toggle img {
+  width: 20px;
+  height: 20px;
+}

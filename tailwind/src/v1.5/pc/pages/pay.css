@@ -1,5 +1,5 @@
 /* ============================================================
-   儲值頁(pages/userCenter/deposit.vue)——.pay-*/.dp-*/.promo-* 也被
+   儲值頁(pages/userCenter/deposit.vue)—— pay、dp、promo 開頭的 class 也被
    withdrawal.html 共用(見 pages/withdrawal.css 的說明)
    ============================================================ */
 .pay-page {
