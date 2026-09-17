@@ -1,4 +1,4 @@
-# Phase 3 交接文件（v1.5 進行中）
+# Phase 3 交接文件（v1.5 已完成，下一步 v4）
 
 > 給接手這個任務的新 session 看的交接文件。這份文件本身會被 commit
 > 進 repo，新 session 一開始就能讀到。閱讀順序建議：先看 repo 根目錄
@@ -13,7 +13,7 @@
 - PR：#4 <https://github.com/mootech-asia/cms_system_tailwind/pull/4>
   （base 設在 `phase-1-design-tokens`，因為依賴它還沒合併的 token
   修正；每完成一頁/一個里程碑就更新這個 PR 的標題與內容，不開新 PR）
-- 最新 commit：`928b599`（v1.5 建殼層＋完成 index.html）
+- **v1.5 全 21 頁已完成**（最新 commit `8ba4d01`）。
 
 ## 五階段總進度
 
@@ -21,11 +21,15 @@
 |---|---|
 | Phase 1（設計 token） | v1.5/v3/v4/v5/v6 已完成；v2 延後（PR #1，未合併） |
 | Phase 2（斷點策略） | 已定案（PR #3，未合併） |
-| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**1/21**（index.html）；v4/v5/v6：0/22；v2：0（卡在自己的 Phase 1） |
+| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4/v5/v6：0/22；v2：0（卡在自己的 Phase 1） |
 | Phase 4（`@apply`/格式檢查） | 未開始 |
 | Phase 5（`MIGRATION.md`） | 未開始 |
 
-**下一步就是繼續 v1.5 剩下的 20 頁**，見下方「v1.5 下一步」。
+**下一步是開始 v4**（v4/site/live.html 是命名法定案前的試點頁，不算
+Phase 3 已完成——見本文件最後「其餘版本現況」一節），流程/方法論跟
+v1.5、v3 完全一樣，直接沿用下方「逐頁 SOP」「測試基建」。v4 沒有
+v1.5 那種「單一響應式原始碼」的特殊情況，架構更接近 v3（原始站台
+`site/`+`site-mobile/` 本來就分開）。
 
 ## 本 repo 的核心任務性質
 
@@ -89,31 +93,40 @@ v1.5 原始站台是**單一響應式 `main.css`**（mobile-first base +
 - `tailwind/src/v1.5/{pc,mobile}/pages/index.css`（新建）：逐字搬移
   main.css 第 889-1507 行 —— 首頁 Banner/Marquee/HotGame/Live
   Casino-Live Sports/Slot Games 橫向捲動/促銷卡片。**注意**：這段裡
-  原本還有 `.banner-dots`/`.banner-dot`（實際只有 `promotion-list.html`
-  用）、`.game-type-section`/`.game-type-grid`/`.game-type-item`、
+  原本還有 `.game-type-section`/`.game-type-grid`/`.game-type-item`、
   `.home-promotion`/`.home-promotion-grid`/`.home-promotion-card`
   （全站 grep 沒有任何 HTML 使用，main.css 裡的死代碼）——依鐵則 1
-  沒有搬移，避免檔案累贅。
-- `tailwind/src/v1.5/{pc,mobile}/theme.css`：接上 `@import "./shell.css"`
-  + `@import "./pages/index.css"`，並且在 `@layer base` 補了三個
-  修正（見下方「兩個影響全站的 bug」）。
-- **21 頁 HTML 全部完成 `<link>` 骨架轉換**（`tailwind/v1.5/site/*.html`
-  + `tailwind/v1.5/site-mobile/*.html` 各 21 份，用
-  `tailwind/scripts/convert_page.py` 轉換——這支腳本這次已經搬進
-  repo 永久保留，見下方「工具腳本」）。只有 `index.html` 真正建好
-  對應 CSS 並通過 pixelmatch/互動測試驗收，其餘 20 頁目前只有
-  shell.css 覆蓋的共用元件會正確顯示，頁面專屬內容還沒有樣式。
+  沒有搬移，避免檔案累贅；`.banner-dots`/`.banner-dot` 實際是
+  `promotion-list.html` 在用（index.html 單張 banner 不需要），已經
+  搬到 `pages/promotion-list.css`；`.gf-marquee-desktop`／
+  `.game-type-page .home-marquee` 覆寫屬於 `game-type.html`，搬到
+  `pages/game-filter.css`。
+- `tailwind/src/v1.5/{pc,mobile}/theme.css`：`@import` chain 依序接上
+  `shell.css` → `pages/index.css` → `pages/record.css` →
+  `pages/account.css` → `pages/pay.css` → `pages/banking-details.css`
+  → `pages/withdrawal.css` → `pages/transaction-info.css` →
+  `pages/personal-info.css` → `pages/security.css` →
+  `pages/change-password.css` → `pages/about.css` →
+  `pages/game-filter.css` → `pages/promotion-list.css` →
+  `pages/promotion-detail.css` → `pages/sports.css`，並且在
+  `@layer base` 補了四個修正（見下方「四個影響全站的 Preflight 回歸
+  bug」）。
+- **v1.5 全 21 頁已完成逐頁轉換**（`tailwind/v1.5/site/*.html` +
+  `tailwind/v1.5/site-mobile/*.html` 各 21 份，`<link>` 骨架轉換用
+  `tailwind/scripts/convert_page.py`——這支腳本已經搬進 repo 永久
+  保留，見下方「工具腳本」），全部通過 pixelmatch 視覺比對＋互動
+  測試驗收，逐頁 pixelmatch 數字見下方「v1.5 完成總表」。
 - `assets/`（images/fonts/js）已經完整複製進
   `tailwind/v1.5/site/assets/` 與 `tailwind/v1.5/site-mobile/assets/`
   （來源就是 `v1.5/site/assets/`，兩邊 byte-identical），
   `assets/css/main.css` 舊檔已刪除（不再需要，只留 build 產物
   `assets/css/tailwind.css`）。
 
-## 兩個影響全站（不只 v1.5）的 Preflight 回歸 bug（已修正，务必了解）
+## 四個影響全站（不只 v1.5）的 Preflight 回歸 bug（已修正，务必了解）
 
-這兩個 bug 是這次除錯花最多力氣才找到的，之後做 v4/v5/v6 時如果遇到
-「截圖整頁高度對不上」、「文字位置差幾 px 但看起來莫名其妙」，**先
-懷疑這兩個模式**：
+這幾個 bug 是這次除錯花最多力氣才找到的，之後做 v4/v5/v6 時如果遇到
+「截圖整頁高度對不上」、「文字位置差幾 px 但看起來莫名其妙」、「圖示
++文字排版斷成兩行」，**先懷疑這幾個模式**：
 
 1. **`body` 沒設 `line-height`**：原始 main.css 完全沒設
    line-height，吃瀏覽器預設 `normal`。Tailwind Preflight 在 `html`
@@ -145,45 +158,88 @@ v1.5 原始站台是**單一響應式 `main.css`**（mobile-first base +
    （已加進兩邊 theme.css。这些是 Chrome UA 樣式表的標準值，margin
    用 em 是跟著該元素**自己**套用的 font-size 走，不是寫死 px。）
 
-3. （較小、v1.5 專屬）`html[lang='en'] body` 少了原始碼裡「英文介面
-   不用韓文 Nanum Gothic fallback」的覆寫規則，已在 shell.css 補上
-   `html[lang='en'] body { font-family: 'Pretendard', Arial,
-   Helvetica, sans-serif; }`（`--font-display` token 本身維持含
-   Nanum Gothic 的完整 fallback 鏈給非英文語系用，不改 token 本身，
-   只加例外覆寫）。
+3. **`<h1>`-`<h6>` 的 UA 預設 `font-weight:bold` 被 Preflight 重置成
+   `inherit`**：main.css 大量標題標籤（例如 `.user-navbar-title` 是
+   `<h1>`）沒有顯式 `font-weight`，靠瀏覽器 UA 預設值撐粗體；
+   Preflight 把 `h1,h2,h3,h4,h5,h6 { font-weight: inherit; }`，沒有
+   顯式覆寫的標題會變回一般字重（betting-record 等會員中心紀錄頁的
+   手機頂列標題就踩到這個）。**修法**：在 `@layer base` 補上
+   `h1, h2, h3, h4, h5, h6 { font-weight: bold; }`（同上，同層後宣告
+   贏，main.css 逐字搬過來的顯式 font-weight 宣告仍會照常覆寫）。
+
+4. **`<svg>` 的 UA 預設 `display:inline` 被 Preflight 重置成
+   `block`**：main.css 沒有全域 svg 規則，圖示常常直接緊接文字構成
+   inline 排版（不靠 flex 對齊，例如 deposit.html 的
+   `.pay-method-tab` 圖示+「LinePay」文字），文字置中全部算在同一行
+   裡；Preflight 的 `svg,video { display: block; ... }` 讓圖示斷成
+   獨立一行、文字被推到另一行。**修法**：`@layer base` 補上
+   `svg { display: inline; }`（不影響已經用 flex 對齊圖示的元件，
+   flex item 不論本身 display 是 inline 還是 block，都會被父層 flex
+   context blockify，版面不變）。
 
 **如果之後在 v4/v5/v6（也是手寫 CSS、沒有全站 reset 的站台）發現
-類似「整頁高度對不上」的情況，直接檢查是不是同一類 margin/line-height
-問題**，不用從頭排查。
+類似「整頁高度對不上」「圖示文字排版跑掉」的情況，直接檢查是不是同一
+類 margin/line-height/font-weight/svg-display 問題**，不用從頭排查。
 
-## v1.5 下一步：main.css 章節與 21 頁的對照表
+## 一個 `convert_page.py` 腳本本身的 bug（已修正）
 
-main.css 每個章節都有清楚的分節註解，直接對應頁面（跟组件，不是嚴格
-一一對應，處理時務必先用 `grep -oE 'class="[^"]*"'` 核對該頁實際用到
-哪些 class，再決定要不要搬、要不要當死代碼跳過——**index.html 就發現
-了三組死代碼**，其他頁大概率也有）：
+`convert_page.py` 原本用 Python 的 `content.replace('</head>', ...)`
+（預設取代**全部**符合的字串，不是只取代第一個）尋找要插入
+`<link rel="stylesheet">` 的位置。`sports.html` 用第三方遊戲開啟橋接
+頁把一份完整迷你 HTML（含字面 `</head>`）當字串塞進 iframe 的
+`srcdoc` 屬性，這個字面 `</head>` 也被腳本誤判成插入點，把
+`tailwind.css` 的 `<link>` 插進那段 JS 字串裡，破壞了 iframe 內容、
+也違反「內容逐字保留」的驗收標準。已修正成只替換**第一個**（真正的）
+`</head>`，字面出現超過一次時印警告訊息。**逐頁 SOP 第 5 步跑完
+`convert_page.py` 後，務必用 `diff` 比對轉換前後的 `<body>` 內容是否
+逐字相同**（這次就是這樣抓到的），不能只看 build 有沒有報錯。
 
-| main.css 行號 | 章節 | 對應頁面 |
-|---|---|---|
-| 889-1507 | 首頁 Banner | `index.html`（**已完成**） |
-| 1761-2094 | 帳戶總覽 | `account.html` |
-| 2165-2477 | 儲值頁 | `deposit.html` |
-| 2478-2660 | 提款頁 | `withdrawal.html` |
-| 2661-2770 | 轉帳明細 | `transaction-info.html` |
-| 2771-3008 | **會員中心紀錄類頁面共用**（原文：bettingRecord/depositRecord/withdrawalRecord/withdrawalDetail/accountsRecord/profitAndLoss 共用） | `betting-record.html`、`deposit-record.html`、`withdrawal-record.html`、`withdrawal-detail.html`、`account-record.html`、`profit-loss.html`（**6 頁共用一份 CSS，很可能複數頁是零/少量新增，比照 v3 的「零新增 CSS」模式優先驗證**） |
-| 3157-3237 | 個人資料 | `personal-info.html` |
-| 3238-3323 | 安全中心 | `security.html` |
-| 3324-3371 | 密碼變更 | `change-password.html` |
-| 3372-3557 | 結帳/銀行資料 | `banking-details.html` |
-| 3623-3748 | about.html | `about.html` |
-| 3749-3847 | GameFilter（共用） | `game-type.html`／`game-list.html` 共用 |
-| 3848-3989 | 遊戲/廠商卡片 | `game-type.html`／`game-list.html` |
-| 3990-4092 | promotion-list.html | `promotion-list.html`（**`.banner-dots`/`.banner-dot` 要搬來這裡**，index.html 沒用到但這頁會用到） |
-| 4093-4127 | promotion-detail.html | `promotion-detail.html` |
-| 4128-4159 | sports.html（第三方遊戲開啟橋接頁，內容應該很少） | `sports.html` |
+## v1.5 完成總表（main.css 章節 → 頁面 → pixelmatch 結果）
 
-建議下一頁從 `account.html` 或 `betting-record.html`（記錄家族 6 頁
-一次核對完，效率最高）開始。
+main.css 每個章節都有清楚的分節註解，但**不是嚴格一一對應頁面**——
+處理時務必先用 `grep -oE 'class="[^"]*"'` 核對該頁實際用到哪些
+class，再決定要不要搬、要不要當死代碼跳過（也要檢查 `site.js`/
+`data.js` 有沒有動態插入的 class，這些不會出現在靜態 grep 結果裡）。
+這次逐頁對照下來，共發現/處理了：
+- **5 組死代碼**（main.css 有定義但全站沒有任何頁面使用）：
+  `index.html` 的 `.game-type-section`/`.home-promotion` 系列、
+  `banking-details.html` 章節的 `.bd-add-fab`/`.bd-select*`、
+  `change-password.html` 的 `.cp-error`/`.cp-field.has-error`。
+- **3 處「HTML 本來就同時掛兩個 class，其中一個跟 shell.css 既有
+  `.no-scrollbar` 重複」**，依鐵則 1 不重複搬移：`about.html` 的
+  `.about-tabs::-webkit-scrollbar`、`promotion-list.html` 的
+  `.promotion-categories::-webkit-scrollbar`。
+- **2 處章節位置跟實際頁面歸屬不一致**：首頁 Banner 章節裡的
+  `.banner-dots`/`.banner-dot` 其實是 `promotion-list.html` 在用
+  （index.html 單張 banner 不需要）；`.gf-marquee-desktop`／
+  `.game-type-page .home-marquee` 覆寫也在首頁 Banner 章節裡，但屬於
+  `game-type.html`。
+- **1 處跨章節依賴**：`withdrawal.html` 的帳戶管理分頁重用
+  `banking-details.html` 章節的 `.bd-account-*` 卡片元件，所以
+  `banking-details.html` 提前於 `withdrawal.html` 處理。
+
+| main.css 行號 | 章節 | 對應頁面 | pixelmatch（PC／手機） |
+|---|---|---|---|
+| 889-1507 | 首頁 Banner | `index.html` | 2.18%／4.95%（跑馬燈+促銷彈窗GIF+即時時鐘） |
+| 1761-2094 | 帳戶總覽 | `account.html` | 0.002%／0.000% |
+| 2165-2477 | 儲值頁 | `deposit.html` | 0.002%／0.006% |
+| 2478-2660 | 提款頁 | `withdrawal.html` | 0.000%／0.000% |
+| 2661-2770 | 轉帳明細 | `transaction-info.html` | 0.000%／0.154%（客服按鈕動畫） |
+| 2771-3008 | 會員中心紀錄類頁面共用 | `betting-record.html`、`deposit-record.html`、`withdrawal-record.html`、`withdrawal-detail.html`、`account-record.html`、`profit-loss.html` | 全部 0.000%~0.011% |
+| 3157-3237 | 個人資料 | `personal-info.html` | 0.000%／0.125% |
+| 3238-3323 | 安全中心 | `security.html` | 0.000%／0.007% |
+| 3324-3371 | 密碼變更 | `change-password.html` | 0.000%／0.006% |
+| 3372-3557 | 結帳/銀行資料 | `banking-details.html` | 0.000%／0.011% |
+| 3623-3748 | about.html | `about.html` | 0.442%／0.129%（footer-marquee 跑馬燈） |
+| 3749-3847 | GameFilter（共用） | `game-type.html`／`game-list.html` | 見下 |
+| 3848-3989 | 遊戲/廠商卡片 | `game-type.html`／`game-list.html` | game-type 0.75%／0.16%（即時時鐘+跑馬燈）；game-list 0.000%／0.000% |
+| 3990-4092 | promotion-list.html | `promotion-list.html` | 0.106%／0.136%（footer-marquee） |
+| 4093-4127 | promotion-detail.html | `promotion-detail.html` | 0.000%~0.73%／0.16%（footer-marquee） |
+| 4128-4159 | sports.html | `sports.html` | 0.29%~0.91%／0.000% |
+
+全部數字都低於 v3 已驗收頁面的雜訊上限（手機 3.6%），較高的幾個都
+已個別 crop 比對確認差異只在跑馬燈/即時時鐘/彈窗 GIF 動畫時序，不是
+結構性問題（詳見各自的 commit message）。
 
 ## 逐頁 SOP（沿用 v3 建立的方法論，適用所有版本）
 
@@ -203,12 +259,20 @@ main.css 每個章節都有清楚的分節註解，直接對應頁面（跟组�
    `@import "./pages/index.css";` 後面即可）。
 5. 用 `python3 tailwind/scripts/convert_page.py <src> <dst>` 轉換該頁
    HTML（PC＋mobile 各一次，來源都是同一份 `v1.5/site/<page>.html`）。
+   **轉換完務必 `diff` 比對轉換前後的 `<body>` 內容逐字相同**（見上
+   「convert_page.py 腳本本身的 bug」，這支腳本用字面 `</head>` 字串
+   比對，遇到頁面把整份 HTML 當字串塞進 JS/iframe srcdoc 時可能誤判，
+   目前已修正成只取代第一個，但養成習慣每頁都 diff 一次比較保險）。
 6. `cd tailwind && npm run build`。
-7. 啟動兩個測試伺服器（見下方「測試基建」），pixelmatch 比對 PC＋
-   手機，用 diff 圖＋crop 工具定位問題（**遇到大範圍重影/整頁位移，
-   先懷疑上面兩個 Preflight bug 的模式**，不要急著假設是別的問題）。
-8. 互動測試（該頁按鈕/表單/彈窗/tab 等所有互動點，比對原始版跟
-   轉換版行為一致、console 錯誤數一致）。
+7. 啟動兩個測試伺服器（見下方「測試基建」），用
+   `tailwind/scripts/pixelmatch_compare.mjs` 比對 PC＋手機，用 diff
+   圖＋crop 工具定位問題（**遇到大範圍重影/整頁位移，先懷疑上面四個
+   Preflight bug 的模式**，不要急著假設是別的問題）。
+8. 互動測試：用 `tailwind/scripts/pixelmatch_interact.mjs` 對該頁
+   按鈕/表單/彈窗/tab 等互動點做點擊比對，確認轉換版行為跟原始版
+   一致、console 錯誤數一致（需要連續兩次點擊才能到達的狀態，例如
+   「先切分頁再展開手風琴」，直接寫一支一次性的 Playwright 腳本，
+   模式照抄 `pixelmatch_interact.mjs`）。
 9. **順便重新驗證前面已完成的頁面沒有回歸**（尤其如果這次改到
    shell.css/theme.css 共用檔案）。
 10. commit（繁體中文說明，動機為主）、push、更新 PR #4 的標題/內容
@@ -223,34 +287,50 @@ main.css 每個章節都有清楚的分節註解，直接對應頁面（跟组�
   （**新 session 一開始這兩個伺服器不會在跑，要自己啟動**；且經觀察
   這兩個 background process 有時候會在對話中途消失，重跑就好）
 - 瀏覽器：Playwright + Chromium，執行檔路徑固定是
-  `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`
-- pixelmatch 測試腳本模式（沿用 v3 建立的寫法，這次 v1.5 用的版本在
-  `/tmp/claude-0/.../scratchpad/shot_v15_index.mjs`——**這個路徑是
-  上一個 session 的 scratchpad，新 session 不會有**，需要重新寫一份
-  類似的腳本，重點：
-  - `probe` 階段量 `document.body.scrollHeight` 之前，**務必先等
-    `<img>` 全部 `complete`**（`Promise.all(imgs.map(img =>
-    img.complete ? ... : new Promise(res => img.onload = img.onerror
-    = res)))`），不然大圖片還沒載入完成時量到的高度不準，會誤判成
-    假的視覺差異（這次真的踩到這個坑，浪費不少時間排查）。
-  - 兩個 case：PC（`http://localhost:8901/v1.5/site/<page>` vs
-    `http://localhost:8902/v1.5/site/<page>`，1440 寬）、手機
-    （`http://localhost:8901/v1.5/site/<page>` **同一份原始響應式
-    HTML** 縮到 390 寬 vs `http://localhost:8902/v1.5/site-mobile/<page>`
-    ，390 寬）。
-  - pixelmatch `threshold: 0.1`，可接受的雜訊上限參考 v3 已驗收頁面
-    的最高紀錄（手機 3.6%），v1.5 因為有跑馬燈 animation／即時時鐘／
-    促銷彈窗圖片這類動態內容，雜訊基準可能略高（這次 index.html 手機
-    4.776% 判定為可接受，因為 crop 比對後確認差異只在圖片次像素雜訊
-    跟 animation 時序，不是結構性問題）。
-  - 判斷「大範圍紅色 diff 是不是真 bug」的方法：先用
-    `getBoundingClientRect()` 逐元素比對 orig/new 的 top/height，
-    找出第一個開始出現偏移的元素，通常比盯著 diff 圖片猜有效率
-    很多。
+  `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`（跑 pixelmatch
+  腳本時記得帶 `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` 環境變數，
+  且不要跑 `playwright install`，執行檔已經在容器裡預裝好了）。
+- pixelmatch 測試腳本**已經轉正進 repo**（這次 v1.5 收尾時把上一輪
+  scratchpad 版本整理進來，之後 v4/v5/v6 直接用，不用重寫）：
+  - `cd tailwind && npm install`（`pixelmatch`/`pngjs`/`playwright`
+    已加進 `package.json` devDependencies）。
+  - `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers node
+    scripts/pixelmatch_compare.mjs <version> <page-name> [width]`——
+    PC+手機視覺比對，例如
+    `node scripts/pixelmatch_compare.mjs v1.5 betting-record`；頁名
+    可以帶查詢字串，例如
+    `node scripts/pixelmatch_compare.mjs v1.5 "transaction-info.html?type=withdrawal&amount=50000"`。
+  - `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers node
+    scripts/pixelmatch_interact.mjs <version> <page-name> <step-label>
+    <selector> [width]`——點擊互動測試，例如
+    `node scripts/pixelmatch_interact.mjs v1.5 deposit method-linepay '[data-dp-method-btn="linepay"]' 1440`。
+  - 截圖/diff 圖輸出到 `tailwind/.pixelmatch-out/`（已加進
+    `.gitignore`，不進版控）。
+  - 腳本內部重點（沿用 v3 建立的寫法，繼續維持）：
+    - `probe` 階段量 `document.body.scrollHeight` 之前，**務必先等
+      `<img>` 全部 `complete`**，不然大圖片還沒載入完成時量到的高度
+      不準，會誤判成假的視覺差異。
+    - PC 固定 1440 寬比對 `<version>/site`；手機固定 390 寬，原始站台
+      一樣連 `<version>/site`（同一份響應式 HTML 縮到 390 寬），轉換版
+      連 `<version>/site-mobile`。
+    - pixelmatch `threshold: 0.1`，可接受的雜訊上限參考 v3 已驗收頁面
+      的最高紀錄（手機 3.6%）；v1.5 因為有跑馬燈 animation／即時時鐘／
+      促銷彈窗 GIF 這類動態內容，雜訊基準可能到 5% 左右，見上面
+      「v1.5 完成總表」逐頁數字。
+    - 判斷「大範圍紅色 diff 是不是真 bug」的方法：先 crop 出可疑區域
+      比對（比盯著整張 diff 圖猜有效率很多），或用
+      `getBoundingClientRect()` 逐元素比對 orig/new 的 top/height，
+      找出第一個開始出現偏移的元素。
+    - 需要連續點擊兩個以上步驟才能重現的互動（例如「先切到 FAQ 分頁
+      再展開手風琴」），`pixelmatch_interact.mjs` 只支援單一點擊，
+      複製一份改成連續 `click` 即可，不用改動主腳本。
 
 ## 工具腳本（已進 repo，可直接用）
 
-- `tailwind/scripts/convert_page.py`：HTML `<link>` 骨架轉換（見上）。
+- `tailwind/scripts/convert_page.py`：HTML `<link>` 骨架轉換（見上，
+  含 `</head>` 只取代第一個的修正）。
+- `tailwind/scripts/pixelmatch_compare.mjs`／
+  `tailwind/scripts/pixelmatch_interact.mjs`：見上「測試基建」。
 - `tailwind/scripts/publish.mjs`：build 產物搬到各版本 `site`/
   `site-mobile` 目錄（既有，不用動）。
 - `tailwind/vite.config.js`：build entry 設定（v1.5 的 `v1_5-pc`/
