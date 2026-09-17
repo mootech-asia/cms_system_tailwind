@@ -1,4 +1,4 @@
-# Phase 3 交接文件（v1.5／v4／v5／v6 已完成，下一步 v2）
+# Phase 3 交接文件（v1.5／v4／v5／v6 已完成，下一步 v2 逐頁轉換）
 
 > 給接手這個任務的新 session 看的交接文件。這份文件本身會被 commit
 > 進 repo，新 session 一開始就能讀到。閱讀順序建議：先看 repo 根目錄
@@ -20,20 +20,30 @@
 
 | 階段 | 狀態 |
 |---|---|
-| Phase 1（設計 token） | v1.5/v3/v4/v5/v6 已完成；v2 延後（PR #1，未合併） |
+| Phase 1（設計 token） | v1.5/v2/v3/v4/v5/v6 **全部完成**（PR #1，未合併；v2 原本「延後」的前提是誤判，已補完，見 `TOKENS.md`） |
 | Phase 2（斷點策略） | 已定案（PR #3，未合併） |
-| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5：**22/22 完成**；v6：**22/22 完成**；v2：0（卡在自己的 Phase 1） |
+| Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5：**22/22 完成**；v6：**22/22 完成**；v2：0（尚未開始，Phase 1 token 已就緒） |
 | Phase 4（`@apply`/格式檢查） | 未開始 |
 | Phase 5（`MIGRATION.md`） | 未開始 |
 
-**下一步是 v2**，但 v2 的 CSS 是舊版 Tailwind 編譯輸出＋PrimeVue
-殘留（非手寫），沒有語意化 token 可以直接搬，需要先做自己的 Phase 1
-token 工作，流程會跟 v1.5/v3/v4/v5/v6 不同，開工前先重新評估。
-如果之後還有其他版本要走這套 SOP，直接沿用下方「逐頁 SOP」「測試
-基建」，開始前務必先看下方 v4/v5/v6 三節「過程中新發現的問題」——
-尤其是 v5 那節的「區域覆寫變數 vs 全域 --color-\* token」陷阱，跟
-v6 那節的「手機斷點攤平時漏掉選擇器的 ancestor scope」陷阱，這兩類
-是目前踩過最貴的坑，不要重踩一次。
+**下一步是 v2 的 Phase 3（逐頁轉換）**。v2 的 Phase 1 token 已補完
+（`tailwind/src/v2/{pc,mobile}/theme.css`，見 `TOKENS.md`「v2」章節）：
+先前判斷「v2 是舊 Tailwind 編譯輸出＋PrimeVue 殘留、非手寫」是誤判，
+只看了未被任何頁面載入的死檔案 `app.css`；實際載入的 `main.css` +
+`themes/*.css` 架構跟其他版本一樣乾淨（手寫語意化 class + 人類可讀
+`:root` token），可以直接沿用下方「逐頁 SOP」「測試基建」開工，流程
+跟 v1.5/v3/v4/v5/v6 相同。v2 有 5 組換皮（`aurora`/`cosmic-pink`/
+`fashion-blue`/`noir`/`rose-graphite`，透過 `:root[data-theme='x']`
+切換）、色彩存值是「R G B」三個十進位數字（不是 hex，main.css 全站
+用 `rgb(var(--c-x) / 1)` 取值，逐字保留這個慣例，不要改寫成別的格式）。
+開工前務必先看下方 v4/v5/v6 三節「過程中新發現的問題」——尤其是 v5
+那節的「區域覆寫變數 vs 全域 --color-\* token」陷阱，跟 v6 那節的
+「手機斷點攤平時漏掉選擇器的 ancestor scope」陷阱，這兩類是目前踩過
+最貴的坑，不要重踩一次；另外 v2 的 pc/mobile theme.css 一開工就已經
+補了 `--sidebar-w`/`--mobile-nav-h` 兩個結構常數避免編譯輸出逐 byte
+相同（Vite 會把完全相同的兩個 CSS entry 去重成一個檔案，害
+`site-mobile/` 建置後缺 CSS），之後每寫一版新的 pages/*.css 都要留意
+這件事還成立。
 
 ## 本 repo 的核心任務性質
 
@@ -683,9 +693,11 @@ v6 開工前就直接補進 theme.css/auth_seed.mjs 了，但 v6 又踩到幾個
 
 ## 其餘版本現況
 
-- **v2**：CSS 是舊版 Tailwind 編譯輸出＋PrimeVue 殘留（非手寫），
-  沒有語意化 token 可以直接搬，需要先做自己的 Phase 1 token 工作，
-  故意留到最後處理，是目前唯一還沒開始的版本。
+- **v2**：Phase 1 token 已完成（見 `TOKENS.md`「v2」章節），Phase 3
+  逐頁轉換尚未開始，是目前唯一還沒開始頁面轉換的版本。原本以為 v2
+  的 CSS 是舊版 Tailwind 編譯輸出＋PrimeVue 殘留（非手寫）而故意排到
+  最後，後來查證是誤判——那份判斷依據的 `app.css` 其實沒有被任何頁面
+  載入，真正使用的 `main.css`＋`themes/*.css` 架構跟其他版本一樣乾淨。
 
 ## 環境須知
 
