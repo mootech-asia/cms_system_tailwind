@@ -1,0 +1,314 @@
+/* ============================================================
+   帳戶總覽(pages/userCenter/index.vue)
+   ============================================================ */
+.account-page {
+  background: #f4f4f4;
+  padding-bottom: 80px;
+  /* 灰底要延伸到視窗底部(跟固定側欄一樣高),不能只包住內容本身,否則
+     資料少的帳號(如剛註冊、無交易記錄)底下會露出 .usercenter-content
+     的白底,跟側欄深色背景脫節;算法對照 .record-page */
+  min-height: calc(100vh - var(--header-h));
+}
+@media (min-width: 1280px) {
+  .account-page {
+    min-height: calc(100vh - var(--header-h));
+  }
+}
+.account-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1280px) {
+  .account-layout {
+    grid-template-columns: 1fr 320px;
+    padding: 0 40px 24px;
+  }
+}
+
+.account-hero {
+  background: var(--color-navy-2);
+  color: #fff;
+  overflow: hidden;
+}
+@media (min-width: 1280px) {
+  .account-hero {
+    border-radius: 10px;
+  }
+}
+.account-hero-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 16px 16px;
+}
+.account-hero-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 999px;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px #fff;
+}
+.account-hero-name-row {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 4px;
+}
+.account-hero-name-row .username {
+  font-size: 18px;
+  font-weight: 700;
+}
+.account-hero-level {
+  display: inline-flex;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-image: var(--g-primary);
+  color: var(--color-navy);
+  font-weight: 700;
+  font-size: 12px;
+}
+.account-hero-nickname {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.account-hero-balance {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.account-hero-balance .text-gradient {
+  font-weight: 700;
+}
+.account-hero-balance img {
+  width: 20px;
+  height: 20px;
+}
+.account-hero-actions-mobile {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+  flex-wrap: wrap;
+}
+.account-action-btn {
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 12px;
+  background: var(--g-action);
+  color: var(--color-navy);
+  font-weight: 700;
+  font-size: 16px;
+}
+.account-action-outline {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.account-hero-rollover-mobile {
+  padding: 16px;
+  text-align: right;
+}
+.account-rollover-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+.account-rollover-note {
+  font-weight: 700;
+  color: #fff;
+  margin: 4px 0 0;
+}
+.account-rollover-value {
+  margin: 4px 0 0;
+  font-weight: 400;
+}
+.account-hero-desktop-actions {
+  display: none;
+}
+.account-hero-desktop-rollover {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .account-hero-top {
+    padding: 24px 16px;
+  }
+  .account-hero-avatar {
+    width: 94px;
+    height: 94px;
+  }
+  .account-hero-name-row {
+    flex-direction: row;
+    align-items: center;
+  }
+  .account-hero-name-row .username {
+    font-size: 24px;
+  }
+  .account-hero-actions-mobile {
+    display: none;
+  }
+  .account-hero-rollover-mobile {
+    display: none;
+  }
+  .account-hero-top {
+    align-items: flex-start;
+  }
+  .account-hero-desktop-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-left: auto;
+  }
+  .account-hero-desktop-actions .btn-row {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .account-hero-desktop-rollover {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    flex-direction: column;
+  }
+  .account-hero-desktop-rollover .account-rollover-title {
+    font-size: 22px;
+  }
+  .account-hero-desktop-rollover .account-rollover-note,
+  .account-hero-desktop-rollover .account-rollover-value {
+    font-size: 14px;
+  }
+}
+
+.account-recent {
+  margin: 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+@media (min-width: 1280px) {
+  .account-recent {
+    margin: 24px 0;
+  }
+}
+.account-recent-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--color-border);
+  padding: 8px 0;
+}
+.account-recent-head h4 {
+  color: var(--color-navy-2);
+  font-weight: 700;
+  margin: 0;
+}
+.account-recent-more {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .account-recent-head {
+    justify-content: space-between;
+    padding: 16px 24px;
+  }
+  .account-recent-head h4 {
+    font-size: 22px;
+  }
+  .account-recent-more {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-navy);
+    font-weight: 700;
+    font-size: 15px;
+  }
+}
+.account-recent-body {
+  padding: 16px;
+}
+.account-recent-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+}
+.account-recent-row:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+.account-recent-row .type {
+  color: var(--color-navy);
+  font-weight: 700;
+  font-size: 14px;
+}
+.account-recent-row .time {
+  color: var(--color-navy);
+  font-size: 12px;
+  margin-top: 2px;
+}
+.account-recent-row .amount {
+  color: var(--color-navy);
+  font-size: 14px;
+  text-align: right;
+}
+.account-recent-row .status {
+  font-size: 12px;
+  text-align: right;
+  margin-top: 2px;
+}
+.status-approved { color: #1dbf73; }
+.status-reject { color: #e11d48; }
+.status-pending { color: #f0bc00; }
+
+.account-quick-links {
+  padding: 16px;
+}
+@media (min-width: 1280px) {
+  .account-quick-links {
+    padding: 0 0 0 32px;
+  }
+}
+.account-quick-list {
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+.account-quick-list > button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-soft);
+}
+.account-quick-list > button:last-child {
+  border-bottom: 0;
+}
+.account-quick-list img {
+  width: 20px;
+  height: 20px;
+}
+.account-quick-list .qtitle {
+  font-size: 14px;
+  color: var(--color-navy);
+  font-weight: 700;
+}
+.account-quick-list .qdesc {
+  font-size: 12px;
+  color: #6d6d6d;
+}
+.account-quick-status {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
