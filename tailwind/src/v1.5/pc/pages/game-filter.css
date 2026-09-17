@@ -1,0 +1,258 @@
+/* ============================================================
+   GameFilter(components/GameFilter.vue) — game-type.html / game-list.html
+   共用；含 main.css 首頁 Banner 章節裡本來就屬於這兩頁的
+   .gf-marquee-desktop／.game-type-page .home-marquee 覆寫（.home-marquee
+   基礎規則已在 ../pages/index.css，這裡只加 game-type 專屬覆寫）。
+   ============================================================ */
+.game-filter-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.game-filter-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+.game-filter-vendor-sep {
+  width: 1px;
+  height: 16px;
+  background: #b0b0b0;
+}
+.game-filter-vendor-name {
+  color: #b0b0b0;
+  font-weight: 700;
+}
+.game-filter-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+.game-filter-tabs {
+  display: flex;
+}
+.game-filter-tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 16px;
+  font-weight: 700;
+  color: #fff;
+  border-bottom: 1px solid #4f4f4f;
+  white-space: nowrap;
+}
+.game-filter-tab.is-active {
+  border-image: var(--g-primary);
+  border-image-slice: 1;
+}
+.game-filter-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.game-filter-search input {
+  flex: 1;
+  height: 40px;
+  border-radius: 8px;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 0 16px;
+  font-size: 14px;
+}
+.game-filter-search input::placeholder {
+  color: #e7e7e7;
+}
+.game-filter-search-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-weight: 700;
+}
+.game-filter-search-btn img {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+}
+@media (min-width: 768px) {
+  .game-filter-row {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  .game-filter-tabs {
+    flex: none;
+  }
+  .game-filter-tab {
+    flex: none;
+  }
+  .game-filter-search {
+    margin-left: auto;
+  }
+  .game-filter-search input {
+    width: 288px;
+  }
+}
+@media (min-width: 1280px) {
+  .game-filter-title {
+    font-size: 28px;
+  }
+}
+
+/* game-type.html 資訊條緊貼 banner,改用深色底(對照真實網站分類頁截圖,非首頁粉色) */
+.game-type-page .home-marquee {
+  background: var(--color-navy-2);
+}
+/* 對照真實原始碼 gameType.vue 的 Marquee 只加了 class="hidden xl:block",
+   桌機才顯示,手機隱藏(首頁的 Marquee 沒有這個限制) */
+.gf-marquee-desktop {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .gf-marquee-desktop {
+    display: block;
+  }
+}
+
+/* ============================================================
+   game-type.html / game-list.html — 遊戲/廠商卡片
+   ============================================================ */
+.game-type-page,
+.game-list-page {
+  background: var(--color-navy);
+  min-height: 60vh;
+}
+/* game-type.html 有 banner/資訊條需貼齊版面邊緣,padding 改由 .game-page-body 承載;
+   game-list.html 無 banner,沿用原本頁面級 padding */
+.game-list-page,
+.game-page-body {
+  padding: 24px 20px;
+}
+@media (min-width: 1280px) {
+  .game-list-page,
+  .game-page-body {
+    padding: 64px 96px;
+  }
+}
+
+.game-provider-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+.game-provider-card {
+  position: relative;
+  height: 160px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #0b1733;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+.game-provider-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.game-provider-card-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 55%;
+  max-height: 55%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+}
+@media (min-width: 768px) {
+  .game-provider-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  .game-provider-grid {
+    gap: 28px;
+  }
+}
+
+.game-list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+.game-card {
+  cursor: pointer;
+}
+.game-card-thumb {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  background: #0b1733;
+}
+.game-card-thumb img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: transform 1s ease-out;
+}
+.game-card:hover .game-card-thumb img {
+  transform: scale(1.15);
+}
+.game-card-thumb.is-placeholder img {
+  object-fit: contain;
+  padding: 16%;
+}
+.game-card-info {
+  padding: 8px 4px 0;
+}
+.game-card-name {
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.game-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+.game-card-provider {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.game-card-fav-btn {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+.game-card-fav-btn img {
+  width: 100%;
+  height: 100%;
+}
+@media (min-width: 768px) {
+  .game-list-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (min-width: 1536px) {
+  .game-list-grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  .game-card-name {
+    font-size: 18px;
+  }
+}
