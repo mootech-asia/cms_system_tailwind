@@ -71,7 +71,11 @@
   h4 { margin: 1.33em 0; }
   h5 { margin: 1.67em 0; }
   h6 { margin: 2.33em 0; }
+  /* 同 ../pc/theme.css：<h1>-<h6> UA 預設 font-weight:bold 被 Preflight
+     重置成 inherit。 */
+  h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 }
 
 @import "./shell.css";
 @import "./pages/index.css";
+@import "./pages/record.css";

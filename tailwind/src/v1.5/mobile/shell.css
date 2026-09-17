@@ -909,6 +909,25 @@ body.usc-sidebar-open .mobile-bottom-nav {
   }
 }
 
+/* 帳戶總覽/紀錄類頁面共用的白底標題列（account.html + 6 個 record 家族頁共用） */
+.account-page-title {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .account-page-title {
+    display: block;
+    height: 62px;
+    background: #fff;
+    color: var(--color-navy);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 64px;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 32px;
+    margin: 0 0 16px;
+  }
+}
+
 /* ---- UserSidebar ---- */
 .user-sidebar {
   position: relative;
