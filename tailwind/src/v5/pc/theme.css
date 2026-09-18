@@ -1,4 +1,14 @@
-@import "tailwindcss";
+/* source(none)：main.css 逐字搬移，樣式全部來自本檔案 + ../pages/*.css
+   手寫規則，不依賴 Tailwind 自動掃描 HTML 產生的 utility class——關掉
+   自動掃描，避免 HTML 裡跟 main.css 無關、原站沒作用的「巧合同名」
+   class（class="btn-accent outline" 的 outline 只是原站次要按鈕的
+   命名慣例，main.css 的 .btn-accent.outline 只設 background/
+   border-color/color/box-shadow，從未設 outline 屬性；Tailwind 卻把
+   "outline" 認成合法 utility 生成獨立的 .outline{outline-style:solid;
+   outline-width:1px}，因為在 @layer utilities、優先權比 main.css 的
+   @layer components 高，讓次要按鈕多出一圈原站沒有的外框）被 Tailwind
+   認出來變成有作用的真樣式，跟原站渲染不一致。 */
+@import "tailwindcss" source(none);
 
 /* ============================================================
    v5（烈焰賭場 Ignite）design token —— 桌機版。手機版另見

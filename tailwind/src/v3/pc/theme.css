@@ -1,4 +1,21 @@
-@import "tailwindcss";
+/* source(none)：main.css/components.css 逐字搬移，樣式全部來自本檔案 +
+   ../pages/*.css 手寫規則，不依賴 Tailwind 自動掃描 HTML 產生的 utility
+   class——關掉自動掃描，避免 HTML 裡跟 main.css 無關、原站沒作用的
+   「巧合同名」class 被 Tailwind 認出來變成有作用的真樣式，跟原站渲染
+   不一致。確認受影響的兩個真實案例：
+   1. withdrawal-detail.html 的 <td class="text-right">：原站從未定義
+      這個 class，靠 .rec-table tbody td 的 text-align:center 置中，
+      Tailwind 卻生成 .text-right{text-align:right} 覆蓋掉置中樣式。
+   2. account-overview.html 的 class="ap-btn-wide outline"：main.css
+      的 .ap-btn-wide.outline 只設 background/border-color/color/
+      box-shadow，從未設 outline 屬性，Tailwind 卻生成獨立的
+      .outline{outline-style:solid;outline-width:1px}，因為在
+      @layer utilities、優先權比 main.css 的 @layer components 高，
+      讓按鈕多出一圈原站沒有的外框。
+   （另一個巧合同名 .container 先前已用「在 @layer utilities 重新宣告
+   同一條規則、靠同層內源碼順序贏」的方式修正，見下面該規則旁的說明；
+   這裡的 source(none) 讓那個舊修法變成不需要也沒事，兩者不衝突。） */
+@import "tailwindcss" source(none);
 /* 順序要對齊原始 <link> 順序：main.css/layout.css（= shell.css 跟
    pages/*.css，都是 main.css 拆出來的內容）整份在 design-system/
    components.css（= ui-components.css）之前載入，同一個 class 兩邊都

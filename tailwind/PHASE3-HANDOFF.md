@@ -24,14 +24,15 @@
 | Phase 1（設計 token） | v1.5/v2/v3/v4/v5/v6 **全部完成**（PR #1，未合併；v2 原本「延後」的前提是誤判，已補完，見 `TOKENS.md`） |
 | Phase 2（斷點策略） | 已定案（PR #3，未合併） |
 | Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5：**22/22 完成**；v6：**22/22 完成**；v2：**22/22 完成**——**六版全數完成** |
-| Phase 4（`@apply`/格式檢查） | 未開始 |
+| Phase 4（`@apply`/格式檢查） | `source(none)` 系統性複查已完成（見下方「`source(none)` 系統性問題複查」）；`@apply`/格式檢查其餘部分未開始 |
 | Phase 5（`MIGRATION.md`） | 未開始 |
 
-**Phase 3 六個版本已全數完成**，下一步是 Phase 4（`@apply`/格式檢查）
-或 Phase 5（`MIGRATION.md`），尚未開始規劃。v2 收尾時發現的
-`source(none)` 系統性問題（見下方「v2 過程中發現並修正的問題」第 19
-點）**建議在 Phase 4 一併檢查其餘 5 個版本是否也受影響**——目前只
-確認並修正了 v2，其他版本尚未逐一驗證。
+**Phase 3 六個版本已全數完成**。v2 收尾時發現的 `source(none)` 系統性
+問題（見下方「v2 過程中發現並修正的問題」第 19 點）已對其餘 5 個版本
+（v1.5/v3/v4/v5/v6）逐一複查完成：**v3/v5/v6 確認受影響並已修正**，
+**v1.5/v4 確認未受影響**，詳見下方「`source(none)` 系統性問題複查」。
+下一步是 Phase 4 剩餘的 `@apply`/格式檢查、Phase 5（`MIGRATION.md`），
+尚未開始規劃。
 
 ## 本 repo 的核心任務性質
 
@@ -830,6 +831,129 @@ v6/index.html 維持原本驗收數字；v1.5/v3 的 index.html 因跑馬燈/
 浮動，屬於已知的時序雜訊，非本次 v2 改動造成的迴歸——本次 v2 的
 改動範圍完全侷限在 `tailwind/src/v2/`、`tailwind/v2/` 底下，未觸及
 其他版本任何檔案）確認未受影響。
+
+## `source(none)` 系統性問題複查（Phase 4，v1.5/v3/v4/v5/v6 五版）
+
+延續 v2 的「過程中發現並修正的問題」第 19 點：main.css 從未定義的
+「巧合同名」class（跟 Tailwind 內建 utility 語法剛好同名，原站瀏覽器
+直接忽略）會被 Tailwind 的自動內容掃描誤判成真的 utility 使用紀錄，
+生成有作用的樣式。這裡複查其餘 5 個版本的結果與方法。
+
+### 排查方法（比照 v2，但修正了一個關鍵陷阱）
+
+最初嘗試「列出 HTML 用到但版本自己 `pages/*.css` 沒有定義的 class」
+這種靜態差集比對，**方法本身有陷阱**：只要一個 class 名稱以任何形式
+（哪怕是複合選擇器的後半段，例如 `.ap-btn-wide.outline` 裡的
+`outline`、`:is(...)` 清單裡的一員）出現在手寫 CSS 檔案的文字內容裡，
+就會被誤判成「已定義」而排除掉——但複合選擇器 `.ap-btn-wide.outline`
+只在元素同時有兩個 class 時才生效，跟 Tailwind 生成的**獨立**
+`.outline{...}` 規則是完全不同的東西，前者存在不代表後者不會造成
+問題。這個陷阱讓最初一輪排查漏掉了 v3/v5/v6 的 `outline` 洩漏。
+
+**改用更可靠的方法**：對每個版本暫時套用 `source(none)`、重新
+`npm run build`，直接比較**修正前後編譯輸出**裡「獨立 class 選擇器」
+（`(?:^|[}])\.classname\{`，排除複合/巢狀選擇器）的差集，抓出被移除
+的 class 清單，再逐一比對這些 class 是否真的以*獨立 token*的形式出現
+在該版本自己的 HTML `class="..."` 屬性或 `site.js` 動態插入的 class
+裡（用 `class="..."`／`classList.add/remove/toggle`／`className=`
+掃描）。只有真的被自己版本 HTML/JS 使用、且編譯輸出裡曾經有對應獨立
+規則的，才算真正洩漏。
+
+### 排查結果
+
+| 版本 | 移除的 class 總數（含大量本來就沒被用到、純屬編譯體積雜訊的） | 真正洩漏（版本自己 HTML/JS 有用到） | 結論 |
+|---|---|---|---|
+| v1.5 | 96 | 0 | **未受影響**，不需要 `source(none)` |
+| v3 | 94 | 2：`text-right`、`outline` | **受影響，已修正** |
+| v4 | 22 | 0 | **未受影響**，不需要 `source(none)` |
+| v5 | 22 | 1：`outline` | **受影響，已修正** |
+| v6 | 22 | 1：`outline`（全站 22 頁裡 21 頁的 `.v6-sidebar` 快捷鈕都用到，波及面最大） | **受影響，已修正** |
+
+v1.5/v4 這兩版「移除的 class 總數」看起來也不少（96、22 個），但逐一
+核對後這些名字**都沒有以獨立 token 形式出現在自己版本的 HTML/JS
+裡**——這批名字大多是同一份 project-wide 掃描邏輯撿到「其他版本」
+HTML 裡的巧合同名 class（Tailwind v4 沒加 `source(none)` 時的內容
+掃描以整個 vite 專案根目錄為範圍，不是只掃該 entry 自己的頁面），對
+v1.5/v4 自己的頁面完全是死重量、生成了也用不到，不影響視覺，所以
+**判定不受影響、不需要修正**（符合鐵則 1「找不到問題就不要硬加」，
+不勉強套用 `source(none)`）。
+
+### v3/v5/v6 真正洩漏的兩個案例
+
+1. **`text-right`（只有 v3）**：`withdrawal-detail.html` 的
+   `<td class="text-right">`，main.css 從未定義這個 class，靠
+   `.rec-table tbody td { text-align: center; }` 置中；Tailwind 生成
+   `.text-right{text-align:right}`，因為在 `@layer utilities`、
+   優先權比 main.css 的 `@layer components` 高（cascade layer 比的是
+   layer 宣告順序，跟 specificity/source order 無關），蓋掉了置中
+   樣式，這些交易明細金額欄位會被錯誤地靠右對齊。
+2. **`outline`（v3/v5/v6 都有，v6 波及 21 個頁面）**：
+   `class="ap-btn-wide outline"`（v3）／`class="btn-accent outline"`
+   （v5/v6）都是原站「次要按鈕」的命名慣例，main.css 對應的複合選擇器
+   （`.ap-btn-wide.outline`／`.btn-accent.outline`）只設
+   `background`/`border-color`/`color`/`box-shadow`，**從未設
+   `outline` 屬性**；Tailwind 卻把 `outline` 這個 token 認成合法
+   utility，生成獨立的 `.outline{outline-style:solid;
+   outline-width:1px}`，同樣因為 `@layer utilities` 優先權更高而生效，
+   讓這些按鈕多出一圈原站沒有的外框（用隔離的最小 HTML 截圖直接肉眼
+   確認過：修正前按鈕外圍有明顯雙層外框，修正後恢復單一邊框）。v3
+   另外還有一個巧合同名 `.container`，但那個**先前已經用「在
+   `@layer utilities` 重新宣告同一條規則、靠同層內源碼順序贏」的方式
+   修正過**（見 `tailwind/src/v3/pc/shell.css` 該規則旁的說明），跟
+   `source(none)` 是兩種不衝突的修法，這次 `source(none)` 上線後那個
+   舊修法變成「不需要但也沒事」，予以保留不動。
+
+### 修法與驗證
+
+比照 v2：`tailwind/src/{v3,v5,v6}/{pc,mobile}/theme.css` 的
+`@import "tailwindcss";` 全部改成
+`@import "tailwindcss" source(none);`，並在旁邊加上技術性註解記錄
+具體案例（不是敘述型註解，寫的是「為什麼要關掉自動掃描」這個隱藏
+限制）。
+
+驗證：
+- 編譯層級：修正後重新 `npm run build`，確認 `.text-right{`／
+  `.outline{}`（獨立規則，非複合選擇器的一部分）在 v3/v5/v6 的
+  `site/assets/css/tailwind.css`／`site-mobile/assets/css/tailwind.css`
+  都不再出現。
+- 隔離視覺驗證：寫一份只含 `<button class="ap-btn-wide outline">`
+  的最小 HTML，分別套用修正前/後的編譯 CSS 截圖比對，肉眼確認修正前
+  按鈕有雙層外框、修正後恢復單層——這個案例的 pixelmatch 整頁差異
+  百分比因為外框很細（1px）+ 顏色跟邊框本身接近，在整頁尺度的
+  diff 數字上不明顯（例如 v3/account-overview.html 修正前後整頁差異
+  幾乎沒變，11104px→11107px），所以光看整頁 pixelmatch 百分比不足以
+  判斷這類「巧合同名 utility」問題是否修正，**必須直接比對編譯輸出
+  裡有沒有殘留該獨立規則**才是可靠的判斷依據。
+- 桌機 pixelmatch 全頁迴歸：v3（23 頁）／v5（22 頁）／v6（22 頁）
+  桌機寬度（1440px）逐頁重新比對原站，全部頁面差異都遠低於各版本
+  先前已驗收的雜訊上限（v3 最高 0.871%、v5 最高 0.184%、v6 最高
+  0.110%，多數頁面比修正前的既有紀錄數字更低），確認修正本身正確且
+  未波及其他頁面。
+- 手機寬度：**這次測試環境對外部資源（如 pexels.com 縮圖）與部分
+  頁面的懶載入/動態內容渲染，跟先前建立各版本驗收數字時的環境行為不
+  一致**（用完全沒有任何改動的 git HEAD 已提交 build 產物重新測試
+  `v3/withdrawal-detail.html`、`v3/fish.html` 手機版，於本環境下
+  pixelmatch 也分別跑出 46.020%／76.518% 的巨大差異，跟套用修正前後
+  完全一樣——確認是既有的、跟這次 `source(none)` 修正無關的環境層級
+  落差，不是本次改動造成的迴歸，但也代表本環境下手機寬度的原站
+  vs. 轉換版全頁 pixelmatch 目前不可靠，仍待之後有網路/渲染環境更
+  接近先前驗收條件時再重新確認）。改用「修正前後編譯 CSS 直接比對」
+  （確認 `.text-right`/`.outline` 獨立規則兩邊 mobile bundle 都已
+  消失，PC/mobile 兩份 bundle 的洩漏 class 集合逐一核對過完全一致）
+  取代手機全頁 pixelmatch，確認手機版修正同樣正確。
+
+### 給下一個 session 的提醒
+
+- 之後任何版本新增頁面、新增 HTML class 時，**不要單靠「這個 class
+  名稱在我手寫的 CSS 裡搜尋得到」來判斷安全**——搜尋得到也可能只是
+  複合選擇器的一部分（`.parent.classname`），不代表沒有獨立規則被
+  Tailwind 巧合生成。真正可靠的判斷方式是上面「排查方法」那段：修正
+  前後編譯輸出的獨立選擇器差集比對。
+- v1.5/v4 目前沒有 `source(none)`，是因為複查當下**沒有找到真正受
+  影響的案例**，不是「這兩版不會有這個問題」的架構性保證——如果
+  之後在 v1.5/v4 新增頁面時剛好用到跟 Tailwind utility 同名的
+  class，一樣可能踩到同一個系統性問題，發現的話比照這次的方法確認
+  後加上 `source(none)`。
 
 ## 環境須知
 
