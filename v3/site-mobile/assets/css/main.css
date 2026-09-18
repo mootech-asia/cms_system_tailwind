@@ -5107,7 +5107,8 @@ select.twk-field {
 .deposit-result .pi-success-sub { line-height: 1.7; margin: 10px auto 22px; max-width: 440px; }
 
 @media (max-width: 700px) {
-  .wd-method-tabs button { min-width: 170px; }
+  .wd-method-tabs button { min-width: 128px; padding: 9px 12px; font-size: var(--type-body-sm); min-height: 44px; gap: 7px; }
+  .wd-coin-mark { width: 18px; height: 18px; font-size: 11px; }
   .wd-panel { padding: 20px 18px; }
   .wd-form-grid { grid-template-columns: 1fr; gap: 7px; }
   .wd-form-grid > label:not(:first-child) { margin-top: 7px; }

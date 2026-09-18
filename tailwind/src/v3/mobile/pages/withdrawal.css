@@ -480,7 +480,16 @@
 
   @media (max-width: 700px) {
     .wd-method-tabs button {
-      min-width: 170px;
+      min-width: 128px;
+      padding: 9px 12px;
+      font-size: var(--type-body-sm);
+      min-height: 44px;
+      gap: 7px;
+    }
+    .wd-coin-mark {
+      width: 18px;
+      height: 18px;
+      font-size: 11px;
     }
     .wd-panel {
       padding: 20px 18px;
