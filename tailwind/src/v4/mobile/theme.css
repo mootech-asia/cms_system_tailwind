@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* ============================================================
+   v4 design token —— 手機版。桌機版另見 ../pc/theme.css（鐵則 6：
+   兩邊各自獨立檔案，不共用）。
+
+   來源：v4/site/assets/css/main.css 裡 @media (max-width: 1080/720/520px)
+   三段斷點內，會覆寫桌機版數值的規則。色彩／圓角／陰影目前手機版沒有
+   另外覆寫（跟桌機用同一套視覺語言），依鐵則 6 仍在這裡各自獨立宣告一份
+   相同數值，而不是引用 ../pc/theme.css，避免未來手機端改動悄悄影響
+   桌機（或反過來）。
+   ============================================================ */
+@theme static {
+  --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+
+  /* 字級刻度跟桌機版數值目前相同，獨立宣告一份（見上方說明）。另外
+     main.css 手機斷點還有「只有手機會用到」的縮小字級 21px（hero 標題，
+     <=520px 那一階），新增 --text-hero-sm 專門對應。 */
+  --text-3xs: 10.5px;
+  --text-2xs: 11px;
+  --text-2xs-plus: 11.5px;
+  --text-xs: 12px;
+  --text-xs-plus: 12.5px;
+  --text-sm: 13px;
+  --text-sm-plus: 13.5px;
+  --text-base: 14px;
+  --text-base-plus: 14.5px;
+  --text-md: 15px;
+  --text-md-plus: 15.5px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 22px;
+  --text-hero-sm: 21px;
+
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+
+  --shadow-card: 0 2px 0 rgba(43, 36, 32, 0.03), 0 10px 24px rgba(43, 36, 32, 0.08);
+  --shadow-gold: 0 6px 16px rgba(207, 154, 62, 0.35);
+
+  /* 顏色：跟桌機版目前完全相同，獨立宣告一份（見檔頭說明）。 */
+  --color-bg: #f3efe7;
+  --color-bg-panel: #ffffff;
+  --color-header-grad-hi: #e63552;
+  --color-notice-bg: #fbeceb;
+  --color-notice-text: #8a2432;
+  --color-line: #ece3d4;
+  --color-line-hi: #e2c98a;
+  --color-text: #2b2420;
+  --color-text-mid: #6b5f54;
+  --color-text-dim: #a49a8c;
+  --color-text-on-header: #fff6ea;
+  --color-panel-tint: #fff9ec;
+  --color-gold: #f2a924;
+  --color-gold-hi: #ffd452;
+  --color-gold-deep: #b87a0a;
+  --color-red: #c8102e;
+  --color-red-deep: #9c0f28;
+  --color-ink-on-gold: #3a2604;
+}
+
+:root {
+  --header-grad: linear-gradient(180deg, #d21f3c 0%, #ad1130 100%);
+  --gold-grad: linear-gradient(180deg, #ffe58f 0%, #ffc23c 45%, #f0a020 100%);
+  --panel-glass: rgba(255, 255, 255, 0.85);
+  --logo-filter: brightness(0) invert(1);
+  --footer-logo-filter: brightness(0);
+
+  /* ── 手機專屬結構常數（來自 main.css @media 區塊，桌機版沒有這些
+     變數，因為桌機用不到）：quick-rail 收窄尺寸、hero 高度/內距、
+     about/uikit 側留白收窄值——抓的是「重複出現超過一次」的手機斷點值。 ── */
+  --mobile-quick-rail-btn: 40px;
+  --mobile-quick-rail-right: 10px;
+  --mobile-hero-h-md: 220px;   /* @media (max-width:720px) 的 .hero height */
+  --mobile-hero-h-sm: 180px;   /* @media (max-width:520px) 的 .hero height */
+  --mobile-hero-px-md: 24px;   /* .hero-content padding，720px 斷點 */
+  --mobile-hero-px-sm: 18px;   /* .hero-content padding，520px 斷點 */
+  --mobile-side-pad: 20px;     /* .listing-wrap/.about-wrap/.uikit-wrap 的 padding-right 窄螢幕收窄值 */
+}
+
+/* 換膚：跟桌機版同一批 skin，目前也沒有手機專屬色彩覆寫，數值對照
+   ../pc/theme.css 逐字複製一份（獨立宣告，不引用）。 */
+:root[data-skin="onyx-gold"] {
+  --color-bg: #0d0b08;
+  --color-bg-panel: #18140f;
+  --header-grad: linear-gradient(180deg, #211b12 0%, #080705 100%);
+  --color-header-grad-hi: #d4af37;
+  --color-notice-bg: #1c170f;
+  --color-notice-text: #d4af37;
+  --color-line: #2b241a;
+  --color-line-hi: #8a6d2e;
+  --color-text: #f0e6cf;
+  --color-text-mid: #b5a684;
+  --color-text-dim: #7a6f57;
+  --color-text-on-header: #f7efe0;
+  --color-panel-tint: #241d13;
+  --shadow-card: 0 2px 0 rgba(0, 0, 0, 0.4), 0 10px 24px rgba(0, 0, 0, 0.6);
+  --panel-glass: rgba(24, 20, 15, 0.85);
+  --footer-logo-filter: brightness(0) invert(1);
+  --color-red: #8a5c0a;
+  --color-red-deep: #5c3d06;
+}
+:root[data-skin="deep-ocean"] {
+  --color-bg: #071a1c;
+  --color-bg-panel: #0e2528;
+  --header-grad: linear-gradient(180deg, #103c3f 0%, #051415 100%);
+  --color-header-grad-hi: #35d6c4;
+  --color-notice-bg: #0f2a2c;
+  --color-notice-text: #4fe0cd;
+  --color-line: #1c3a3d;
+  --color-line-hi: #2f8f85;
+  --color-text: #e3f5f2;
+  --color-text-mid: #8fb8b4;
+  --color-text-dim: #5c7c79;
+  --color-text-on-header: #eefaf8;
+  --color-panel-tint: #113034;
+  --shadow-card: 0 2px 0 rgba(0, 0, 0, 0.4), 0 10px 24px rgba(0, 0, 0, 0.6);
+  --panel-glass: rgba(14, 37, 40, 0.85);
+  --footer-logo-filter: brightness(0) invert(1);
+  --color-red: #1fae9f;
+  --color-red-deep: #116b62;
+}
+:root[data-skin="emerald-jade"] {
+  --header-grad: linear-gradient(180deg, #12704a 0%, #0d5138 100%);
+  --color-header-grad-hi: #2bbf7a;
+  --color-notice-bg: #eaf7ef;
+  --color-notice-text: #12704a;
+  --color-red: #12704a;
+  --color-red-deep: #0d5138;
+}
+:root[data-skin="imperial-purple"] {
+  --header-grad: linear-gradient(180deg, #6b3fa0 0%, #4a2570 100%);
+  --color-header-grad-hi: #9c6fc2;
+  --color-notice-bg: #f3ecf9;
+  --color-notice-text: #5b2a86;
+  --color-red: #6b3fa0;
+  --color-red-deep: #4a2570;
+}
+:root[data-skin="sapphire-blue"] {
+  --header-grad: linear-gradient(180deg, #1b3f91 0%, #142f6e 100%);
+  --color-header-grad-hi: #3b6fe0;
+  --color-notice-bg: #eaf0fb;
+  --color-notice-text: #1b3f91;
+  --color-red: #1b3f91;
+  --color-red-deep: #142f6e;
+}
+
+/* 手機斷點下真的視覺不同的部分（body reset）。 */
+@layer base {
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 56px; /* 底部快捷列留白，main.css 手機斷點值 */
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: 0; background: none; }
+  img { max-width: 100%; display: block; }
+}

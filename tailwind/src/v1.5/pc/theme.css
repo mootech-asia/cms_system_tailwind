@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+/* ============================================================
+   v1.5（WIN10096）design token —— 桌機版。手機版另見 ../mobile/theme.css
+   （鐵則 6：兩邊各自獨立檔案，不共用）。
+
+   v1.5 原本就有一份完整、語意化的 :root token（v1.5/site/assets/css/
+   main.css 開頭），不是零散寫死值——之前 TOKENS.md 說「v1.5 完全沒有
+   token 系統」是錯的，只做了頻率統計沒真的看到這個 :root 區塊，這裡
+   更正。數值/命名逐字沿用，只改成 Tailwind `--color-*` 命名空間。
+   單一品牌色，沒有 skin 換膚機制（跟 v2~v6 不同）。
+   ============================================================ */
+@theme static {
+  --font-display: 'Pretendard', 'Nanum Gothic', Arial, Helvetica, sans-serif;
+
+  --color-bg: #ffffff;
+  --color-text: #171717;
+  --color-navy: #060c34;
+  --color-navy-2: #0a1140;
+  --color-navy-soft: #1a214f;
+  --color-navy-active: #091042;
+  --color-pink: #e528a5;
+  --color-orange: #f3ac2f;
+  --color-pink-hover: #e52865;
+  --color-link-hover: #00d0ff;
+  --color-subtitle: #b0b0b0;
+  --color-danger: #e11d48;
+  --color-gold: #ffe373;
+  --color-yellow: #fde047;
+  --color-border: #e5e7eb;
+  --color-border-soft: #e7e7e7;
+
+  --radius-card: 10px;
+}
+
+/* 漸層不是合法的 <color>，Tailwind 的 bg-／text- 這類 utility 吃不了，
+   維持一般 custom property，用 [background:var(--g-primary)] 這種任意
+   屬性語法取值。 */
+:root {
+  --g-primary: linear-gradient(90deg, var(--color-pink), var(--color-orange));
+  --g-primary-270: linear-gradient(270deg, var(--color-pink), var(--color-orange));
+  --g-action: linear-gradient(90deg, var(--color-pink) 0%, #f0646f 52%, var(--color-orange) 100%);
+
+  /* 桌機版 header 高度（原設計 min-width:1280px 以上生效，即 Tailwind 的
+     xl 斷點）；手機版數值在 ../mobile/theme.css 獨立宣告。 */
+  --header-h: 132px;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  button { cursor: pointer; font: inherit; background: none; border: 0; padding: 0; color: inherit; }
+  a { color: inherit; text-decoration: none; }
+  input { font: inherit; }
+}

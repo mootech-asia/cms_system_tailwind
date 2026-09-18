@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+/* ============================================================
+   v6（巔峰盤口 Apex）design token —— 手機版。桌機版另見
+   ../pc/theme.css（鐵則 6：兩邊各自獨立檔案，不共用）。
+   .v6-betslip 在 <=1320px 直接隱藏、.v6-sidebar 在 <=1080px 改成漢堡
+   收合的抽屜，是版面行為（階段三處理），這裡只收顏色/圓角/陰影等
+   token，目前手機斷點沒有另外覆寫，跟桌機版數值相同，依鐵則 6 仍
+   獨立宣告一份。
+   ============================================================ */
+@theme static {
+  --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+
+  --text-3xs: 10.5px;
+  --text-2xs: 11px;
+  --text-2xs-plus: 11.5px;
+  --text-xs: 12px;
+  --text-xs-plus: 12.5px;
+  --text-sm: 13px;
+  --text-sm-plus: 13.5px;
+  --text-base: 14px;
+  --text-md: 15px;
+  --text-md-plus: 15.5px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 22px;
+
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+
+  --shadow-card: 0 2px 0 rgba(0, 0, 0, 0.4), 0 10px 24px rgba(0, 0, 0, 0.55);
+  --shadow-accent: 0 6px 16px rgba(23, 184, 102, 0.35);
+
+  /* 顏色：預設 skin（apex-classic）的值，6 個 skin（跟 v5 同一批名字，
+     accent 色票也逐字相同）只換 --accent 系列跟 --jackpot-a/-b，深色
+     骨架全 skin 共用不變。 */
+  --color-bg: #0d211d;
+  --color-bg-soft: #122622;
+  --color-bg-panel: #102420;
+  --color-header-bg: #071412;
+  --color-line: #1d3733;
+  --color-line-hi: #2c5048;
+  --color-text: #eef6f3;
+  --color-text-mid: #9fb8b2;
+  --color-text-dim: #6c8983;
+  --color-text-on-header: #eef6f3;
+  --color-panel-tint: #163430;
+  --color-accent: #17b866;
+  --color-accent-hi: #33d17e;
+  --color-accent-deep: #0e8a4c;
+  --color-accent-ink: #ffffff;
+  --color-badge: #e2413f;
+  --color-badge-deep: #a52a2a;
+}
+
+:root {
+  --panel-glass: rgba(10, 25, 23, 0.85);
+  --footer-opacity: 0.85;
+  --header-h: 62px;
+  --accent-grad: linear-gradient(180deg, #33d17e 0%, #17b866 55%, #0e8a4c 100%);
+  /* 預設（無 data-skin）沿用 accent 同色系漸層，不是固定紫色；6 個
+     skin 覆寫成各自的固定色（跟 v5 skin 色票相同）。 */
+  --color-jackpot-a: var(--color-accent-deep);
+  --color-jackpot-b: var(--color-accent-hi);
+
+  /* 手機專屬結構常數（main.css @media 區塊，桌機版用不到）。 */
+  --mobile-side-pad: 20px; /* listing-wrap 側留白窄螢幕收窄值 */
+}
+
+:root[data-skin="gold-noir"] {
+  --color-accent: #d4a017;
+  --color-accent-hi: #f0c550;
+  --color-accent-deep: #9c780f;
+  --accent-grad: linear-gradient(180deg, #f0c550 0%, #d4a017 55%, #9c780f 100%);
+  --color-accent-ink: #2a1a04;
+  --color-jackpot-a: #92400e;
+  --color-jackpot-b: #d97706;
+}
+:root[data-skin="neon-emerald"] {
+  --color-accent: #12b76a;
+  --color-accent-hi: #34d399;
+  --color-accent-deep: #0a7a49;
+  --accent-grad: linear-gradient(180deg, #34d399 0%, #12b76a 55%, #0a7a49 100%);
+  --color-accent-ink: #fff8f0;
+  --color-jackpot-a: #0891b2;
+  --color-jackpot-b: #06b6d4;
+}
+:root[data-skin="royal-crimson"] {
+  --color-accent: #dc2626;
+  --color-accent-hi: #f87171;
+  --color-accent-deep: #a31515;
+  --accent-grad: linear-gradient(180deg, #f87171 0%, #dc2626 55%, #a31515 100%);
+  --color-accent-ink: #fff8f0;
+  --color-jackpot-a: #be185d;
+  --color-jackpot-b: #ec4899;
+}
+:root[data-skin="sapphire-noir"] {
+  --color-accent: #2563eb;
+  --color-accent-hi: #60a5fa;
+  --color-accent-deep: #1741a6;
+  --accent-grad: linear-gradient(180deg, #60a5fa 0%, #2563eb 55%, #1741a6 100%);
+  --color-accent-ink: #fff8f0;
+  --color-jackpot-a: #4338ca;
+  --color-jackpot-b: #7c3aed;
+}
+:root[data-skin="violet-jackpot"] {
+  --color-accent: #8b5cf6;
+  --color-accent-hi: #c4b5fd;
+  --color-accent-deep: #6d28d9;
+  --accent-grad: linear-gradient(180deg, #c4b5fd 0%, #8b5cf6 55%, #6d28d9 100%);
+  --color-accent-ink: #fff8f0;
+  --color-jackpot-a: #a21caf;
+  --color-jackpot-b: #e879f9;
+}
+:root[data-skin="emerald-tide"] {
+  --color-accent: #1aa88f;
+  --color-accent-hi: #34e6b8;
+  --color-accent-deep: #16309e;
+  --accent-grad: linear-gradient(135deg, #1fd9a4 0%, #1aa8c4 50%, #1a3fd6 100%);
+  --color-accent-ink: #fff8f0;
+  --color-jackpot-a: #0d9488;
+  --color-jackpot-b: #1e3a8a;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  main { flex: 1 0 auto; }
+  a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--color-accent-hi); outline-offset: 2px; }
+  button { font-family: inherit; cursor: pointer; border: 0; background: none; }
+  img { max-width: 100%; display: block; }
+}
