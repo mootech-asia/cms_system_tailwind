@@ -11,13 +11,26 @@
 > - Phase 1 的 token 命名細節/各版 skin 清單仍以 `TOKENS.md` 為準，
 >   這份文件只抽取「規則」，不重複每個版本的完整色票。
 
+> **⚠️ 方法論修正（2026-09）**：Phase 3 原本的做法——HTML 保留語意化
+> class（`.ap-btn-wide`、`.dp-method-tabs` 這類），CSS 從舊站逐字搬到
+> `pages/*.css`，只是把「手寫 CSS」換成「Tailwind build 出來的手寫
+> CSS」——**不是工程師 Lewis 當初核定的方向**（見 commit `dc55414`）。
+> 真正要交接給工程師維護的形態是 **HTML 直接寫 Tailwind utility
+> class**（`flex items-center gap-2 text-sm` 這種），語意化 class 只
+> 保留在還沒轉換的舊頁面上。Phase 3 已完成的頁面／PR #1-4 的內容全部
+> 屬於這個錯誤方向，需要重新轉換。Phase 1（token/`@theme`）、Phase 2
+> （斷點策略）、下面「已知陷阱總表」A/C-M 項這些跟 class 命名無關的
+> 建置層規則仍然有效、不用重做；**Phase 3 的 SOP 本身作廢，改看下面
+> 新增的「Phase 3.5：Utility Class 優先轉換 SOP」**。
+
 ## 目錄
 
 1. [專案定位與適用範圍](#專案定位與適用範圍)
 2. [整體架構](#整體架構)
 3. [Phase 1：Token 與 `@theme` 建置規則](#phase-1token-與-theme-建置規則)
 4. [Phase 2：斷點策略](#phase-2斷點策略)
-5. [Phase 3：逐頁轉換 SOP](#phase-3逐頁轉換-sop)
+5. [Phase 3：逐頁轉換 SOP（已作廢，見下）](#phase-3逐頁轉換-sop)
+5.5 [Phase 3.5：Utility Class 優先轉換 SOP](#phase-35utility-class-優先轉換-sop)
 6. [已知陷阱總表（依類別）](#已知陷阱總表依類別)
 7. [測試基建](#測試基建)
 8. [工具腳本](#工具腳本)
@@ -204,6 +217,72 @@ base 規則是桌機版，`@media(max-width:...)` 覆寫手機。
 10. commit（繁體中文說明，動機為主）、push、更新 PR 的標題/內容
     （進度表＋pixelmatch 數字表格＋過程中發現的問題）。
 
+## Phase 3.5：Utility Class 優先轉換 SOP
+
+取代上面的 Phase 3。差異只在「HTML 要不要保留語意化 class」，Phase 1
+（token/`@theme`）跟 Phase 2（斷點策略）不變、繼續共用。
+
+### 核心原則
+
+- HTML 的 `class` 屬性改寫成 Tailwind utility class 組合（`flex
+  items-center gap-2 p-[14px_6px] text-[14px]` 這種），不再新增/沿用
+  `.ap-tx-row` 這類語意化 class 名稱去對應手寫 CSS 規則。
+- **重複三次以上的 utility class 組合也不要抽成 `@apply` 自訂 class
+  或共用元件**（CLAUDE.md 鐵則 5）——直接複製貼上。
+- 顏色/陰影/圓角/間距一律用 `TOKENS.md` 定義好的 token（`text-positive`、
+  `border-line-hi`、`rounded-lg` 這類，theme.css 裡有 `--color-*`
+  映射的才有對應 utility 名稱），數值對不到既有 token 的才用任意值
+  語法（`text-[#ff6b6b]`、`p-[14px_6px]`）。
+- **`@source` 是「整頁」粒度的開關，不是「單一 class」粒度**：
+  `source(none)` 關掉自動掃描後，只有明確列在 `@source` 的檔案會被
+  掃描產生 utility CSS。這代表**不能在一個頁面裡只轉換其中一個元件
+  就上 `@source`**——沒上 `@source` 的頁面，新寫的 utility class 完全
+  不會有對應樣式（等於直接壞掉）；上了 `@source` 又只轉換一部分，
+  該頁其餘還沒轉換的語意化 class 全部暴露在下面「N. Utility class
+  與既有語意 class 同名碰撞」的風險裡。**每頁必須一次轉換完、通過
+  驗收才能把該頁加進 `@source` 清單**，不能拆元件分批上線同一頁。
+
+### 逐頁 SOP
+
+1. 跟 Phase 3 步驟 1-2 一樣，先列出該頁實際用到的語意化 class 清單，
+   並找出 `site.js`/`mobile.js` 裡有沒有用這些 class 當 querySelector
+   目標做互動綁定（見下面「O. JS 互動邏輯綁定樣式 class」）——這點
+   Phase 3（維持語意 class）不需要處理，Phase 3.5 一定要處理。
+2. 對照 main.css 抓出每個語意化 class 的**最終 cascade 後的值**（不是
+   第一條規則的值——同 class 常常在檔案後段有 skin/場景專屬的覆寫，
+   例如 `.ap-amt.neg` 在 2917 行是 `#ef4444`、3628 行才是實際生效的
+   `#ff6b6b`，只看第一條會抄錯顏色）。
+3. 逐一把語意化 class 換成 utility class：
+   - 純色/字重/字級/間距/圓角有對應 token 就用具名 utility；沒有就用
+     `[]` 任意值，數值/單位跟 main.css 逐字一致。
+   - `background: linear-gradient(...)` 或其他 CSS 變數形式的漸層，
+     要寫 `bg-[image:var(--x)]`，不能只寫 `bg-[var(--x)]`（會被當成
+     `background-color` 解析，渲染成透明/無效果）。
+   - `!important` 用 `xxx!` 後綴（如 `font-semibold!`）；任意屬性
+     + `!important` 用 `[text-shadow:none]!`。
+   - **原規則有 `font: inherit`（表單元件/按鈕常見）時，該元素的
+     line-height 會繼承父層算出來的具體值，不是 Tailwind Preflight
+     的 `line-height: normal`**——必須額外加顯式 `leading-[Npx]`，
+     否則元件會被撐高/壓扁幾 px，肉眼不容易發現，要靠下面第 5 步的
+     全頁 pixelmatch 抓出來。
+   - **切勿使用 Tailwind 內建的數字間距 utility（`mt-3`、`p-4`
+     這類 rem 為底的 class）**：本專案 `<html>` 根字級是 **14px**，
+     不是瀏覽器預設的 16px，`mt-3` 算出來是 10.5px 不是 12px，跟
+     main.css 寫死的 px 值對不上。一律用 `[px]` 任意值。
+4. `cd tailwind && npm run build`。
+5. Pixelmatch 比對該頁**所有斷點**（不是只測自己剛好在改的那個），
+   0% 才算過；有落差先用 `getComputedStyle` 量測可疑元素的
+   width/height/padding/margin/gap，逐屬性排查，不要只憑肉眼看
+   diff 圖猜原因（很多落差是疊加的，肉眼會誤判成單一原因）。
+6. **互動測試逐一實測，不能只測視覺**：凡是原本語意 class 被 JS
+   當 querySelector 目標的元件，轉換後用 Playwright 實際點擊/操作，
+   確認行為（導頁/toggle/彈窗/計算）跟轉換前一致——見下面「O」，這
+   是本次轉換發現最容易漏測、後果最重的一類問題。
+7. 確認頁面上**沒有殘留任何舊語意化 class**（`grep` 該頁，清單應為
+   空），才把該頁加進對應 `theme.css` 的 `@source` 清單。
+8. commit、push，commit message 記錄本頁踩到的坑（尤其是巧合同名碰撞
+   跟哪個既有 class 撞名），方便之後排查同類問題。
+
 ## 已知陷阱總表（依類別）
 
 ### A. Tailwind Preflight 回歸（跟原站「沒有全站 reset」的假設衝突）
@@ -365,6 +444,73 @@ collapse 行為跟著改變）。這對「main.css 系」跟「共用 UI 元件�
 寫技術註解時如果提到類似 `bg-*/text-*` 這種寫法，CSS 語法會把中間的
 `*/` 當成註解結束符號，導致後面一大段文字被誤判成 CSS 語法、整份
 檔案解析錯亂。新增註解時避免連續打出 `*/`。
+
+### N. Utility class 名稱與既有語意化 class 同名碰撞（Phase 3.5 專屬，跟 B 是同一種病但觸發方式不同）
+
+B 項是「舊 HTML 裡的語意化 class 剛好符合 utility 語法，被自動掃描
+生成」；Phase 3.5 反過來——**是我們主動在新 HTML 上使用 Tailwind
+自己的 utility class 名稱（`grid`、`flex`、`hidden`、`block`、
+`container` 這類極常見的單字），而舊版某個共用 CSS 檔案剛好也定義了
+一個同名的語意化 class**。例如 `pages/index.css` 裡首頁遊戲卡片格線
+用的 `.grid { grid-template-columns: repeat(auto-fill, ...); gap:
+var(--rail-gap); padding: 10px 0 16px; margin: -10px 0 -16px; }`，
+跟 account-overview.html 新轉換的 Recent Transactions 表格列使用
+Tailwind 內建的 `grid` utility 撞名。因為兩條規則的 layer 優先權不同
+（Tailwind utility 在較晚的 layer、舊語意 class 若屬於 base layer 或
+沒包 layer 則規則各自獨立比較），**结果是逐屬性各自比較**：凡是新
+utility class 有明確設定的屬性（本例的 `grid-template-columns`、
+`padding`）會照常生效，但凡是新 markup **沒有主動設定**的屬性（本例
+的 `gap`、`margin`），舊語意 class 的值就會直接洩漏過來，产生視覺
+上看起來「差一點點但抓不到原因」的落差。
+
+**排查方法**：pixelmatch 抓到落差但 class 看起來明明正確時，用
+`getComputedStyle` 把該元素每個可疑屬性（尤其是沒在新 class 裡明確
+寫到的：`gap`/`margin`/`padding`/`grid-template-columns`/`display`
+相關屬性）都印出來，跟原始版本同一屬性比對，抓出「新 class 沒設但
+computed 值不是初始值」的屬性，就是被同名舊規則洩漏。
+
+**修法**：優先在新的 utility class 上明確補齊該屬性的正確值（本例
+補上 `gap-0 m-0`），不要去改共用的舊語意化 class 名稱——除非確認
+該舊 class 只有極少數地方用到、改名成本低（例如未來可考慮把
+`pages/index.css` 的 `.grid` 改名成 `.cat-grid` 從根源消除風險，
+但這類共用 class 改名影響面通常較大，需要另外排期處理，不要在轉換
+單一頁面時順手做)。
+
+**教訓**：Tailwind 的 utility 名稱清一色是英文常見單字（`grid`／
+`flex`／`hidden`／`block`／`container`／`relative`／`absolute`／
+`static`／`fixed`／`sticky`／`border`／`rounded`／`shadow`……），每版
+舊 CSS 幾乎一定存在同名的語意化 class。**每次要在新頁面用到這類
+「裸字」utility class 之前，先 `grep` 該版本全部 CSS 檔案（不只是
+該頁自己的 `pages/<page>.css`，共用的 `shell.css`／其他
+`pages/*.css` 都要查）有沒有同名的既有規則**，有的話比照本項排查
+computed style。
+
+### O. JS 互動邏輯綁定樣式 class，轉換後直接失效
+
+`site.js`/`mobile.js` 裡大量用 `document.querySelector('.ap-btn-wide
+.ap-grad')`、`document.querySelector('.ap-view-more')` 這類**選樣式
+class 當互動綁定目標**的寫法。轉換成 utility class 後，這些原本的
+語意化 class 從 HTML 上消失，對應的點擊/toggle/表單邏輯會**靜默
+失效**——不會報錯，畫面看起來完全正常（pixelmatch 甚至可能是 0%），
+但按鈕點下去沒有反應。這類迴歸**純視覺驗收完全抓不到**，只能靠逐一
+實際觸發互動點才能發現（account-overview.html 的 Quick Actions
+Deposit/Withdraw 按鈕、Recent Transactions 的 View More Records
+連結都踩過這個坑）。
+
+**修法**：比照專案既有的 `data-action="..."` 慣例（`site.js` 裡
+`open-signin`／`goto-manage-bank`／`toggle-pw` 等大量既有案例），
+在要轉換 class 的元素上額外加一個語意穩定、不受樣式變動影響的
+`data-action` 屬性，並把 JS 裡的 `querySelector('.xxx')` 改成
+`querySelector('[data-action="xxx"]')`。**兩邊裝置共用同一份
+`site.js` 時（`site-mobile/*.html` 常用 `../site/assets/js/site.js`），
+桌機版 HTML 即使還沒轉換 utility class，也要同步補上一樣的
+`data-action` 屬性**（純新增屬性，不影響桌機樣式），否則改一邊的
+selector 會讓另一邊（還沒轉換的那份 HTML）失效。
+
+**流程要求**：轉換一個元件前，**先 grep 該元件的語意化 class 有沒有
+出現在任何 `.js` 檔案的 `querySelector`/`classList`/`closest` 呼叫
+裡**（不是只 grep HTML/CSS），有的話一併規劃 `data-action` 替換，
+不要等 pixelmatch 過了才交付，因為視覺驗收看不出這類問題。
 
 ## 測試基建
 
