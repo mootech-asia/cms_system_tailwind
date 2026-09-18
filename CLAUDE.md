@@ -1,9 +1,18 @@
 # cms_system — 工作守則
 
 ## 專案定位
-本 repo 是 `cms_system_v2`、`cms_system_v3` 的統一預覽/交付 repo。每個版本都是完全
-獨立、免建置的純 HTML+CSS+JS 靜態站：不得含任何前端框架殘留（Vue／Nuxt／
-Tailwind 編譯輸出／PrimeVue 等），CSS 一律手寫、以 CSS variable/token 為基礎。
+本 repo 是 `mootech-asia/cms_system` 的獨立複本，用來把 v1.5~v6 的視覺原型
+重新編譯成 Tailwind CSS v4 架構，交接給工程師維護，不是重新設計。repo 根目錄
+的 `v1.5/`～`v6/`、`index.html` 等是複製當下的完整快照，做為轉換對照基準，
+**不得修改或刪除**；`tailwind/` 資料夾是本次轉換工程的新專案（Vite +
+`@tailwindcss/vite`，設定透過 CSS 內 `@theme` 完成，不用 `tailwind.config.js`，
+不需要 PostCSS/autoprefixer）。
+
+**鐵則例外（推翻原本「不得含 Tailwind 編譯輸出」的限制）**：這條規則原本是
+給 `v1.5/`～`v6/` 這種免建置純手寫 CSS 站用的，對 `tailwind/` 資料夾**不適用
+——`tailwind/` 下容許、且預期會有 Tailwind 編譯輸出（`vN/site/assets/css/
+tailwind.css` 等 build 產物）**。`v1.5/`～`v6/` 本身仍然維持原本定位不變，
+不得在那幾個資料夾內新增任何框架殘留；只有 `tailwind/` 底下不受此限。
 
 ## 目錄結構
 ```
@@ -58,6 +67,20 @@ localStorage 為同源同步（不受資料夾路徑影響），改動路徑時�
    - 改動頁面收工前，桌機寬度與手機寬度兩種斷點都要重新截圖檢視，不能只
      驗證自己正在修的那一邊。
 
+5. **`tailwind/` 內 utility class 允許重複，禁止用 `@apply`／抽共用元件**：
+   即使同一串 utility class 組合（按鈕、卡片樣式等）在多處重複出現三次
+   以上，也不要抽成 `@apply` 自訂 class 或共用元件/partial，直接複製貼上
+   就好——換取好懂、改一處不會意外連動別處，不為了 DRY 增加抽象層跟
+   找/改的心智負擔。
+
+6. **`tailwind/` 的 theme 手機版與桌機版必須各自獨立、不共用同一份定義**
+   （沿用鐵則 4「手機/桌機互不干擾」的精神）：每個版本在 `tailwind/` 下
+   要有兩份獨立的 `@theme`（各自獨立的資料夾/檔案，例如
+   `src/vN/pc/theme.css` 與 `src/vN/mobile/theme.css`），即使目前兩邊
+   數值完全相同也不共用同一份——避免有一天手機端改了某個變數值沒注意到
+   會連動影響桌機端（或反過來），跟鐵則 4 因為 CSS 共用發生過跑版事故是
+   同一個理由。
+
 ## 驗收標準（逐頁把關，不得留到最後才修）
 
 每頁遷移/淨化完成才能視為該頁完成，標準如下，缺一不可：
@@ -72,4 +95,6 @@ localStorage 為同源同步（不受資料夾路徑影響），改動路徑時�
 ## 慣例
 - 溝通與 commit 說明以繁體中文為主（commit message 可英文，聚焦動機）。
 - 分支：直接於 `main` 開發（除非另有指示）。
-- 樣式只用既有 token/共用 class，禁任意值色碼、禁 Tailwind/框架殘留。
+- `v1.5/`～`v6/`：樣式只用既有 token/共用 class，禁任意值色碼、禁 Tailwind/
+  框架殘留（原始快照維持不變）。`tailwind/`：就是要用 Tailwind，顏色/陰影/
+  圓角/間距一律引用 `tailwind/TOKENS.md` 定義好的 token，不寫死任意值。
