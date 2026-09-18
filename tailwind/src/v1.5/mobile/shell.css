@@ -126,7 +126,7 @@
     padding: 0 20px;
   }
   .site-header-mobile .brand-logo {
-    height: 36px;
+    height: 50px;
     width: auto;
   }
   .header-menu-btn {
@@ -544,7 +544,7 @@
     justify-content: flex-start;
   }
   .footer-logo-row img {
-    width: 88px;
+    width: 124px;
   }
   .footer-copy {
     margin: 32px 0;
@@ -569,7 +569,7 @@
       justify-content: center;
     }
     .footer-logo-row img {
-      width: 200px;
+      width: 280px;
     }
     .footer-copy {
       text-align: center;

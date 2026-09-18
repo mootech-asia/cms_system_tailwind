@@ -288,7 +288,7 @@
     align-items: center;
   }
   .topbar-logo {
-    height: 32px;
+    height: 45px;
     width: auto;
     display: block;
     filter: drop-shadow(0 0 12px color-mix(in oklch, var(--accent) 35%, transparent));
@@ -1695,7 +1695,7 @@
       transform: rotate(-45deg);
     }
     .topbar-logo {
-      height: 24px;
+      height: 34px;
     }
     .tb-balance-rows {
       flex-direction: column;
@@ -1821,7 +1821,7 @@
       padding: 5px 9px;
     }
     .topbar-logo {
-      height: 22px;
+      height: 31px;
     }
     .header-actions {
       gap: 6px;
@@ -1855,7 +1855,7 @@
     outline-offset: 6px;
   }
   .footer-min-logo img {
-    height: 28px;
+    height: 40px;
     width: auto;
     filter: drop-shadow(0 0 16px color-mix(in oklch, var(--accent) 35%, transparent));
   }
@@ -2311,6 +2311,14 @@
   [data-theme='light'] .footer-min-logo img,
   [data-theme='light'] .topbar-logo {
     filter: none !important;
+  }
+  /* logo 依 skin 明暗切換：assets/logo.png 為暗色版，亮色 skin 覆蓋成 logo-light.png。
+     mobile 版沒有自己的 logo 圖檔，共用 ../site/assets/ 下桌機版的圖（跟 HTML
+     <img src="../site/assets/logo.png"> 同一份資源）；編譯後輸出在
+     site-mobile/assets/css/ 下，故用 ../../../site/assets/logo-light.png。 */
+  [data-theme='light'] .footer-min-logo img,
+  [data-theme='light'] .topbar-logo {
+    content: url('../../../site/assets/logo-light.png');
   }
   [data-theme='light'] .tb-avatar,
   [data-theme='light'] .tb-avatar.circle,

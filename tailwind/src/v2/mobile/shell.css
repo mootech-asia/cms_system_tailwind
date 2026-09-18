@@ -55,7 +55,7 @@
   color: rgb(var(--c-text) / 1);
 }
 .brand-logo {
-  height: 2.5rem;
+  height: 3.5rem;
   mix-blend-mode: lighten;
 }
 .header-mobile-controls {
@@ -1324,7 +1324,7 @@
   align-items: center;
 }
 .site-footer-logo {
-  height: 3rem;
+  height: 4.25rem;
   mix-blend-mode: lighten;
   margin-bottom: 1.5rem;
 }
