@@ -16,6 +16,12 @@
    同一條規則、靠同層內源碼順序贏」的方式修正，見下面該規則旁的說明；
    這裡的 source(none) 讓那個舊修法變成不需要也沒事，兩者不衝突。） */
 @import 'tailwindcss' source(none);
+/* account-overview.html 開始改用真正的 Tailwind utility class 寫法
+   （鐵則 5 原意），需要明確 @source 讓 Tailwind 掃描這個檔案才會生成
+   對應 utility——source(none) 只關掉自動掃描，不影響明確指定的來源。
+   逐頁改完 utility class 寫法、確認頁面上沒有殘留巧合同名死 class 後，
+   才把該頁加進這份清單，避免重蹈 source(none) 修正前的覆轍。 */
+@source '../../../v3/site-mobile/account-overview.html';
 /* 順序要對齊原始 <link> 順序：main.css/layout.css（= shell.css 跟
    pages/*.css，都是 main.css 拆出來的內容）整份在 design-system/
    components.css（= ui-components.css）之前載入，同一個 class 兩邊都
