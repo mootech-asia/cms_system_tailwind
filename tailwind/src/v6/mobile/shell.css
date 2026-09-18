@@ -48,32 +48,17 @@
   align-items: center;
   gap: 8px;
 }
-.brand-mark-icon {
-  width: 22px;
+.brand-mark-logo {
   height: 22px;
+  width: auto;
   flex-shrink: 0;
-}
-.brand-mark-text {
-  font-size: 16px;
-  font-weight: 900;
-  letter-spacing: -0.01em;
-  color: var(--text-on-header);
-  line-height: 1;
-}
-.brand-mark-text em {
-  font-style: normal;
-  color: var(--accent);
 }
 .site-footer-logo.brand-mark {
   opacity: var(--footer-opacity);
   margin-bottom: 18px;
 }
-.site-footer-logo.brand-mark .brand-mark-icon {
-  width: 24px;
+.site-footer-logo.brand-mark .brand-mark-logo {
   height: 24px;
-}
-.site-footer-logo.brand-mark .brand-mark-text {
-  font-size: 17px;
 }
 .header-nav-link {
   display: flex;
