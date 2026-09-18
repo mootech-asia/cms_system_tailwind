@@ -4,7 +4,7 @@
    class（例如 ui-kit.html 示範文字用的 text-xs/flex/gap-1，main.css
    從未定義、原站是死重量）被 Tailwind 認出來變成有作用的真樣式，
    跟原站渲染不一致（ui-kit.html 手機寬度先踩到這個問題）。 */
-@import "tailwindcss" source(none);
+@import 'tailwindcss' source(none);
 
 /* ============================================================
    v2（WIN100）design token —— 手機版。桌機版另見
@@ -35,7 +35,9 @@
 
   /* ---- 全站字體（main.css Reset 區塊 html{font-family:...}，Phase 1
      時漏掉，Phase 3 補上） ---- */
-  --font-display: 'Pretendard', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-display:
+    'Pretendard', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
 
   /* ---- 字級階梯(7 階) ---- */
   --fs-display: 30px;
@@ -48,8 +50,8 @@
 
   /* ---- 字距(3 階) ---- */
   --ls-tight: 0;
-  --ls-wide: .06em;
-  --ls-numeric: .12em;
+  --ls-wide: 0.06em;
+  --ls-numeric: 0.12em;
 
   /* ---- 行高(3 階) ---- */
   --lh-solid: 1;
@@ -57,22 +59,22 @@
   --lh-body: 1.5;
 
   /* ---- 主色(R G B) ---- */
-  --c-primary: 152 231 210;      /* #98E7D2 */
+  --c-primary: 152 231 210; /* #98E7D2 */
   --c-primary-soft: 203 232 228; /* #CBE8E4 */
-  --c-primary-faint: 49 62 64;   /* #313E40 */
-  --c-on-primary: 15 22 34;      /* #0F1622 */
-  --c-accent: 170 229 211;       /* #AAE5D3 */
+  --c-primary-faint: 49 62 64; /* #313E40 */
+  --c-on-primary: 15 22 34; /* #0F1622 */
+  --c-accent: 170 229 211; /* #AAE5D3 */
 
   /* ---- 面板(綠黑系) ---- */
-  --c-bg: 15 20 25;         /* #0F1419 */
-  --c-surface: 26 33 40;    /* #1A2128 */
-  --c-surface-2: 42 49 56;  /* #2A3138 */
-  --c-border: 55 65 81;     /* #374151 */
+  --c-bg: 15 20 25; /* #0F1419 */
+  --c-surface: 26 33 40; /* #1A2128 */
+  --c-surface-2: 42 49 56; /* #2A3138 */
+  --c-border: 55 65 81; /* #374151 */
   --c-border-soft: 31 41 55; /* #1F2937 */
-  --c-disabled: 75 85 99;   /* #4B5563 */
+  --c-disabled: 75 85 99; /* #4B5563 */
 
   /* ---- 文字四階 ---- */
-  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-text: 255 255 255; /* #FFFFFF */
   --c-text-2: 209 213 219; /* #D1D5DB */
   --c-text-3: 156 163 175; /* #9CA3AF */
   --c-text-4: 107 114 128; /* #6B7280 */
@@ -81,18 +83,23 @@
   --c-danger: 248 113 113; /* #F87171 */
   --c-scrim: 0 0 0; /* 媒體遮罩/彈窗 backdrop(bg-scrim/NN) */
   --c-success: 74 222 128; /* #4ADE80 */
-  --c-gold: 240 178 74;    /* #F0B24A */
+  --c-gold: 240 178 74; /* #F0B24A */
 
   /* ---- 銀行卡擬物卡面(全站唯一保留的藍黑系,不隨皮膚變動的例外) ---- */
-  --c-card-face-1: 27 37 54;  /* #1B2536 */
-  --c-card-face-2: 19 28 43;  /* #131C2B */
-  --c-card-face-3: 13 20 32;  /* #0D1420 */
-  --c-card-border: 38 50 74;  /* #26324A */
+  --c-card-face-1: 27 37 54; /* #1B2536 */
+  --c-card-face-2: 19 28 43; /* #131C2B */
+  --c-card-face-3: 13 20 32; /* #0D1420 */
+  --c-card-border: 38 50 74; /* #26324A */
 
   /* ---- 漸層 / 陰影 ---- */
   --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
-  --g-hero: linear-gradient(90deg, #0F766E 0%, #10B981 55%, #B9DE5A 100%); /* 全站唯一一條,刻意固定 */
-  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / .18);
+  --g-hero: linear-gradient(
+    90deg,
+    #0f766e 0%,
+    #10b981 55%,
+    #b9de5a 100%
+  ); /* 全站唯一一條,刻意固定 */
+  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / 0.18);
 
   /* ---- PrimeVue ramp:primary 50–950（main.css 未使用，僅 win100 原檔
        保留給 nuxt.config.ts 的 PrimeVue preset 讀取，靜態站逐字保留但
@@ -128,28 +135,28 @@
 /* ---- 5 組換皮：只覆寫顏色/漸層,字級/字距/行高/圓角/卡面沿用 win100
    （逐字對照原始 themes/*.css，變數名稱、數值都不改）---- */
 :root[data-theme='aurora'] {
-  --c-primary: 201 166 255;      /* #C9A6FF */
+  --c-primary: 201 166 255; /* #C9A6FF */
   --c-primary-soft: 228 208 255; /* #E4D0FF */
-  --c-primary-faint: 58 43 82;   /* #3A2B52 */
-  --c-on-primary: 26 16 48;      /* #1A1030 */
-  --c-accent: 217 187 255;       /* #D9BBFF */
-  --c-bg: 18 14 27;         /* #120E1B */
-  --c-surface: 30 24 48;    /* #1E1830 */
-  --c-surface-2: 44 35 71;  /* #2C2347 */
-  --c-border: 69 55 104;    /* #453768 */
+  --c-primary-faint: 58 43 82; /* #3A2B52 */
+  --c-on-primary: 26 16 48; /* #1A1030 */
+  --c-accent: 217 187 255; /* #D9BBFF */
+  --c-bg: 18 14 27; /* #120E1B */
+  --c-surface: 30 24 48; /* #1E1830 */
+  --c-surface-2: 44 35 71; /* #2C2347 */
+  --c-border: 69 55 104; /* #453768 */
   --c-border-soft: 42 33 64; /* #2A2140 */
-  --c-disabled: 87 74 120;  /* #574A78 */
-  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-disabled: 87 74 120; /* #574A78 */
+  --c-text: 255 255 255; /* #FFFFFF */
   --c-text-2: 216 210 232; /* #D8D2E8 */
   --c-text-3: 167 156 196; /* #A79CC4 */
   --c-text-4: 117 106 148; /* #756A94 */
   --c-danger: 255 133 133; /* #FF8585 */
   --c-scrim: 0 0 0;
   --c-success: 110 231 168; /* #6EE7A8 */
-  --c-gold: 255 198 92;    /* #FFC65C */
+  --c-gold: 255 198 92; /* #FFC65C */
   --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
-  --g-hero: linear-gradient(90deg, #6D28D9 0%, #A855F7 55%, #F0ABFC 100%);
-  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / .22);
+  --g-hero: linear-gradient(90deg, #6d28d9 0%, #a855f7 55%, #f0abfc 100%);
+  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / 0.22);
   --c-primary-50: 250 246 255;
   --c-primary-100: 241 231 255;
   --c-primary-200: 228 208 255;
@@ -175,28 +182,28 @@
   --c-surface-950: 11 8 18;
 }
 :root[data-theme='cosmic-pink'] {
-  --c-primary: 255 138 214;      /* #FF8AD6 霓虹桃粉 */
+  --c-primary: 255 138 214; /* #FF8AD6 霓虹桃粉 */
   --c-primary-soft: 255 194 232; /* #FFC2E8 淺蜜桃粉 */
-  --c-primary-faint: 74 22 58;   /* #4A163A */
-  --c-on-primary: 33 10 28;      /* #210A1C */
-  --c-accent: 255 176 92;        /* #FFB05C 星雲暖金 */
-  --c-bg: 12 10 22;          /* #0C0A16 */
-  --c-surface: 24 18 38;     /* #181226 */
-  --c-surface-2: 38 28 58;   /* #261C3A */
-  --c-border: 74 52 96;      /* #4A3460 */
+  --c-primary-faint: 74 22 58; /* #4A163A */
+  --c-on-primary: 33 10 28; /* #210A1C */
+  --c-accent: 255 176 92; /* #FFB05C 星雲暖金 */
+  --c-bg: 12 10 22; /* #0C0A16 */
+  --c-surface: 24 18 38; /* #181226 */
+  --c-surface-2: 38 28 58; /* #261C3A */
+  --c-border: 74 52 96; /* #4A3460 */
   --c-border-soft: 34 24 50; /* #221832 */
-  --c-disabled: 90 78 112;   /* #5A4E70 */
-  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-disabled: 90 78 112; /* #5A4E70 */
+  --c-text: 255 255 255; /* #FFFFFF */
   --c-text-2: 224 214 236; /* #E0D6EC */
   --c-text-3: 176 160 198; /* #B0A0C6 */
   --c-text-4: 124 108 148; /* #7C6C94 */
   --c-danger: 255 107 129; /* #FF6B81 */
   --c-scrim: 0 0 0;
   --c-success: 94 227 168; /* #5EE3A8 */
-  --c-gold: 255 189 92;    /* #FFBD5C */
+  --c-gold: 255 189 92; /* #FFBD5C */
   --g-primary: linear-gradient(90deg, rgb(var(--c-primary)), rgb(var(--c-accent)));
-  --g-hero: linear-gradient(90deg, #4A1442 0%, #E0339B 55%, #FFB05C 100%);
-  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / .22);
+  --g-hero: linear-gradient(90deg, #4a1442 0%, #e0339b 55%, #ffb05c 100%);
+  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / 0.22);
   --c-primary-50: 253 240 249;
   --c-primary-100: 255 224 242;
   --c-primary-200: 255 194 232;
@@ -222,28 +229,28 @@
   --c-surface-950: 8 6 14;
 }
 :root[data-theme='fashion-blue'] {
-  --c-primary: 93 169 255;       /* #5DA9FF 電光藍 */
+  --c-primary: 93 169 255; /* #5DA9FF 電光藍 */
   --c-primary-soft: 199 230 255; /* #C7E6FF 冰藍 */
-  --c-primary-faint: 29 53 82;   /* #1D3552 */
-  --c-on-primary: 7 17 31;       /* #07111F */
-  --c-accent: 119 227 232;       /* #77E3E8 冰青 */
-  --c-bg: 8 12 18;          /* #080C12 */
-  --c-surface: 17 25 37;    /* #111925 */
-  --c-surface-2: 29 42 58;  /* #1D2A3A */
-  --c-border: 61 82 110;    /* #3D526E */
+  --c-primary-faint: 29 53 82; /* #1D3552 */
+  --c-on-primary: 7 17 31; /* #07111F */
+  --c-accent: 119 227 232; /* #77E3E8 冰青 */
+  --c-bg: 8 12 18; /* #080C12 */
+  --c-surface: 17 25 37; /* #111925 */
+  --c-surface-2: 29 42 58; /* #1D2A3A */
+  --c-border: 61 82 110; /* #3D526E */
   --c-border-soft: 29 43 61; /* #1D2B3D */
   --c-disabled: 83 100 122; /* #53647A */
-  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-text: 255 255 255; /* #FFFFFF */
   --c-text-2: 216 227 239; /* #D8E3EF */
   --c-text-3: 151 170 192; /* #97AAC0 */
   --c-text-4: 102 121 144; /* #667990 */
   --c-danger: 255 122 138; /* #FF7A8A 珊瑚紅 */
   --c-scrim: 0 0 0;
   --c-success: 88 214 167; /* #58D6A7 薄荷綠 */
-  --c-gold: 234 203 129;   /* #EACB81 香檳金 */
+  --c-gold: 234 203 129; /* #EACB81 香檳金 */
   --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
-  --g-hero: linear-gradient(90deg, #081220 0%, #145EBD 56%, #70D4E8 100%);
-  --shadow-mint: 0 8px 24px rgb(var(--c-primary) / .24);
+  --g-hero: linear-gradient(90deg, #081220 0%, #145ebd 56%, #70d4e8 100%);
+  --shadow-mint: 0 8px 24px rgb(var(--c-primary) / 0.24);
   --c-primary-50: 240 248 255;
   --c-primary-100: 224 241 255;
   --c-primary-200: 199 230 255;
@@ -269,28 +276,28 @@
   --c-surface-950: 4 7 11;
 }
 :root[data-theme='noir'] {
-  --c-primary: 232 198 122;      /* #E8C67A 香檳金 */
+  --c-primary: 232 198 122; /* #E8C67A 香檳金 */
   --c-primary-soft: 244 224 176; /* #F4E0B0 */
-  --c-primary-faint: 64 55 36;   /* #403724 */
-  --c-on-primary: 26 20 8;       /* #1A1408 */
-  --c-accent: 240 211 138;       /* #F0D38A */
-  --c-bg: 11 11 13;         /* #0B0B0D */
-  --c-surface: 22 22 26;    /* #16161A */
-  --c-surface-2: 35 35 41;  /* #232329 */
-  --c-border: 61 61 70;     /* #3D3D46 */
+  --c-primary-faint: 64 55 36; /* #403724 */
+  --c-on-primary: 26 20 8; /* #1A1408 */
+  --c-accent: 240 211 138; /* #F0D38A */
+  --c-bg: 11 11 13; /* #0B0B0D */
+  --c-surface: 22 22 26; /* #16161A */
+  --c-surface-2: 35 35 41; /* #232329 */
+  --c-border: 61 61 70; /* #3D3D46 */
   --c-border-soft: 38 38 45; /* #26262D */
-  --c-disabled: 85 85 94;   /* #55555E */
-  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-disabled: 85 85 94; /* #55555E */
+  --c-text: 255 255 255; /* #FFFFFF */
   --c-text-2: 221 217 208; /* #DDD9D0 */
   --c-text-3: 163 159 148; /* #A39F94 */
   --c-text-4: 117 112 102; /* #757066 */
   --c-danger: 248 113 113; /* #F87171 */
   --c-scrim: 0 0 0;
   --c-success: 74 222 128; /* #4ADE80 */
-  --c-gold: 240 178 74;    /* #F0B24A */
+  --c-gold: 240 178 74; /* #F0B24A */
   --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
-  --g-hero: linear-gradient(90deg, #2B2108 0%, #A87D1F 55%, #F0C75E 100%);
-  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / .20);
+  --g-hero: linear-gradient(90deg, #2b2108 0%, #a87d1f 55%, #f0c75e 100%);
+  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / 0.2);
   --c-primary-50: 253 248 236;
   --c-primary-100: 250 240 216;
   --c-primary-200: 244 224 176;
@@ -316,28 +323,28 @@
   --c-surface-950: 7 7 8;
 }
 :root[data-theme='rose-graphite'] {
-  --c-primary: 242 154 184;      /* #F29AB8 柔霧玫瑰 */
+  --c-primary: 242 154 184; /* #F29AB8 柔霧玫瑰 */
   --c-primary-soft: 255 212 225; /* #FFD4E1 珍珠粉 */
-  --c-primary-faint: 83 49 66;   /* #533142 */
-  --c-on-primary: 36 17 26;      /* #24111A */
-  --c-accent: 125 226 209;       /* #7DE2D1 冷調青綠 */
-  --c-bg: 12 14 18;          /* #0C0E12 */
-  --c-surface: 24 27 33;     /* #181B21 */
-  --c-surface-2: 38 42 50;   /* #262A32 */
-  --c-border: 70 75 88;      /* #464B58 */
+  --c-primary-faint: 83 49 66; /* #533142 */
+  --c-on-primary: 36 17 26; /* #24111A */
+  --c-accent: 125 226 209; /* #7DE2D1 冷調青綠 */
+  --c-bg: 12 14 18; /* #0C0E12 */
+  --c-surface: 24 27 33; /* #181B21 */
+  --c-surface-2: 38 42 50; /* #262A32 */
+  --c-border: 70 75 88; /* #464B58 */
   --c-border-soft: 39 43 52; /* #272B34 */
-  --c-disabled: 91 96 108;   /* #5B606C */
-  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-disabled: 91 96 108; /* #5B606C */
+  --c-text: 255 255 255; /* #FFFFFF */
   --c-text-2: 228 226 232; /* #E4E2E8 */
   --c-text-3: 174 171 182; /* #AEABB6 */
   --c-text-4: 125 122 134; /* #7D7A86 */
   --c-danger: 255 107 121; /* #FF6B79 */
   --c-scrim: 0 0 0;
   --c-success: 91 218 166; /* #5BDAA6 */
-  --c-gold: 235 199 126;   /* #EBC77E */
+  --c-gold: 235 199 126; /* #EBC77E */
   --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
-  --g-hero: linear-gradient(90deg, #55233F 0%, #D65F89 55%, #7DE2D1 100%);
-  --shadow-mint: 0 8px 24px rgb(var(--c-primary) / .22);
+  --g-hero: linear-gradient(90deg, #55233f 0%, #d65f89 55%, #7de2d1 100%);
+  --shadow-mint: 0 8px 24px rgb(var(--c-primary) / 0.22);
   --c-primary-50: 255 247 250;
   --c-primary-100: 255 235 242;
   --c-primary-200: 255 212 225;
@@ -424,22 +431,25 @@
      的實際字重/行高量測不同，混排在同一行內文字時會讓該行 line box
      多撐出 1px（ui-kit.html 的 <code> 範例文字先發現）——改回瀏覽器
      預設，不用 Tailwind 那組。 */
-  code, kbd, samp, pre {
+  code,
+  kbd,
+  samp,
+  pre {
     font-family: monospace;
   }
 }
 
-@import "./shell.css";
-@import "./pages/cards.css";
-@import "./pages/index.css";
-@import "./pages/listing.css";
-@import "./pages/promotion.css";
-@import "./pages/deposit.css";
-@import "./pages/withdrawal.css";
-@import "./pages/records.css";
-@import "./pages/account.css";
-@import "./pages/personal-info.css";
-@import "./pages/security.css";
-@import "./pages/change-password.css";
-@import "./pages/about.css";
-@import "./pages/ui-kit.css";
+@import './shell.css';
+@import './pages/cards.css';
+@import './pages/index.css';
+@import './pages/listing.css';
+@import './pages/promotion.css';
+@import './pages/deposit.css';
+@import './pages/withdrawal.css';
+@import './pages/records.css';
+@import './pages/account.css';
+@import './pages/personal-info.css';
+@import './pages/security.css';
+@import './pages/change-password.css';
+@import './pages/about.css';
+@import './pages/ui-kit.css';

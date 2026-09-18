@@ -15,7 +15,7 @@
    （另一個巧合同名 .container 先前已用「在 @layer utilities 重新宣告
    同一條規則、靠同層內源碼順序贏」的方式修正，見下面該規則旁的說明；
    這裡的 source(none) 讓那個舊修法變成不需要也沒事，兩者不衝突。） */
-@import "tailwindcss" source(none);
+@import 'tailwindcss' source(none);
 /* 順序要對齊原始 <link> 順序：main.css/layout.css（= shell.css 跟
    pages/*.css，都是 main.css 拆出來的內容）整份在 design-system/
    components.css（= ui-components.css）之前載入，同一個 class 兩邊都
@@ -37,25 +37,25 @@
    截圖比對抓到「Confirm 按鈕變方角」才發現 pages/*.css 原本排在
    ui-components.css 之後，等於讓 main.css 這條贏，跟原始頁面
    components.css 後載入贏、按鈕維持膠囊角的行為相反。 */
-@import "./shell.css";
-@import "./pages/withdrawal.css";
-@import "./pages/deposit.css";
-@import "./pages/account-overview.css";
-@import "./pages/betting-record.css";
-@import "./pages/deposit-record.css";
-@import "./pages/personal-info.css";
-@import "./pages/security-center.css";
-@import "./pages/support.css";
-@import "./pages/index.css";
-@import "./pages/sports.css";
-@import "./pages/promotion-detail.css";
-@import "./pages/customer-service.css";
-@import "./pages/avatar-final-override.css";
-@import "./ui-components.css";
+@import './shell.css';
+@import './pages/withdrawal.css';
+@import './pages/deposit.css';
+@import './pages/account-overview.css';
+@import './pages/betting-record.css';
+@import './pages/deposit-record.css';
+@import './pages/personal-info.css';
+@import './pages/security-center.css';
+@import './pages/support.css';
+@import './pages/index.css';
+@import './pages/sports.css';
+@import './pages/promotion-detail.css';
+@import './pages/customer-service.css';
+@import './pages/avatar-final-override.css';
+@import './ui-components.css';
 /* 必須排在 ui-components.css 之後，見該檔案開頭說明——assets/css/
    load-more.css 在原始站台的 <head> 排在 design-system/components.css
    之後，完全重新定義 .cv-view-all/.cv-foot 的視覺。 */
-@import "./load-more-overlay.css";
+@import './load-more-overlay.css';
 
 /* ============================================================
    v3 design token —— 桌機版。手機版另見 ../../v3/mobile/theme.css
@@ -169,12 +169,22 @@
   --balance-text: var(--warning);
   --preview-hero-bg:
     radial-gradient(ellipse 65% 90% at 34% 48%, rgba(255, 255, 255, 0.065) 0%, transparent 66%),
-    linear-gradient(135deg, var(--preview-neutral-800) 0%, var(--preview-neutral-850) 48%, var(--preview-neutral-950) 100%);
+    linear-gradient(
+      135deg,
+      var(--preview-neutral-800) 0%,
+      var(--preview-neutral-850) 48%,
+      var(--preview-neutral-950) 100%
+    );
   --preview-art-bg:
     radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.08) 0%, transparent 70%),
     repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.055) 0 2px, transparent 2px 12px),
     var(--preview-neutral-900);
-  --preview-game-bg: linear-gradient(145deg, var(--preview-neutral-800) 0%, var(--preview-neutral-850) 50%, var(--preview-neutral-950) 100%);
+  --preview-game-bg: linear-gradient(
+    145deg,
+    var(--preview-neutral-800) 0%,
+    var(--preview-neutral-850) 50%,
+    var(--preview-neutral-950) 100%
+  );
   --account-sheen-duration: 4.6s;
 }
 
@@ -185,12 +195,14 @@
    包 @media 無關，放 shell.css 裡等於被上面 64px 那份蓋掉、永遠不會
    生效（截圖比對在手機寬度下抓到 .shell-header 高度多了 8px 才查出來）。 */
 @media (max-width: 900px) {
-  :root { --header-h: 56px; }
+  :root {
+    --header-h: 56px;
+  }
 }
 
 /* ── 原封不動：skins/blue.css（預設 skin） ── */
 :root:not([data-skin]),
-:root[data-skin="blue"] {
+:root[data-skin='blue'] {
   color-scheme: dark;
   --bg: #05080f;
   --bg-elev: #0a0f1a;
@@ -206,7 +218,8 @@
   --icon-muted: rgba(234, 245, 255, 0.72);
   --cal-icon: var(--icon-muted);
   --calendar-indicator-filter: invert(88%) brightness(1.05);
-  --calendar-indicator-hover-filter: invert(80%) sepia(70%) saturate(700%) hue-rotate(120deg) brightness(1.15);
+  --calendar-indicator-hover-filter: invert(80%) sepia(70%) saturate(700%) hue-rotate(120deg)
+    brightness(1.15);
   --calendar-indicator-opacity: 0.72;
   --accent: #2473ff;
   --accent-2: #38bdf8;
@@ -232,20 +245,48 @@
   --badge-highlight-text: var(--text-on-accent-soft);
   --badge-highlight-border: var(--accent);
   --badge-highlight-shadow: 0 0 6px color-mix(in oklch, var(--accent) 50%, transparent);
-  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 60%, var(--primary-end) 100%);
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 60%,
+    var(--primary-end) 100%
+  );
   --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
-  --rollover-title-gradient: linear-gradient(90deg, #22d3ee 0%, var(--primary) 35%, #a855f7 65%, #facc15 100%);
+  --rollover-title-gradient: linear-gradient(
+    90deg,
+    #22d3ee 0%,
+    var(--primary) 35%,
+    #a855f7 65%,
+    #facc15 100%
+  );
   --rollover-hero-gradient: linear-gradient(95deg, #fde68a 0%, #facc15 50%, #f59e0b 100%);
-  --accent-grad: linear-gradient(135deg, color-mix(in oklch, var(--accent) 100%, white 20%) 0%, var(--accent) 38%, color-mix(in oklch, var(--accent) 78%, #000) 100%);
-  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 22%, transparent) 0%, color-mix(in oklch, var(--accent) 6%, transparent) 100%);
-  --bg-grad-card: linear-gradient(180deg, var(--bg-card) 0%, color-mix(in oklch, var(--bg-card) 80%, #000) 100%);
+  --accent-grad: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 100%, white 20%) 0%,
+    var(--accent) 38%,
+    color-mix(in oklch, var(--accent) 78%, #000) 100%
+  );
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 22%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 6%, transparent) 100%
+  );
+  --bg-grad-card: linear-gradient(
+    180deg,
+    var(--bg-card) 0%,
+    color-mix(in oklch, var(--bg-card) 80%, #000) 100%
+  );
   --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
   --control-border: var(--line-hi);
   --control-text: var(--text-mid);
   --control-hover-border: var(--accent);
   --control-hover-text: #ffffff;
   --control-active-bg:
-    radial-gradient(ellipse 80% 60% at 50% 50%, color-mix(in oklch, var(--accent) 28%, var(--bg-elev)) 0%, var(--bg-elev) 75%),
+    radial-gradient(
+      ellipse 80% 60% at 50% 50%,
+      color-mix(in oklch, var(--accent) 28%, var(--bg-elev)) 0%,
+      var(--bg-elev) 75%
+    ),
     var(--bg-elev);
   --control-active-border: var(--accent);
   --control-active-text: #ffffff;
@@ -275,7 +316,8 @@
   --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 18px rgba(0, 0, 0, 0.4);
   --shadow-primary: 0 0 16px color-mix(in oklch, var(--primary) 40%, transparent);
   --shadow-primary-sm: 0 0 14px color-mix(in oklch, var(--primary) 35%, transparent);
-  --shadow-glow: 0 0 0 1px var(--accent), 0 8px 28px color-mix(in oklch, var(--accent) 30%, transparent);
+  --shadow-glow:
+    0 0 0 1px var(--accent), 0 8px 28px color-mix(in oklch, var(--accent) 30%, transparent);
   --accent-glow:
     0 6px 26px color-mix(in oklch, var(--accent) 38%, transparent),
     0 0 0 1px color-mix(in oklch, var(--accent) 50%, transparent) inset,
@@ -283,7 +325,7 @@
 }
 
 /* ── 原封不動：skins/white.css ── */
-:root[data-skin="white"] {
+:root[data-skin='white'] {
   color-scheme: light;
   --bg: #ebe8df;
   --bg-elev: #f5f2e9;
@@ -293,7 +335,7 @@
   --line-hi: rgba(58, 53, 44, 0.24);
   --page-background:
     radial-gradient(ellipse 72% 48% at 0% 0%, rgba(255, 253, 246, 0.72) 0%, transparent 62%),
-    radial-gradient(ellipse 54% 44% at 100% 100%, rgba(166, 137, 88, 0.10) 0%, transparent 66%);
+    radial-gradient(ellipse 54% 44% at 100% 100%, rgba(166, 137, 88, 0.1) 0%, transparent 66%);
   --text: #27241f;
   --text-mid: rgba(39, 36, 31, 0.72);
   --text-dim: rgba(39, 36, 31, 0.48);
@@ -329,12 +371,21 @@
   --badge-highlight-text: #37332c;
   --badge-highlight-border: #bdb5a6;
   --badge-highlight-shadow: none;
-  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 60%, var(--primary-end) 100%);
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 60%,
+    var(--primary-end) 100%
+  );
   --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
   --rollover-title-gradient: linear-gradient(90deg, #777064 0%, var(--primary) 48%, #28251f 100%);
   --rollover-hero-gradient: linear-gradient(95deg, #c48718 0%, #a96800 52%, #8a5400 100%);
   --accent-grad: #d9d3c7;
-  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 14%, transparent) 0%, color-mix(in oklch, var(--accent) 4%, transparent) 100%);
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 14%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 4%, transparent) 100%
+  );
   --bg-grad-card: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-hi) 100%);
   --control-bg: var(--bg-card);
   --control-border: var(--line-hi);
@@ -372,7 +423,7 @@
 }
 
 /* ── 原封不動：skins/night-esports-green.css ── */
-:root[data-skin="night-esports-green"] {
+:root[data-skin='night-esports-green'] {
   color-scheme: dark;
   --bg: #0d1316;
   --bg-elev: #141e23;
@@ -387,8 +438,10 @@
   --text-on-accent-soft: #f4fffc;
   --icon-muted: rgba(226, 239, 235, 0.72);
   --cal-icon: var(--icon-muted);
-  --calendar-indicator-filter: invert(91%) sepia(12%) saturate(380%) hue-rotate(86deg) brightness(1.08);
-  --calendar-indicator-hover-filter: invert(83%) sepia(75%) saturate(720%) hue-rotate(78deg) brightness(1.1);
+  --calendar-indicator-filter: invert(91%) sepia(12%) saturate(380%) hue-rotate(86deg)
+    brightness(1.08);
+  --calendar-indicator-hover-filter: invert(83%) sepia(75%) saturate(720%) hue-rotate(78deg)
+    brightness(1.1);
   --calendar-indicator-opacity: 0.76;
   --accent: #9fe2d1;
   --accent-2: #b8eee1;
@@ -414,13 +467,37 @@
   --badge-highlight-text: var(--text-on-accent-soft);
   --badge-highlight-border: var(--accent);
   --badge-highlight-shadow: none;
-  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 58%, var(--primary-end) 100%);
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 58%,
+    var(--primary-end) 100%
+  );
   --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
-  --rollover-title-gradient: linear-gradient(90deg, var(--accent-2) 0%, var(--accent) 40%, #7ccfc9 68%, var(--accent-3) 100%);
+  --rollover-title-gradient: linear-gradient(
+    90deg,
+    var(--accent-2) 0%,
+    var(--accent) 40%,
+    #7ccfc9 68%,
+    var(--accent-3) 100%
+  );
   --rollover-hero-gradient: linear-gradient(95deg, #fff0ad 0%, var(--accent-3) 52%, #d99328 100%);
-  --accent-grad: linear-gradient(135deg, var(--primary-start) 0%, var(--accent) 42%, var(--primary-end) 100%);
-  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 22%, transparent) 0%, color-mix(in oklch, var(--accent) 5%, transparent) 100%);
-  --bg-grad-card: linear-gradient(180deg, var(--bg-card) 0%, color-mix(in oklch, var(--bg-card) 82%, #000) 100%);
+  --accent-grad: linear-gradient(
+    135deg,
+    var(--primary-start) 0%,
+    var(--accent) 42%,
+    var(--primary-end) 100%
+  );
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 22%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 5%, transparent) 100%
+  );
+  --bg-grad-card: linear-gradient(
+    180deg,
+    var(--bg-card) 0%,
+    color-mix(in oklch, var(--bg-card) 82%, #000) 100%
+  );
   --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
   --control-border: var(--line-hi);
   --control-text: var(--text-mid);
@@ -457,7 +534,7 @@
 }
 
 /* ── 原封不動：skins/cosmic-spectrum-purple.css ── */
-:root[data-skin="cosmic-spectrum-purple"] {
+:root[data-skin='cosmic-spectrum-purple'] {
   color-scheme: dark;
   --bg: #0b0a25;
   --bg-elev: #14143b;
@@ -472,8 +549,10 @@
   --text-on-accent-soft: #f4f2ff;
   --icon-muted: rgba(215, 209, 255, 0.74);
   --cal-icon: var(--icon-muted);
-  --calendar-indicator-filter: invert(91%) sepia(18%) saturate(420%) hue-rotate(214deg) brightness(1.08);
-  --calendar-indicator-hover-filter: invert(70%) sepia(75%) saturate(980%) hue-rotate(224deg) brightness(1.12);
+  --calendar-indicator-filter: invert(91%) sepia(18%) saturate(420%) hue-rotate(214deg)
+    brightness(1.08);
+  --calendar-indicator-hover-filter: invert(70%) sepia(75%) saturate(980%) hue-rotate(224deg)
+    brightness(1.12);
   --calendar-indicator-opacity: 0.78;
   --accent: #6a48ff;
   --accent-2: #b7acff;
@@ -499,13 +578,41 @@
   --badge-highlight-text: var(--text-on-accent-soft);
   --badge-highlight-border: var(--accent);
   --badge-highlight-shadow: none;
-  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 48%, var(--primary-end) 100%);
-  --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 54%, var(--primary-end) 100%);
-  --rollover-title-gradient: linear-gradient(90deg, var(--accent-3) 0%, var(--accent-2) 45%, var(--accent) 100%);
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 48%,
+    var(--primary-end) 100%
+  );
+  --gradient-primary-short: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 54%,
+    var(--primary-end) 100%
+  );
+  --rollover-title-gradient: linear-gradient(
+    90deg,
+    var(--accent-3) 0%,
+    var(--accent-2) 45%,
+    var(--accent) 100%
+  );
   --rollover-hero-gradient: linear-gradient(95deg, #ffe59b 0%, var(--warning) 50%, #d88a2a 100%);
-  --accent-grad: linear-gradient(135deg, var(--primary-start) 0%, var(--accent) 52%, var(--primary-end) 100%);
-  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent-3) 15%, transparent) 0%, color-mix(in oklch, var(--accent) 10%, transparent) 100%);
-  --bg-grad-card: linear-gradient(180deg, var(--bg-card-hi) 0%, color-mix(in oklch, var(--bg-card) 82%, #000) 100%);
+  --accent-grad: linear-gradient(
+    135deg,
+    var(--primary-start) 0%,
+    var(--accent) 52%,
+    var(--primary-end) 100%
+  );
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent-3) 15%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 10%, transparent) 100%
+  );
+  --bg-grad-card: linear-gradient(
+    180deg,
+    var(--bg-card-hi) 0%,
+    color-mix(in oklch, var(--bg-card) 82%, #000) 100%
+  );
   --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
   --control-border: var(--line-hi);
   --control-text: var(--text-mid);
@@ -516,7 +623,8 @@
   --control-active-text: #ffffff;
   --control-active-text-shadow: none;
   --control-active-shadow: 0 0 0 1px color-mix(in oklch, var(--accent) 42%, transparent);
-  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent-2) 62%, transparent);
+  --focus-ring:
+    0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklch, var(--accent-2) 62%, transparent);
   --table-header-bg: var(--gradient-primary);
   --table-header-text: var(--text-on-accent);
   --table-row-bg: var(--bg-card);
@@ -542,7 +650,7 @@
 }
 
 /* ── 原封不動：skins/jade-jackpot.css ── */
-:root[data-skin="jade-jackpot"] {
+:root[data-skin='jade-jackpot'] {
   color-scheme: dark;
   --bg: #050e09;
   --bg-elev: #0a1a11;
@@ -557,8 +665,10 @@
   --text-on-accent-soft: #eafff0;
   --icon-muted: rgba(234, 255, 240, 0.72);
   --cal-icon: var(--icon-muted);
-  --calendar-indicator-filter: invert(88%) sepia(30%) saturate(600%) hue-rotate(90deg) brightness(1.1);
-  --calendar-indicator-hover-filter: invert(80%) sepia(75%) saturate(700%) hue-rotate(85deg) brightness(1.15);
+  --calendar-indicator-filter: invert(88%) sepia(30%) saturate(600%) hue-rotate(90deg)
+    brightness(1.1);
+  --calendar-indicator-hover-filter: invert(80%) sepia(75%) saturate(700%) hue-rotate(85deg)
+    brightness(1.15);
   --calendar-indicator-opacity: 0.76;
   --accent: #39ff7c;
   --accent-2: #7cffb0;
@@ -584,20 +694,48 @@
   --badge-highlight-text: var(--text-on-accent-soft);
   --badge-highlight-border: var(--accent);
   --badge-highlight-shadow: 0 0 8px color-mix(in oklch, var(--accent) 55%, transparent);
-  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 60%, var(--primary-end) 100%);
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 60%,
+    var(--primary-end) 100%
+  );
   --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
-  --rollover-title-gradient: linear-gradient(90deg, var(--accent-2) 0%, var(--accent) 40%, #0fd66f 68%, var(--accent-3) 100%);
+  --rollover-title-gradient: linear-gradient(
+    90deg,
+    var(--accent-2) 0%,
+    var(--accent) 40%,
+    #0fd66f 68%,
+    var(--accent-3) 100%
+  );
   --rollover-hero-gradient: linear-gradient(95deg, #fff3b0 0%, var(--accent-3) 52%, #d99328 100%);
-  --accent-grad: linear-gradient(135deg, color-mix(in oklch, var(--accent) 100%, white 20%) 0%, var(--accent) 38%, color-mix(in oklch, var(--accent) 78%, #000) 100%);
-  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 22%, transparent) 0%, color-mix(in oklch, var(--accent) 6%, transparent) 100%);
-  --bg-grad-card: linear-gradient(180deg, var(--bg-card) 0%, color-mix(in oklch, var(--bg-card) 82%, #000) 100%);
+  --accent-grad: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 100%, white 20%) 0%,
+    var(--accent) 38%,
+    color-mix(in oklch, var(--accent) 78%, #000) 100%
+  );
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 22%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 6%, transparent) 100%
+  );
+  --bg-grad-card: linear-gradient(
+    180deg,
+    var(--bg-card) 0%,
+    color-mix(in oklch, var(--bg-card) 82%, #000) 100%
+  );
   --control-bg: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
   --control-border: var(--line-hi);
   --control-text: var(--text-mid);
   --control-hover-border: var(--accent);
   --control-hover-text: #ffffff;
   --control-active-bg:
-    radial-gradient(ellipse 80% 60% at 50% 50%, color-mix(in oklch, var(--accent) 28%, var(--bg-elev)) 0%, var(--bg-elev) 75%),
+    radial-gradient(
+      ellipse 80% 60% at 50% 50%,
+      color-mix(in oklch, var(--accent) 28%, var(--bg-elev)) 0%,
+      var(--bg-elev) 75%
+    ),
     var(--bg-elev);
   --control-active-border: var(--accent);
   --control-active-text: #ffffff;
@@ -627,7 +765,8 @@
   --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 6px 18px rgba(0, 0, 0, 0.5);
   --shadow-primary: 0 0 16px color-mix(in oklch, var(--primary) 40%, transparent);
   --shadow-primary-sm: 0 0 14px color-mix(in oklch, var(--primary) 35%, transparent);
-  --shadow-glow: 0 0 0 1px var(--accent), 0 8px 28px color-mix(in oklch, var(--accent) 30%, transparent);
+  --shadow-glow:
+    0 0 0 1px var(--accent), 0 8px 28px color-mix(in oklch, var(--accent) 30%, transparent);
   --accent-glow:
     0 6px 26px color-mix(in oklch, var(--accent) 38%, transparent),
     0 0 0 1px color-mix(in oklch, var(--accent) 50%, transparent) inset,
@@ -637,11 +776,11 @@
 /* ── 原封不動：skins/curated-collection.css（5 個 skin 共用同一個語意層，
    個別只提供調色盤，逐字對照原檔 :is() 選擇器結構） ── */
 :root:is(
-  [data-skin="obsidian-copper"],
-  [data-skin="arctic-cyan"],
-  [data-skin="crimson-noir"],
-  [data-skin="midnight-gold"],
-  [data-skin="sage-atelier"]
+  [data-skin='obsidian-copper'],
+  [data-skin='arctic-cyan'],
+  [data-skin='crimson-noir'],
+  [data-skin='midnight-gold'],
+  [data-skin='sage-atelier']
 ) {
   --icon-muted: var(--skin-icon-muted);
   --cal-icon: var(--icon-muted);
@@ -659,12 +798,36 @@
   --badge-highlight-text: var(--text);
   --badge-highlight-border: var(--accent);
   --badge-highlight-shadow: none;
-  --gradient-primary: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 56%, var(--primary-end) 100%);
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--primary-start) 0%,
+    var(--primary) 56%,
+    var(--primary-end) 100%
+  );
   --gradient-primary-short: linear-gradient(180deg, var(--primary-start) 0%, var(--primary) 100%);
-  --rollover-title-gradient: linear-gradient(90deg, var(--accent-2) 0%, var(--accent) 55%, var(--accent-3) 100%);
-  --rollover-hero-gradient: linear-gradient(95deg, var(--accent-2) 0%, var(--warning) 52%, var(--accent-3) 100%);
-  --accent-grad: linear-gradient(135deg, var(--primary-start) 0%, var(--accent) 52%, var(--primary-end) 100%);
-  --accent-grad-soft: linear-gradient(135deg, color-mix(in oklch, var(--accent) 18%, transparent) 0%, color-mix(in oklch, var(--accent) 4%, transparent) 100%);
+  --rollover-title-gradient: linear-gradient(
+    90deg,
+    var(--accent-2) 0%,
+    var(--accent) 55%,
+    var(--accent-3) 100%
+  );
+  --rollover-hero-gradient: linear-gradient(
+    95deg,
+    var(--accent-2) 0%,
+    var(--warning) 52%,
+    var(--accent-3) 100%
+  );
+  --accent-grad: linear-gradient(
+    135deg,
+    var(--primary-start) 0%,
+    var(--accent) 52%,
+    var(--primary-end) 100%
+  );
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--accent) 18%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 4%, transparent) 100%
+  );
   --bg-grad-card: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
   --control-bg: var(--bg-card);
   --control-border: var(--line-hi);
@@ -700,22 +863,23 @@
   --shadow-glow: 0 0 0 1px var(--accent);
   --accent-glow: 0 0 0 1px color-mix(in oklch, var(--accent) 42%, transparent) inset;
 }
-:root[data-skin="obsidian-copper"] {
+:root[data-skin='obsidian-copper'] {
   color-scheme: dark;
   --bg: #0d0e0f;
   --bg-elev: #151719;
   --bg-card: #1d2022;
   --bg-card-hi: #272b2d;
-  --line: rgba(222, 171, 122, 0.10);
+  --line: rgba(222, 171, 122, 0.1);
   --line-hi: rgba(222, 171, 122, 0.25);
   --text: #f3eee8;
   --text-mid: rgba(243, 238, 232, 0.72);
   --text-dim: rgba(243, 238, 232, 0.45);
   --text-on-accent: #21150d;
   --text-on-accent-soft: #fff3e7;
-  --skin-icon-muted: rgba(243, 238, 232, 0.70);
+  --skin-icon-muted: rgba(243, 238, 232, 0.7);
   --skin-calendar-filter: invert(91%) sepia(8%) saturate(270%) hue-rotate(342deg) brightness(1.05);
-  --skin-calendar-hover-filter: invert(74%) sepia(45%) saturate(620%) hue-rotate(341deg) brightness(1.05);
+  --skin-calendar-hover-filter: invert(74%) sepia(45%) saturate(620%) hue-rotate(341deg)
+    brightness(1.05);
   --accent: #d8a06b;
   --accent-2: #edc49e;
   --accent-3: #b87545;
@@ -732,22 +896,23 @@
   --skin-shadow: rgba(0, 0, 0, 0.36);
   --skin-inset: rgba(255, 255, 255, 0.035);
 }
-:root[data-skin="arctic-cyan"] {
+:root[data-skin='arctic-cyan'] {
   color-scheme: dark;
   --bg: #071116;
   --bg-elev: #0c1a21;
   --bg-card: #12252d;
   --bg-card-hi: #19323b;
-  --line: rgba(106, 210, 224, 0.10);
+  --line: rgba(106, 210, 224, 0.1);
   --line-hi: rgba(106, 210, 224, 0.26);
   --text: #edf9fb;
   --text-mid: rgba(237, 249, 251, 0.72);
   --text-dim: rgba(237, 249, 251, 0.45);
   --text-on-accent: #06181d;
   --text-on-accent-soft: #edfdff;
-  --skin-icon-muted: rgba(237, 249, 251, 0.70);
+  --skin-icon-muted: rgba(237, 249, 251, 0.7);
   --skin-calendar-filter: invert(94%) sepia(12%) saturate(290%) hue-rotate(146deg) brightness(1.04);
-  --skin-calendar-hover-filter: invert(83%) sepia(51%) saturate(615%) hue-rotate(142deg) brightness(1.04);
+  --skin-calendar-hover-filter: invert(83%) sepia(51%) saturate(615%) hue-rotate(142deg)
+    brightness(1.04);
   --accent: #62c8d8;
   --accent-2: #a3e2ea;
   --accent-3: #55a7bd;
@@ -764,22 +929,23 @@
   --skin-shadow: rgba(0, 0, 0, 0.34);
   --skin-inset: rgba(255, 255, 255, 0.035);
 }
-:root[data-skin="crimson-noir"] {
+:root[data-skin='crimson-noir'] {
   color-scheme: dark;
   --bg: #11090d;
   --bg-elev: #1b1015;
   --bg-card: #281820;
   --bg-card-hi: #35212a;
-  --line: rgba(230, 125, 139, 0.10);
+  --line: rgba(230, 125, 139, 0.1);
   --line-hi: rgba(230, 125, 139, 0.25);
   --text: #fbf0f2;
   --text-mid: rgba(251, 240, 242, 0.72);
   --text-dim: rgba(251, 240, 242, 0.45);
   --text-on-accent: #280c14;
   --text-on-accent-soft: #fff0f3;
-  --skin-icon-muted: rgba(251, 240, 242, 0.70);
+  --skin-icon-muted: rgba(251, 240, 242, 0.7);
   --skin-calendar-filter: invert(92%) sepia(9%) saturate(260%) hue-rotate(304deg) brightness(1.04);
-  --skin-calendar-hover-filter: invert(73%) sepia(42%) saturate(860%) hue-rotate(306deg) brightness(1.03);
+  --skin-calendar-hover-filter: invert(73%) sepia(42%) saturate(860%) hue-rotate(306deg)
+    brightness(1.03);
   --accent: #df7b89;
   --accent-2: #f0aeb7;
   --accent-3: #b94f65;
@@ -796,22 +962,23 @@
   --skin-shadow: rgba(0, 0, 0, 0.38);
   --skin-inset: rgba(255, 255, 255, 0.035);
 }
-:root[data-skin="midnight-gold"] {
+:root[data-skin='midnight-gold'] {
   color-scheme: dark;
   --bg: #080d16;
   --bg-elev: #101827;
   --bg-card: #182236;
   --bg-card-hi: #222f47;
-  --line: rgba(218, 188, 112, 0.10);
+  --line: rgba(218, 188, 112, 0.1);
   --line-hi: rgba(218, 188, 112, 0.26);
   --text: #f5f2e9;
   --text-mid: rgba(245, 242, 233, 0.72);
   --text-dim: rgba(245, 242, 233, 0.45);
   --text-on-accent: #211b0c;
   --text-on-accent-soft: #fff8df;
-  --skin-icon-muted: rgba(245, 242, 233, 0.70);
+  --skin-icon-muted: rgba(245, 242, 233, 0.7);
   --skin-calendar-filter: invert(92%) sepia(8%) saturate(230%) hue-rotate(356deg) brightness(1.04);
-  --skin-calendar-hover-filter: invert(79%) sepia(46%) saturate(620%) hue-rotate(5deg) brightness(1.02);
+  --skin-calendar-hover-filter: invert(79%) sepia(46%) saturate(620%) hue-rotate(5deg)
+    brightness(1.02);
   --accent: #d2b465;
   --accent-2: #ead79c;
   --accent-3: #9f7d36;
@@ -828,7 +995,7 @@
   --skin-shadow: rgba(0, 0, 0, 0.36);
   --skin-inset: rgba(255, 255, 255, 0.035);
 }
-:root[data-skin="sage-atelier"] {
+:root[data-skin='sage-atelier'] {
   color-scheme: light;
   --bg: #dfe3dc;
   --bg-elev: #ecefe9;
@@ -838,7 +1005,7 @@
   --line-hi: rgba(43, 62, 55, 0.26);
   --page-background:
     radial-gradient(ellipse 70% 48% at 0% 0%, rgba(242, 238, 222, 0.52) 0%, transparent 64%),
-    radial-gradient(ellipse 54% 44% at 100% 100%, rgba(78, 112, 99, 0.10) 0%, transparent 66%);
+    radial-gradient(ellipse 54% 44% at 100% 100%, rgba(78, 112, 99, 0.1) 0%, transparent 66%);
   --text: #26332e;
   --text-mid: rgba(38, 51, 46, 0.72);
   --text-dim: rgba(38, 51, 46, 0.48);
@@ -846,7 +1013,8 @@
   --text-on-accent-soft: #31433c;
   --skin-icon-muted: rgba(38, 51, 46, 0.62);
   --skin-calendar-filter: invert(26%) sepia(10%) saturate(525%) hue-rotate(104deg) brightness(0.84);
-  --skin-calendar-hover-filter: invert(34%) sepia(25%) saturate(680%) hue-rotate(103deg) brightness(0.82);
+  --skin-calendar-hover-filter: invert(34%) sepia(25%) saturate(680%) hue-rotate(103deg)
+    brightness(0.82);
   --accent: #9ab7ac;
   --accent-2: #4f695f;
   --accent-3: #9a7844;
@@ -861,7 +1029,7 @@
   --warning: #987034;
   --balance-text: #705022;
   --tier-next: #7c4b16;
-  --skin-shadow: rgba(43, 62, 55, 0.10);
+  --skin-shadow: rgba(43, 62, 55, 0.1);
   --skin-inset: rgba(255, 255, 255, 0.45);
 }
 

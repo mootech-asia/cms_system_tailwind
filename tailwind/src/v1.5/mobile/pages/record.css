@@ -179,32 +179,80 @@
     display: none !important;
   }
 }
-.status-text-approved { color: #1dbf73; font-weight: 700; }
-.status-text-reject { color: #e11d48; font-weight: 700; }
-.status-text-pending { color: #d19200; font-weight: 700; }
+.status-text-approved {
+  color: #1dbf73;
+  font-weight: 700;
+}
+.status-text-reject {
+  color: #e11d48;
+  font-weight: 700;
+}
+.status-text-pending {
+  color: #d19200;
+  font-weight: 700;
+}
 
 /* 體育串關展開列（對照 Nuxt bettingRecord.vue 的 toggleExpand/isExpanded
    + 展開圖示旋轉）。.record-parlay-panel 多包一層拉高子表選擇器優先權，
    避免被 .record-table th/.record-table td 的置中/留白蓋過（那組是
    descendant selector，天生會吃到巢狀子表）。 */
 .record-parlay-toggle {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 20px; height: 20px; margin-left: 6px;
-  border: 0; border-radius: 5px; background: transparent; color: var(--color-navy);
-  vertical-align: middle; cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--color-navy);
+  vertical-align: middle;
+  cursor: pointer;
 }
-.record-parlay-toggle:hover { background: #00000010; }
-.record-parlay-toggle svg { display: block; transition: transform 0.2s; }
-.record-parlay-order.open .record-parlay-toggle svg { transform: rotate(180deg); }
-.record-parlay-detail > td { padding: 0; }
-.record-parlay-panel { padding: 10px 8px 14px; background: #f7f7f7; text-align: left; }
-.record-parlay-panel .record-parlay-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; color: var(--color-navy); }
+.record-parlay-toggle:hover {
+  background: #00000010;
+}
+.record-parlay-toggle svg {
+  display: block;
+  transition: transform 0.2s;
+}
+.record-parlay-order.open .record-parlay-toggle svg {
+  transform: rotate(180deg);
+}
+.record-parlay-detail > td {
+  padding: 0;
+}
+.record-parlay-panel {
+  padding: 10px 8px 14px;
+  background: #f7f7f7;
+  text-align: left;
+}
+.record-parlay-panel .record-parlay-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+  color: var(--color-navy);
+}
 .record-parlay-panel .record-parlay-table th {
-  padding: 6px 8px; background: transparent; color: #6d6d6d;
-  font-weight: 700; font-size: 11px; border-bottom: 1px solid var(--color-border); white-space: nowrap;
+  padding: 6px 8px;
+  background: transparent;
+  color: #6d6d6d;
+  font-weight: 700;
+  font-size: 11px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
 }
-.record-parlay-panel .record-parlay-table td { padding: 7px 8px; background: transparent; border-bottom: 1px solid var(--color-border); white-space: nowrap; }
-.record-parlay-panel .record-parlay-table tbody tr:last-child td { border-bottom: 0; }
+.record-parlay-panel .record-parlay-table td {
+  padding: 7px 8px;
+  background: transparent;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.record-parlay-panel .record-parlay-table tbody tr:last-child td {
+  border-bottom: 0;
+}
 
 .record-footer-total {
   position: fixed;

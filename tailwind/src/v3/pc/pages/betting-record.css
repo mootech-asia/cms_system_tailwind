@@ -12,247 +12,372 @@
    withdrawal-detail）都會共用，不是這頁專屬。
    ============================================================ */
 @layer components {
+  .rec-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .rec-filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .rec-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .rec-date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border: 1px solid var(--line-hi);
+    border-radius: var(--radius-control);
+    background: var(--bg-card);
+    color: var(--text-mid);
+    font-size: var(--type-button);
+    cursor: pointer;
+  }
+  .rec-date svg {
+    color: var(--text-mid);
+  }
+  .rec-confirm {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 0;
+    background: var(--gradient-primary);
+    color: var(--text-on-accent);
+    font: inherit;
+    font-weight: 700;
+    font-size: 13.5px;
+    cursor: pointer;
+    box-shadow: 0 0 14px color-mix(in oklch, var(--primary) 35%, transparent);
+  }
+  .rec-confirm:hover {
+    filter: brightness(1.08);
+  }
 
-.rec-toolbar {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 14px; flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-.rec-filters { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.rec-actions { display: flex; align-items: center; gap: 12px; }
-.rec-date {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
-  border: 1px solid var(--line-hi);
-  border-radius: var(--radius-control);
-  background: var(--bg-card);
-  color: var(--text-mid);
-  font-size: var(--type-button);
-  cursor: pointer;
-}
-.rec-date svg { color: var(--text-mid); }
-.rec-confirm {
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 0;
-  background: var(--gradient-primary);
-  color: var(--text-on-accent); font: inherit; font-weight: 700; font-size: 13.5px;
-  cursor: pointer;
-  box-shadow: 0 0 14px color-mix(in oklch, var(--primary) 35%, transparent);
-}
-.rec-confirm:hover { filter: brightness(1.08); }
+  .rec-table-scroll {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    scrollbar-width: thin;
+    margin-bottom: 14px;
+  }
+  .rec-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+    font-size: 13.5px;
+  }
+  .rec-table thead th {
+    background: var(--table-header-bg);
+    color: var(--table-header-text);
+    font-weight: var(--weight-bold);
+    font-size: var(--type-label);
+    padding: 14px 16px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .rec-table thead th:first-child {
+    text-align: left;
+    padding-left: 22px;
+    border-top-left-radius: 0;
+  }
+  .rec-table tbody td {
+    padding: 16px;
+    text-align: center;
+    color: var(--text-mid);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+    background: var(--bg-card);
+  }
+  .rec-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .rec-table tbody td:first-child {
+    color: var(--text);
+    font-weight: 600;
+    text-align: left;
+    padding-left: 22px;
+  }
+  .rec-table tbody tr:hover td {
+    background: var(--bg-card-hi);
+  }
+  .rec-pl.pos {
+    color: var(--accent-2);
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+  .rec-pl.neg {
+    color: #ff6b6b;
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
 
-.rec-table-scroll {
-  overflow-x: auto;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--line);
-  scrollbar-width: thin;
-  margin-bottom: 14px;
-}
-.rec-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 720px;
-  font-size: 13.5px;
-}
-.rec-table thead th {
-  background: var(--table-header-bg);
-  color: var(--table-header-text);
-  font-weight: var(--weight-bold);
-  font-size: var(--type-label);
-  padding: 14px 16px;
-  text-align: center;
-  white-space: nowrap;
-}
-.rec-table thead th:first-child { text-align: left; padding-left: 22px; border-top-left-radius: 0; }
-.rec-table tbody td {
-  padding: 16px;
-  text-align: center;
-  color: var(--text-mid);
-  border-bottom: 1px solid var(--line);
-  white-space: nowrap;
-  background: var(--bg-card);
-}
-.rec-table tbody tr:last-child td { border-bottom: 0; }
-.rec-table tbody td:first-child { color: var(--text); font-weight: 600; text-align: left; padding-left: 22px; }
-.rec-table tbody tr:hover td { background: var(--bg-card-hi); }
-.rec-pl.pos { color: var(--accent-2); font-family: var(--font-mono); font-weight: 700; }
-.rec-pl.neg { color: #ff6b6b; font-family: var(--font-mono); font-weight: 700; }
-
-/* 體育串關（Parlay）展開列：只有實際組成串關的訂單才在 Order No 前面
+  /* 體育串關（Parlay）展開列：只有實際組成串關的訂單才在 Order No 前面
    附這顆展開鈕，比照 .sup-faq 手風琴的 caret 旋轉 + 內容收合寫法。
    展開內容是同一張訂單底下各關的獨立子表，不佔用主表欄位。 */
-.rec-expand-btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 20px; height: 20px; margin-left: 8px;
-  border: 0; border-radius: 5px; background: transparent; color: var(--text-mid);
-  vertical-align: middle; cursor: pointer;
-  transition: color .15s, background .15s;
-}
-.rec-expand-btn:hover { color: var(--accent-2); background: var(--bg-elev); }
-.rec-expand-btn svg { display: block; transition: transform .2s; }
-.rec-row-parlay.open .rec-expand-btn svg { transform: rotate(180deg); }
-.rec-row-parlay.open td { background: var(--bg-card-hi); }
-.rec-parlay-detail > td { padding: 0; background: var(--bg-elev); }
-.rec-parlay-panel { padding: 14px 22px 18px; }
-.rec-parlay-summary { margin-bottom: 10px; font-size: 12.5px; color: var(--text-mid); white-space: nowrap; }
-.rec-parlay-sep { margin: 0 8px; color: var(--text-dim); }
-.rec-parlay-summary strong { color: var(--accent-2); font-family: var(--font-mono); font-weight: 700; }
-/* .rec-parlay-table 是巢狀在 .rec-table 底下的子表，選擇器多帶一層
+  .rec-expand-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--text-mid);
+    vertical-align: middle;
+    cursor: pointer;
+    transition:
+      color 0.15s,
+      background 0.15s;
+  }
+  .rec-expand-btn:hover {
+    color: var(--accent-2);
+    background: var(--bg-elev);
+  }
+  .rec-expand-btn svg {
+    display: block;
+    transition: transform 0.2s;
+  }
+  .rec-row-parlay.open .rec-expand-btn svg {
+    transform: rotate(180deg);
+  }
+  .rec-row-parlay.open td {
+    background: var(--bg-card-hi);
+  }
+  .rec-parlay-detail > td {
+    padding: 0;
+    background: var(--bg-elev);
+  }
+  .rec-parlay-panel {
+    padding: 14px 22px 18px;
+  }
+  .rec-parlay-summary {
+    margin-bottom: 10px;
+    font-size: 12.5px;
+    color: var(--text-mid);
+    white-space: nowrap;
+  }
+  .rec-parlay-sep {
+    margin: 0 8px;
+    color: var(--text-dim);
+  }
+  .rec-parlay-summary strong {
+    color: var(--accent-2);
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+  /* .rec-parlay-table 是巢狀在 .rec-table 底下的子表，選擇器多帶一層
    .rec-parlay-panel 拉高優先權，避免被外層 .rec-table thead th／
    .rec-table tbody td（含 :first-child 那條）的置中/大留白/底色蓋過。
    顏色不在這裡設，讓 Win/Loss 儲存格能維持沿用 .rec-pl.pos/.neg 的色碼。 */
-.rec-parlay-table { width: 100%; border-collapse: collapse; font-size: 12.5px; color: var(--text-mid); }
-.rec-parlay-panel .rec-parlay-table th {
-  text-align: left; padding: 6px 10px; background: transparent; color: var(--text-dim);
-  font-weight: var(--weight-bold); font-size: 11px;
-  border-bottom: 1px solid var(--line); white-space: nowrap;
-}
-.rec-parlay-panel .rec-parlay-table td {
-  padding: 9px 10px; text-align: left; background: transparent;
-  border-bottom: 1px solid var(--line); white-space: nowrap;
-}
-.rec-parlay-panel .rec-parlay-table tbody tr:last-child td { border-bottom: 0; }
+  .rec-parlay-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    color: var(--text-mid);
+  }
+  .rec-parlay-panel .rec-parlay-table th {
+    text-align: left;
+    padding: 6px 10px;
+    background: transparent;
+    color: var(--text-dim);
+    font-weight: var(--weight-bold);
+    font-size: 11px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .rec-parlay-panel .rec-parlay-table td {
+    padding: 9px 10px;
+    text-align: left;
+    background: transparent;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .rec-parlay-panel .rec-parlay-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
 
-.rec-total {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-top: auto;
-  padding: 16px 24px;
-  border-radius: var(--radius-card);
-  background: var(--record-total-bg);
-  border: 1px solid var(--record-total-border);
-}
-.rec-total > span:first-child { color: var(--accent-2); font-weight: 700; font-size: 14px; }
-.rec-total-val { color: var(--accent-2); font-family: var(--font-mono); font-weight: 700; font-size: 15px; }
+  .rec-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding: 16px 24px;
+    border-radius: var(--radius-card);
+    background: var(--record-total-bg);
+    border: 1px solid var(--record-total-border);
+  }
+  .rec-total > span:first-child {
+    color: var(--accent-2);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .rec-total-val {
+    color: var(--accent-2);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 15px;
+  }
 
-@media (max-width: 900px) {
-  .rec-toolbar { gap: 10px; }
-}
+  @media (max-width: 900px) {
+    .rec-toolbar {
+      gap: 10px;
+    }
+  }
 
-/* ── DATE / CALENDAR CONTROLS（Personal Info 跟 record 篩選共用同一套，
+  /* ── DATE / CALENDAR CONTROLS（Personal Info 跟 record 篩選共用同一套，
    這裡只搬 record 篩選會用到的部分，.pi-date 相關部分不搬） ── */
-.rec-date-sep { color: var(--text-dim); }
-.rec-date-input {
-  min-width: 120px;
-  background: transparent;
-  border: 0;
-  outline: 0;
-  color: var(--text);
-  color-scheme: dark;
-  font: inherit;
-  font-size: var(--type-body-sm);
-  cursor: pointer;
-}
-.rec-date > svg {
-  color: var(--cal-icon) !important;
-  filter: none !important;
-  flex-shrink: 0;
-  opacity: 1 !important;
-}
-.rec-date-input::-webkit-calendar-picker-indicator {
-  filter: var(--calendar-indicator-filter) !important;
-  opacity: var(--calendar-indicator-opacity) !important;
-  cursor: pointer;
-}
-.rec-date-input::-webkit-calendar-picker-indicator:hover {
-  filter: var(--calendar-indicator-hover-filter) !important;
-  opacity: 1 !important;
-}
-.rec-date-cell {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 132px;
-  padding: 4px;
-  cursor: pointer;
-}
-.rec-date-cell .rec-date-text {
-  z-index: 1;
-  color: var(--text);
-  font-family: var(--font-mono);
-  font-size: var(--type-body-sm);
-  white-space: nowrap;
-  pointer-events: none;
-}
-.rec-date-cell .rec-date-text.ph { color: var(--text-dim); }
-.rec-date-cell .rec-date-ico {
-  color: var(--cal-icon);
-  flex-shrink: 0;
-  pointer-events: none;
-}
-.rec-date-cell .rec-date-input {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-.rec-date-cell .rec-date-input::-webkit-calendar-picker-indicator {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
-}
-
-@media (max-width: 700px) {
+  .rec-date-sep {
+    color: var(--text-dim);
+  }
   .rec-date-input {
-    flex: 1 1 auto;
-    min-width: 0;
-    font-size: var(--type-label);
+    min-width: 120px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: var(--text);
+    color-scheme: dark;
+    font: inherit;
+    font-size: var(--type-body-sm);
+    cursor: pointer;
+  }
+  .rec-date > svg {
+    color: var(--cal-icon) !important;
+    filter: none !important;
+    flex-shrink: 0;
+    opacity: 1 !important;
+  }
+  .rec-date-input::-webkit-calendar-picker-indicator {
+    filter: var(--calendar-indicator-filter) !important;
+    opacity: var(--calendar-indicator-opacity) !important;
+    cursor: pointer;
+  }
+  .rec-date-input::-webkit-calendar-picker-indicator:hover {
+    filter: var(--calendar-indicator-hover-filter) !important;
+    opacity: 1 !important;
   }
   .rec-date-cell {
-    flex: 1 1 auto;
-    min-width: 0;
-    justify-content: space-between;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 132px;
+    padding: 4px;
+    cursor: pointer;
   }
-  .rec-date-cell .rec-date-text { font-size: var(--type-label); }
-}
+  .rec-date-cell .rec-date-text {
+    z-index: 1;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: var(--type-body-sm);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .rec-date-cell .rec-date-text.ph {
+    color: var(--text-dim);
+  }
+  .rec-date-cell .rec-date-ico {
+    color: var(--cal-icon);
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+  .rec-date-cell .rec-date-input {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .rec-date-cell .rec-date-input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+  }
 
-/* ── RECORD TOOLBAR — mobile polish（只搬這頁實際用到的 .rec-filters/
+  @media (max-width: 700px) {
+    .rec-date-input {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: var(--type-label);
+    }
+    .rec-date-cell {
+      flex: 1 1 auto;
+      min-width: 0;
+      justify-content: space-between;
+    }
+    .rec-date-cell .rec-date-text {
+      font-size: var(--type-label);
+    }
+  }
+
+  /* ── RECORD TOOLBAR — mobile polish（只搬這頁實際用到的 .rec-filters/
    .rec-date/.rec-confirm，.rec-status- 系列／.rec-refresh 是其他
    record 頁面才有的篩選/重新整理列，這頁沒有對應元素，不搬） ── */
-@media (max-width: 700px) {
-  .rec-toolbar {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    gap: 12px 8px;
-  }
-  .rec-filters { display: contents; }
-  .rec-date {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    width: 100%;
-    min-width: 0;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    padding: 11px 14px;
-  }
-  /* .rec-actions 沒有 display:contents 時，它本身會變成一個普通 grid
+  @media (max-width: 700px) {
+    .rec-toolbar {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 12px 8px;
+    }
+    .rec-filters {
+      display: contents;
+    }
+    .rec-date {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      width: 100%;
+      min-width: 0;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      padding: 11px 14px;
+    }
+    /* .rec-actions 沒有 display:contents 時，它本身會變成一個普通 grid
      item（自己佔一格），裡面的 .rec-refresh 就不再是 .rec-toolbar 的
      直接子項目，grid-column/grid-row 完全不生效——deposit-record.html
      跟 withdrawal-record.html 的 .rec-refresh 因此落在錯的位置，但因為
      視覺上位移不算誇張，第一輪截圖比對的 diff 百分比沒有超出門檻，
      漏看了；profit-loss.html 沒有 .rec-status-wrap 佔用第一列，位移
      幅度變超過一整列高度才在截圖比對明顯抓到（diff 8.26%）。 */
-  .rec-actions { display: contents; }
-  .rec-confirm { grid-column: 1; grid-row: 3; width: auto; padding: 10px 24px; justify-self: start; }
-}
+    .rec-actions {
+      display: contents;
+    }
+    .rec-confirm {
+      grid-column: 1;
+      grid-row: 3;
+      width: auto;
+      padding: 10px 24px;
+      justify-self: start;
+    }
+  }
 
-[data-theme="light"] .rec-table tbody td:first-child,
-[data-theme="light"] .rec-table tbody td { color: var(--text) !important; }
-[data-theme="light"] .rec-table tbody td.rec-pl.pos { color: #1f8a5b !important; }
-[data-theme="light"] .rec-table tbody td.rec-pl.neg { color: #e23b3b !important; }
-
+  [data-theme='light'] .rec-table tbody td:first-child,
+  [data-theme='light'] .rec-table tbody td {
+    color: var(--text) !important;
+  }
+  [data-theme='light'] .rec-table tbody td.rec-pl.pos {
+    color: #1f8a5b !important;
+  }
+  [data-theme='light'] .rec-table tbody td.rec-pl.neg {
+    color: #e23b3b !important;
+  }
 }

@@ -22,9 +22,9 @@
    class，一樣搬進這個檔案，不要放回 pages/*.css。
    ============================================================ */
 @layer components {
-
-@media (max-width: 768px) {
-  .gcard-title { font-size: 12px; }
-}
-
+  @media (max-width: 768px) {
+    .gcard-title {
+      font-size: 12px;
+    }
+  }
 }

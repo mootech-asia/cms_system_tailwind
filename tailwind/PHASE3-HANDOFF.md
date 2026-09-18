@@ -24,15 +24,18 @@
 | Phase 1（設計 token） | v1.5/v2/v3/v4/v5/v6 **全部完成**（PR #1，未合併；v2 原本「延後」的前提是誤判，已補完，見 `TOKENS.md`） |
 | Phase 2（斷點策略） | 已定案（PR #3，未合併） |
 | Phase 3（逐頁轉換） | v3：**23/23 完成**；v1.5：**21/21 完成**；v4：**22/22 完成**；v5：**22/22 完成**；v6：**22/22 完成**；v2：**22/22 完成**——**六版全數完成** |
-| Phase 4（`@apply`/格式檢查） | `source(none)` 系統性複查已完成（見下方「`source(none)` 系統性問題複查」）；`@apply`/格式檢查其餘部分未開始 |
+| Phase 4（`@apply`/格式檢查） | **全部完成**：`source(none)` 系統性複查、`@apply` 使用狀況確認、Prettier 格式化，見下方對應章節 |
 | Phase 5（`MIGRATION.md`） | 未開始 |
 
-**Phase 3 六個版本已全數完成**。v2 收尾時發現的 `source(none)` 系統性
-問題（見下方「v2 過程中發現並修正的問題」第 19 點）已對其餘 5 個版本
-（v1.5/v3/v4/v5/v6）逐一複查完成：**v3/v5/v6 確認受影響並已修正**，
-**v1.5/v4 確認未受影響**，詳見下方「`source(none)` 系統性問題複查」。
-下一步是 Phase 4 剩餘的 `@apply`/格式檢查、Phase 5（`MIGRATION.md`），
-尚未開始規劃。
+**Phase 3 六個版本已全數完成，Phase 4 已全數完成**。v2 收尾時發現的
+`source(none)` 系統性問題（見下方「v2 過程中發現並修正的問題」第 19
+點）已對其餘 5 個版本（v1.5/v3/v4/v5/v6）逐一複查完成：**v3/v5/v6
+確認受影響並已修正**，**v1.5/v4 確認未受影響**；`@apply` 確認全六版
+零使用（符合「main.css 逐字搬移」的既定策略，未主動重構）；`prettier`
+格式化已對全六版 `tailwind/src/**/*.css`（152 個檔案）套用，編譯輸出
+逐 byte 比對修正前後完全一致，零視覺影響。詳見下方「Phase 4：
+`source(none)` 系統性問題複查」與「Phase 4：`@apply`/Prettier 格式
+檢查」兩個章節。下一步是 Phase 5（`MIGRATION.md`），尚未開始規劃。
 
 ## 本 repo 的核心任務性質
 
@@ -954,6 +957,56 @@ v1.5/v4 自己的頁面完全是死重量、生成了也用不到，不影響視
   之後在 v1.5/v4 新增頁面時剛好用到跟 Tailwind utility 同名的
   class，一樣可能踩到同一個系統性問題，發現的話比照這次的方法確認
   後加上 `source(none)`。
+
+## Phase 4：`@apply`/Prettier 格式檢查
+
+延續上面 `source(none)` 複查，Phase 4 剩下的「`@apply`/格式檢查」
+這次也一併完成。
+
+### `@apply` 使用狀況
+
+`grep -rn '@apply' tailwind/src/` 對全六版（v1.5/v2/v3/v4/v5/v6）
+掃描，**結果是 0**——目前沒有任何一份手寫 CSS 使用 `@apply`。這符合
+整個專案從 Phase 1 開始就定案的策略：「main.css 逐字搬移，變數名稱/
+數值都不改」，任何用 `@apply` 把多條原始規則合併成一條新宣告，都會
+破壞「跟原始 main.css 逐字對應」這個貫穿全專案、方便日後核對的特性
+（例如 v6 問題 16 就是靠「main.css class 名稱 vs 我寫的檔案是否都
+出現過」這種逐字比對抓到遺漏的一整段規則）。**這次決定不主動找地方
+套用 `@apply` 做重構**——現有作法（逐字搬移＋`@theme`/`:root` 別名
+橋接）已經達到鐵則 1 的「CSS 復用優先」，`@apply` 只是語法糖，不是
+非用不可；為了套用而套用反而增加「跟原始碼不逐字對應」的維護風險，
+不符合這個專案的既定取捨。如果之後要新增全新（非搬移自 main.css）的
+共用元件，且該元件的樣式剛好是一長串重複出現的 utility 組合，那時候
+可以評估用 `@apply`，但目前逐頁轉換的內容不適用。
+
+### Prettier 格式化
+
+`tailwind/.prettierrc.json`（Phase 1 就已建立，`printWidth: 100`、
+`singleQuote: true`、`prettier-plugin-tailwindcss`）此前從未真的執行
+過——`npx prettier --check "src/**/*.css"` 一開始對全六版 152 個檔案
+全部回報格式不一致（大多是原始 main.css 慣用的「一行多條宣告」寫法，
+跟 Prettier 預設「一條宣告一行」不同）。
+
+套用 `npx prettier --write "src/**/*.css"` 後：
+- **152 個檔案全部改為一致格式**（一條宣告一行、單引號、超過
+  100 字元自動換行），`npx prettier --check` 全部通過。
+- **只改空白/斷行/引號風格，不改任何屬性值或選擇器**——`prettier`
+  本身不會重排規則順序或合併/拆分規則，`prettier-plugin-tailwindcss`
+  則因為全專案 0 處 `@apply`、HTML 也不在這次格式化範圍內，沒有
+  任何實際作用（單純掛著，不影響輸出）。
+- **驗證**：重新 `npm run build` 後，六版 12 份編譯輸出
+  （`site/assets/css/tailwind.css`／`site-mobile/assets/css/
+  tailwind.css`）跟格式化前逐 byte 比對**完全一致**（`git diff`
+  對這些檔案顯示零變更）——這比 pixelmatch 截圖比對更直接：編譯
+  產物沒有任何一個 byte 不同，代表視覺上不可能有任何差異，不需要
+  再另外跑一輪 pixelmatch 迴歸。
+- 這次**只格式化 CSS**（`src/**/*.css`），沒有格式化 HTML——HTML
+  是用 `convert_page.py` 從原始站台逐字轉換來的，Prettier 的 HTML
+  格式化會改變標籤間的空白（可能影響 inline 元素排版）、屬性順序等，
+  風險遠高於 CSS，且不在 `.prettierrc.json` 原本設置的範圍內
+  （`prettier-plugin-tailwindcss` 主要是給 HTML/JSX 的 class 屬性
+  排序用，但這個專案的 HTML class 都是原站語意 class、不是 Tailwind
+  utility 組合，排序它們沒有意義），這次不處理。
 
 ## 環境須知
 

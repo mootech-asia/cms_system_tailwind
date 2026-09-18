@@ -4,14 +4,12 @@
    沒有覆寫 .tb-avatar/.rb-big-avatar。
    ============================================================ */
 @layer components {
-
-.tb-avatar,
-.tb-avatar.circle,
-.tb-avatar.lg,
-.rb-big-avatar,
-.rb-avatar-wrap .tb-avatar.circle {
-  background: var(--bg-elev) !important;
-  box-shadow: none !important;
-}
-
+  .tb-avatar,
+  .tb-avatar.circle,
+  .tb-avatar.lg,
+  .rb-big-avatar,
+  .rb-avatar-wrap .tb-avatar.circle {
+    background: var(--bg-elev) !important;
+    box-shadow: none !important;
+  }
 }

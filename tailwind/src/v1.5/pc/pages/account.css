@@ -263,9 +263,15 @@
   text-align: right;
   margin-top: 2px;
 }
-.status-approved { color: #1dbf73; }
-.status-reject { color: #e11d48; }
-.status-pending { color: #f0bc00; }
+.status-approved {
+  color: #1dbf73;
+}
+.status-reject {
+  color: #e11d48;
+}
+.status-pending {
+  color: #f0bc00;
+}
 
 .account-quick-links {
   padding: 16px;

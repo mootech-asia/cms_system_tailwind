@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ============================================================
    v1.5（WIN10096）design token —— 桌機版。手機版另見 ../mobile/theme.css
@@ -47,8 +47,14 @@
 }
 
 @layer base {
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
   body {
     background: var(--color-bg);
     color: var(--color-text);
@@ -60,10 +66,25 @@
     line-height: normal;
     -webkit-font-smoothing: antialiased;
   }
-  img { max-width: 100%; display: block; }
-  button { cursor: pointer; font: inherit; background: none; border: 0; padding: 0; color: inherit; }
-  a { color: inherit; text-decoration: none; }
-  input { font: inherit; }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  button {
+    cursor: pointer;
+    font: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: inherit;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  input {
+    font: inherit;
+  }
   /* 原始 main.css 沒有 *{margin:0} 這種通用 reset，全站大量 <p> 標籤
      （.slot-strip-name/.slot-strip-brand 等）靠瀏覽器 UA 預設的
      margin:1em 0 撐間距，main.css 常常只覆寫 margin-top 不覆寫
@@ -71,21 +92,42 @@
      把這些 UA 預設margin 歸零，這裡的優先權比 Preflight 高（本檔在
      @import "tailwindcss" 之後宣告，同層後宣告贏），先還原 UA 預設值，
      main.css 逐字搬過來的顯式 margin 宣告仍會照常覆寫這裡。 */
-  p { margin: 1em 0; }
+  p {
+    margin: 1em 0;
+  }
   /* 同上，<h1>-<h6> 也有同樣問題（例如 .hot-game-name 是 <h3>，main.css
      沒設 margin，UA 預設 margin:1em 0 被 Preflight 歸零，首頁熱門遊戲
      卡片標題位置跟著位移）。數值對照 Chrome UA 樣式表（margin 是
      em，跟著各元素自己套用的 font-size 走，不是寫死 px）。 */
-  h1 { margin: 0.67em 0; }
-  h2 { margin: 0.83em 0; }
-  h3 { margin: 1em 0; }
-  h4 { margin: 1.33em 0; }
-  h5 { margin: 1.67em 0; }
-  h6 { margin: 2.33em 0; }
+  h1 {
+    margin: 0.67em 0;
+  }
+  h2 {
+    margin: 0.83em 0;
+  }
+  h3 {
+    margin: 1em 0;
+  }
+  h4 {
+    margin: 1.33em 0;
+  }
+  h5 {
+    margin: 1.67em 0;
+  }
+  h6 {
+    margin: 2.33em 0;
+  }
   /* 同一類問題：main.css 沒設 h1-h6 的 font-weight，UA 預設 bold；
      Preflight 把 font-weight 重置成 inherit，沒有顯式覆寫的標題（例如
      .user-navbar-title 是 <h1>）會變回一般字重。 */
-  h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: bold;
+  }
   /* main.css 沒有全域 svg 規則，UA 預設 display:inline，圖示常常直接
      緊接文字构成 inline 排版（不靠 flex），文字置中/靠齊全部算在同一行
      裡；Preflight 把 svg 重置成 display:block，圖示會斷成獨立一行，
@@ -93,22 +135,24 @@
      這裡還原成 inline 不影響已經用 flex 對齊圖示的地方（flex item 不
      論本身 display 是 inline 還是 block，都會被父層 flex context
      blockify，版面不變）。 */
-  svg { display: inline; }
+  svg {
+    display: inline;
+  }
 }
 
-@import "./shell.css";
-@import "./pages/index.css";
-@import "./pages/record.css";
-@import "./pages/account.css";
-@import "./pages/pay.css";
-@import "./pages/banking-details.css";
-@import "./pages/withdrawal.css";
-@import "./pages/transaction-info.css";
-@import "./pages/personal-info.css";
-@import "./pages/security.css";
-@import "./pages/change-password.css";
-@import "./pages/about.css";
-@import "./pages/game-filter.css";
-@import "./pages/promotion-list.css";
-@import "./pages/promotion-detail.css";
-@import "./pages/sports.css";
+@import './shell.css';
+@import './pages/index.css';
+@import './pages/record.css';
+@import './pages/account.css';
+@import './pages/pay.css';
+@import './pages/banking-details.css';
+@import './pages/withdrawal.css';
+@import './pages/transaction-info.css';
+@import './pages/personal-info.css';
+@import './pages/security.css';
+@import './pages/change-password.css';
+@import './pages/about.css';
+@import './pages/game-filter.css';
+@import './pages/promotion-list.css';
+@import './pages/promotion-detail.css';
+@import './pages/sports.css';

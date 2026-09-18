@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ============================================================
    v1.5（WIN10096）design token —— 手機版。桌機版另見 ../pc/theme.css
@@ -45,8 +45,14 @@
 }
 
 @layer base {
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
   body {
     background: var(--color-bg);
     color: var(--color-text);
@@ -57,41 +63,79 @@
     line-height: normal;
     -webkit-font-smoothing: antialiased;
   }
-  img { max-width: 100%; display: block; }
-  button { cursor: pointer; font: inherit; background: none; border: 0; padding: 0; color: inherit; }
-  a { color: inherit; text-decoration: none; }
-  input { font: inherit; }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  button {
+    cursor: pointer;
+    font: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: inherit;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  input {
+    font: inherit;
+  }
   /* 同 ../pc/theme.css：還原 <p> 標籤的 UA 預設 margin:1em 0，
      main.css 逐字搬過來的顯式 margin 宣告仍會照常覆寫這裡。 */
-  p { margin: 1em 0; }
+  p {
+    margin: 1em 0;
+  }
   /* 同 ../pc/theme.css：<h1>-<h6> UA 預設 margin。 */
-  h1 { margin: 0.67em 0; }
-  h2 { margin: 0.83em 0; }
-  h3 { margin: 1em 0; }
-  h4 { margin: 1.33em 0; }
-  h5 { margin: 1.67em 0; }
-  h6 { margin: 2.33em 0; }
+  h1 {
+    margin: 0.67em 0;
+  }
+  h2 {
+    margin: 0.83em 0;
+  }
+  h3 {
+    margin: 1em 0;
+  }
+  h4 {
+    margin: 1.33em 0;
+  }
+  h5 {
+    margin: 1.67em 0;
+  }
+  h6 {
+    margin: 2.33em 0;
+  }
   /* 同 ../pc/theme.css：<h1>-<h6> UA 預設 font-weight:bold 被 Preflight
      重置成 inherit。 */
-  h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: bold;
+  }
   /* 同 ../pc/theme.css：svg UA 預設 display:inline 被 Preflight 重置成
      block，沒靠 flex 對齊的圖示+文字 inline 排版會斷行。 */
-  svg { display: inline; }
+  svg {
+    display: inline;
+  }
 }
 
-@import "./shell.css";
-@import "./pages/index.css";
-@import "./pages/record.css";
-@import "./pages/account.css";
-@import "./pages/pay.css";
-@import "./pages/banking-details.css";
-@import "./pages/withdrawal.css";
-@import "./pages/transaction-info.css";
-@import "./pages/personal-info.css";
-@import "./pages/security.css";
-@import "./pages/change-password.css";
-@import "./pages/about.css";
-@import "./pages/game-filter.css";
-@import "./pages/promotion-list.css";
-@import "./pages/promotion-detail.css";
-@import "./pages/sports.css";
+@import './shell.css';
+@import './pages/index.css';
+@import './pages/record.css';
+@import './pages/account.css';
+@import './pages/pay.css';
+@import './pages/banking-details.css';
+@import './pages/withdrawal.css';
+@import './pages/transaction-info.css';
+@import './pages/personal-info.css';
+@import './pages/security.css';
+@import './pages/change-password.css';
+@import './pages/about.css';
+@import './pages/game-filter.css';
+@import './pages/promotion-list.css';
+@import './pages/promotion-detail.css';
+@import './pages/sports.css';

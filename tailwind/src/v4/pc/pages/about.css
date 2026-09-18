@@ -1,22 +1,112 @@
 /* ============================================================
    about.html 專屬 —— 關於我們／常見問題頁籤與 FAQ 手風琴。
    ============================================================ */
-.about-wrap { padding-top: 24px; padding-bottom: 48px; max-width: 880px; margin: 0 auto; padding-right: 92px; }
-.about-title { font-size: 22px; font-weight: 800; margin: 0 0 16px; }
-.about-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
-.about-tab { padding: 8px 18px; border-radius: 999px; border: 1px solid var(--color-line); background: var(--color-bg-panel); color: var(--color-text-mid); font-size: 13px; font-weight: 700; }
-.about-tab.active { background: var(--gold-grad); border-color: var(--color-gold-hi); color: var(--color-ink-on-gold); }
-.about-card { border-radius: var(--radius-lg); border: 1px solid var(--color-line); background: var(--color-bg-panel); box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 14px; }
-.about-card-title { font-size: 15px; font-weight: 800; margin: 0 0 10px; color: var(--color-text); }
-.about-text { font-size: 13.5px; line-height: 1.8; color: var(--color-text-mid); margin: 0 0 10px; }
-.about-text:last-child { margin-bottom: 0; }
-.about-group-title { font-size: 13px; font-weight: 800; color: var(--color-gold-deep); margin: 20px 0 10px; }
-.about-group-title:first-child { margin-top: 0; }
-.faq-card { border-radius: var(--radius-md); border: 1px solid var(--color-line); background: var(--color-bg-panel); margin-bottom: 8px; overflow: hidden; }
-.faq-trigger { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 14px 16px; font-size: 13.5px; font-weight: 700; color: var(--color-text); text-align: left; }
-.faq-chevron { width: 16px; height: 16px; color: var(--color-text-mid); transition: transform 0.15s; flex-shrink: 0; }
-.faq-card.open .faq-chevron { transform: rotate(180deg); }
-.faq-answer { display: none; padding: 0 16px 16px; font-size: 13px; line-height: 1.8; color: var(--color-text-mid); margin: 0; }
-.faq-card.open .faq-answer { display: block; }
+.about-wrap {
+  padding-top: 24px;
+  padding-bottom: 48px;
+  max-width: 880px;
+  margin: 0 auto;
+  padding-right: 92px;
+}
+.about-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 16px;
+}
+.about-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.about-tab {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: var(--color-bg-panel);
+  color: var(--color-text-mid);
+  font-size: 13px;
+  font-weight: 700;
+}
+.about-tab.active {
+  background: var(--gold-grad);
+  border-color: var(--color-gold-hi);
+  color: var(--color-ink-on-gold);
+}
+.about-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-line);
+  background: var(--color-bg-panel);
+  box-shadow: var(--shadow-card);
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.about-card-title {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: var(--color-text);
+}
+.about-text {
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--color-text-mid);
+  margin: 0 0 10px;
+}
+.about-text:last-child {
+  margin-bottom: 0;
+}
+.about-group-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-gold-deep);
+  margin: 20px 0 10px;
+}
+.about-group-title:first-child {
+  margin-top: 0;
+}
+.faq-card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-line);
+  background: var(--color-bg-panel);
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.faq-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: left;
+}
+.faq-chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-mid);
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.faq-card.open .faq-chevron {
+  transform: rotate(180deg);
+}
+.faq-answer {
+  display: none;
+  padding: 0 16px 16px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--color-text-mid);
+  margin: 0;
+}
+.faq-card.open .faq-answer {
+  display: block;
+}
 
-@media (max-width: 720px) { .about-wrap { padding-right: 20px; } }
+@media (max-width: 720px) {
+  .about-wrap {
+    padding-right: 20px;
+  }
+}

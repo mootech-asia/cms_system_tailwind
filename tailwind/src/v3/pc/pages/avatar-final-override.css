@@ -10,14 +10,12 @@
    比對時「後載入贏」。
    ============================================================ */
 @layer components {
-
-.tb-avatar,
-.tb-avatar.circle,
-.tb-avatar.lg,
-.rb-big-avatar,
-.rb-avatar-wrap .tb-avatar.circle {
-  background: var(--bg-elev) !important;
-  box-shadow: none !important;
-}
-
+  .tb-avatar,
+  .tb-avatar.circle,
+  .tb-avatar.lg,
+  .rb-big-avatar,
+  .rb-avatar-wrap .tb-avatar.circle {
+    background: var(--bg-elev) !important;
+    box-shadow: none !important;
+  }
 }

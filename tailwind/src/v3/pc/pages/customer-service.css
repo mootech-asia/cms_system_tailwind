@@ -5,13 +5,12 @@
    （main.css 裡跟 .cs-box-title 分開宣告，先前搬移殼層時漏掉）。
    ============================================================ */
 @layer components {
-
-.cs-box {
-  max-width: 460px; margin: 0 auto;
-  background: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
-  border: 1px solid var(--line-hi);
-  border-radius: var(--radius-lg);
-  padding: 22px;
-}
-
+  .cs-box {
+    max-width: 460px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+    border: 1px solid var(--line-hi);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+  }
 }

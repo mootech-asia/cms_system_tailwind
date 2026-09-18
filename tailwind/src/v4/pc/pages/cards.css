@@ -5,8 +5,14 @@
    .match-card 三組 class 被多頁重複使用，合併成一份共用檔案，避免
    在多個 pages 頁面 CSS 裡各自重複宣告。
    ============================================================ */
-.tile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.rail-wrap { position: relative; }
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.rail-wrap {
+  position: relative;
+}
 .tile-grid.rail {
   grid-template-columns: none;
   grid-auto-flow: column;
@@ -25,30 +31,80 @@
   cursor: grab;
   user-select: none;
 }
-.tile-grid.rail::-webkit-scrollbar { display: none; }
-.tile-grid.rail.compact { grid-template-columns: none; grid-auto-columns: 130px; }
-.tile-grid.rail .game-tile { scroll-snap-align: start; min-width: 0; }
-.tile-grid.rail.dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
-.tile-grid.compact { grid-template-columns: repeat(auto-fill, minmax(110px, 130px)); justify-content: start; gap: 10px; }
-.tile-grid.compact .game-tile-name { font-size: 11px; padding: 6px 6px 0; }
-.tile-grid.compact .game-tile-cta { margin: 6px; padding: 5px 0; font-size: 10.5px; }
-.game-tile { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-line); background: var(--color-bg-panel); transition: transform 0.15s, box-shadow 0.15s; }
-.game-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--color-line-hi); }
-.game-tile-art { position: relative; aspect-ratio: 1; background: var(--color-line); overflow: hidden; }
-.game-tile-art img { width: 100%; height: 100%; object-fit: cover; }
+.tile-grid.rail::-webkit-scrollbar {
+  display: none;
+}
+.tile-grid.rail.compact {
+  grid-template-columns: none;
+  grid-auto-columns: 130px;
+}
+.tile-grid.rail .game-tile {
+  scroll-snap-align: start;
+  min-width: 0;
+}
+.tile-grid.rail.dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+.tile-grid.compact {
+  grid-template-columns: repeat(auto-fill, minmax(110px, 130px));
+  justify-content: start;
+  gap: 10px;
+}
+.tile-grid.compact .game-tile-name {
+  font-size: 11px;
+  padding: 6px 6px 0;
+}
+.tile-grid.compact .game-tile-cta {
+  margin: 6px;
+  padding: 5px 0;
+  font-size: 10.5px;
+}
+.game-tile {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  background: var(--color-bg-panel);
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.game-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--color-line-hi);
+}
+.game-tile-art {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--color-line);
+  overflow: hidden;
+}
+.game-tile-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 /* 圖片載入失敗時 site.js 會設 hidden 並補上 .game-tile-art-fallback；
    上面 `img { display:block }` reset 較低 specificity 蓋不過它，要靠
    這條才擋得住，讓墊底圖示能顯示出來。 */
-.game-tile-art img[hidden] { display: none; }
+.game-tile-art img[hidden] {
+  display: none;
+}
 .game-tile-art-fallback {
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  display: grid; place-items: center;
+  display: grid;
+  place-items: center;
   color: var(--color-text-dim);
   pointer-events: none;
 }
 .game-tile-tag {
-  position: absolute; top: 6px; left: 6px;
+  position: absolute;
+  top: 6px;
+  left: 6px;
   padding: 2px 7px;
   border-radius: 999px;
   background: var(--color-red);
@@ -56,7 +112,15 @@
   font-size: 10px;
   font-weight: 700;
 }
-.game-tile-name { padding: 8px 8px 0; font-size: 12px; font-weight: 700; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.game-tile-name {
+  padding: 8px 8px 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .game-tile-cta {
   display: block;
   margin: 8px;
@@ -69,67 +133,180 @@
   font-weight: 700;
 }
 .game-tile-fav {
-  position: absolute; top: 6px; right: 6px;
-  width: 26px; height: 26px;
-  display: grid; place-items: center;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.5);
   background: rgba(20, 6, 10, 0.4);
   color: var(--color-text-on-header);
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    background 0.15s;
 }
-.game-tile-fav:hover { color: var(--color-gold-hi); border-color: var(--color-gold-hi); }
-.game-tile-fav.is-active { color: var(--color-gold-hi); border-color: var(--color-gold-hi); }
-.game-tile-fav.is-active svg { fill: currentColor; }
+.game-tile-fav:hover {
+  color: var(--color-gold-hi);
+  border-color: var(--color-gold-hi);
+}
+.game-tile-fav.is-active {
+  color: var(--color-gold-hi);
+  border-color: var(--color-gold-hi);
+}
+.game-tile-fav.is-active svg {
+  fill: currentColor;
+}
 
 .rail-arrow {
-  width: 26px; height: 26px; flex-shrink: 0;
-  display: grid; place-items: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
   border: 1px solid var(--color-line);
   background: var(--color-bg-panel);
   color: var(--color-text-mid);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
 }
-.rail-arrow:hover { background: var(--gold-grad); color: var(--color-ink-on-gold); border-color: var(--color-gold-hi); }
-.rail-arrow[disabled] { opacity: 0.35; cursor: default; pointer-events: none; }
+.rail-arrow:hover {
+  background: var(--gold-grad);
+  color: var(--color-ink-on-gold);
+  border-color: var(--color-gold-hi);
+}
+.rail-arrow[disabled] {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
 
 /* ── 體育賽事卡（首頁體育專區 + sport.html） ── */
-.tile-grid.rail.match-rail { grid-auto-columns: 260px; }
-.listing-wrap .tile-grid.compact.match-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.tile-grid.rail.match-rail {
+  grid-auto-columns: 260px;
+}
+.listing-wrap .tile-grid.compact.match-grid {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
 .match-card {
   border-radius: var(--radius-md);
   border: 1px solid var(--color-line);
   background: var(--color-bg-panel);
   padding: 12px;
-  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s,
+    border-color 0.15s;
 }
-.match-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--color-line-hi); }
-.match-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.match-league { font-size: 11px; font-weight: 700; color: var(--color-gold-deep); background: rgba(207, 154, 62, 0.12); padding: 3px 9px; border-radius: 999px; }
-.match-time { font-size: 11px; font-weight: 700; color: var(--color-text-dim); }
-.match-time.is-live { color: var(--color-red); display: flex; align-items: center; gap: 4px; }
-.match-time.is-live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--color-red); animation: match-live-pulse 1.4s ease-in-out infinite; }
-@keyframes match-live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-.match-teams { margin-bottom: 12px; }
-.match-team { display: flex; align-items: center; justify-content: space-between; padding: 3px 0; font-size: 13.5px; font-weight: 700; color: var(--color-text); }
-.match-team-score { font-weight: 800; color: var(--color-gold-deep); min-width: 18px; text-align: right; }
-.match-odds { display: grid; gap: 6px; }
-.match-odds.cols-3 { grid-template-columns: repeat(3, 1fr); }
-.match-odds.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.match-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--color-line-hi);
+}
+.match-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.match-league {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-gold-deep);
+  background: rgba(207, 154, 62, 0.12);
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+.match-time {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-dim);
+}
+.match-time.is-live {
+  color: var(--color-red);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.match-time.is-live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-red);
+  animation: match-live-pulse 1.4s ease-in-out infinite;
+}
+@keyframes match-live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.match-teams {
+  margin-bottom: 12px;
+}
+.match-team {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.match-team-score {
+  font-weight: 800;
+  color: var(--color-gold-deep);
+  min-width: 18px;
+  text-align: right;
+}
+.match-odds {
+  display: grid;
+  gap: 6px;
+}
+.match-odds.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.match-odds.cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
 .match-odds-btn {
-  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
   padding: 6px 0;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-line);
   background: var(--color-bg);
   font-family: inherit;
 }
-.match-odds-btn:hover { border-color: var(--color-gold-hi); background: rgba(207, 154, 62, 0.1); }
-.match-odds-label { font-size: 10px; color: var(--color-text-dim); }
-.match-odds-value { font-size: 12.5px; font-weight: 800; color: var(--color-text); }
+.match-odds-btn:hover {
+  border-color: var(--color-gold-hi);
+  background: rgba(207, 154, 62, 0.1);
+}
+.match-odds-label {
+  font-size: 10px;
+  color: var(--color-text-dim);
+}
+.match-odds-value {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--color-text);
+}
 
 @media (max-width: 720px) {
-  .tile-grid { grid-template-columns: repeat(2, 1fr); }
+  .tile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
