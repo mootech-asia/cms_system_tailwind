@@ -52,39 +52,22 @@
   align-items: center;
   flex-shrink: 0;
 }
-/* v6 品牌改用內嵌 SVG + 文字組成的 .brand-mark，不再用點陣圖 logo：
-   換 skin 時圖示直接吃 --accent／--bg 變數換色。 */
 .brand-mark {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.brand-mark-icon {
-  width: 28px;
+.brand-mark-logo {
   height: 28px;
+  width: auto;
   flex-shrink: 0;
-}
-.brand-mark-text {
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: -0.01em;
-  color: var(--text-on-header);
-  line-height: 1;
-}
-.brand-mark-text em {
-  font-style: normal;
-  color: var(--accent);
 }
 .site-footer-logo.brand-mark {
   opacity: var(--footer-opacity);
   margin-bottom: 18px;
 }
-.site-footer-logo.brand-mark .brand-mark-icon {
-  width: 24px;
+.site-footer-logo.brand-mark .brand-mark-logo {
   height: 24px;
-}
-.site-footer-logo.brand-mark .brand-mark-text {
-  font-size: 17px;
 }
 /* .header-nav-link 現在只用在 .header-auth 裡的會員帳號連結（頭像+
    名稱），導覽用的 nav 連結已移除（導覽收進常駐 .v6-sidebar）。 */
@@ -1306,12 +1289,8 @@
   .header-right {
     gap: 6px;
   }
-  .brand-mark-icon {
-    width: 22px;
+  .brand-mark-logo {
     height: 22px;
-  }
-  .brand-mark-text {
-    font-size: 16px;
   }
   .header-search-btn {
     width: 30px;
