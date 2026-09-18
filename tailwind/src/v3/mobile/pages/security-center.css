@@ -1,0 +1,105 @@
+/* ============================================================
+   v3 手機版 security-center.html 專屬 CSS（.sc-* 系列）。跟 ../shell.css
+   的共用殼層不同——這批 class 只有這頁會用到。逐字搬移原始 main.css
+   規則，class 名稱／變數參照不改。
+
+   這頁用到的 .ap-panel（登入紀錄卡／設定清單卡外框）已經在轉換
+   account-overview.html 時搬進 pages/account-overview.css，同一份
+   編譯輸出裡本來就涵蓋全站，這裡不重複搬。密碼變更彈窗／登出成功
+   彈窗（site.js 動態注入）沿用既有的 .modal.sm/.field/.pi-success
+   結構，也不需要新樣式。
+   ============================================================ */
+@layer components {
+  .sc-h {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-mid);
+    margin: 22px 0 10px;
+  }
+  .sc-login {
+    padding: 16px 18px;
+  }
+  .sc-login-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 13.5px;
+  }
+  .sc-login-row span:last-child {
+    font-family: var(--font-mono);
+    color: var(--text);
+  }
+  .sc-list {
+    padding: 6px;
+  }
+  .sc-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 16px 14px;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .sc-item:last-child {
+    border-bottom: 0;
+  }
+  .sc-item:hover {
+    background: var(--bg-card-hi);
+  }
+  .sc-item-ico {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: color-mix(in oklch, var(--accent) 16%, var(--bg-elev));
+    border: 1px solid color-mix(in oklch, var(--accent) 30%, var(--line));
+    color: var(--accent-2);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .sc-item-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  .sc-item-name {
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--text);
+  }
+  .sc-item-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .sc-item-status {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+  }
+
+  [data-theme='light'] .sc-item-name {
+    color: var(--text) !important;
+  }
+
+  /* assets/mobile.css（v3 手機版專屬疊加層，整份都在同一個
+   @media(max-width:768px) 裡，見 ../shell.css 該檔案開頭的說明）
+   也有一條 .sc-item 覆寫，把桌機版的 16px 14px 收窄成 10px 14px；
+   這頁是目前唯一用到 .sc-item 的頁面，之前搬 shell.css 共用部分時
+   沒有頁面用得到就沒搬，這裡補上。 */
+  @media (max-width: 768px) {
+    .sc-item {
+      padding: 10px 14px;
+    }
+  }
+}

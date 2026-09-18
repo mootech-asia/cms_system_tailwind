@@ -1,0 +1,913 @@
+/* ============================================================
+   v3 手機版 index.html（大廳首頁）專屬 CSS。跟桌機版
+   ../../pc/pages/index.css 不是同一份——手機版大廳是完全不同的 HTML
+   結構（分頁式單畫面版型，由 site-mobile/assets/js/mobile.js 額外
+   驅動：icon 快速導覽切分頁、廠商篩選、載入更多），沒有 Hero 以外的
+   促銷卡片/獎勵橫幅/排行榜/供應商跑馬燈/分類頁籤(.cat-tab)/區塊標題
+   這些桌機版限定的區塊，站內遊戲卡片(.gcard)/收藏鈕(.gcard-fav)/
+   體育賽事卡(.match-card/.match-odds)則是 mobile.js 用跟桌機版
+   site.js 完全相同的 class 結構動態產生，這裡逐字搬移對應的 main.css
+   規則，只保留這頁實際會渲染到的部分。
+
+   assets/mobile.css（../shell.css 已經搬過一份，見該檔案開頭說明）
+   另外疊了 .m-sports-list .match-card 尺寸覆寫、.grid/.gcard-meta/
+   .gcard-title/.gcard-provider 窄卡片尺寸覆寫、.hero/.promo-ribbon
+   捲動收合動畫，這裡的基礎規則要排在它前面才會被正確蓋過（跟桌機版
+   main.css 700px 斷點與 mobile.css 768px 斷點同時存在時的疊加關係
+   一致，mobile.css 在 shell.css 尾端、載入順序上更晚）。
+   ============================================================ */
+@layer components {
+  /* ── PROMO RIBBON ──────────────────────── */
+  .promo-ribbon {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    margin: 14px 0 0;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+    overflow: hidden;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .promo-ribbon-viewport {
+    min-width: 0;
+    overflow: hidden;
+    padding: 11px 22px;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 20px,
+      #000 calc(100% - 20px),
+      transparent
+    );
+    mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 20px), transparent);
+  }
+  .promo-ribbon .track {
+    display: flex;
+    width: max-content;
+    gap: 36px;
+    animation: ribbon 38s linear infinite;
+  }
+  .promo-ribbon .item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-mid);
+    font-weight: 500;
+  }
+  .promo-ribbon .item .dot {
+    color: var(--accent-2);
+    font-size: 14px;
+  }
+  .promo-ribbon-time {
+    align-self: stretch;
+    min-width: 112px;
+    padding: 0 16px;
+    border-left: 1px solid var(--line);
+    background: var(--bg-elev);
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  @keyframes ribbon {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ── HERO ───────────────────────────────── */
+  .hero {
+    position: relative;
+    margin-top: 20px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    height: 380px;
+    isolation: isolate;
+    color: #f3f1ff;
+  }
+  .hero .hero-sub {
+    color: rgba(243, 241, 255, 0.74);
+  }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    transition: opacity 0.72s cubic-bezier(0.22, 0.61, 0.36, 1);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hero-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-color: var(--preview-neutral-900);
+    background-image:
+      var(
+        --hero-overlay,
+        linear-gradient(
+          90deg,
+          rgba(5, 7, 10, 0.9) 0%,
+          rgba(5, 7, 10, 0.58) 42%,
+          rgba(5, 7, 10, 0.08) 76%
+        )
+      ),
+      var(--hero-image, var(--preview-hero-bg));
+    background-position: center, var(--hero-position, center);
+    background-size: cover, var(--hero-size, cover);
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
+  .hero-content {
+    padding: 56px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.5vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
+    white-space: pre-line;
+    margin: 0 0 16px;
+  }
+  .hero-sub {
+    color: var(--text-mid);
+    font-size: 15px;
+    max-width: 460px;
+    margin-bottom: 28px;
+  }
+  .hero-controls {
+    position: absolute;
+    bottom: 24px;
+    right: 32px;
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+  }
+  .hero-dots {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 5;
+  }
+  .hero-dot {
+    width: 24px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 0;
+    padding: 0;
+    transition:
+      background 0.15s,
+      width 0.2s;
+  }
+  .hero-dot.active {
+    background: var(--text);
+    width: 36px;
+  }
+
+  /* ── CATEGORY VIEW 用的卡片格線（mobile.js 的 .m-tabpage 分頁內容跟
+   桌機版 site.js 的 mountCategoryView() 共用同一個 .grid 容器 class，
+   見 ../../pc/pages/index.css 同一段說明） ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: var(--rail-gap);
+    padding: 10px 0 16px;
+    margin: -10px 0 -16px;
+  }
+  .grid.compact {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  .grid.comfy {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  /* ── GAME CARD（mobile.js 用跟 site.js 的 gameCardHTML() 相同結構
+   動態產生，含收藏愛心鈕） ── */
+  .gcard {
+    position: relative;
+    border-radius: var(--radius);
+    background: var(--bg-grad-card);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s,
+      border-color 0.2s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    isolation: isolate;
+  }
+  .gcard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+    border-color: var(--line-hi);
+  }
+  .gcard-art {
+    position: relative;
+    aspect-ratio: var(--card-aspect);
+    background: var(--preview-game-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    overflow: hidden;
+  }
+  .gcard-art-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .gcard-art-image[hidden] {
+    display: none;
+  }
+  .gcard-art.gcard-art-broken {
+    background-image: url(../mock/game-fallback.svg);
+    background-size: cover;
+    background-position: center;
+  }
+  .gcard-art::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 42%, rgba(0, 0, 0, 0.28) 100%);
+    pointer-events: none;
+  }
+  .gcard-art::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 50%);
+    pointer-events: none;
+  }
+  .gcard-tag {
+    align-self: flex-start;
+    position: relative;
+    z-index: 2;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background: rgba(0, 0, 0, 0.55);
+    color: var(--text-on-accent);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .gcard-tag.hot {
+    background: color-mix(in oklch, var(--accent-3) 62%, #000);
+    border-color: transparent;
+    color: var(--text-on-media);
+  }
+  .gcard-tag.new {
+    background: var(--accent-grad);
+    border-color: transparent;
+    color: var(--accent-ink);
+    box-shadow: var(--accent-glow);
+  }
+  .gcard-art .ph-label {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+  .ph-label {
+    color: rgba(255, 255, 255, 0.34) !important;
+  }
+  .gcard-tag {
+    color: var(--text-on-media) !important;
+  }
+  .gcard-tag.hot {
+    color: var(--text-on-media) !important;
+  }
+  .gcard-tag.new {
+    color: var(--accent-ink) !important;
+  }
+  .gcard-players {
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .gcard-players .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--live);
+    box-shadow: 0 0 6px var(--live);
+  }
+  .gcard-meta {
+    padding: 10px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .gcard-title {
+    font-weight: 600;
+    font-size: 13.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .gcard-provider {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+  }
+
+  .gcard-fav {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 4;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(8, 10, 16, 0.55);
+    backdrop-filter: blur(6px);
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    opacity: 0;
+    transition:
+      opacity 0.15s,
+      color 0.15s,
+      transform 0.15s;
+  }
+  .gcard:hover .gcard-fav {
+    opacity: 1;
+  }
+  .gcard-fav:hover {
+    transform: scale(1.12);
+    color: var(--accent);
+  }
+  .gcard-fav.on {
+    opacity: 1;
+    color: #ff5a7a;
+    background: rgba(8, 10, 16, 0.65);
+  }
+  @media (max-width: 900px) {
+    .gcard-fav {
+      opacity: 1;
+      width: 28px;
+      height: 28px;
+    }
+  }
+  .gcard-fav {
+    width: 32px;
+    height: 32px;
+    border: 1px solid color-mix(in oklch, var(--accent) 38%, transparent);
+    background: rgba(7, 9, 13, 0.72);
+    color: color-mix(in oklch, var(--accent) 72%, var(--text-on-accent));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    transition:
+      opacity var(--duration-fast),
+      color var(--duration-fast),
+      border-color var(--duration-fast),
+      background var(--duration-fast),
+      transform var(--duration-fast);
+  }
+  .gcard-fav:hover {
+    color: var(--accent-2);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .gcard-fav.on {
+    color: var(--accent);
+    border-color: color-mix(in oklch, var(--accent) 62%, transparent);
+    background: color-mix(in oklch, var(--accent) 18%, #07090d);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  }
+  @media (max-width: 900px) {
+    .gcard-fav {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  /* ── SPORTS（Sports 分頁用假的投注盤口設計，跟桌機版大廳內嵌版一樣的
+   .match-card/.match-odds，但拿掉旁邊的播放器/直播卡，mobile.css
+   已經把 .m-sports-list .match-card 改成直式清單版本） ── */
+  .match-card {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    min-width: 286px;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    transition: border-color 0.15s;
+  }
+  .match-card:hover {
+    border-color: var(--accent);
+  }
+  .match-card-body {
+    padding: 21px;
+  }
+  .match-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .match-card-league {
+    color: var(--text-dim);
+    font-size: 13.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 156px;
+  }
+  .match-card-live-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 700;
+    background: color-mix(in oklch, var(--live) 16%, transparent);
+    color: var(--live);
+    border: 1px solid color-mix(in oklch, var(--live) 30%, transparent);
+    padding: 3px 8px;
+    border-radius: 5px;
+  }
+  .match-card-live-icon {
+    width: 13px;
+    height: 13px;
+    animation: match-live-pulse 2s ease-in-out infinite;
+  }
+  @keyframes match-live-pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+  .match-card-teams {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 21px;
+  }
+  .match-card-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 auto;
+  }
+  .match-card-team-badge {
+    width: 47px;
+    height: 47px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .match-card-team-code {
+    font-size: 13px;
+    color: var(--text-mid);
+    font-weight: 700;
+  }
+  .match-card-team-name {
+    color: var(--text);
+    font-size: 13.5px;
+    text-align: center;
+    line-height: 1.25;
+  }
+  .match-card-score-wrap {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .match-card-score {
+    color: var(--accent);
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .match-card-status {
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-top: 3px;
+  }
+  .match-odds {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .match-odds.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .match-odds.cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .match-odds-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 8px 0;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .match-odds-btn:hover {
+    border-color: var(--accent);
+  }
+  .match-odds-label {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 700;
+  }
+  .match-odds-value {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  /* main.css 在 1100px 斷點把 .hero-content 從桌機版預設的 60% 寬改成
+   100%（見 ../../pc/pages/index.css 同一條規則）；手機版寬度必定小於
+   1100px，這條斷點必定生效，直接照搬。 */
+  @media (max-width: 1100px) {
+    .hero-content {
+      width: 100%;
+      padding: 40px 32px;
+    }
+    .hero-title {
+      font-size: clamp(28px, 5vw, 44px);
+    }
+  }
+  @media (max-width: 700px) {
+    .gcard-meta {
+      padding: 8px 10px 10px;
+    }
+    .hero {
+      height: 280px;
+    }
+    .hero-bg {
+      background-position: center, var(--hero-mobile-position, var(--hero-position, center));
+      background-size: cover, var(--hero-mobile-size, var(--hero-size, cover));
+    }
+    .hero-title {
+      font-size: clamp(22px, 5.5vw, 32px);
+    }
+    .promo-ribbon {
+      font-size: 11.5px;
+    }
+    .promo-ribbon-viewport {
+      padding-inline: 14px;
+    }
+    .promo-ribbon-time {
+      min-width: 88px;
+      padding-inline: 10px;
+      gap: 6px;
+      font-size: 11px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .promo-ribbon .track {
+      animation-play-state: paused;
+    }
+  }
+
+  /* assets/mobile.css（v3 手機版專屬疊加層，見 ../shell.css 開頭的說明）
+   這裡補上先前搬 withdrawal.html 時沒有頁面用得到、只有 index.html
+   這頁的「整頁固定單畫面不捲動」版型才需要的部分：<html class="m-lobby">
+   限定的高度鎖定、Hero+跑馬燈隨捲動收合、icon 快速導覽分頁籤、
+   .m-tabpanel-wrap 分頁橫向捲動容器、廠商篩選膠囊、窄版遊戲卡尺寸、
+   體育分頁直式清單。原檔整份都在同一個 @media(max-width:768px) 裡，
+   逐字保留同樣的斷點跟規則內容，必須排在上面基礎規則之後才會正確
+   蓋過（跟桌機版 main.css 700px 斷點與這份 768px 斷點的疊加關係
+   一致，這份在原始 <head> 排在最後載入）。 */
+  @media (max-width: 768px) {
+    html.m-lobby,
+    html.m-lobby body {
+      height: 100%;
+      overflow: hidden;
+    }
+    html.m-lobby .shell {
+      height: 100dvh;
+      height: 100vh;
+    }
+    html.m-lobby .shell-main {
+      height: 100dvh;
+      height: 100vh;
+      overflow: hidden;
+    }
+    html.m-lobby .shell-content {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+    html.m-lobby .shell-main > .footer {
+      display: none;
+    }
+
+    .m-home-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .promo-ribbon {
+      flex-shrink: 0;
+    }
+    .promo-ribbon-viewport {
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+
+    .hero,
+    .promo-ribbon {
+      overflow: hidden;
+      max-height: var(--collapse-h, 500px);
+      transition:
+        max-height 0.32s ease,
+        opacity 0.22s ease,
+        margin-top 0.32s ease,
+        border-width 0.32s ease;
+    }
+    .m-home-body.m-scrolled .hero,
+    .m-home-body.m-scrolled .promo-ribbon {
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      border-width: 0;
+    }
+
+    .m-quicknav {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-top: 18px;
+      flex-shrink: 0;
+    }
+    .m-quicknav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-mid);
+      text-decoration: none;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+    }
+    .m-quicknav-ico {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      color: var(--accent);
+    }
+    .m-quicknav-item.active .m-quicknav-ico {
+      background: color-mix(in oklch, var(--accent) 16%, var(--bg-card));
+      border-color: var(--accent);
+    }
+    .m-quicknav-item.active {
+      color: var(--text);
+    }
+    .m-quicknav-label {
+      font-size: 10px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .m-tabpanel-wrap {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+    .m-tabpanel-scroller {
+      display: flex;
+      height: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+    .m-tabpanel-scroller::-webkit-scrollbar {
+      display: none;
+    }
+    .m-tabpage {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      scroll-snap-align: start;
+      scrollbar-width: none;
+    }
+    .m-tabpage::-webkit-scrollbar {
+      display: none;
+    }
+
+    .m-provider-filter {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 2px 0 10px;
+      margin-top: 0;
+      background: var(--bg);
+    }
+    .m-provider-filter::-webkit-scrollbar {
+      display: none;
+    }
+    .m-provider-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      padding: 5px 12px;
+      border: 1px solid var(--control-border);
+      border-radius: 999px;
+      background: var(--control-bg);
+      color: var(--control-text);
+      font: inherit;
+      font-size: 11.5px;
+      font-weight: var(--weight-semibold);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .m-provider-chip.active {
+      border-color: transparent;
+      background: var(--gradient-primary);
+      color: var(--text-on-accent);
+    }
+    .m-provider-chip-fav svg {
+      display: block;
+    }
+    .m-provider-chip-count {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      background: var(--accent);
+      color: var(--accent-ink);
+      border-radius: 999px;
+      padding: 0 5px;
+      font-weight: 700;
+    }
+    .grid {
+      grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+      gap: 8px;
+      padding-bottom: 12px;
+    }
+    .gcard-meta {
+      padding: 7px 8px 8px;
+      gap: 1px;
+    }
+    /* .gcard-title 的 12px 覆寫撞到 ui-components.css 的
+     .ui-card-title,.gcard-title{font-size:var(--type-card-title)}（同
+     優先權、後宣告的 ui-components.css 會贏），搬到
+     ../mobile-overlay-after-components.css，排在 ui-components.css
+     之後才會生效，不在這裡重複宣告。 */
+    .gcard-provider {
+      font-size: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .m-sports-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 12px;
+    }
+    .m-sports-list .match-card {
+      width: 100%;
+      min-width: 0;
+    }
+    .m-sports-list .match-card-body {
+      padding: 14px;
+    }
+
+    .hero {
+      height: auto;
+      aspect-ratio: 2 / 1;
+      flex-shrink: 0;
+    }
+    .hero-content {
+      padding: 16px 18px;
+    }
+    .hero-title {
+      font-size: clamp(16px, 5.5vw, 22px);
+      margin: 0 0 4px;
+      line-height: 1.12;
+    }
+    .hero-sub {
+      font-size: 11.5px;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+    }
+    .hero-dots {
+      bottom: 10px;
+    }
+    .hero-controls {
+      display: none;
+    }
+  }
+
+  /* light theme */
+  [data-theme='light'] .gcard-title {
+    color: var(--text) !important;
+  }
+  [data-theme='light'] .hero,
+  [data-theme='light'] .hero .hero-title,
+  [data-theme='light'] .hero-sub {
+    color: #f3f1ff !important;
+  }
+  [data-theme='light'] .hero-sub {
+    color: rgba(243, 241, 255, 0.78) !important;
+  }
+  [data-theme='light'] .promo-ribbon {
+    background: var(--bg-elev);
+    border-bottom: 1px solid var(--line);
+  }
+  [data-theme='light'] .promo-ribbon .item {
+    color: var(--text-mid);
+  }
+  [data-theme='light'] .gcard {
+    background: var(--bg-card) !important;
+  }
+  [data-theme='light'] .gcard-meta {
+    background: var(--bg-card);
+  }
+  [data-theme='light'] .gcard-art::after {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 50%) !important;
+  }
+  [data-theme='light'] .gcard:hover {
+    background-color: var(--bg-card-hi);
+  }
+  [data-theme='light'] .ph-label,
+  [data-theme='light'] .gcard-tag {
+    color: var(--accent-ink) !important;
+  }
+  [data-theme='light'] .gcard {
+    box-shadow: 0 1px 2px rgba(15, 15, 23, 0.05);
+  }
+  [data-theme='light'] .gcard:hover {
+    box-shadow: 0 6px 18px rgba(15, 15, 23, 0.12) !important;
+    background-color: var(--bg-card-hi) !important;
+  }
+}

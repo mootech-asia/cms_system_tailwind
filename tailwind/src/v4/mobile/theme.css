@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ============================================================
    v4 design token —— 手機版。桌機版另見 ../pc/theme.css（鐵則 6：
@@ -11,7 +11,7 @@
    桌機（或反過來）。
    ============================================================ */
 @theme static {
-  --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-display: 'Pretendard', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 
   /* 字級刻度跟桌機版數值目前相同，獨立宣告一份（見上方說明）。另外
      main.css 手機斷點還有「只有手機會用到」的縮小字級 21px（hero 標題，
@@ -67,21 +67,42 @@
   --logo-filter: brightness(0) invert(1);
   --footer-logo-filter: brightness(0);
 
+  /* 同 ../pc/theme.css：少數頁面 body（依規定逐字保留）內嵌
+     style="...var(--gold)" 這類舊變數名稱，這裡別名回 --color-* 新
+     命名空間，換膚時會跟著 --color-* 重新解析。 */
+  --bg: var(--color-bg);
+  --bg-panel: var(--color-bg-panel);
+  --header-grad-hi: var(--color-header-grad-hi);
+  --notice-bg: var(--color-notice-bg);
+  --notice-text: var(--color-notice-text);
+  --line: var(--color-line);
+  --line-hi: var(--color-line-hi);
+  --text: var(--color-text);
+  --text-mid: var(--color-text-mid);
+  --text-dim: var(--color-text-dim);
+  --text-on-header: var(--color-text-on-header);
+  --panel-tint: var(--color-panel-tint);
+  --gold: var(--color-gold);
+  --gold-hi: var(--color-gold-hi);
+  --gold-deep: var(--color-gold-deep);
+  --red: var(--color-red);
+  --red-deep: var(--color-red-deep);
+
   /* ── 手機專屬結構常數（來自 main.css @media 區塊，桌機版沒有這些
      變數，因為桌機用不到）：quick-rail 收窄尺寸、hero 高度/內距、
      about/uikit 側留白收窄值——抓的是「重複出現超過一次」的手機斷點值。 ── */
   --mobile-quick-rail-btn: 40px;
   --mobile-quick-rail-right: 10px;
-  --mobile-hero-h-md: 220px;   /* @media (max-width:720px) 的 .hero height */
-  --mobile-hero-h-sm: 180px;   /* @media (max-width:520px) 的 .hero height */
-  --mobile-hero-px-md: 24px;   /* .hero-content padding，720px 斷點 */
-  --mobile-hero-px-sm: 18px;   /* .hero-content padding，520px 斷點 */
-  --mobile-side-pad: 20px;     /* .listing-wrap/.about-wrap/.uikit-wrap 的 padding-right 窄螢幕收窄值 */
+  --mobile-hero-h-md: 220px; /* @media (max-width:720px) 的 .hero height */
+  --mobile-hero-h-sm: 180px; /* @media (max-width:520px) 的 .hero height */
+  --mobile-hero-px-md: 24px; /* .hero-content padding，720px 斷點 */
+  --mobile-hero-px-sm: 18px; /* .hero-content padding，520px 斷點 */
+  --mobile-side-pad: 20px; /* .listing-wrap/.about-wrap/.uikit-wrap 的 padding-right 窄螢幕收窄值 */
 }
 
 /* 換膚：跟桌機版同一批 skin，目前也沒有手機專屬色彩覆寫，數值對照
    ../pc/theme.css 逐字複製一份（獨立宣告，不引用）。 */
-:root[data-skin="onyx-gold"] {
+:root[data-skin='onyx-gold'] {
   --color-bg: #0d0b08;
   --color-bg-panel: #18140f;
   --header-grad: linear-gradient(180deg, #211b12 0%, #080705 100%);
@@ -101,7 +122,7 @@
   --color-red: #8a5c0a;
   --color-red-deep: #5c3d06;
 }
-:root[data-skin="deep-ocean"] {
+:root[data-skin='deep-ocean'] {
   --color-bg: #071a1c;
   --color-bg-panel: #0e2528;
   --header-grad: linear-gradient(180deg, #103c3f 0%, #051415 100%);
@@ -121,7 +142,7 @@
   --color-red: #1fae9f;
   --color-red-deep: #116b62;
 }
-:root[data-skin="emerald-jade"] {
+:root[data-skin='emerald-jade'] {
   --header-grad: linear-gradient(180deg, #12704a 0%, #0d5138 100%);
   --color-header-grad-hi: #2bbf7a;
   --color-notice-bg: #eaf7ef;
@@ -129,7 +150,7 @@
   --color-red: #12704a;
   --color-red-deep: #0d5138;
 }
-:root[data-skin="imperial-purple"] {
+:root[data-skin='imperial-purple'] {
   --header-grad: linear-gradient(180deg, #6b3fa0 0%, #4a2570 100%);
   --color-header-grad-hi: #9c6fc2;
   --color-notice-bg: #f3ecf9;
@@ -137,7 +158,7 @@
   --color-red: #6b3fa0;
   --color-red-deep: #4a2570;
 }
-:root[data-skin="sapphire-blue"] {
+:root[data-skin='sapphire-blue'] {
   --header-grad: linear-gradient(180deg, #1b3f91 0%, #142f6e 100%);
   --color-header-grad-hi: #3b6fe0;
   --color-notice-bg: #eaf0fb;
@@ -148,8 +169,14 @@
 
 /* 手機斷點下真的視覺不同的部分（body reset）。 */
 @layer base {
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
   body {
     background: var(--color-bg);
     color: var(--color-text);
@@ -159,7 +186,85 @@
     -webkit-font-smoothing: antialiased;
     padding-bottom: 56px; /* 底部快捷列留白，main.css 手機斷點值 */
   }
-  a { color: inherit; text-decoration: none; }
-  button { font-family: inherit; cursor: pointer; border: 0; background: none; }
-  img { max-width: 100%; display: block; }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: 0;
+    background: none;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  /* 同 ../pc/theme.css：表單控制項 UA 預設 line-height:normal，Preflight
+     的 font:inherit 讓它們繼承 body 的 line-height:1.5，這裡還原。 */
+  button,
+  input,
+  select,
+  textarea {
+    line-height: normal;
+  }
+  /* 同 ../pc/theme.css：main.css 沒有 *{margin:0} 通用 reset，<p>/<h1>-
+     <h6> 靠瀏覽器 UA 預設 margin 撐間距，這裡還原 UA 預設值（數值對照
+     Chrome UA 樣式表），main.css 逐字搬過來的顯式 margin 宣告仍照常
+     覆寫這裡。 */
+  p {
+    margin: 1em 0;
+  }
+  h1 {
+    margin: 0.67em 0;
+  }
+  h2 {
+    margin: 0.83em 0;
+  }
+  h3 {
+    margin: 1em 0;
+  }
+  h4 {
+    margin: 1.33em 0;
+  }
+  h5 {
+    margin: 1.67em 0;
+  }
+  h6 {
+    margin: 2.33em 0;
+  }
+  /* 同 ../pc/theme.css：h1-h6 UA 預設 font-weight:bold，Preflight 重置成
+     inherit。 */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: bold;
+  }
+  /* 同 ../pc/theme.css：svg UA 預設 display:inline，Preflight 重置成
+     block。 */
+  svg {
+    display: inline;
+  }
+  /* 同 ../pc/theme.css：input[type=radio]/checkbox 的 UA 預設 margin
+     被 Preflight 歸零。 */
+  input[type='checkbox'],
+  input[type='radio'] {
+    margin: 3px 3px 0px 5px;
+  }
 }
+
+@import './shell.css';
+@import './pages/cards.css';
+@import './pages/index.css';
+@import './pages/section-variants.css';
+@import './pages/listing.css';
+@import './pages/promotion.css';
+@import './pages/member-shell.css';
+@import './pages/account.css';
+@import './pages/personal-info.css';
+@import './pages/security.css';
+@import './pages/about.css';
+@import './pages/ui-kit.css';

@@ -1,0 +1,509 @@
+/* ============================================================
+   v3 桌機版 withdrawal.html 專屬 CSS（.wd-*）。跟 ../shell.css
+   的共用殼層不同——這批 class 只有 withdrawal.html／
+   withdrawal-record.html 這類頁面會用到，不是跨頁共用元件，所以
+   獨立成自己的檔案而不是塞進 shell.css。逐字搬移原始
+   main.css（withdrawal 區塊）規則，class 名稱／變數參照不改。
+   ============================================================ */
+@layer components {
+  /* site.js 的 withdrawBankPanelHTML()／manageBankPanelHTML() 等函式在
+   執行期用這些 class 組字串塞進 .wd-panel（不是靜態 HTML 裡就有），
+   第一輪只掃靜態 class 屬性時完全漏掉，用截圖比對抓出「Bank Card」
+   分頁內容矮了一截才回頭找 site.js 補齊。 */
+  .ap-wd-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    text-align: center;
+    margin: 0 0 14px;
+  }
+  /* .ap-refresh-link 也是 site.js 動態注入（bank-refresh 按鈕），跟上面
+   同一批漏搬的 class——沒有 display:flex 時 icon 跟「Refresh」文字會
+   各自佔一行，截圖比對抓出手機寬度多了一行高度才回頭補上。 */
+  .ap-refresh-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 auto 16px;
+    background: none;
+    border: 0;
+    color: var(--text-mid);
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .ap-refresh-link:hover {
+    color: var(--text);
+  }
+  /* apSpin 這個 @keyframes 已經在 ../pages/account-overview.css 宣告過
+   （同一份 tailwind.css 全站共用，不重複宣告）；withdrawal.html 沒有
+   direct import 那個檔案，但兩份 pages/*.css 最終都編進同一份輸出
+   CSS，@keyframes 在同一份輸出裡本來就不用管宣告先後順序。 */
+  .ap-refresh-link.spinning svg {
+    animation: apSpin 0.7s linear;
+  }
+  .ap-wd-acchead {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .ap-wd-acchead b {
+    color: var(--text-mid);
+    font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .ap-wd-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: var(--bg-elev);
+    border: 1px solid var(--line-hi);
+    color: var(--text-mid);
+    cursor: pointer;
+  }
+  .ap-wd-arrow:hover {
+    color: var(--control-hover-text);
+    border-color: var(--accent);
+  }
+  .ap-wd-card {
+    position: relative;
+    padding: 22px 24px;
+    border-radius: 14px;
+    overflow: hidden;
+    min-height: 150px;
+    margin-bottom: 4px;
+    background: linear-gradient(135deg, #10151f 0%, #0b0f18 100%);
+    border: 1px solid var(--line-hi);
+  }
+  .ap-wd-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.04) 0 1px,
+      transparent 1px 22px
+    );
+  }
+  .ap-wd-card-name {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-on-media);
+    font-weight: 600;
+    font-size: 12.5px;
+  }
+  .ap-wd-card-acc {
+    text-align: center;
+    margin: 2px 0 28px;
+  }
+  .ap-wd-card-acc-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .ap-wd-card-acc-num {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.16em;
+    color: var(--text-on-media);
+  }
+  .ap-wd-card-holder {
+    color: var(--accent-3);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.12em;
+  }
+  .ap-wd-card-bind {
+    position: absolute;
+    right: 24px;
+    bottom: 22px;
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-on-media);
+  }
+  .ap-wd-card-bind .muted {
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+  .ap-wd-card-add {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    z-index: 1;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: var(--accent-grad);
+    color: var(--accent-ink);
+    box-shadow: 0 6px 18px color-mix(in oklch, var(--accent) 45%, transparent);
+    cursor: pointer;
+    transition:
+      filter 0.15s,
+      transform 0.15s;
+  }
+  .ap-wd-card-add:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+  }
+  .ap-wallet {
+    text-align: center;
+    margin: 0;
+  }
+  .ap-wallet-label {
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .ap-wallet-amt {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0;
+  }
+  .ap-wallet-rem {
+    color: #ef4444;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .ap-wallet-rem strong {
+    color: #ef4444;
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+  .ap-input-wrap {
+    position: relative;
+    margin-top: 10px;
+  }
+  .ap-input-wrap .ap-input {
+    padding-right: 44px;
+  }
+  .ap-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: 0;
+    color: var(--text-mid);
+    cursor: pointer;
+    padding: 4px;
+  }
+  .ap-eye:hover {
+    color: var(--text);
+  }
+  .ap-rollover {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    margin: 0;
+    color: #ef4444;
+    font-size: 12.5px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .ap-rollover .muted {
+    color: var(--text-mid);
+  }
+  .ap-rollover-detail {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 11px;
+    border-radius: 999px;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: middle;
+    transition: background 0.15s;
+  }
+  .ap-rollover-detail:hover {
+    background: rgba(239, 68, 68, 0.22);
+  }
+  .ap-bank-del {
+    margin-left: auto;
+    background: none;
+    border: 0;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 4px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 6px;
+    transition:
+      color 0.15s,
+      background 0.15s;
+  }
+  .ap-bank-del:hover {
+    color: #ef4444;
+    background: color-mix(in oklch, #ef4444 12%, transparent);
+  }
+
+  .wd-method-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .wd-method-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .wd-panel > .wd-method-tabs {
+    margin-bottom: 4px;
+  }
+  .wd-method-tabs button {
+    min-width: 190px;
+    min-height: 50px;
+    padding: 11px 18px;
+    border: 1px solid var(--control-border);
+    border-radius: var(--radius-control);
+    background: var(--control-bg);
+    color: var(--control-text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    font: inherit;
+    font-size: var(--type-body);
+    font-weight: var(--weight-semibold);
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      color var(--duration-fast),
+      border-color var(--duration-fast),
+      filter var(--duration-fast);
+  }
+  .wd-method-tabs button:hover:not(.active) {
+    color: var(--control-hover-text);
+    border-color: var(--control-hover-border);
+  }
+  .wd-method-tabs button.active {
+    border-color: transparent;
+    background: var(--gradient-primary);
+    color: var(--text-on-accent);
+    box-shadow: var(--shadow-primary-sm);
+  }
+  .wd-coin-mark {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: var(--weight-bold);
+  }
+  .wd-panel {
+    display: grid;
+    gap: 20px;
+  }
+  .wd-panel .ap-section-h {
+    margin-top: 0;
+    margin-bottom: -2px;
+  }
+  .wd-count {
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+  .wd-empty-wallet {
+    min-height: 260px;
+    padding: 30px;
+    border: 1px solid var(--line-hi);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(
+        ellipse 72% 110% at 0% 50%,
+        color-mix(in oklch, var(--accent) 20%, transparent) 0%,
+        transparent 72%
+      ),
+      var(--bg-elev);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    text-align: center;
+  }
+  .wd-empty-symbol {
+    width: 76px;
+    height: 76px;
+    border: 2px dashed var(--line-hi);
+    border-radius: 50%;
+    color: var(--text-mid);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: var(--weight-bold);
+  }
+  .wd-empty-action {
+    min-height: 40px;
+    padding: 9px 18px;
+    border: 1px solid var(--secondary-button-border);
+    border-radius: var(--radius-control);
+    background: var(--secondary-button-bg);
+    color: var(--secondary-button-text);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: inherit;
+    font-weight: var(--weight-semibold);
+  }
+  .wd-empty-action:hover {
+    color: var(--secondary-button-hover-text);
+    border-color: var(--secondary-button-hover-border);
+  }
+  .wd-add-toggle {
+    justify-content: center;
+  }
+  .wd-balance-list {
+    width: min(100%, 430px);
+    display: grid;
+    gap: 10px;
+  }
+  .wd-balance-row {
+    display: grid;
+    grid-template-columns: minmax(150px, 1fr) 1fr;
+    align-items: baseline;
+    gap: 16px;
+    color: var(--text-mid);
+  }
+  .wd-balance-row strong {
+    color: var(--accent-2);
+    font-family: var(--font-mono);
+    font-size: var(--type-feature-title);
+  }
+  .wd-form-grid {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px 20px;
+  }
+  .wd-form-grid > label {
+    color: var(--text);
+    font-size: var(--type-body);
+    font-weight: var(--weight-semibold);
+  }
+  .wd-form-grid .ap-input {
+    min-width: 0;
+  }
+  .wd-management-form {
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .wd-account-card {
+    min-height: 118px;
+    padding: 22px;
+    border: 1px solid var(--line-hi);
+    border-radius: var(--radius-lg);
+    background: var(--bg-elev);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .wd-bank-logo,
+  .wd-wallet-logo {
+    flex: 0 0 70px;
+    width: 70px;
+    height: 58px;
+    border-radius: var(--radius-control);
+    background: color-mix(in oklch, var(--accent) 18%, var(--bg-card-hi));
+    color: var(--accent-2);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-weight: var(--weight-bold);
+  }
+  .wd-wallet-logo {
+    flex-basis: 54px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+  }
+  .wd-account-copy {
+    min-width: 0;
+    display: grid;
+    gap: 4px;
+  }
+  .wd-account-copy strong {
+    color: var(--text);
+    font-size: var(--type-body);
+  }
+  .wd-account-copy span {
+    color: var(--text-mid);
+    overflow-wrap: anywhere;
+  }
+  .wd-compact-empty {
+    min-height: 130px;
+    padding: 22px;
+    border: 1px solid var(--line-hi);
+    border-radius: var(--radius-lg);
+    background: var(--bg-elev);
+    color: var(--text-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .wd-compact-empty .wd-empty-symbol {
+    width: 54px;
+    height: 54px;
+    font-size: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .wd-method-tabs button {
+      min-width: 170px;
+    }
+    .wd-panel {
+      padding: 20px 18px;
+    }
+    .wd-form-grid {
+      grid-template-columns: 1fr;
+      gap: 7px;
+    }
+    .wd-form-grid > label:not(:first-child) {
+      margin-top: 7px;
+    }
+    .wd-account-card {
+      padding: 18px;
+    }
+    .wd-bank-logo {
+      flex-basis: 54px;
+      width: 54px;
+      height: 50px;
+    }
+    .wd-balance-row {
+      grid-template-columns: 1fr auto;
+    }
+    .wd-empty-wallet {
+      min-height: 220px;
+      padding: 24px 18px;
+    }
+  }
+}

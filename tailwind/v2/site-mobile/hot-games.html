@@ -1,0 +1,713 @@
+<!doctype html>
+<html data-theme="win100">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v2</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/tailwind.css">
+</head>
+  <body>
+    <div class="page-shell">
+          <header class="site-header">
+            <div class="app-container app-header-desktop">
+              <a href="index.html" class="app-header-logo-link"><img src="logo.png" alt="Casino Logo" class="brand-logo" /></a>
+              <div class="app-header-main">
+                <div class="app-header-top-row">
+                  <button class="app-header-login-btn">登入</button>
+                  <button class="app-header-register-btn">註冊</button>
+                  <div class="dd-trigger-wrap">
+                    <button type="button" class="skin-switcher-trigger" aria-label="Switch skin" title="切換皮膚">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-lg">
+                        <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path>
+                        <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
+                        <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="dd-trigger-wrap">
+                    <button class="header-locale-trigger">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sm">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                        <path d="M2 12h20"></path>
+                      </svg><span>中文</span
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <nav class="app-header-nav">
+                  <a href="index.html" class="app-nav-link"><span>首頁</span></a
+                  ><a aria-current="page" href="hot-games.html" class="app-nav-link is-active"><span>熱門遊戲</span></a
+                  >
+                  <div class="dd-trigger-wrap">
+                    <a href="sport.html" class="app-nav-link"><span>體育</span
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg></a
+                    >
+                    <div class="dd-panel dd-panel--nav" style="display: none">
+                      <a href="sport.html?tab=BTI" class="dd-panel-link" style="text-decoration: none">BTI</a
+                      ><a href="sport.html?tab=SABA" class="dd-panel-link" style="text-decoration: none">SABA</a>
+                    </div>
+                  </div>
+                  <div class="dd-trigger-wrap">
+                    <a href="live.html" class="app-nav-link"><span>真人娛樂</span
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg></a
+                    >
+                    <div class="dd-panel dd-panel--nav" style="display: none">
+                      <a href="live.html?tab=Sexy" class="dd-panel-link" style="text-decoration: none">Sexy</a
+                      ><a href="live.html?tab=Pragmatic+Play" class="dd-panel-link" style="text-decoration: none">Pragmatic Play</a
+                      ><a href="live.html?tab=Yeebet" class="dd-panel-link" style="text-decoration: none">Yeebet</a>
+                    </div>
+                  </div>
+                  <a href="slot.html" class="app-nav-link"><span>老虎機</span></a
+                  ><a href="fish.html" class="app-nav-link"><span>捕魚</span></a
+                  ><a href="mini-games.html" class="app-nav-link"><span>迷你遊戲</span></a
+                  ><a href="promotion.html" class="app-nav-link"><span>優惠活動</span></a
+                  >
+                </nav>
+              </div>
+            </div>
+            <div class="app-header-mobile">
+              <a href="index.html" class="app-header-logo-link"><img src="logo.png" alt="Casino Logo" class="brand-logo" /></a>
+              <div class="app-header-mobile-controls">
+                <div class="dd-trigger-wrap">
+                  <button type="button" class="skin-switcher-trigger" aria-label="Switch skin" title="切換皮膚">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-lg">
+                      <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path>
+                      <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
+                      <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+                    </svg>
+                  </button>
+                </div>
+                <div class="dd-trigger-wrap">
+                  <button class="header-locale-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sm">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                      <path d="M2 12h20"></path>
+                    </svg><span>中文</span
+                    ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-xs">
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                  </button>
+                </div>
+                <button class="menu-trigger" aria-label="Menu">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-lg">
+                    <line x1="4" x2="20" y1="12" y2="12"></line>
+                    <line x1="4" x2="20" y1="6" y2="6"></line>
+                    <line x1="4" x2="20" y1="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </header>
+          <div>
+            <section class="category-hero-media">
+              <img
+                src="https://images.pexels.com/photos/7862503/pexels-photo-7862503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                alt=""
+                aria-hidden="true"
+                class="category-hero-image"
+                style="object-position: 68% 50%"
+                fetchpriority="high"
+              />
+              <div class="category-hero-scrim"></div>
+              <div class="category-hero-content app-container">
+                <p class="category-hero-eyebrow">TRENDING NOW</p>
+                <h1 class="category-hero-title">HOT GAMES</h1>
+              </div>
+            </section>
+            <section class="game-listing-section">
+              <div class="app-container">
+                <div class="vnd-head">
+                  <h2 class="vnd-title">Hot Games</h2>
+                  <div class="vnd-search">
+                    <svg
+                      class="s-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <path d="m21 21-4.3-4.3"></path></svg
+                    ><input value="" type="text" placeholder="搜尋遊戲" /><button class="s-btn" type="button">
+                      搜尋
+                    </button>
+                  </div>
+                </div>
+                <div class="game-listing-grid">
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/29825627/pexels-photo-29825627.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 58% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Pragmatic Play</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594128/pexels-photo-7594128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 52%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">PG Soft</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594183/pexels-photo-7594183.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">CQ9 Gaming</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594310/pexels-photo-7594310.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 55% 40%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Hacksaw Gaming</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/6664128/pexels-photo-6664128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 48%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">NetEnt</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/27568815/pexels-photo-27568815.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 62% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Nolimit City</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/29825627/pexels-photo-29825627.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 58% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Big Time Gaming</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594128/pexels-photo-7594128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 52%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Booongo</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594183/pexels-photo-7594183.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">JILI</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594310/pexels-photo-7594310.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 55% 40%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">PlayStar</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/6664128/pexels-photo-6664128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 48%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Yggdrasil</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/27568815/pexels-photo-27568815.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 62% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Evoplay</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/29825627/pexels-photo-29825627.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 58% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Skywind</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594128/pexels-photo-7594128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 52%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Spadegaming</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594183/pexels-photo-7594183.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Play&#39;n GO</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594310/pexels-photo-7594310.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 55% 40%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Microgaming</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/6664128/pexels-photo-6664128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 48%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Habanero</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/27568815/pexels-photo-27568815.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 62% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Playtech</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/29825627/pexels-photo-29825627.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 58% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Red Tiger</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594128/pexels-photo-7594128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 52%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Relax Gaming</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594183/pexels-photo-7594183.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Push Gaming</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594310/pexels-photo-7594310.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 55% 40%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Wazdan</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/6664128/pexels-photo-6664128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 48%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Blueprint</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/27568815/pexels-photo-27568815.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 62% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Quickspin</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/29825627/pexels-photo-29825627.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 58% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Thunderkick</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594128/pexels-photo-7594128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 52%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">ELK Studios</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594183/pexels-photo-7594183.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Playson</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/7594310/pexels-photo-7594310.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 55% 40%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Kalamba</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/6664128/pexels-photo-6664128.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 50% 48%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Fantasma</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                  <div class="game-listing-card">
+                    <div class="game-listing-card-media">
+                      <img
+                        src="https://images.pexels.com/photos/27568815/pexels-photo-27568815.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
+                        alt="遊戲名稱"
+                        class="game-listing-card-img"
+                        style="object-position: 62% 50%"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="game-listing-card-body">
+                      <h3 class="game-listing-card-name">遊戲名稱</h3>
+                      <p class="game-listing-card-provider">Dragoon Soft</p>
+                      <button class="btn-primary btn-sm w-full">立即遊玩</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="cms-load-more-wrap mt-8 flex justify-center">
+                  <button type="button" class="cms-load-more-button">
+                    載入更多
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
+                    <footer class="site-footer">
+            <div class="app-container">
+              <div class="site-footer-inner">
+                <img src="logo.png" alt="WIN100% Logo" class="site-footer-logo" />
+                <div class="site-footer-notice">
+                  <p>
+                    博彩可能造成成癮，請理性遊玩。如需支援資訊，請前往責任博彩協助頁面。
+                  </p>
+                  <p>
+                    當您存取、繼續使用或瀏覽本站，即表示您同意我們使用部分瀏覽器 Cookie，以改善您的使用體驗。
+                  </p>
+                </div>
+                <div class="site-footer-divider"></div>
+                <div class="site-footer-copyright">win10069 © 版權所有，受法律保護</div>
+              </div>
+            </div>
+          </footer>
+          <nav class="mobile-bottom-nav">
+            <div class="mobile-bottom-nav-grid">
+              <button class="mobile-bottom-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg
+                ><span class="mobile-bottom-nav-label">瀏覽</span></button
+              ><a
+                href="index.html"
+                class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg
+                ><span class="mobile-bottom-nav-label">首頁</span></a
+              ><a href="deposit.html" class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><path d="M12 17V3"></path><path d="m6 11 6 6 6-6"></path><path d="M19 21H5"></path></svg
+                ><span class="mobile-bottom-nav-label">儲值</span></a
+              ><a
+                href="promotion.html"
+                class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg
+                ><span class="mobile-bottom-nav-label">優惠活動</span></a
+              ><a href="account.html" class="mobile-bottom-nav-item"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-md"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg
+                ><span class="mobile-bottom-nav-label">會員</span></a
+              >
+            </div>
+          </nav>
+        </div>
+    </div>
+    <div id="teleports"></div>
+    <div class="qr-rail">
+      <a href="#" class="qr-btn" aria-label="Live Chat" data-chat-open
+        ><img src="logo.png" alt /><span class="qr-label">Live Chat</span></a
+      ><a href="https://t.me/win10096cs" target="_blank" rel="noopener noreferrer" class="qr-btn" aria-label="Promo Channel"
+        ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path>
+            </svg
+            ><span class="qr-label">Promo Channel</span></a
+      ><a href="about.html?tab=faq" class="qr-btn" aria-label="FAQ"
+        ><svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path>
+        </svg
+        ><span class="qr-label">FAQ</span></a
+      >
+    </div>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/site.js"></script>
+  </body>
+</html>

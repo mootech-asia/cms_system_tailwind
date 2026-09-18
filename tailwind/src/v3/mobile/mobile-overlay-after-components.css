@@ -1,0 +1,30 @@
+/* ============================================================
+   site-mobile/assets/mobile.css 是原始站台在 <head> 最後一個載入的
+   樣式表——比 design-system/components.css 還晚。大部分搬進
+   ../shell.css／pages/*.css 的 mobile.css 覆寫都沒有撞到
+   components.css 的同名規則，所以直接跟著 main.css 衍生內容一起排在
+   ui-components.css 之前也沒差；但只要真的撞到同一個 class，就必須
+   排在 ui-components.css 之後才能重現原始「mobile.css 永遠贏」的
+   疊層順序。
+
+   目前唯一撞到的案例：.gcard-title。ui-components.css 有
+   .ui-card-title,.gcard-title{font-size:var(--type-card-title)}
+   （15px，跟 main.css 自己的 13.5px 比是 components.css 贏，這點兩邊
+   一致、不是 bug），但 index.html 手機版單畫面版型另外把
+   .gcard-title 收窄成 12px（見 pages/index.css 的
+   @media(max-width:768px) 區塊）——這條在原始站台會贏（mobile.css
+   最後載入），但如果跟其他 mobile.css 衍生內容一樣排在
+   ui-components.css 之前，會被同優先權、後宣告的 ui-components.css
+   蓋掉，字級變回 15px，卡片高度也跟著跟原始頁面對不上（截圖比對在
+   index.html 手機版抓到 .gcard 高度多 5px 才連回這裡）。
+
+   之後如果有其他頁面的 mobile.css 覆寫也撞到 ui-components.css 同名
+   class，一樣搬進這個檔案，不要放回 pages/*.css。
+   ============================================================ */
+@layer components {
+  @media (max-width: 768px) {
+    .gcard-title {
+      font-size: 12px;
+    }
+  }
+}

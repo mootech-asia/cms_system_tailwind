@@ -1,0 +1,961 @@
+/* ============================================================
+   v5（烈焰賭場 Ignite）全站共用殼層 —— 桌機版。手機版另見
+   ../mobile/shell.css（鐵則 6：兩邊各自獨立檔案）。逐字搬移自
+   main.css 的 HEADER／FLOATING QUICK RAIL／手機底部快捷列／合作廠商
+   跑馬燈／FOOTER／語系切換／手機版選單觸發按鈕／選單收合面板／登入
+   註冊彈窗／客服彈窗／LIVE CHAT，token 命名空間替換 --xxx →
+   --color-xxx（同 ../theme.css 的 @theme）。
+   注意：main.css 的 NOTICE BAR（.notice-bar 系列）只有 index.html
+   用到（全站 grep 確認），不是共用殼層，搬去 ../pages/index.css。
+   main.css 另有 .feature-carousel/.feature-card/.feature-vendor-chip
+   系列樣式與對應的 initFeatureCarousel()/initVendorSelect()——全站
+   grep 沒有任何頁面掛出 `id="featureCarousel"` 這個 JS 找的掛載點，
+   是死代碼，依鐵則 1 不搬移。
+   ============================================================ */
+.container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── HEADER ─────────────────────────────── */
+.site-header {
+  background: var(--header-bg);
+  position: relative;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.brand-logo {
+  height: 36px;
+  width: auto;
+}
+.header-nav {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  flex-wrap: wrap;
+  padding-top: 0;
+  padding-bottom: 0;
+  background: var(--header-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.header-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 22px;
+  border-radius: 0;
+  color: var(--text-mid);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.header-nav-link:hover,
+.header-nav-link.active {
+  background: var(--bg-soft);
+  color: #fff;
+}
+.header-nav-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.header-auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.header-forgot {
+  font-size: 11.5px;
+  color: rgba(245, 242, 236, 0.6);
+  white-space: nowrap;
+}
+.btn-accent {
+  padding: 9px 20px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: var(--shadow-accent);
+  transition:
+    filter 0.15s,
+    transform 0.15s;
+}
+.btn-accent:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.btn-accent[disabled] {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+  box-shadow: none;
+}
+.btn-accent.quiet {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-on-header);
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.btn-accent.ghost {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 9px 6px;
+  color: var(--text-on-header);
+}
+.btn-accent.ghost:hover {
+  filter: none;
+  transform: none;
+  color: var(--accent-hi);
+}
+.btn-accent.outline {
+  background: none;
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #fff;
+  box-shadow: none;
+}
+.btn-accent.outline:hover {
+  filter: none;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ── FLOATING QUICK RAIL ────────────────── */
+.quick-rail {
+  position: fixed;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 6px;
+  border-radius: 999px;
+  background: var(--panel-glass);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--line-hi);
+  box-shadow: var(--shadow-card);
+}
+.quick-rail-btn {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  color: var(--accent);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 0.15s,
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+.quick-rail-btn:hover {
+  transform: scale(1.08);
+  background: color-mix(in oklch, var(--accent) 12%, transparent);
+  border-color: var(--accent);
+  color: var(--accent-hi);
+}
+.quick-rail-btn[data-chat-open] {
+  background: var(--header-bg);
+}
+.quick-rail-btn img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+.quick-rail-label {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(15, 15, 15, 0.94);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: var(--shadow-card);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+.quick-rail-btn:hover .quick-rail-label,
+.quick-rail-btn:focus-visible .quick-rail-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ── 手機底部快捷列（僅窄螢幕顯示，見 @media (max-width: 720px)；
+   桌機用 .header-nav 已足夠導覽，不重複顯示） ── */
+.mobile-tabbar {
+  display: none;
+}
+.mobile-tabbar-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 2px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-mid);
+}
+.mobile-tabbar-btn svg {
+  width: 20px;
+  height: 20px;
+}
+.mobile-tabbar-btn.active {
+  color: var(--accent);
+}
+
+/* ── 合作廠商跑馬燈（全站共用，含 index.html） ── */
+.vendor-marquee {
+  width: 100%;
+  max-width: 1360px;
+  margin: 20px auto 0;
+  padding: 22px 20px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+.vendor-marquee .container {
+  padding: 0;
+}
+.vendor-marquee-title {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.vendor-marquee-viewport {
+  overflow: hidden;
+}
+.vendor-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: vendor-marquee-scroll 48s linear infinite;
+}
+.vendor-marquee-track:hover {
+  animation-play-state: paused;
+}
+.vendor-marquee-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  padding-right: 12px;
+}
+.vendor-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  color: var(--text-mid);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+@keyframes vendor-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vendor-marquee-track {
+    animation: none;
+  }
+}
+
+/* ── FOOTER ─────────────────────────────── */
+.site-footer {
+  background: var(--header-bg);
+  border-top: 1px solid var(--line);
+  padding: 40px 0 32px;
+  margin-top: 20px;
+  flex-shrink: 0;
+}
+.site-footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.site-footer-logo {
+  height: 28px;
+  width: auto;
+  margin-bottom: 18px;
+  opacity: var(--footer-opacity);
+}
+.site-footer-notice {
+  max-width: 640px;
+}
+.site-footer-notice p {
+  color: var(--text-mid);
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0 0 8px;
+}
+.site-footer-notice p:last-child {
+  margin-bottom: 0;
+}
+.site-footer-divider {
+  width: 100%;
+  max-width: 640px;
+  height: 1px;
+  background: var(--line);
+  margin: 20px 0;
+}
+.site-footer-copyright {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.site-footer-copyright a {
+  color: var(--text-dim);
+}
+.site-footer-copyright a:hover {
+  color: var(--accent-hi);
+}
+
+/* ── 語系切換 ───────────────────────────── */
+.header-lang {
+  position: relative;
+  margin-left: auto;
+}
+.header-lang-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-on-header);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.header-lang-trigger:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.header-lang-trigger svg {
+  flex-shrink: 0;
+}
+.header-lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 128px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 6px;
+  z-index: 90;
+}
+.header-lang-menu[hidden] {
+  display: none;
+}
+.header-lang-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
+}
+.header-lang-option:hover {
+  background: var(--bg-soft);
+}
+.header-lang-option.active {
+  color: var(--accent-hi);
+  background: rgba(244, 121, 31, 0.12);
+  font-weight: 800;
+}
+
+/* ── 手機版選單觸發按鈕 ─────────────────── */
+.header-menu-trigger {
+  display: none;
+  position: relative;
+  z-index: 10003;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-on-header);
+  flex-shrink: 0;
+}
+.header-menu-trigger:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ── 選單收合面板(漢堡鈕/tabbar 選單共用) ─────────────
+   比照參考站:面板貼齊 header 右下角,不蓋滿整個畫面,底下頁面內容
+   維持可見——scrim 只負責接「點外面關閉」,本身透明。 ── */
+.header-menu-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: transparent;
+}
+.header-menu-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10002;
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 72px);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-top: none;
+  box-shadow: var(--shadow-card);
+  overflow-y: auto;
+}
+.header-menu-nav {
+  display: flex;
+  flex-direction: column;
+}
+.header-menu-section {
+  padding: 14px 12px 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+.header-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 14px;
+}
+.header-menu-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 6px;
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+.header-menu-grid-item svg {
+  width: 24px;
+  height: 24px;
+  color: var(--text-mid);
+  flex-shrink: 0;
+}
+.header-menu-grid-item.active {
+  background: var(--accent-grad);
+  border-color: transparent;
+  color: var(--accent-ink);
+}
+.header-menu-grid-item.active svg {
+  color: var(--accent-ink);
+}
+.header-menu-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 4px 14px 14px;
+}
+.header-menu-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.header-menu-list-item .chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+.header-menu-list-item.active {
+  color: var(--accent-hi);
+  border-color: var(--accent-hi);
+}
+.header-menu-list-item.active .chevron {
+  color: var(--accent-hi);
+}
+.header-menu-foot {
+  padding: 14px 20px 20px;
+  border-top: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.header-menu-foot .btn-accent {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+.header-menu-foot .btn-accent.quiet {
+  background: var(--bg-panel);
+  color: var(--accent-hi);
+  border-color: var(--line-hi);
+  box-shadow: none;
+}
+.header-menu-account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0 14px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.header-menu-account svg {
+  width: 22px;
+  height: 22px;
+  color: var(--accent-hi);
+}
+@media (max-width: 600px) {
+  .header-menu-panel {
+    max-width: 100%;
+  }
+}
+
+/* ── 登入／註冊彈窗 ─────────────────────── */
+/* 卡片改成奶油色淺底(呼應參考站的登入卡),做法是只在容器上局部覆寫
+   --bg、--bg-panel、--text、--line 這幾個 token 的「值」（不是
+   --color-*，這幾個是專屬這個卡片內部子孫元素繼承鏈用的區域變數，
+   跟 @theme 的 --color-* 命名空間無關，main.css 原樣沿用），下面
+   所有沿用 var(--text)、var(--bg-panel) 等寫法的既有子層樣式會透過
+   CSS 自訂屬性繼承自動換成淺色。 */
+.auth-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.72);
+  padding: 20px;
+}
+.auth-modal-box {
+  --bg: #efece4;
+  --bg-panel: #ffffff;
+  --line: #ded6c4;
+  --line-hi: #e7c99a;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  width: 100%;
+  max-width: 380px;
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.auth-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.auth-modal-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+.auth-modal-close {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--text-mid);
+}
+.auth-modal-close:hover {
+  background: var(--bg-panel);
+}
+.auth-modal-body {
+  padding: 20px;
+}
+.auth-modal-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.auth-modal-tab {
+  flex: 1;
+  padding: 9px 0;
+  text-align: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-mid);
+}
+.auth-modal-tab.active {
+  background: var(--accent-grad);
+  border-color: transparent;
+  color: var(--accent-ink);
+}
+.auth-modal-submit {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 6px;
+}
+
+/* ── 客服彈窗 ───────────────────────────── */
+.cs-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.72);
+  padding: 20px;
+}
+.cs-modal-box {
+  --bg: #efece4;
+  --bg-panel: #ffffff;
+  --line: #ded6c4;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  width: 100%;
+  max-width: 340px;
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.cs-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.cs-modal-title {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 800;
+  color: var(--text);
+}
+.cs-modal-close {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--text-mid);
+}
+.cs-modal-close:hover {
+  background: var(--bg-panel);
+}
+.cs-modal-body {
+  padding: 10px;
+}
+.cs-opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+}
+.cs-opt:hover {
+  background: var(--bg-panel);
+}
+.cs-opt-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+  flex-shrink: 0;
+}
+.cs-opt-icon svg {
+  width: 17px;
+  height: 17px;
+}
+.cs-opt-text strong {
+  display: block;
+  font-size: 13.5px;
+  color: var(--text);
+}
+.cs-opt-text small {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* ── LIVE CHAT 對話視窗（點擊 quick-rail「線上客服」開啟,右下角展開,
+   純前端模擬對話,無真實客服後端） ────────── */
+.chat-widget {
+  --bg: #efece4;
+  --bg-panel: #ffffff;
+  --line: #ded6c4;
+  --text: #201d18;
+  --text-mid: #5b564c;
+  --text-dim: #8b8578;
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 10003;
+  width: 320px;
+  max-width: calc(100vw - 36px);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.chat-widget-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 14px 14px 16px;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+}
+.chat-widget-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: contain;
+  padding: 3px;
+  flex-shrink: 0;
+}
+.chat-widget-head-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.chat-widget-head-text strong {
+  display: block;
+  font-size: 14px;
+}
+.chat-widget-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  opacity: 0.85;
+}
+.chat-widget-status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3ddc84;
+  display: inline-block;
+}
+.chat-widget-min,
+.chat-widget-close {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: inherit;
+}
+.chat-widget-min:hover,
+.chat-widget-close:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+.chat-widget-body {
+  padding: 14px;
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.chat-msg {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 88%;
+}
+.chat-msg-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg-panel);
+  object-fit: contain;
+  padding: 2px;
+  flex-shrink: 0;
+}
+.chat-bubble {
+  padding: 9px 12px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.chat-msg-bot .chat-bubble {
+  background: var(--bg-panel);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.chat-msg-user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.chat-msg-user .chat-bubble {
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+  border-bottom-right-radius: 4px;
+}
+.chat-widget-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--line);
+}
+.chat-widget-form input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  background: var(--bg-panel);
+  color: var(--text);
+}
+.chat-widget-form button {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent-grad);
+  color: var(--accent-ink);
+}
+.chat-widget.is-minimized .chat-widget-body,
+.chat-widget.is-minimized .chat-widget-form {
+  display: none;
+}
+@media (max-width: 520px) {
+  .chat-widget {
+    right: 10px;
+    bottom: 10px;
+    width: calc(100vw - 20px);
+  }
+}
+
+/* ── RESPONSIVE（main.css 集中寫在檔尾的 RESPONSIVE 區塊，這裡只搬
+   屬於殼層元件的規則；頁面專屬的部分搬去對應的 pages 頁面 CSS） ── */
+@media (max-width: 1080px) {
+  .header-nav {
+    display: none;
+  }
+  .header-menu-trigger {
+    display: flex;
+  }
+}
+@media (max-width: 720px) {
+  .header-auth {
+    display: none;
+  }
+  body {
+    padding-bottom: 56px;
+  }
+  .mobile-tabbar {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 500;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--line);
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
+  }
+  .quick-rail {
+    right: 10px;
+  }
+  .quick-rail-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .quick-rail-btn:hover {
+    transform: none;
+    background: none;
+  }
+  .quick-rail-btn:hover .quick-rail-label {
+    opacity: 0;
+    transform: translateY(-50%) translateX(6px);
+  }
+}

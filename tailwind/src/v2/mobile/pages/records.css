@@ -1,0 +1,389 @@
+/* ============================================================
+   v2（WIN100）交易/投注紀錄家族頁共用（account-record/betting-record/
+   deposit-record/profit-loss/withdrawal-record/withdrawal-detail.html）：
+   工具列（篩選下拉+日期區間）、日期區間彈出行事曆、紀錄表格、體育
+   串關展開列。桌機/手機共用同一份內容（見 shell.css 檔頭關於
+   mobile-first 架構的說明）。
+   ============================================================ */
+.record-page-title {
+  color: rgb(var(--c-text) / 1);
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  margin-bottom: 2rem;
+}
+.rb-toolbar {
+  margin-bottom: 1rem;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.rb-select-wrap {
+  width: 9rem;
+  flex-shrink: 0;
+}
+.rb-select {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  height: 42px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid rgb(var(--c-surface-600) / 1);
+  background-color: rgb(var(--c-surface-950) / 1);
+  box-shadow: 0 1px 2px 0 rgba(18, 18, 23, 0.05);
+}
+.rb-select-label {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 8px 12px;
+  color: rgb(var(--c-text) / 1);
+}
+.rb-select-label.is-placeholder {
+  color: rgb(55, 65, 81);
+}
+.rb-select-caret {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  color: rgb(var(--c-text-3) / 1);
+}
+.rb-select-caret-icon {
+  width: 14px;
+  height: 14px;
+}
+.rb-daterange-wrap {
+  width: 100%;
+  min-width: 0;
+}
+@media (min-width: 640px) {
+  .rb-daterange-wrap {
+    width: 20rem;
+  }
+}
+@media (max-width: 639px) {
+  .rb-toolbar > .rb-daterange-wrap {
+    flex: 1 1 50%;
+    width: auto;
+  }
+}
+.rb-daterange {
+  display: inline-flex;
+  width: 100%;
+  max-width: 100%;
+}
+.rb-daterange-input {
+  display: block;
+  width: 1%;
+  flex: 1 1 auto;
+  height: 42px;
+  border-radius: 6px 0 0 6px;
+  border: 1px solid rgb(var(--c-surface-600) / 1);
+  background-color: rgb(var(--c-surface-950) / 1);
+  padding: 8px 12px;
+  color: rgb(var(--c-text) / 1);
+  box-shadow: 0 1px 2px 0 rgba(18, 18, 23, 0.05);
+}
+.rb-daterange-input::placeholder {
+  color: rgb(var(--c-text-4) / 1);
+}
+.rb-daterange-btn {
+  display: flex;
+  width: 40px;
+  height: 42px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 6px 6px 0;
+  border: 1px solid rgb(var(--c-surface-600) / 1);
+  background-color: rgb(var(--c-surface) / 1);
+  color: rgb(var(--c-text-3) / 1);
+}
+.rb-daterange-icon {
+  width: 14px;
+  height: 14px;
+}
+.rb-confirm-btn {
+  height: 2.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+/* ── 日期區間彈出行事曆（rb-daterange-input/-btn 觸發，site.js
+   initDateRangeFilter()）── */
+.drp-pop {
+  position: absolute;
+  z-index: 1000;
+  width: 264px;
+  padding: 10px;
+  border: 1px solid rgb(var(--c-border-soft) / 1);
+  background-color: rgb(var(--c-surface) / 1);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px #00000073;
+}
+.drp-head {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.5rem;
+}
+.drp-label {
+  flex: 1 1 auto;
+  text-align: center;
+  font-weight: 700;
+  color: rgb(var(--c-text) / 1);
+}
+.drp-nav,
+.drp-clear {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: rgb(var(--c-text-3) / 1);
+}
+.drp-nav:hover,
+.drp-clear:hover {
+  background-color: rgb(var(--c-bg) / 1);
+  color: rgb(var(--c-text) / 1);
+}
+.drp-week,
+.drp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.drp-week span {
+  text-align: center;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-body);
+  color: rgb(var(--c-text-4) / 1);
+  padding: 4px 0;
+}
+.drp-day {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: rgb(var(--c-text-2) / 1);
+  font-size: var(--fs-body);
+}
+.drp-day.is-empty {
+  cursor: default;
+}
+.drp-day:not(.is-empty):hover {
+  background-color: rgb(var(--c-bg) / 1);
+}
+.drp-day.is-in-range {
+  background-color: rgb(var(--c-primary) / 0.16);
+  border-radius: 0;
+}
+.drp-day.is-start,
+.drp-day.is-end {
+  background-image: var(--g-primary);
+  color: rgb(var(--c-on-primary) / 1);
+  font-weight: 700;
+}
+
+/* ── 紀錄表格 ── */
+.record-table-frame {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(var(--c-border-soft) / 1);
+}
+.record-table-container {
+  overflow-x: auto;
+}
+.record-table-el {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+.record-table-thead {
+  position: sticky;
+}
+.record-table-thead > tr {
+  background-image: var(--g-primary);
+}
+.record-table-th {
+  white-space: nowrap;
+  border-width: 0;
+  background-color: transparent;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-body);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: rgb(var(--c-on-primary) / 1);
+}
+.record-table-th-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.record-table-th-content--end {
+  justify-content: flex-end;
+}
+.record-table-th-content--center {
+  justify-content: center;
+}
+.record-table-tbody > tr {
+  background-color: transparent;
+  color: rgb(var(--c-text-2) / 1);
+}
+.record-table-tbody > tr:nth-child(2n) > td {
+  background: #ffffff05;
+}
+.record-table-tbody > tr:hover > td {
+  background-color: rgb(var(--c-bg) / 1);
+}
+.record-table-tbody > tr > td {
+  white-space: nowrap;
+  border-width: 1px 0 0;
+  border-style: solid;
+  border-color: rgb(var(--c-border-soft) / 1);
+  padding: 0.875rem 1rem;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-variant-numeric: tabular-nums;
+}
+.record-table-tbody > tr > td.text-right {
+  text-align: right;
+  color: rgb(var(--c-text) / 1);
+}
+.record-table-tbody > tr > td.text-center {
+  text-align: center;
+}
+.rt-strong {
+  font-weight: 600;
+  color: rgb(var(--c-text) / 1);
+}
+.rt-muted {
+  color: rgb(var(--c-text-3) / 1);
+}
+.rt-mono {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-body);
+  letter-spacing: 0.05em;
+  color: rgb(var(--c-text-3) / 1);
+}
+.rt-positive {
+  font-weight: 700;
+  color: rgb(var(--c-success) / 1);
+}
+.rt-negative {
+  font-weight: 700;
+  color: rgb(var(--c-danger) / 1);
+}
+
+/* 體育串關展開列：比照 .faq-card 手風琴的 is-open + caret 旋轉寫法。
+   .record-table-tbody > tr > td 是子代選擇器，巢狀子表的 td 不會是它
+   的直接子節點，天生不會被外層表格樣式蓋過，不用額外拉高優先權。 */
+.rt-parlay-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 8px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: rgb(var(--c-text-3) / 1);
+  vertical-align: middle;
+  cursor: pointer;
+}
+.rt-parlay-toggle:hover {
+  color: rgb(var(--c-text) / 1);
+  background: rgb(var(--c-border-soft) / 0.5);
+}
+.rt-parlay-caret {
+  display: block;
+  transition: transform 0.2s;
+}
+.rt-parlay-row.is-open .rt-parlay-caret {
+  transform: rotate(180deg);
+}
+.rt-parlay-detail > td {
+  padding: 0;
+  border-top: 0;
+}
+.rt-parlay-panel {
+  padding: 14px 16px 18px;
+  background: rgb(var(--c-bg) / 1);
+}
+.rt-parlay-summary {
+  margin-bottom: 10px;
+  font-size: var(--fs-caption);
+  color: rgb(var(--c-text-3) / 1);
+  white-space: nowrap;
+}
+.rt-parlay-sep {
+  margin: 0 8px;
+}
+.rt-parlay-summary strong {
+  color: rgb(var(--c-gold) / 1);
+  font-weight: 700;
+}
+.rt-parlay-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-caption);
+  color: rgb(var(--c-text-2) / 1);
+}
+.rt-parlay-table th {
+  text-align: left;
+  padding: 6px 10px;
+  color: rgb(var(--c-text-3) / 1);
+  font-weight: 700;
+  border-bottom: 1px solid rgb(var(--c-border-soft) / 1);
+  white-space: nowrap;
+}
+.rt-parlay-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgb(var(--c-border-soft) / 1);
+  white-space: nowrap;
+}
+.rt-parlay-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.rt-parlay-table th.text-right,
+.rt-parlay-table td.text-right {
+  text-align: right;
+}
+.record-total-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 64px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: rgb(var(--c-surface));
+  border-top: 1px solid rgb(var(--c-gold) / 0.3);
+  color: rgb(var(--c-gold));
+  font-weight: 600;
+}
+@media (min-width: 768px) {
+  .record-total-bar {
+    left: 256px;
+    bottom: 0;
+  }
+}

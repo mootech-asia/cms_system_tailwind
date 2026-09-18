@@ -1,0 +1,34 @@
+/* ============================================================
+   promotion-detail.html(pages/promotionDetail.vue)
+   ============================================================ */
+.promotion-detail-page {
+  background: var(--color-navy);
+  min-height: 60vh;
+  padding: 16px 20px 48px;
+}
+.promotion-detail-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+.promotion-detail-content {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #fff;
+}
+.promotion-detail-content p {
+  margin: 0 0 16px;
+  line-height: 1.7;
+}
+.promotion-detail-content img {
+  width: 100%;
+  border-radius: 12px;
+}
+@media (min-width: 1280px) {
+  .promotion-detail-page {
+    padding: 56px 96px;
+  }
+  .promotion-detail-title {
+    font-size: 28px;
+  }
+}

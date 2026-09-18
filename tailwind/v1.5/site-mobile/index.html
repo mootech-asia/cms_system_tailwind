@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/tailwind.css">
+</head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+
+      <main class="home-main">
+        <section class="banner">
+          <div class="banner-slides" data-banner-slides>
+            <div class="banner-slide is-active"><img src="assets/images/banner/banner.jpg" alt="banner" /></div>
+          </div>
+        </section>
+
+        <section class="home-marquee">
+          <div class="home-marquee-viewport">
+            <div class="home-marquee-track" data-marquee-track></div>
+          </div>
+          <div class="home-marquee-clock" data-marquee-clock></div>
+        </section>
+
+        <section class="hot-game">
+          <div class="hot-game-head">
+            <div class="hot-game-title">
+              <img src="assets/images/index/game-icon.svg" alt="hot game" />
+              <span data-i18n="gameType.types.hotGames">인기 게임</span>
+            </div>
+            <div class="hot-game-actions">
+              <button type="button" data-nav-href="game-type.html?type=hotgames" data-i18n="hotGame.seeAll">전체 보기</button>
+              <button type="button" data-hot-game-prev><img class="hot-game-arrow" src="assets/images/icon/arrow-left2.svg" alt="prev" /></button>
+              <button type="button" data-hot-game-next><img class="hot-game-arrow" src="assets/images/icon/arrow-right2.svg" alt="next" /></button>
+            </div>
+          </div>
+          <div class="hot-game-strip">
+            <div class="hot-game-track" data-hot-game-track></div>
+          </div>
+        </section>
+
+        <section class="home-vendor-section">
+          <div class="home-vendor-head">
+            <div class="home-vendor-title">
+              <img src="assets/images/icon/liveCasino2.svg" alt="live casino" />
+              <span data-i18n="navbar.top.liveCasino">라이브 카지노</span>
+            </div>
+            <div class="home-vendor-actions hot-game-actions">
+              <button type="button" data-nav-href="game-type.html?type=live" data-i18n="hotGame.seeAll">전체 보기</button>
+              <button type="button" data-live-casino-prev><img class="hot-game-arrow" src="assets/images/icon/arrow-left2.svg" alt="prev" /></button>
+              <button type="button" data-live-casino-next><img class="hot-game-arrow" src="assets/images/icon/arrow-right2.svg" alt="next" /></button>
+            </div>
+          </div>
+          <div class="vendor-strip"><div class="vendor-card-grid is-live-casino" data-live-casino-grid></div></div>
+        </section>
+
+        <section class="home-vendor-section">
+          <div class="home-vendor-head">
+            <div class="home-vendor-title">
+              <img src="assets/images/icon/liveSports.svg" alt="live sports" />
+              <span data-i18n="navbar.top.sports">스포츠</span>
+            </div>
+            <div class="home-vendor-actions hot-game-actions">
+              <button type="button" data-nav-href="game-type.html?type=sports" data-i18n="hotGame.seeAll">전체 보기</button>
+              <button type="button" data-live-sports-prev><img class="hot-game-arrow" src="assets/images/icon/arrow-left2.svg" alt="prev" /></button>
+              <button type="button" data-live-sports-next><img class="hot-game-arrow" src="assets/images/icon/arrow-right2.svg" alt="next" /></button>
+            </div>
+          </div>
+          <div class="vendor-strip"><div class="vendor-card-grid is-live-sports" data-live-sports-grid></div></div>
+        </section>
+
+        <section class="home-vendor-section">
+          <div class="home-vendor-head">
+            <div class="home-vendor-title">
+              <img src="assets/images/icon/slotGames2.svg" alt="slot games" />
+              <span data-i18n="navbar.top.slots">슬롯</span>
+            </div>
+            <div class="home-vendor-actions hot-game-actions">
+              <button type="button" data-nav-href="game-type.html?type=slot" data-i18n="hotGame.seeAll">전체 보기</button>
+              <button type="button" data-slot-strip-prev><img class="hot-game-arrow" src="assets/images/icon/arrow-left2.svg" alt="prev" /></button>
+              <button type="button" data-slot-strip-next><img class="hot-game-arrow" src="assets/images/icon/arrow-right2.svg" alt="next" /></button>
+            </div>
+          </div>
+          <div class="slot-strip">
+            <div class="slot-strip-track" data-slot-strip-track></div>
+          </div>
+        </section>
+
+        <section class="home-vendor-section">
+          <div class="promo-home-strip">
+            <div class="promo-home-track" data-promo-home-track></div>
+          </div>
+          <div class="promo-home-dots" data-promo-home-dots></div>
+          <div class="promo-home-readmore-wrap">
+            <a class="promo-home-readmore" href="promotion-list.html" data-i18n="common.readMore">더보기</a>
+          </div>
+        </section>
+      </main>
+
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+
+        /* ---- Marquee ---- */
+        var track = W.qs('[data-marquee-track]');
+        if (track) {
+          var itemsHtml = D.MARQUEE_ITEMS.map(function (m) {
+            var highlighted = m.title.replace(/^(\S+) won/, '<b>$1</b> won').replace(/([\d,]{4,})/, '<b>$1</b>');
+            return '<span>✦ ' + highlighted + ' ✦</span>';
+          }).join('');
+          track.innerHTML = itemsHtml + itemsHtml;
+        }
+        var clock = W.qs('[data-marquee-clock]');
+        function updateClock() {
+          var d = new Date(Date.now() + 8 * 60 * 60 * 1000);
+          function pad(n) { return String(n).padStart(2, '0'); }
+          clock.textContent = 'GMT+8 ' + d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()) + ' ' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
+        }
+        if (clock) { updateClock(); setInterval(updateClock, 1000); }
+
+        /* ---- Hot Game(目前線上尚未上架真實遊戲,顯示 COMING SOON 占位卡片) ---- */
+        var hgTrack = W.qs('[data-hot-game-track]');
+        var hgStrip = W.qs('.hot-game-strip');
+        function renderHotGames() {
+          hgTrack.innerHTML = D.HOT_GAMES.map(function (g) {
+            var thumb = g.image
+              ? '<div class="hot-game-card-thumb"><img src="assets/images/' + g.image + '" alt="' + g.name + '"></div>'
+              : '<div class="hot-game-card-thumb is-placeholder"><img src="assets/images/img-comingsoon-game.png" alt="coming soon"></div>';
+            return (
+              '<div class="hot-game-card">' + thumb +
+              '<div class="hot-game-card-body"><div><span class="hot-game-tag" data-i18n="hotGame.promo">' + W.t('hotGame.promo') + '</span>' +
+              '<h3 class="hot-game-name">' + g.name + '</h3>' +
+              '<p class="hot-game-subtitle">' + g.subtitle + '</p></div>' +
+              '<button type="button" class="hot-game-play-btn" data-i18n="hotGame.playNow">' + W.t('hotGame.playNow') + '</button></div>' +
+              '</div>'
+            );
+          }).join('');
+        }
+        function moveHg(delta) {
+          var card = hgTrack.querySelector('.hot-game-card');
+          var cardWidth = (card && card.offsetWidth) || 311;
+          hgStrip.scrollBy({ left: delta * (cardWidth + 20), behavior: 'smooth' });
+        }
+        renderHotGames();
+        W.on(W.qs('[data-hot-game-prev]'), 'click', function () { moveHg(-1); });
+        W.on(W.qs('[data-hot-game-next]'), 'click', function () { moveHg(1); });
+
+        /* ---- Live Casino / Live Sports(等大卡片,深底置中 logo + Play Now;
+           直接吃 GAME_VENDORS(跟 game-type.html 內頁同一份廠商清單),數量
+           跟內頁完全一致,不再另外維護一份會兜不齊的清單) ---- */
+        function vendorCardHtml(v) {
+          return (
+            '<div class="vendor-card" data-vendor-card>' +
+            '<img class="vendor-card-logo" src="assets/images/index/mainGame/live/' + encodeURIComponent(v.logo) + '" alt="' + v.vendor + '">' +
+            '<span class="vendor-card-play-btn" data-i18n="hotGame.playNow">' + W.t('hotGame.playNow') + '</span>' +
+            '</div>'
+          );
+        }
+        W.qs('[data-live-casino-grid]').innerHTML = D.GAME_VENDORS.live.map(vendorCardHtml).join('');
+        W.qs('[data-live-sports-grid]').innerHTML = D.GAME_VENDORS.sports.map(vendorCardHtml).join('');
+        W.qsa('[data-vendor-card]').forEach(function (el) {
+          W.on(el, 'click', function () { W.showAlert({ type: 'success', message: W.t('common.openingGame') }); });
+        });
+        function moveVendor(grid, delta) {
+          var card = grid.querySelector('.vendor-card');
+          var cardWidth = (card && card.offsetWidth) || 220;
+          grid.parentElement.scrollBy({ left: delta * (cardWidth + 16), behavior: 'smooth' });
+        }
+        var liveCasinoGrid = W.qs('[data-live-casino-grid]');
+        var liveSportsGrid = W.qs('[data-live-sports-grid]');
+        W.on(W.qs('[data-live-casino-prev]'), 'click', function () { moveVendor(liveCasinoGrid, -1); });
+        W.on(W.qs('[data-live-casino-next]'), 'click', function () { moveVendor(liveCasinoGrid, 1); });
+        W.on(W.qs('[data-live-sports-prev]'), 'click', function () { moveVendor(liveSportsGrid, -1); });
+        W.on(W.qs('[data-live-sports-next]'), 'click', function () { moveVendor(liveSportsGrid, 1); });
+
+        /* ---- Slot Games 橫向捲動 ---- */
+        var slotTrack = W.qs('[data-slot-strip-track]');
+        var slotStrip = W.qs('.slot-strip');
+        slotTrack.innerHTML = D.SLOT_STRIP_IMAGES.map(function (img) {
+          return (
+            '<div class="slot-strip-card">' +
+            '<div class="slot-strip-thumb"><img src="assets/images/' + img + '" alt="game"></div>' +
+            '<p class="slot-strip-name" data-i18n="hotGame.gameName">Game Name</p>' +
+            '<p class="slot-strip-brand" data-i18n="hotGame.creativeGaming">Creative Gaming</p>' +
+            '</div>'
+          );
+        }).join('');
+        function moveSlot(delta) {
+          var card = slotTrack.querySelector('.slot-strip-card');
+          var cardWidth = (card && card.offsetWidth) || 140;
+          slotStrip.scrollBy({ left: delta * (cardWidth + 16), behavior: 'smooth' });
+        }
+        W.on(W.qs('[data-slot-strip-prev]'), 'click', function () { moveSlot(-1); });
+        W.on(W.qs('[data-slot-strip-next]'), 'click', function () { moveSlot(1); });
+
+        /* ---- 首頁促銷卡片 ---- */
+        var promoTrack = W.qs('[data-promo-home-track]');
+        var promoDots = W.qs('[data-promo-home-dots]');
+        promoTrack.innerHTML = D.PROMO_HOME_CARDS.map(function () {
+          return (
+            '<a class="promo-home-card" href="promotion-list.html">' +
+            '<div class="promo-home-banner">' +
+            '<div class="promo-home-coin c1"></div><div class="promo-home-coin c2"></div><div class="promo-home-coin c3"></div>' +
+            '<p class="promo-home-offer" data-i18n="hotGame.specialOffer">SPECIAL OFFER</p>' +
+            '<p class="promo-home-title">PROMOTION</p>' +
+            '</div>' +
+            '<p class="promo-home-date-bar" data-i18n="hotGame.promoDateRange">Thursday-Tuesday, times vary</p>' +
+            '<p class="promo-home-footer" data-i18n="hotGame.promotion1">Promotion 1</p>' +
+            '</a>'
+          );
+        }).join('');
+        promoDots.innerHTML = D.PROMO_HOME_CARDS.map(function (_, i) {
+          return '<span class="promo-home-dot' + (i === 0 ? ' is-active' : '') + '" data-promo-dot="' + i + '"></span>';
+        }).join('');
+        var promoStrip = W.qs('.promo-home-strip');
+        var promoDotEls = W.qsa('[data-promo-dot]', promoDots);
+        function promoCardStep() {
+          var card = promoTrack.querySelector('.promo-home-card');
+          var trackStyle = window.getComputedStyle(promoTrack);
+          return ((card && card.offsetWidth) || 240) + (parseFloat(trackStyle.gap) || 0);
+        }
+        promoDotEls.forEach(function (dot, i) {
+          W.on(dot, 'click', function () {
+            promoStrip.scrollTo({ left: i * promoCardStep(), behavior: 'smooth' });
+          });
+        });
+        W.on(promoStrip, 'scroll', function () {
+          var active = Math.round(promoStrip.scrollLeft / promoCardStep());
+          promoDotEls.forEach(function (dot, i) { dot.classList.toggle('is-active', i === active); });
+        });
+
+        /* ---- 首頁進站廣告彈窗(對照 components/PromotionModal.vue,
+           demo 環境沒有真實公告 API,固定取用 D.PROMOTIONS 其中一筆促銷;
+           以 localStorage 記錄「今天不再提醒」,key 每天自動換新 ---- */
+        (function initPromoPopup() {
+          var promo = D.PROMOTIONS[1];
+          if (!promo) return;
+          function todayKey() {
+            var d = new Date();
+            function pad(n) { return String(n).padStart(2, '0'); }
+            return 'promotion_' + d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+          }
+          var dismissedIds = [];
+          try { dismissedIds = JSON.parse(localStorage.getItem(todayKey()) || '[]'); } catch (e) {}
+          if (dismissedIds.indexOf(String(promo.promotion_id)) !== -1) return;
+
+          var loc = W.currentLocale();
+          var backdrop = document.createElement('div');
+          backdrop.className = 'promo-popup-backdrop';
+          backdrop.innerHTML =
+            '<div class="promo-popup-card">' +
+            '<div class="promo-popup-head">' +
+            '<img src="' + W.IMG + 'index/img-logo.png" alt="logo">' +
+            '<button type="button" class="promo-popup-close" data-promo-popup-close><img src="' + W.icon('close.svg') + '" alt="close"></button>' +
+            '</div>' +
+            '<div class="promo-popup-content" data-promo-popup-content><img src="' + W.IMG + 'index/promotion/' + promo.image + '" alt="' + promo.title[loc] + '"></div>' +
+            '<div class="promo-popup-foot">' +
+            '<input type="checkbox" data-promo-popup-remember>' +
+            '<span data-i18n="promotion.dontRemindToday">' + W.t('promotion.dontRemindToday') + '</span>' +
+            '</div>' +
+            '</div>';
+          document.body.appendChild(backdrop);
+
+          function close() {
+            if (W.qs('[data-promo-popup-remember]', backdrop).checked) {
+              var key = todayKey();
+              var list = [];
+              try { list = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) {}
+              list.push(String(promo.promotion_id));
+              localStorage.setItem(key, JSON.stringify(list));
+            }
+            backdrop.remove();
+          }
+          W.on(W.qs('[data-promo-popup-close]', backdrop), 'click', function (e) { e.stopPropagation(); close(); });
+          W.on(W.qs('[data-promo-popup-content]', backdrop), 'click', function () {
+            location.href = 'promotion-detail.html?id=' + promo.promotion_id;
+          });
+        })();
+
+        W.applyLocale();
+      };
+    </script>
+  </body>
+</html>

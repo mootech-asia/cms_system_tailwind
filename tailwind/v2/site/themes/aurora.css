@@ -1,0 +1,70 @@
+/* ============================================================
+   Aurora 皮膚 — R3 第二套示範皮,驗證「複製 win100.css、改變數值 = 新皮膚」。
+   結構逐一對照 win100.css(同一組變數名、同樣存 R G B 三個十進位數字、
+   不同值);紫金夜霓虹取代薄荷綠黑。
+   套用方式:<html data-theme="aurora">(site store `setSkin('aurora')`)。
+   ============================================================ */
+:root[data-theme='aurora'] {
+  /* ---- 字級/字距/行高/圓角:沿用 win100(皮膚只管顏色與漸層) ---- */
+
+  /* ---- 主色(R G B) ---- */
+  --c-primary: 201 166 255;      /* #C9A6FF */
+  --c-primary-soft: 228 208 255; /* #E4D0FF */
+  --c-primary-faint: 58 43 82;   /* #3A2B52 */
+  --c-on-primary: 26 16 48;      /* #1A1030 */
+  --c-accent: 217 187 255;       /* #D9BBFF */
+
+  /* ---- 面板(紫黑系) ---- */
+  --c-bg: 18 14 27;         /* #120E1B */
+  --c-surface: 30 24 48;    /* #1E1830 */
+  --c-surface-2: 44 35 71;  /* #2C2347 */
+  --c-border: 69 55 104;    /* #453768 */
+  --c-border-soft: 42 33 64; /* #2A2140 */
+  --c-disabled: 87 74 120;  /* #574A78 */
+
+  /* ---- 文字四階 ---- */
+  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-text-2: 216 210 232; /* #D8D2E8 */
+  --c-text-3: 167 156 196; /* #A79CC4 */
+  --c-text-4: 117 106 148; /* #756A94 */
+
+  /* ---- 狀態/強調 ---- */
+  --c-danger: 255 133 133; /* #FF8585 */
+  --c-scrim: 0 0 0; /* 媒體遮罩/彈窗 backdrop(bg-scrim/NN) */
+  --c-success: 110 231 168; /* #6EE7A8 */
+  --c-gold: 255 198 92;    /* #FFC65C */
+
+  /* ---- 銀行卡擬物卡面:跨皮膚固定的例外,繼承 win100 的值,不覆寫 ---- */
+
+  /* ---- 漸層 / 陰影 ---- */
+  --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
+  --g-hero: linear-gradient(90deg, #6D28D9 0%, #A855F7 55%, #F0ABFC 100%);
+  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / .22);
+
+  /* ---- PrimeVue ramp:primary 50–950 ---- */
+  --c-primary-50: 250 246 255;
+  --c-primary-100: 241 231 255;
+  --c-primary-200: 228 208 255;
+  --c-primary-300: 214 184 255;
+  --c-primary-400: 205 172 255;
+  --c-primary-500: 201 166 255;
+  --c-primary-600: 178 135 240;
+  --c-primary-700: 152 104 218;
+  --c-primary-800: 124 79 190;
+  --c-primary-900: 94 57 147;
+  --c-primary-950: 60 35 97;
+
+  /* ---- PrimeVue ramp:surface 0–950 ---- */
+  --c-surface-0: 255 255 255;
+  --c-surface-50: 216 210 232;
+  --c-surface-100: 167 156 196;
+  --c-surface-200: 117 106 148;
+  --c-surface-300: 87 74 120;
+  --c-surface-400: 69 55 104;
+  --c-surface-500: 44 35 71;
+  --c-surface-600: 38 32 58;
+  --c-surface-700: 42 33 64;
+  --c-surface-800: 30 24 48;
+  --c-surface-900: 18 14 27;
+  --c-surface-950: 11 8 18;
+}

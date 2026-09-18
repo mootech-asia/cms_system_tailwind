@@ -1,0 +1,103 @@
+/* ============================================================
+   WIN100 皮膚 — 全站視覺參數唯一來源(R3)。
+   人類可讀 CSS 變數;tailwind.config.ts 與 nuxt.config.ts 的 PrimeVue
+   preset 都改讀這裡的變數,不再各自寫死 hex/px — 只有這一份定義。
+
+   色彩一律存成「R G B」三個十進位數字(不是 hex),因為 tailwind.config.ts
+   用 rgb(var(--c-x) / <alpha-value>) 包起來,這樣 bg-primary/10、
+   border-primary/25 這類透明度寫法才能在建置期正確套用 — 直接存 hex 或
+   var() 字串會讓 Tailwind 無法對它做透明度運算(R3 踩過的坑,勿還原)。
+
+   換膚方法:複製本檔為 themes/<name>.css,選擇器改成
+   `:root[data-theme="<name>"]`,改變數值即可(參考 themes/aurora.css)。
+   在 <html data-theme="..."> 切換屬性 = 整站換皮,不需重新編譯。
+   ============================================================ */
+:root {
+  /* ---- 字級階梯(7 階,見 docs/style-guide.md §3) ---- */
+  --fs-display: 30px;
+  --fs-h1: 24px;
+  --fs-h2: 18px;
+  --fs-body-lg: 16px;
+  --fs-body: 14px;
+  --fs-caption: 12px;
+  --fs-micro: 10px;
+
+  /* ---- 字距(3 階) ---- */
+  --ls-tight: 0;
+  --ls-wide: .06em;
+  --ls-numeric: .12em;
+
+  /* ---- 行高(3 階) ---- */
+  --lh-solid: 1;
+  --lh-heading: 1.2;
+  --lh-body: 1.5;
+
+  /* ---- 圓角 ---- */
+  --radius-ui: 10px;
+
+  /* ---- 主色(R G B) ---- */
+  --c-primary: 152 231 210;      /* #98E7D2 */
+  --c-primary-soft: 203 232 228; /* #CBE8E4 */
+  --c-primary-faint: 49 62 64;   /* #313E40 */
+  --c-on-primary: 15 22 34;      /* #0F1622 */
+  --c-accent: 170 229 211;       /* #AAE5D3 */
+
+  /* ---- 面板(綠黑系) ---- */
+  --c-bg: 15 20 25;         /* #0F1419 */
+  --c-surface: 26 33 40;    /* #1A2128 */
+  --c-surface-2: 42 49 56;  /* #2A3138 */
+  --c-border: 55 65 81;     /* #374151 */
+  --c-border-soft: 31 41 55; /* #1F2937 */
+  --c-disabled: 75 85 99;   /* #4B5563 */
+
+  /* ---- 文字四階 ---- */
+  --c-text: 255 255 255;   /* #FFFFFF */
+  --c-text-2: 209 213 219; /* #D1D5DB */
+  --c-text-3: 156 163 175; /* #9CA3AF */
+  --c-text-4: 107 114 128; /* #6B7280 */
+
+  /* ---- 狀態/強調 ---- */
+  --c-danger: 248 113 113; /* #F87171 */
+  --c-scrim: 0 0 0; /* 媒體遮罩/彈窗 backdrop(bg-scrim/NN) */
+  --c-success: 74 222 128; /* #4ADE80 */
+  --c-gold: 240 178 74;    /* #F0B24A */
+
+  /* ---- 銀行卡擬物卡面(全站唯一保留的藍黑系,刻意不隨皮膚變動的例外) ---- */
+  --c-card-face-1: 27 37 54;  /* #1B2536 */
+  --c-card-face-2: 19 28 43;  /* #131C2B */
+  --c-card-face-3: 13 20 32;  /* #0D1420 */
+  --c-card-border: 38 50 74;  /* #26324A */
+
+  /* ---- 漸層 / 陰影:由上面的 R G B 變數組成,換膚會一併跟著換 ---- */
+  --g-primary: linear-gradient(90deg, rgb(var(--c-primary-soft)), rgb(var(--c-primary)));
+  --g-hero: linear-gradient(90deg, #0F766E 0%, #10B981 55%, #B9DE5A 100%); /* 全站唯一一條,刻意固定 */
+  --shadow-mint: 0 8px 20px rgb(var(--c-primary) / .18);
+
+  /* ---- PrimeVue ramp:primary 50–950(styled 元件 hover/active/focus 用,
+       換皮時與 --c-primary 一併調整,見 nuxt.config.ts Win100 preset) ---- */
+  --c-primary-50: 240 251 248;
+  --c-primary-100: 220 245 238;
+  --c-primary-200: 203 232 228;
+  --c-primary-300: 178 237 220;
+  --c-primary-400: 165 234 215;
+  --c-primary-500: 152 231 210;
+  --c-primary-600: 127 223 196;
+  --c-primary-700: 94 208 175;
+  --c-primary-800: 61 189 152;
+  --c-primary-900: 42 150 120;
+  --c-primary-950: 28 100 80;
+
+  /* ---- PrimeVue ramp:surface 0–950(dark colorScheme) ---- */
+  --c-surface-0: 255 255 255;
+  --c-surface-50: 209 213 219;
+  --c-surface-100: 156 163 175;
+  --c-surface-200: 107 114 128;
+  --c-surface-300: 75 85 99;
+  --c-surface-400: 55 65 81;
+  --c-surface-500: 42 49 56;
+  --c-surface-600: 35 43 54;
+  --c-surface-700: 31 41 55;
+  --c-surface-800: 26 33 40;
+  --c-surface-900: 15 20 25;
+  --c-surface-950: 10 14 18;
+}

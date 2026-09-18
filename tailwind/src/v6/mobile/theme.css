@@ -1,4 +1,15 @@
-@import "tailwindcss";
+/* source(none)：main.css 逐字搬移，樣式全部來自本檔案 + ../pages/*.css
+   手寫規則，不依賴 Tailwind 自動掃描 HTML 產生的 utility class——關掉
+   自動掃描，避免 HTML 裡跟 main.css 無關、原站沒作用的「巧合同名」
+   class（class="btn-accent outline" 的 outline 只是原站次要按鈕的
+   命名慣例，main.css 的 .btn-accent.outline 只設 background/
+   border-color/color/box-shadow，從未設 outline 屬性；Tailwind 卻把
+   "outline" 認成合法 utility 生成獨立的 .outline{outline-style:solid;
+   outline-width:1px}，因為在 @layer utilities、優先權比 main.css 的
+   @layer components 高，讓次要按鈕多出一圈原站沒有的外框，v6 全站
+   44 處用到這個 class，波及範圍比 v5 大）被 Tailwind 認出來變成有
+   作用的真樣式，跟原站渲染不一致。 */
+@import 'tailwindcss' source(none);
 
 /* ============================================================
    v6（巔峰盤口 Apex）design token —— 手機版。桌機版另見
@@ -9,7 +20,7 @@
    獨立宣告一份。
    ============================================================ */
 @theme static {
-  --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-display: 'Pretendard', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 
   --text-3xs: 10.5px;
   --text-2xs: 11px;
@@ -66,9 +77,33 @@
 
   /* 手機專屬結構常數（main.css @media 區塊，桌機版用不到）。 */
   --mobile-side-pad: 20px; /* listing-wrap 側留白窄螢幕收窄值 */
+
+  /* 同 ../pc/theme.css：站內大量 inline style="...var(--accent)"／
+     "...var(--bg)" 直接寫舊變數名稱，這裡別名回 --color-* 新命名
+     空間。component/page CSS 一律用這裡的 --xxx 名稱、不要用
+     --color-xxx（v6 也有 .content-light 局部覆寫機制）。 */
+  --bg: var(--color-bg);
+  --bg-soft: var(--color-bg-soft);
+  --bg-panel: var(--color-bg-panel);
+  --header-bg: var(--color-header-bg);
+  --line: var(--color-line);
+  --line-hi: var(--color-line-hi);
+  --text: var(--color-text);
+  --text-mid: var(--color-text-mid);
+  --text-dim: var(--color-text-dim);
+  --text-on-header: var(--color-text-on-header);
+  --panel-tint: var(--color-panel-tint);
+  --accent: var(--color-accent);
+  --accent-hi: var(--color-accent-hi);
+  --accent-deep: var(--color-accent-deep);
+  --accent-ink: var(--color-accent-ink);
+  --badge: var(--color-badge);
+  --badge-deep: var(--color-badge-deep);
+  --jackpot-a: var(--color-jackpot-a);
+  --jackpot-b: var(--color-jackpot-b);
 }
 
-:root[data-skin="gold-noir"] {
+:root[data-skin='gold-noir'] {
   --color-accent: #d4a017;
   --color-accent-hi: #f0c550;
   --color-accent-deep: #9c780f;
@@ -77,7 +112,7 @@
   --color-jackpot-a: #92400e;
   --color-jackpot-b: #d97706;
 }
-:root[data-skin="neon-emerald"] {
+:root[data-skin='neon-emerald'] {
   --color-accent: #12b76a;
   --color-accent-hi: #34d399;
   --color-accent-deep: #0a7a49;
@@ -86,7 +121,7 @@
   --color-jackpot-a: #0891b2;
   --color-jackpot-b: #06b6d4;
 }
-:root[data-skin="royal-crimson"] {
+:root[data-skin='royal-crimson'] {
   --color-accent: #dc2626;
   --color-accent-hi: #f87171;
   --color-accent-deep: #a31515;
@@ -95,7 +130,7 @@
   --color-jackpot-a: #be185d;
   --color-jackpot-b: #ec4899;
 }
-:root[data-skin="sapphire-noir"] {
+:root[data-skin='sapphire-noir'] {
   --color-accent: #2563eb;
   --color-accent-hi: #60a5fa;
   --color-accent-deep: #1741a6;
@@ -104,7 +139,7 @@
   --color-jackpot-a: #4338ca;
   --color-jackpot-b: #7c3aed;
 }
-:root[data-skin="violet-jackpot"] {
+:root[data-skin='violet-jackpot'] {
   --color-accent: #8b5cf6;
   --color-accent-hi: #c4b5fd;
   --color-accent-deep: #6d28d9;
@@ -113,7 +148,7 @@
   --color-jackpot-a: #a21caf;
   --color-jackpot-b: #e879f9;
 }
-:root[data-skin="emerald-tide"] {
+:root[data-skin='emerald-tide'] {
   --color-accent: #1aa88f;
   --color-accent-hi: #34e6b8;
   --color-accent-deep: #16309e;
@@ -124,8 +159,14 @@
 }
 
 @layer base {
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
   body {
     background: var(--color-bg);
     color: var(--color-text);
@@ -137,9 +178,83 @@
     display: flex;
     flex-direction: column;
   }
-  main { flex: 1 0 auto; }
-  a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--color-accent-hi); outline-offset: 2px; }
-  button { font-family: inherit; cursor: pointer; border: 0; background: none; }
-  img { max-width: 100%; display: block; }
+  main {
+    flex: 1 0 auto;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-accent-hi);
+    outline-offset: 2px;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: 0;
+    background: none;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  /* 同 ../pc/theme.css：v4/v5 逐頁轉換時才發現的全站 Preflight
+     回歸，這次一開始就補齊。 */
+  button,
+  input,
+  select,
+  textarea {
+    line-height: normal;
+  }
+  p {
+    margin: 1em 0;
+  }
+  h1 {
+    margin: 0.67em 0;
+  }
+  h2 {
+    margin: 0.83em 0;
+  }
+  h3 {
+    margin: 1em 0;
+  }
+  h4 {
+    margin: 1.33em 0;
+  }
+  h5 {
+    margin: 1.67em 0;
+  }
+  h6 {
+    margin: 2.33em 0;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: bold;
+  }
+  svg {
+    display: inline;
+  }
+  input[type='checkbox'],
+  input[type='radio'] {
+    margin: 3px 3px 0px 5px;
+  }
 }
+
+@import './shell.css';
+@import './pages/cards.css';
+@import './pages/index.css';
+@import './pages/listing.css';
+@import './pages/promotion.css';
+@import './pages/member-shell.css';
+@import './pages/account.css';
+@import './pages/personal-info.css';
+@import './pages/security.css';
+@import './pages/about.css';
+@import './pages/ui-kit.css';

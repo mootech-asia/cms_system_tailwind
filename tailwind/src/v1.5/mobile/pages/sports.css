@@ -1,0 +1,33 @@
+/* ============================================================
+   sports.html(pages/sports.vue — 第三方遊戲開啟橋接頁)——.box/.name/.sub
+   是寫死在 JS 字串裡、灌進 iframe srcdoc 的獨立迷你文件樣式，跟母頁面
+   DOM 無關，不需要搬進這裡
+   ============================================================ */
+.game-frame-page {
+  background: var(--color-navy);
+  padding-top: 32px;
+}
+.game-frame-iframe {
+  width: 100%;
+  height: calc(100vh - 64px);
+  border: 0;
+  display: block;
+}
+.game-frame-mobile-msg {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  padding: 0 20px;
+}
+@media (min-width: 1280px) {
+  .game-frame-page {
+    padding-top: 64px;
+  }
+  .game-frame-iframe {
+    height: calc(100vh - 128px);
+  }
+}

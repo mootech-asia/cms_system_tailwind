@@ -1,0 +1,285 @@
+/* ============================================================
+   會員中心紀錄類頁面共用(bettingRecord/depositRecord/withdrawalRecord/
+   withdrawalDetail/accountsRecord/profitAndLoss.vue)
+   ============================================================ */
+.record-page {
+  background: #f2f2f2;
+  /* .page-shell 已用 padding-top 讓出 header(fixed)高度,這裡再疊加 100vh
+     會多算一份 header 高度,導致內容整體變高、footer-total 被推出視窗底部
+     需要捲動才看得到,所以扣掉 header 高度 */
+  min-height: calc(100vh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 1280px) {
+  .record-page {
+    min-height: calc(100vh - var(--header-h));
+  }
+}
+/* .account-page-title 是 .record-page 的直接子元素、.record-inner 的手足
+   元素;.record-page 本身不能有左右/上 padding,否則標題列的白底盒子會被
+   往內縮,兩側露出灰底變成一圈缺口(對照 .pay-page/.pay-section 完全不
+   在 .pay-page 上留 padding 的做法)。頁面內容的留白全部改放在
+   .record-inner 身上 */
+.record-inner {
+  max-width: 1190px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 12px 16px 96px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+@media (min-width: 1280px) {
+  .record-inner {
+    padding: 24px 32px 40px;
+  }
+}
+.record-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.record-status-wrap {
+  position: relative;
+}
+.record-status-btn {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  color: var(--color-navy);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.record-date-btn {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  color: var(--color-navy);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.record-confirm-btn {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--color-navy);
+  color: #fff;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.record-refresh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  color: #6d6d6d;
+  font-size: 14px;
+  margin-left: auto;
+}
+.record-refresh strong {
+  color: var(--color-navy);
+}
+.record-refresh img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.record-status-panel {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  margin-top: 4px;
+  overflow: hidden;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  z-index: 50;
+}
+.record-status-panel.is-open {
+  display: flex;
+}
+.record-status-panel button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  color: var(--color-navy);
+  font-size: 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+.record-status-panel button:last-child {
+  border-bottom: 0;
+}
+.record-status-panel button:hover {
+  background: #f6f6f6;
+}
+.record-status-panel button.is-active {
+  background: #fff3d6;
+  font-weight: 700;
+}
+
+.record-table-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+.record-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 13px;
+  text-align: center;
+}
+.record-table thead {
+  background: #f6e27b;
+  color: var(--color-navy);
+  font-weight: 700;
+}
+.record-table th,
+.record-table td {
+  padding: 12px 8px;
+  white-space: nowrap;
+}
+.record-table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-navy);
+}
+.record-table tbody tr:last-child {
+  border-bottom: 0;
+}
+.record-mobile-table {
+  min-width: 0;
+  font-size: 12px;
+}
+@media (min-width: 1280px) {
+  .record-desktop-only {
+    display: table !important;
+  }
+  .record-mobile-only {
+    display: none !important;
+  }
+}
+@media (max-width: 1279.98px) {
+  .record-desktop-only {
+    display: none !important;
+  }
+}
+.status-text-approved {
+  color: #1dbf73;
+  font-weight: 700;
+}
+.status-text-reject {
+  color: #e11d48;
+  font-weight: 700;
+}
+.status-text-pending {
+  color: #d19200;
+  font-weight: 700;
+}
+
+/* 體育串關展開列（對照 Nuxt bettingRecord.vue 的 toggleExpand/isExpanded
+   + 展開圖示旋轉）。.record-parlay-panel 多包一層拉高子表選擇器優先權，
+   避免被 .record-table th/.record-table td 的置中/留白蓋過（那組是
+   descendant selector，天生會吃到巢狀子表）。 */
+.record-parlay-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--color-navy);
+  vertical-align: middle;
+  cursor: pointer;
+}
+.record-parlay-toggle:hover {
+  background: #00000010;
+}
+.record-parlay-toggle svg {
+  display: block;
+  transition: transform 0.2s;
+}
+.record-parlay-order.open .record-parlay-toggle svg {
+  transform: rotate(180deg);
+}
+.record-parlay-detail > td {
+  padding: 0;
+}
+.record-parlay-panel {
+  padding: 10px 8px 14px;
+  background: #f7f7f7;
+  text-align: left;
+}
+.record-parlay-panel .record-parlay-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+  color: var(--color-navy);
+}
+.record-parlay-panel .record-parlay-table th {
+  padding: 6px 8px;
+  background: transparent;
+  color: #6d6d6d;
+  font-weight: 700;
+  font-size: 11px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.record-parlay-panel .record-parlay-table td {
+  padding: 7px 8px;
+  background: transparent;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.record-parlay-panel .record-parlay-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.record-footer-total {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: var(--color-navy-2);
+  color: #f6e27b;
+}
+@media (min-width: 1280px) {
+  .record-table-wrap {
+    margin-bottom: 16px;
+  }
+  .record-footer-total {
+    position: static;
+    /* 內容不足一頁時把 total 推到 .record-inner(flex column)底部,內容超過一頁時 auto margin 退化成 0,緊接在表格後面 */
+    margin-top: auto;
+    border-radius: 8px;
+  }
+}
+.record-footer-total-inner {
+  max-width: 1190px;
+  margin: 0 auto;
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

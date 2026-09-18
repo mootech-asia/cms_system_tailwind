@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <radialGradient id="bg1" cx="50%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#3c40c6"/>
+      <stop offset="100%" stop-color="#1b1464"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg1)"/>
+  <g transform="translate(200,200)">
+    <circle cx="-180" cy="168" r="4.6" fill="#ffffff" opacity="0.25"/><circle cx="4" cy="181" r="3.7" fill="#ffffff" opacity="0.21"/><circle cx="-158" cy="7" r="6.7" fill="#ffffff" opacity="0.24"/><circle cx="148" cy="-161" r="5.0" fill="#ffffff" opacity="0.32"/><circle cx="64" cy="142" r="6.1" fill="#ffffff" opacity="0.2"/><circle cx="-118" cy="120" r="3.4" fill="#ffffff" opacity="0.39"/><circle cx="60" cy="169" r="4.2" fill="#ffffff" opacity="0.39"/><circle cx="106" cy="43" r="7.4" fill="#ffffff" opacity="0.37"/><circle cx="-44" cy="95" r="5.1" fill="#ffffff" opacity="0.37"/><circle cx="-121" cy="-109" r="7.6" fill="#ffffff" opacity="0.17"/>
+    <g transform="translate(-24,49) rotate(-12) scale(1.47)" opacity="0.92"><path d="M-60,0 C-40,-30 0,-35 30,-15 L55,-25 L45,0 L55,25 L30,15 C0,35 -40,30 -60,0 Z" fill="#ff6b6b"/><circle cx="-38" cy="-4" r="3" fill="#0a0a0a"/></g><g transform="translate(-42,-118) rotate(-5) scale(0.77)" opacity="0.92"><path d="M-60,0 C-40,-30 0,-35 30,-15 L55,-25 L45,0 L55,25 L30,15 C0,35 -40,30 -60,0 Z" fill="#ffeaa7"/><circle cx="-38" cy="-4" r="3" fill="#0a0a0a"/></g><g transform="translate(119,-33) rotate(-19) scale(1.02)" opacity="0.92"><path d="M-55,0 C-30,-25 10,-30 40,-10 L60,-5 L60,5 L40,10 C10,30 -30,25 -55,0 Z" fill="#ff6b6b"/><circle cx="-35" cy="-4" r="3" fill="#0a0a0a"/></g><g transform="translate(95,109) rotate(11) scale(1.06)" opacity="0.92"><path d="M-55,0 C-30,-25 10,-30 40,-10 L60,-5 L60,5 L40,10 C10,30 -30,25 -55,0 Z" fill="#ffeaa7"/><circle cx="-35" cy="-4" r="3" fill="#0a0a0a"/></g><g transform="translate(-42,66) rotate(-6) scale(0.77)" opacity="0.92"><path d="M-60,0 C-40,-30 0,-35 30,-15 L55,-25 L45,0 L55,25 L30,15 C0,35 -40,30 -60,0 Z" fill="#ff6b6b"/><circle cx="-38" cy="-4" r="3" fill="#0a0a0a"/></g>
+  </g>
+  <rect width="400" height="400" fill="none" stroke="#ffeaa7" stroke-width="0" />
+</svg>

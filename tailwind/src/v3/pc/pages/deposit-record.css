@@ -1,0 +1,142 @@
+/* ============================================================
+   v3 桌機版 deposit-record.html 專屬 CSS（.rec-status-*／.rec-refresh*／
+   .rec-pill）。共用的 .rec-toolbar／.rec-table／.rec-date-*／.rec-confirm
+   已經在 ../pages/betting-record.css 逐字搬移過（同一份 tailwind.css
+   全站共用，不重複宣告），這裡只補 betting-record 沒用到、deposit-record
+   才有的「狀態篩選下拉」與「自動刷新倒數」。
+
+   .rec-status-menu／.rec-status-opt 是 site.js 點擊 .rec-status-btn
+   時動態組出來插入 DOM 的（不在靜態 HTML 裡），比照先前 .ap-wd-*／
+   .pi-success* 的做法，額外搜尋 site.js 找出來後才補齊。
+   ============================================================ */
+@layer components {
+  .rec-status-wrap {
+    position: relative;
+  }
+  .rec-status-btn {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-card);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .rec-status-btn:hover {
+    border-color: var(--accent);
+  }
+  .rec-status-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 200px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line-hi);
+    border-radius: 12px;
+    padding: 4px;
+    z-index: 40;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  }
+  .rec-status-opt {
+    display: block;
+    width: 100%;
+    padding: 11px 14px;
+    border: 0;
+    background: transparent;
+    border-radius: 8px;
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    font-size: 13.5px;
+    text-align: left;
+    cursor: pointer;
+  }
+  .rec-status-opt:hover {
+    background: var(--bg-card-hi);
+  }
+  .rec-status-opt.active {
+    color: var(--accent-2);
+  }
+
+  .rec-refresh {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    color: var(--text-mid);
+    font-size: 13px;
+  }
+  .rec-refresh strong {
+    color: var(--accent-2);
+    font-family: var(--font-mono);
+  }
+  .rec-refresh-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    border: 0;
+    background: transparent;
+    color: var(--text-mid);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+  }
+  .rec-refresh-btn:hover {
+    color: var(--accent-2);
+  }
+
+  .rec-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-elev);
+    color: var(--text-mid);
+  }
+  .rec-pill.ok {
+    color: var(--accent-2);
+    border-color: color-mix(in oklch, var(--accent) 40%, transparent);
+    background: color-mix(in oklch, var(--accent) 12%, var(--bg-elev));
+  }
+  .rec-pill.pend {
+    color: #facc15;
+    border-color: rgba(250, 204, 21, 0.4);
+    background: rgba(250, 204, 21, 0.1);
+  }
+  .rec-pill.rej {
+    color: #ff6b6b;
+    border-color: rgba(255, 107, 107, 0.4);
+    background: rgba(255, 107, 107, 0.1);
+  }
+
+  /* ../pages/betting-record.css 的「RECORD TOOLBAR — mobile polish」
+   700px 區塊當時只搬了 betting-record 用得到的 .rec-toolbar/.rec-filters/
+   .rec-date/.rec-confirm，這裡補上 deposit-record 才有的
+   .rec-status-wrap/.rec-status-btn/.rec-refresh 三條，跟那邊是同一個
+   媒體查詢邏輯拆成兩份宣告，不是重複。 */
+  @media (max-width: 700px) {
+    .rec-status-wrap {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      justify-self: start;
+    }
+    .rec-status-btn {
+      width: auto;
+      justify-content: space-between;
+    }
+    .rec-refresh {
+      grid-column: 2;
+      grid-row: 3;
+      justify-self: end;
+      margin: 0;
+      white-space: nowrap;
+    }
+  }
+}

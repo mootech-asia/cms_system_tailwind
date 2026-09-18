@@ -1,0 +1,123 @@
+/* ============================================================
+   v3 手機版 personal-info.html 專屬 CSS（.pi-* 系列）。跟 ../shell.css
+   的共用殼層不同——這批 class 只有這頁會用到。逐字搬移原始 main.css
+   規則，class 名稱／變數參照不改。
+
+   .pi-success* 系列（Save 按鈕觸發的成功提示框）跟 .ap-btn-wide 一樣是
+   共用元件，已經在轉換 withdrawal.html／deposit.html 時搬進 ../shell.css，
+   這裡不重複搬；只補上這頁才用到的
+   [data-theme="light"] .pi-success-title 覆寫（原本跟
+   .ap-wallet-label/.ap-wallet-amt 疊在同一條規則裡，那兩個 class 這頁
+   沒有用到，不搬）。
+   ============================================================ */
+@layer components {
+  .pi-username {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .pi-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-card);
+    margin-bottom: 10px;
+  }
+  .pi-field.locked {
+    opacity: 0.6;
+  }
+  .pi-ico {
+    display: inline-grid;
+    place-items: center;
+    width: 20px;
+    color: var(--text-mid);
+    flex-shrink: 0;
+  }
+  /* 原始 main.css 這條沒設 padding，是唯一一個依賴瀏覽器原生
+   <input> UA 預設 padding（Chrome 為 1px 2px）撐高度的欄位；
+   全站其他 input（.ap-input/.field input/.search input）原始碼都有
+   自己明寫 padding，只有這個漏寫。Tailwind Preflight 會把所有
+   input 的 padding 重置成 0，導致這個欄位（含 .pi-date）比原始頁面
+   矮 2px，這裡補回原生預設值以還原視覺高度，不是新增樣式。 */
+  .pi-field input {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: var(--text);
+    font: inherit;
+    padding: 1px 2px;
+  }
+  .pi-field input::placeholder {
+    color: var(--text-dim);
+  }
+  .pi-val {
+    color: var(--text-mid);
+    font-size: 14px;
+  }
+  .pi-phone-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 10px;
+  }
+  .pi-phone-row .pi-field {
+    margin-bottom: 10px;
+  }
+  .pi-privacy-pill {
+    display: inline-block;
+    margin: 8px 0 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--accent) 18%, var(--bg-elev));
+    border: 1px solid color-mix(in oklch, var(--accent) 40%, var(--line));
+    color: var(--accent-2);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .pi-note {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin: 4px 0 18px;
+  }
+
+  /* editable date field in Personal Info */
+  .pi-date {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+    color-scheme: dark;
+  }
+  .pi-field .pi-ico svg {
+    color: var(--cal-icon) !important;
+    filter: none !important;
+    flex-shrink: 0;
+    opacity: 1 !important;
+  }
+  .pi-date::-webkit-calendar-picker-indicator {
+    filter: var(--calendar-indicator-filter) !important;
+    opacity: var(--calendar-indicator-opacity) !important;
+    cursor: pointer;
+  }
+  .pi-date::-webkit-calendar-picker-indicator:hover {
+    filter: var(--calendar-indicator-hover-filter) !important;
+    opacity: 1 !important;
+  }
+
+  [data-theme='light'] .pi-username {
+    color: var(--text) !important;
+  }
+  [data-theme='light'] .pi-success-title {
+    color: var(--text);
+  }
+}

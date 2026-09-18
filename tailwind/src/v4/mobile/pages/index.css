@@ -1,0 +1,434 @@
+/* ============================================================
+   v4 首頁專屬 CSS —— Notice bar／Hero／12 欄可編輯版位／面板／
+   真人娛樂精選輪播。main.css 的 NOTICE BAR 全站 grep 只有 index.html
+   用到，不是共用殼層。
+   ============================================================ */
+/* ── NOTICE BAR ─────────────────────────── */
+.notice-bar {
+  background: var(--color-notice-bg);
+  border-bottom: 1px solid var(--color-line-hi);
+}
+.notice-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  font-size: 12.5px;
+  color: var(--color-notice-text);
+}
+.notice-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+/* 跑馬燈文字掃過整個 notice-msg 寬度時會經過 icon 所在位置；icon 疊在
+   跑馬燈之上（z-index）並補上底色，避免文字劃過時穿插在 icon 圖形裡。 */
+.notice-msg svg {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  background: var(--color-notice-bg);
+}
+/* 跑馬燈：padding-left:100% 讓文字從容器右側外開始,animation 把它推移
+   自身寬度（含 padding，等於「容器寬 + 文字寬」）,結束時剛好完全移出
+   容器左側,無縫接回起點,不需要複製文字節點。 */
+.notice-msg span {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: notice-marquee 16s linear infinite;
+}
+@keyframes notice-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notice-msg span {
+    animation: none;
+    padding-left: 0;
+  }
+}
+.notice-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+.notice-links a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.notice-links a:hover {
+  color: var(--color-red);
+}
+
+/* ── HERO ───────────────────────────────── */
+.hero-wrap {
+  padding-top: 18px;
+}
+.hero {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 320px;
+  isolation: isolate;
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.hero-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      100deg,
+      color-mix(in oklch, var(--color-red-deep) 94%, transparent) 0%,
+      color-mix(in oklch, var(--color-red) 55%, transparent) 42%,
+      color-mix(in oklch, var(--color-red) 6%, transparent) 78%
+    ),
+    var(--hero-image);
+  background-size: cover;
+  background-position: var(--hero-position, center);
+  z-index: -1;
+}
+.hero-content {
+  position: relative;
+  padding: 0 56px;
+  max-width: 620px;
+  color: var(--color-text-on-header);
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-gold-hi);
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--color-gold-hi);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 14px;
+}
+.hero-title {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 10px;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--color-gold-hi);
+}
+.hero-sub {
+  font-size: 14.5px;
+  color: rgba(255, 246, 234, 0.85);
+  margin: 0 0 20px;
+}
+.hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 4;
+}
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.4);
+  transition:
+    background 0.15s,
+    width 0.15s;
+}
+.hero-dot.active {
+  background: var(--color-gold-hi);
+  width: 22px;
+  border-radius: 4px;
+}
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  z-index: 4;
+}
+.hero-arrow.prev {
+  left: 16px;
+}
+.hero-arrow.next {
+  right: 16px;
+}
+
+/* ── SECTION GRID：12 欄可編輯版位 ─────────── */
+/* 首頁遊戲分類區塊改成 12 欄 grid,每個模組用 data-span="3"~"12" 決定要
+   跨幾欄,不寫死 grid-column/grid-row——照 HTML 順序用 grid 內建的
+   auto-flow 自動接排,調 data-span 或搬動 HTML 順序就能重新編排版位,
+   不需要另外改 nth-child 規則。 */
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  align-items: stretch;
+}
+.grid12 > [data-span='3'] {
+  grid-column: span 3;
+}
+.grid12 > [data-span='4'] {
+  grid-column: span 4;
+}
+.grid12 > [data-span='5'] {
+  grid-column: span 5;
+}
+.grid12 > [data-span='6'] {
+  grid-column: span 6;
+}
+.grid12 > [data-span='7'] {
+  grid-column: span 7;
+}
+.grid12 > [data-span='8'] {
+  grid-column: span 8;
+}
+.grid12 > [data-span='9'] {
+  grid-column: span 9;
+}
+.grid12 > [data-span='10'] {
+  grid-column: span 10;
+}
+.grid12 > [data-span='11'] {
+  grid-column: span 11;
+}
+.grid12 > [data-span='12'] {
+  grid-column: span 12;
+}
+/* 版位拖曳編輯模式:只有 studio 呼叫 __cmsV4StudioSetEditMode(true) 後
+   <html> 才會帶 .cms-v4-grid-edit,一般訪客瀏覽不會看到這顆把手。 */
+.grid12-drag-handle {
+  display: none;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  cursor: grab;
+}
+.cms-v4-grid-edit .grid12-drag-handle {
+  display: flex;
+}
+.grid12-dragging {
+  opacity: 0.4;
+}
+.grid12-drop-target {
+  outline: 2px dashed var(--color-gold-hi);
+  outline-offset: 4px;
+}
+.panel {
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.panel-head-icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  color: var(--color-gold-deep);
+}
+.panel-title {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0;
+  flex: 1;
+}
+.panel-more {
+  font-size: 12px;
+  color: var(--color-gold-deep);
+  font-weight: 600;
+}
+.panel-more:hover {
+  color: var(--color-red);
+}
+.panel-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Featured live-casino carousel (tall, spans the narrow column) */
+.feature-carousel {
+  position: relative;
+  min-height: 300px;
+}
+.feature-card {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.feature-card.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.feature-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+}
+.feature-card-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(20, 6, 10, 0.9) 0%,
+    rgba(20, 6, 10, 0.35) 55%,
+    rgba(20, 6, 10, 0.05) 100%
+  );
+  z-index: -1;
+}
+.feature-card-body {
+  padding: 20px;
+  color: var(--color-text-on-header);
+  width: 100%;
+}
+.feature-card-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-gold-hi);
+  margin-bottom: 6px;
+}
+.feature-card-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 10px;
+}
+.tile-grid.rail.vendor-rail {
+  grid-auto-columns: max-content;
+  gap: 8px;
+}
+.feature-vendor-chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+.feature-vendor-chip.active {
+  background: var(--gold-grad);
+  border-color: var(--color-gold-hi);
+  color: var(--color-ink-on-gold);
+}
+
+/* 手機 bundle 只服務 <720px，1080px 跟 720px 兩層攤平成 base 規則
+   （見 ../shell.css 檔頭說明）；720px 內部的 520px 斷點仍是手機 bundle
+   自己要覆蓋的差異，維持巢狀 @media。 */
+.grid12 > [data-span] {
+  grid-column: 1 / -1;
+}
+.hero {
+  height: var(--mobile-hero-h-md);
+}
+.hero-content {
+  padding: 0 var(--mobile-hero-px-md);
+}
+.hero-title {
+  font-size: 26px;
+}
+
+@media (max-width: 520px) {
+  .notice-bar-inner {
+    gap: 10px;
+  }
+  .notice-links {
+    gap: 10px;
+  }
+  .hero {
+    height: var(--mobile-hero-h-sm);
+  }
+  .hero-content {
+    padding: 0 var(--mobile-hero-px-sm);
+    max-width: 100%;
+  }
+  .hero-title {
+    font-size: var(--text-hero-sm);
+  }
+  .hero-sub {
+    font-size: 12.5px;
+  }
+  .hero-eyebrow {
+    font-size: 10.5px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+  }
+}

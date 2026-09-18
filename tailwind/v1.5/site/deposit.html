@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/tailwind.css">
+</head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+      <main class="usercenter-main">
+        <div data-mount="user-navbar"></div>
+        <div class="usercenter-grid">
+          <div data-mount="user-sidebar"></div>
+          <div class="usercenter-content">
+            <div class="pay-page">
+              <h1 class="pay-page-title" data-i18n="userCenter.deposit">입금</h1>
+              <section class="pay-section">
+                <div class="pay-section-inner">
+                  <div data-dp-step="amount">
+                  <div class="pay-channel-tabs" data-channel-tabs>
+                    <button type="button" class="pay-channel-tab is-active" data-channel="A" data-i18n="userCenter.depositPage.channelA">채널 A</button>
+                    <button type="button" class="pay-channel-tab" data-channel="B" data-i18n="userCenter.depositPage.channelB">채널 B</button>
+                    <button type="button" class="pay-channel-tab" data-channel="C" data-i18n="userCenter.depositPage.channelC">채널 C</button>
+                    <button type="button" class="pay-channel-tab" data-channel="D" data-i18n="userCenter.depositPage.channelD">채널 D</button>
+                  </div>
+
+                  <!-- 對照 v2 真實原始碼(.payment-tabs):通道分頁下面還有一層
+                       付款方式分頁,兩者是各自獨立的分頁層級;跟金額/優惠一起
+                       包在 amount 步驟裡,進入 QR 步驟後要一併隱藏,不能讓使用
+                       者在已經選定付款方式之後還看到切換通道/付款方式的頁籤 -->
+                  <div class="pay-method-tabs" data-dp-method>
+                    <button type="button" class="pay-method-tab is-selected" data-dp-method-btn="bank" data-i18n="userCenter.withdrawalPage.bankCard">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18"></path><path d="M7 15h4"></path></svg>은행카드
+                    </button>
+                    <button type="button" class="pay-method-tab" data-dp-method-btn="linepay">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>LinePay
+                    </button>
+                    <button type="button" class="pay-method-tab" data-dp-method-btn="trc20">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 8h3.8a2.2 2.2 0 0 1 0 4.4H9.5z"></path><path d="M9.5 12.4h4.2a2.3 2.3 0 0 1 0 4.6H9.5z"></path><path d="M9.5 6v12M11 4.5V6M14 4.5V6M11 18v1.5M14 18v1.5"></path></svg>USDT-TRC20
+                    </button>
+                    <button type="button" class="pay-method-tab" data-dp-method-btn="erc20">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 8h3.8a2.2 2.2 0 0 1 0 4.4H9.5z"></path><path d="M9.5 12.4h4.2a2.3 2.3 0 0 1 0 4.6H9.5z"></path><path d="M9.5 6v12M11 4.5V6M14 4.5V6M11 18v1.5M14 18v1.5"></path></svg>USDT-ERC20
+                    </button>
+                  </div>
+
+                  <div>
+                    <span class="pay-pill-label" data-i18n="userCenter.depositPage.depositAmount">입금 금액</span>
+                    <div class="pay-amount-grid" data-amount-grid>
+                      <button type="button" class="pay-amount-btn" data-amount="10,000">10,000</button>
+                      <button type="button" class="pay-amount-btn" data-amount="50,000">50,000</button>
+                      <button type="button" class="pay-amount-btn" data-amount="100,000">100,000</button>
+                      <button type="button" class="pay-amount-btn" data-amount="500,000">500,000</button>
+                      <button type="button" class="pay-amount-btn" data-amount="1,000,000">1,000,000</button>
+                    </div>
+                  </div>
+
+                  <input type="text" inputmode="numeric" class="pay-input dp-amount-input" data-amount-input placeholder="₩ 10,000 - 9,000,000" />
+                  <p class="pay-note" data-limit-note></p>
+                  <p class="pay-note" data-turnover-note></p>
+
+                  <div class="dp-promotion-wrap" data-promotion-wrap>
+                    <span class="pay-pill-label" data-i18n="userCenter.depositPage.choosePromotion">프로모션 선택</span>
+                    <div data-promotion-list></div>
+                  </div>
+
+                  <p class="dp-bonus-bar" data-bonus-bar hidden></p>
+
+                  <div class="pay-btn-fixed-wrap">
+                    <button type="button" class="pay-next-btn" data-deposit-next disabled>
+                      <span class="text-gradient" data-i18n="common.next">다음</span>
+                    </button>
+                    <button type="button" class="pay-back-btn" data-nav-href="account.html" data-i18n="common.back">뒤로</button>
+                  </div>
+                  </div>
+
+                  <!-- 스캔 결제(LinePay/USDT) 단계:對照其他版本(v4)的掃碼付款流程,
+                       銀行카드 이외의 방식은 금액 확정 후 먼저 QR 코드 화면을 보여준다 -->
+                  <div data-dp-step="qr" hidden>
+                    <div style="text-align: center">
+                      <span class="pay-pill-label" data-i18n="userCenter.depositPage.scanPay">스캔하여 결제</span>
+                    </div>
+                    <p class="pay-note" style="text-align: center; margin-top: 16px" data-i18n="userCenter.depositPage.scanPayDesc">휴대폰으로 아래 QR 코드를 스캔하거나 결제 주소를 복사하여 결제를 완료해 주세요.</p>
+                    <div style="text-align: center; margin: 16px 0" data-dp-qr-code></div>
+                    <p class="pay-pill-label" data-i18n="userCenter.depositPage.paymentUrl">결제 주소</p>
+                    <div class="pay-copy-row" style="margin-top: 8px">
+                      <input type="text" class="pay-input" readonly data-dp-qr-address />
+                      <button type="button" class="pay-copy-btn" data-dp-qr-copy data-i18n="userCenter.depositPage.copy">복사</button>
+                    </div>
+                    <p class="pay-note" style="margin-top: 16px" data-i18n="userCenter.depositPage.qrDemoNote">이 QR 코드와 결제 주소는 인터페이스 시연용이며 실제로 사용할 수 없습니다.</p>
+
+                    <div class="pay-btn-fixed-wrap">
+                      <button type="button" class="pay-next-btn" data-dp-qr-done>
+                        <span class="text-gradient" data-i18n="common.next">다음</span>
+                      </button>
+                      <button type="button" class="pay-back-btn" data-dp-qr-back data-i18n="common.back">뒤로</button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        var MIN = 10000, MAX = 9000000;
+        var DEFAULT_AMOUNT = '10,000';
+        var selectedPromoIndex = 0;
+        var promotions = D.DEPOSIT_PROMOTIONS.concat([{ promotion_id: 'none', nameKey: 'userCenter.depositPage.noPromotion' }]);
+
+        /* 付款通道分頁(채널 A/B/C/D):純前端分組展示,不影響下方付款內容 */
+        W.qsa('[data-channel-tabs] [data-channel]').forEach(function (tab) {
+          W.on(tab, 'click', function () {
+            W.qsa('[data-channel-tabs] [data-channel]').forEach(function (t) { t.classList.toggle('is-active', t === tab); });
+          });
+        });
+
+        /* 付款方式分頁(銀行卡/LinePay/USDT-TRC20/USDT-ERC20):對照 v2 真實
+           原始碼(.payment-tabs),純前端分組展示,不影響下方金額/優惠內容 */
+        W.qsa('[data-dp-method] [data-dp-method-btn]').forEach(function (btn) {
+          W.on(btn, 'click', function () {
+            W.qsa('[data-dp-method] [data-dp-method-btn]').forEach(function (b) { b.classList.toggle('is-selected', b === btn); });
+          });
+        });
+
+        function fmt(n) { return Number(n).toLocaleString('en-US'); }
+        W.qs('[data-limit-note]').textContent = W.t('userCenter.depositPage.limitNote').replace('{min}', fmt(MIN)).replace('{max}', fmt(MAX));
+        W.qs('[data-turnover-note]').textContent = W.t('userCenter.withdrawalPage.remainingTurnoverAmount') + D.MOCK_PROFILE.remaining_turnover_amount;
+
+        var input = W.qs('[data-amount-input]');
+        var nextBtn = W.qs('[data-deposit-next]');
+
+        function amountNumber() {
+          return Number((input.value || '').replace(/\D/g, '')) || 0;
+        }
+        function refreshNextState() {
+          var n = amountNumber();
+          nextBtn.disabled = !(n >= MIN && n <= MAX);
+        }
+        function syncAmountButtons() {
+          var raw = (input.value || '').replace(/\D/g, '');
+          W.qsa('[data-amount-grid] .pay-amount-btn').forEach(function (b) {
+            b.classList.toggle('is-selected', b.getAttribute('data-amount').replace(/\D/g, '') === raw);
+          });
+        }
+        function setAmount(v) {
+          input.value = v ? '₩ ' + fmt(Number(String(v).replace(/\D/g, ''))) : '';
+          syncAmountButtons();
+          refreshNextState();
+          renderPromotions();
+        }
+        W.qsa('[data-amount-grid] .pay-amount-btn').forEach(function (btn) {
+          W.on(btn, 'click', function () { setAmount(btn.getAttribute('data-amount')); });
+        });
+        W.on(input, 'input', function () {
+          var digits = (input.value || '').replace(/\D/g, '');
+          input.value = digits ? '₩ ' + fmt(Math.min(Number(digits), MAX)) : '';
+          syncAmountButtons();
+          refreshNextState();
+          renderPromotions();
+        });
+
+        function promoBonusAmount(p) {
+          var amt = amountNumber();
+          var cfg = p.prize && p.prize.percentage;
+          if (!amt || !cfg || amt < cfg.min_deposit_amount) return 0;
+          return Math.min(Math.max(amt * cfg.bonus_percentage / 100, cfg.min_bonus_amount || 0), cfg.max_bonus_amount || Infinity);
+        }
+
+        /* 對照設計稿:選中的優惠是整張卡片變成金色底,卡片內容(標題+條列)
+           不隨選取變動;紅利金額改到卡片清單下方的漸層提示條顯示 */
+        function renderPromotions() {
+          var wrap = W.qs('[data-promotion-list]');
+          wrap.innerHTML = promotions.map(function (p, i) {
+            var selected = i === selectedPromoIndex;
+            var bullets = (p.remarkKeys || []).map(function (k) { return '<li>' + W.t(k) + '</li>'; }).join('');
+            return (
+              '<div class="promo-card' + (selected ? ' is-selected' : '') + '" data-promo-index="' + i + '">' +
+              '<div class="promo-card-row"><span class="promo-radio"><span class="promo-radio-dot"></span></span>' +
+              '<div class="promo-card-body"><strong>' + W.t(p.nameKey) + '</strong>' +
+              (bullets ? '<ul class="promo-card-remarks">' + bullets + '</ul>' : '') +
+              '</div></div></div>'
+            );
+          }).join('');
+          W.qsa('[data-promo-index]', wrap).forEach(function (el) {
+            W.on(el, 'click', function () {
+              selectedPromoIndex = Number(el.getAttribute('data-promo-index'));
+              renderPromotions();
+            });
+          });
+          renderBonusBar();
+        }
+
+        function renderBonusBar() {
+          var bar = W.qs('[data-bonus-bar]');
+          var p = promotions[selectedPromoIndex];
+          var bonus = p ? Math.round(promoBonusAmount(p)) : 0;
+          if (!p || p.promotion_id === 'none' || !bonus) { bar.hidden = true; return; }
+          bar.hidden = false;
+          bar.textContent = '＋₩ ' + fmt(bonus) + ' ' + W.t('userCenter.bonus');
+        }
+
+        renderPromotions();
+        setAmount(DEFAULT_AMOUNT);
+
+        function goToTransactionInfo() {
+          var p = promotions[selectedPromoIndex];
+          var bonus = p ? Math.round(promoBonusAmount(p)) : 0;
+          location.href = 'transaction-info.html?type=deposit&amount=' + encodeURIComponent(amountNumber()) + (bonus > 0 ? '&bonus=' + bonus : '');
+        }
+
+        /* 掃碼付款(LinePay/USDT-TRC20/USDT-ERC20):對照其他版本(v4),銀行卡
+           以外的付款方式先進 QR 步驟,使用者點「결제를 완료했습니다」才進
+           下一步;銀行卡維持原本行為(直接進交易詳情頁)。 */
+        var PAY_ADDR = { linepay: 'https://line.example/pay/8f3c1a92b7d4e05f', trc20: 'TXk9YmR2pQ7sN3vB1cE6hK8jL0tUw', erc20: '0x8f3c1a92b7d4e05fA1cE6hK8jL0tUw12' };
+        function currentMethod() {
+          var btn = W.qs('[data-dp-method] .pay-method-tab.is-selected');
+          return btn ? btn.getAttribute('data-dp-method-btn') : 'bank';
+        }
+        /* 示意用 QR Code:固定 seed 產生,只求視覺像 QR(三個定位角 + 隨機模組),
+           不編碼真實內容,純介面展示,做法對照其他版本(v4)的 fakeQrModules。 */
+        function fakeQrSvg() {
+          var s = '', seed = 7;
+          function finder(x, y) {
+            return '<rect x="' + x + '" y="' + y + '" width="7" height="7" fill="#0b0e13"></rect><rect x="' + (x + 1) + '" y="' + (y + 1) + '" width="5" height="5" fill="#fff"></rect><rect x="' + (x + 2) + '" y="' + (y + 2) + '" width="3" height="3" fill="#0b0e13"></rect>';
+          }
+          s += finder(0, 0) + finder(22, 0) + finder(0, 22);
+          for (var y = 0; y < 29; y++) for (var x = 0; x < 29; x++) {
+            if ((x < 8 && y < 8) || (x > 20 && y < 8) || (x < 8 && y > 20)) continue;
+            seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+            if ((seed >> 16) % 100 < 46) s += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#0b0e13"></rect>';
+          }
+          return '<svg width="176" height="176" viewBox="0 0 29 29" shape-rendering="crispEdges" role="img" aria-label="QR Code" style="border-radius:8px"><rect width="29" height="29" fill="#fff"></rect>' + s + '</svg>';
+        }
+        function showQrStep(method) {
+          W.qs('[data-dp-step="amount"]').hidden = true;
+          W.qs('[data-dp-step="qr"]').hidden = false;
+          W.qs('[data-dp-qr-code]').innerHTML = fakeQrSvg();
+          W.qs('[data-dp-qr-address]').value = PAY_ADDR[method] || PAY_ADDR.linepay;
+        }
+        function showAmountStep() {
+          W.qs('[data-dp-step="qr"]').hidden = true;
+          W.qs('[data-dp-step="amount"]').hidden = false;
+        }
+
+        W.on(nextBtn, 'click', function () {
+          if (nextBtn.disabled) return;
+          var method = currentMethod();
+          if (method === 'bank') { goToTransactionInfo(); return; }
+          showQrStep(method);
+        });
+        W.on(W.qs('[data-dp-qr-back]'), 'click', showAmountStep);
+        W.on(W.qs('[data-dp-qr-done]'), 'click', goToTransactionInfo);
+        W.on(W.qs('[data-dp-qr-copy]'), 'click', function () {
+          var addrInput = W.qs('[data-dp-qr-address]');
+          var copyBtn = W.qs('[data-dp-qr-copy]');
+          try { navigator.clipboard.writeText(addrInput.value); } catch (e) {}
+          var original = copyBtn.textContent;
+          copyBtn.textContent = W.t('userCenter.depositPage.copied');
+          setTimeout(function () { copyBtn.textContent = original; }, 1500);
+        });
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,180 @@
+/* ============================================================
+   v3 手機版 deposit.html 專屬 CSS（.dp-*／促銷選擇 .ap-promo-*／
+   .ap-amount-*／.ap-radio／.ap-error）。跟 ../shell.css 的共用殼層
+   不同——這批 class 只有 deposit.html 這類頁面會用到。逐字搬移原始
+   main.css 規則，class 名稱／變數參照不改。
+   ============================================================ */
+@layer components {
+  .dp-provider-code {
+    display: grid;
+    place-items: center;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--bg-elev);
+    color: var(--accent-text);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .dp-method-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .dp-method-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .dp-method-tabs button {
+    min-width: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 50px;
+    padding: 11px 18px;
+    border: 1px solid var(--line-hi);
+    border-radius: var(--radius-control);
+    white-space: nowrap;
+    background: var(--bg-elev);
+    color: var(--text-mid);
+    font: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition:
+      border-color 0.15s,
+      color 0.15s,
+      background 0.15s,
+      box-shadow 0.15s;
+  }
+  .dp-method-coin {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #12a97b;
+    color: #06281d;
+    font-size: 13px;
+    font-weight: 800;
+  }
+  .dp-method-tabs button:hover:not(.active) {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .dp-method-tabs button.active {
+    border-color: transparent;
+    background: var(--gradient-primary);
+    color: var(--text-on-accent);
+    box-shadow: var(--shadow-primary-sm);
+  }
+  .ap-amount-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .ap-amount-btn {
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-elev);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition:
+      border-color 0.15s,
+      color 0.15s,
+      background 0.15s;
+  }
+  .ap-amount-btn:hover:not(.active) {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .ap-amount-btn.active {
+    background: var(--gradient-primary);
+    color: var(--text-on-accent);
+    border-color: transparent;
+    font-weight: 700;
+    box-shadow: var(--shadow-primary-sm);
+  }
+  .ap-error {
+    color: #ef4444;
+    font-size: 13px;
+    margin: 10px 2px 0;
+    font-weight: 500;
+  }
+  .ap-promo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .ap-promo-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px;
+    border-radius: 10px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-elev);
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .ap-promo-card.active {
+    border-color: var(--accent);
+  }
+  .ap-promo-card input {
+    display: none;
+  }
+  .ap-radio {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-hi);
+    flex-shrink: 0;
+    margin-top: 2px;
+    position: relative;
+    transition: border-color 0.15s;
+  }
+  .ap-promo-card.active .ap-radio {
+    border-color: var(--accent);
+  }
+  .ap-promo-card.active .ap-radio::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+  .ap-promo-title {
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .ap-promo-bullets {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-mid);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 900px) {
+    .ap-amount-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 700px) {
+    .dp-method-tabs button {
+      min-width: 150px;
+    }
+  }
+}

@@ -1,15 +1,15 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ============================================================
    v4 design token —— 桌機版。手機版另見 ../mobile/theme.css（鐵則 6：
    兩邊各自獨立檔案，不共用，即使目前數值相同）。
-   來源：v4/site/assets/css/main.css 的 :root 區塊 + skins/*.css，數值
+   來源：v4/site/assets/css/main.css 的 :root 區塊 + skins 目錄下的 CSS，數值
    逐一對照搬移，不改值；顏色改用 Tailwind `--color-*` 命名空間好生成
    bg-／text-／border- 等 utility，執行期換膚機制不變（下面
    :root[data-skin] 覆寫同一批變數）。
    ============================================================ */
 @theme static {
-  --font-display: 'Pretendard', "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-display: 'Pretendard', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 
   /* 字級：main.css 原本沒有 token 化，字級是散落在各元件裡的寫死值；
      依重複出現頻率整理成一組刻度（--text-2xs~2xl），半 px 級距是原設計
@@ -70,10 +70,34 @@
   --panel-glass: rgba(255, 255, 255, 0.85);
   --logo-filter: brightness(0) invert(1);
   --footer-logo-filter: brightness(0);
+
+  /* HTML body 依規定逐字保留、不得改字（見 convert_page.py 檔頭說明），
+     但少數頁面（deposit.html/ui-kit.html/*-record.html 等）有內嵌
+     style="...var(--gold)" 這類直接寫舊變數名稱的用法；上面顏色 token
+     搬進 @theme 後改用 --color-* 命名空間，這裡把舊名稱別名回新變數，
+     讓這些 inline style 不必改字也能繼續解析到正確顏色（換膚時
+     --color-* 變了，這裡的別名會跟著重新解析，不用另外處理）。 */
+  --bg: var(--color-bg);
+  --bg-panel: var(--color-bg-panel);
+  --header-grad-hi: var(--color-header-grad-hi);
+  --notice-bg: var(--color-notice-bg);
+  --notice-text: var(--color-notice-text);
+  --line: var(--color-line);
+  --line-hi: var(--color-line-hi);
+  --text: var(--color-text);
+  --text-mid: var(--color-text-mid);
+  --text-dim: var(--color-text-dim);
+  --text-on-header: var(--color-text-on-header);
+  --panel-tint: var(--color-panel-tint);
+  --gold: var(--color-gold);
+  --gold-hi: var(--color-gold-hi);
+  --gold-deep: var(--color-gold-deep);
+  --red: var(--color-red);
+  --red-deep: var(--color-red-deep);
 }
 
-/* ── 換膚：5 個非預設 skin，逐字對照原 skins/*.css ── */
-:root[data-skin="onyx-gold"] {
+/* ── 換膚：5 個非預設 skin，逐字對照原 skins 目錄下的 CSS ── */
+:root[data-skin='onyx-gold'] {
   --color-bg: #0d0b08;
   --color-bg-panel: #18140f;
   --header-grad: linear-gradient(180deg, #211b12 0%, #080705 100%);
@@ -93,7 +117,7 @@
   --color-red: #8a5c0a;
   --color-red-deep: #5c3d06;
 }
-:root[data-skin="deep-ocean"] {
+:root[data-skin='deep-ocean'] {
   --color-bg: #071a1c;
   --color-bg-panel: #0e2528;
   --header-grad: linear-gradient(180deg, #103c3f 0%, #051415 100%);
@@ -113,7 +137,7 @@
   --color-red: #1fae9f;
   --color-red-deep: #116b62;
 }
-:root[data-skin="emerald-jade"] {
+:root[data-skin='emerald-jade'] {
   --header-grad: linear-gradient(180deg, #12704a 0%, #0d5138 100%);
   --color-header-grad-hi: #2bbf7a;
   --color-notice-bg: #eaf7ef;
@@ -121,7 +145,7 @@
   --color-red: #12704a;
   --color-red-deep: #0d5138;
 }
-:root[data-skin="imperial-purple"] {
+:root[data-skin='imperial-purple'] {
   --header-grad: linear-gradient(180deg, #6b3fa0 0%, #4a2570 100%);
   --color-header-grad-hi: #9c6fc2;
   --color-notice-bg: #f3ecf9;
@@ -129,7 +153,7 @@
   --color-red: #6b3fa0;
   --color-red-deep: #4a2570;
 }
-:root[data-skin="sapphire-blue"] {
+:root[data-skin='sapphire-blue'] {
   --header-grad: linear-gradient(180deg, #1b3f91 0%, #142f6e 100%);
   --color-header-grad-hi: #3b6fe0;
   --color-notice-bg: #eaf0fb;
@@ -145,8 +169,14 @@
    靜態外觀）——內容沿用先前 live.html 試點已驗證過的版本。
    ============================================================ */
 @layer base {
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
   body {
     background: var(--color-bg);
     color: var(--color-text);
@@ -158,92 +188,102 @@
     display: flex;
     flex-direction: column;
   }
-  main { flex: 1 0 auto; }
-  a { color: inherit; text-decoration: none; }
-  button { font-family: inherit; cursor: pointer; border: 0; background: none; }
-  img { max-width: 100%; display: block; }
+  main {
+    flex: 1 0 auto;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: 0;
+    background: none;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  /* main.css 的 body 設了具體的 line-height:1.5（不是 v1.5 那種吃瀏覽器
+     預設 normal 的情況）。原始站台的表單控制項（button/input/select/
+     textarea）UA 預設 line-height 是獨立的 normal，不會繼承 body 的
+     line-height；Tailwind Preflight 對這些元素套用 font:inherit（含
+     line-height 在內），讓它們變成繼承 body 的 1.5，撐高了按鈕/輸入框
+     高度（例如 .header-lang-trigger 33px 變 36.75px）。這裡還原成
+     UA 預設值。 */
+  button,
+  input,
+  select,
+  textarea {
+    line-height: normal;
+  }
+  /* main.css 沒有 *{margin:0} 這種通用 reset，全站大量 <p>/<h1>-<h6>
+     （例如 withdrawal.html 的 .wallet-label/.wallet-amount）靠瀏覽器 UA
+     預設 margin 撐間距，main.css 常只覆寫部分屬性（如 font-size/color）
+     不覆寫 margin。Tailwind Preflight 的 *{margin:0} 把這些 UA 預設
+     margin 歸零，這裡的優先權比 Preflight 高（本檔在 @import
+     "tailwindcss" 之後宣告，同層後宣告贏），先還原 UA 預設值，main.css
+     逐字搬過來的顯式 margin 宣告仍會照常覆寫這裡。數值對照 Chrome UA
+     樣式表（margin 是 em，跟著各元素自己套用的 font-size 走）。 */
+  p {
+    margin: 1em 0;
+  }
+  h1 {
+    margin: 0.67em 0;
+  }
+  h2 {
+    margin: 0.83em 0;
+  }
+  h3 {
+    margin: 1em 0;
+  }
+  h4 {
+    margin: 1.33em 0;
+  }
+  h5 {
+    margin: 1.67em 0;
+  }
+  h6 {
+    margin: 2.33em 0;
+  }
+  /* 同一類問題：main.css 沒設 h1-h6 的 font-weight，UA 預設 bold；
+     Preflight 把 font-weight 重置成 inherit，沒有顯式覆寫的標題會變回
+     一般字重。 */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: bold;
+  }
+  /* main.css 沒有全域 svg 規則，UA 預設 display:inline；Preflight 把 svg
+     重置成 display:block，緊接文字的圖示會斷成獨立一行。這裡還原成
+     inline，不影響已用 flex 對齊圖示的地方（flex item 不論本身 display
+     是 inline 還是 block，都會被父層 flex context blockify）。 */
+  svg {
+    display: inline;
+  }
+  /* 同一類問題：main.css 沒有針對 input[type=radio]/checkbox 的 margin
+     覆寫（例如 deposit.html 的優惠選項單選鈕），UA 預設 margin 被
+     Preflight 的 *{margin:0} 歸零，單選鈕往左貼齊文字，撐大旁邊文字的
+     可用寬度，換行點跟著位移。數值對照這個環境用的 Chromium 實測值。 */
+  input[type='checkbox'],
+  input[type='radio'] {
+    margin: 3px 3px 0px 5px;
+  }
 }
 
-@layer components {
-  .header-nav-link:hover,
-  .header-nav-link.active { background: rgba(255, 255, 255, 0.16); }
-
-  .header-forgot {
-    font-size: 11.5px;
-    color: rgba(255, 246, 234, 0.75);
-    white-space: nowrap;
-  }
-  .header-forgot[data-auth-open] { cursor: pointer; }
-  .header-forgot[data-auth-open]:hover { color: var(--color-gold-hi); }
-
-  .btn-gold {
-    padding: 9px 20px;
-    border: 1px solid var(--color-gold-hi);
-    border-radius: 999px;
-    background: var(--gold-grad);
-    color: var(--color-ink-on-gold);
-    font-weight: 700;
-    font-size: 13px;
-    white-space: nowrap;
-    box-shadow: var(--shadow-gold);
-    transition: filter 0.15s, transform 0.15s;
-  }
-  .btn-gold:hover { filter: brightness(1.06); transform: translateY(-1px); }
-  .btn-gold[disabled] { opacity: 0.5; cursor: default; pointer-events: none; box-shadow: none; }
-  .btn-gold.quiet { background: rgba(255, 255, 255, 0.12); color: var(--color-text-on-header); box-shadow: none; border-color: rgba(255, 255, 255, 0.3); }
-
-  .header-input {
-    width: 128px;
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(0, 0, 0, 0.12);
-    color: var(--color-text-on-header);
-    font-size: 12.5px;
-  }
-  .header-input::placeholder { color: rgba(255, 246, 234, 0.6); }
-
-  .header-lang-trigger:hover { background: rgba(255, 255, 255, 0.22); }
-  .header-lang-menu[hidden] { display: none; }
-  .header-lang-option:hover { background: var(--color-bg); }
-  .header-lang-option.active { color: var(--color-gold-deep); background: rgba(207, 154, 62, 0.12); font-weight: 800; }
-
-  .header-menu-trigger:hover { background: rgba(255, 255, 255, 0.22); }
-
-  .hero-slide { opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
-  .hero-slide.active { opacity: 1; pointer-events: auto; }
-  .hero-bg {
-    background-image: linear-gradient(100deg, color-mix(in oklch, var(--color-red-deep) 94%, transparent) 0%, color-mix(in oklch, var(--color-red) 55%, transparent) 42%, color-mix(in oklch, var(--color-red) 6%, transparent) 78%), var(--hero-image);
-    background-position: var(--hero-position, center);
-  }
-  .hero-title em { font-style: normal; color: var(--color-gold-hi); }
-
-  .game-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: var(--color-line-hi); }
-  .game-tile-art img[hidden] { display: none; }
-  .game-tile-fav:hover { color: var(--color-gold-hi); border-color: var(--color-gold-hi); }
-  .game-tile-fav.is-active { color: var(--color-gold-hi); border-color: var(--color-gold-hi); }
-  .game-tile-fav.is-active svg { fill: currentColor; }
-
-  .listing-search button:hover { filter: brightness(1.06); }
-  .listing-tab:hover { border-color: var(--color-gold-hi); color: var(--color-gold-deep); }
-  .listing-tab.active { background: var(--gold-grad); border-color: var(--color-gold-hi); color: var(--color-ink-on-gold); }
-
-  .quick-rail-btn:hover { transform: scale(1.08); background: color-mix(in oklch, var(--color-red) 8%, transparent); border-color: var(--color-red); color: var(--color-red-deep); }
-  .quick-rail-btn[data-chat-open] { background: var(--header-grad); border-color: var(--color-gold-hi); }
-  .quick-rail-btn:hover .quick-rail-label,
-  .quick-rail-btn:focus-visible .quick-rail-label { opacity: 1; transform: translateY(-50%) translateX(0); }
-
-  .mobile-tabbar-btn.active { color: var(--color-red); }
-
-  .vendor-marquee-track { animation: vendor-marquee-scroll 48s linear infinite; }
-  .vendor-marquee-track:hover { animation-play-state: paused; }
-  @keyframes vendor-marquee-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .vendor-marquee-track { animation: none; }
-  }
-
-  .site-footer-copyright a:hover { color: var(--color-gold-hi); }
-}
+@import './shell.css';
+@import './pages/cards.css';
+@import './pages/index.css';
+@import './pages/section-variants.css';
+@import './pages/listing.css';
+@import './pages/promotion.css';
+@import './pages/member-shell.css';
+@import './pages/account.css';
+@import './pages/personal-info.css';
+@import './pages/security.css';
+@import './pages/about.css';
+@import './pages/ui-kit.css';

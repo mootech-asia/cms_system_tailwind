@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMS_Frontend_v1.5</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/tailwind.css">
+</head>
+  <body>
+    <div class="page-shell">
+      <div data-mount="header"></div>
+
+      <main class="game-type-page">
+        <section class="banner">
+          <!-- TODO: 暫用首頁 banner 素材佔位,待各分類正式 banner 到位後替換 -->
+          <div class="banner-slides">
+            <div class="banner-slide is-active"><img src="assets/images/banner/banner.jpg" alt="banner" /></div>
+          </div>
+        </section>
+
+        <section class="home-marquee gf-marquee-desktop">
+          <div class="home-marquee-viewport">
+            <div class="home-marquee-track" data-marquee-track></div>
+          </div>
+          <div class="home-marquee-clock" data-marquee-clock></div>
+        </section>
+
+        <div class="game-page-body">
+          <div class="game-filter-top">
+            <span class="game-filter-title text-gradient" data-gf-title></span>
+          </div>
+          <div class="game-filter-row">
+            <div class="game-filter-tabs" data-gf-tabs></div>
+            <form class="game-filter-search" data-gf-search-form>
+              <input type="text" data-gf-search-input />
+              <button type="submit" class="game-filter-search-btn border-gradient-mask">
+                <img src="assets/images/icon/search-gradient.svg" alt="search" />
+                <span class="text-gradient" data-i18n="common.search">검색</span>
+              </button>
+            </form>
+          </div>
+
+          <div data-gf-body></div>
+        </div>
+      </main>
+
+      <div data-mount="footer"></div>
+      <div data-mount="bottom-nav"></div>
+      <div data-mount="quick-sidebar"></div>
+    </div>
+
+    <script src="assets/js/data.js?v=15"></script>
+    <script src="assets/js/site.js?v=15"></script>
+    <script>
+      window.WIN15_PAGE_INIT = function () {
+        var D = window.WIN15_DATA;
+        var W = window.WIN15;
+        var PAGE_SIZE = 12;
+
+        /* ---- Marquee(對照 gameType.vue,與首頁共用同一份跑馬燈資料) ---- */
+        var track = W.qs('[data-marquee-track]');
+        if (track) {
+          var itemsHtml = D.MARQUEE_ITEMS.map(function (m) {
+            var highlighted = m.title.replace(/^(\S+) won/, '<b>$1</b> won').replace(/([\d,]{4,})/, '<b>$1</b>');
+            return '<span>✦ ' + highlighted + ' ✦</span>';
+          }).join('');
+          track.innerHTML = itemsHtml + itemsHtml;
+        }
+        var clock = W.qs('[data-marquee-clock]');
+        function updateClock() {
+          var d = new Date(Date.now() + 8 * 60 * 60 * 1000);
+          function pad(n) { return String(n).padStart(2, '0'); }
+          clock.textContent = 'GMT+8 ' + d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()) + ' ' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
+        }
+        if (clock) { updateClock(); setInterval(updateClock, 1000); }
+
+        var TITLE_KEYS = {
+          hotgames: 'gameType.types.hotGames',
+          mini_game: 'gameType.types.miniGames',
+          slot: 'gameType.types.slots',
+          sports: 'gameType.types.sports',
+          live: 'gameType.types.liveCasino',
+          fish: 'gameType.types.fish',
+        };
+        var ALL_GAMES_TYPES = ['slot', 'mini_game', 'fish'];
+
+        var type = new URLSearchParams(location.search).get('type') || 'hotgames';
+        var showOptions = type !== 'hotgames';
+        var showAllGamesTab = ALL_GAMES_TYPES.indexOf(type) !== -1;
+        var activeOption = type === 'hotgames' ? 'hotgames' : showAllGamesTab ? 'allGames' : 'vendor';
+        var query = '';
+        var visibleCount = PAGE_SIZE;
+
+        var titleEl = W.qs('[data-gf-title]');
+        var tabsEl = W.qs('[data-gf-tabs]');
+        var bodyEl = W.qs('[data-gf-body]');
+        var searchInput = W.qs('[data-gf-search-input]');
+
+        titleEl.textContent = W.t(TITLE_KEYS[type] || '');
+        searchInput.placeholder = activeOption === 'vendor' ? W.t('common.vendorName') : W.t('common.gameName');
+
+        function flatPool() {
+          if (type === 'hotgames') return D.FLAT_GAMES.hotgames;
+          return D.FLAT_GAMES[type] || [];
+        }
+
+        function renderTabs() {
+          if (!showOptions) { tabsEl.innerHTML = ''; return; }
+          var opts = [];
+          if (showAllGamesTab) opts.push({ id: 'allGames', label: W.t('gameList.options.all') });
+          opts.push({ id: 'vendor', label: W.t('gameType.options.vendor') });
+          opts.push({ id: 'favorites', label: W.t('gameType.options.favorites') });
+          tabsEl.innerHTML = opts.map(function (o) {
+            return '<button type="button" class="game-filter-tab' + (o.id === activeOption ? ' is-active' : '') +
+              '" data-gf-option="' + o.id + '"><span class="' + (o.id === activeOption ? 'text-gradient' : '') + '">' + o.label + '</span></button>';
+          }).join('');
+          W.qsa('[data-gf-option]', tabsEl).forEach(function (btn) {
+            W.on(btn, 'click', function () {
+              activeOption = btn.getAttribute('data-gf-option');
+              query = '';
+              searchInput.value = '';
+              visibleCount = PAGE_SIZE;
+              searchInput.placeholder = activeOption === 'vendor' ? W.t('common.vendorName') : W.t('common.gameName');
+              renderTabs();
+              renderBody();
+            });
+          });
+        }
+
+        function goToGame(vendor) {
+          if (type === 'live' || type === 'sports') {
+            location.href = 'sports.html?vendor=' + encodeURIComponent(vendor.vendor) + '&gameId=' + encodeURIComponent(vendor.vendor) + '&type=' + type;
+          } else {
+            location.href = 'game-list.html?vendor=' + encodeURIComponent(vendor.vendor) + '&type=' + type;
+          }
+        }
+
+        function renderVendorGrid() {
+          var vendors = (D.GAME_VENDORS[type] || []).filter(function (v) {
+            return !query || v.vendor.toLowerCase().indexOf(query) !== -1;
+          });
+          if (!vendors.length) {
+            bodyEl.innerHTML = '<div class="list-empty-state" data-i18n="common.noData">' + W.t('common.noData') + '</div>';
+            return;
+          }
+          bodyEl.innerHTML = '<div class="game-provider-grid">' + vendors.map(function (v, idx) {
+            var bg = type === 'live'
+              ? 'assets/images/index/mainGame/live/live_' + (idx % 33) + '.webp'
+              : type === 'sports'
+              ? 'assets/images/index/mainGame/img-livegame-bg.webp'
+              : 'assets/images/' + D.GAME_THUMB_POOL[idx % D.GAME_THUMB_POOL.length];
+            return (
+              '<div class="game-provider-card" data-gf-vendor="' + idx + '">' +
+              '<img class="game-provider-card-bg" src="' + bg + '" alt="">' +
+              '<img class="game-provider-card-logo" src="assets/images/index/mainGame/live/' + encodeURIComponent(v.logo) + '" alt="' + v.vendor + '">' +
+              '</div>'
+            );
+          }).join('') + '</div>';
+          W.qsa('[data-gf-vendor]', bodyEl).forEach(function (el) {
+            W.on(el, 'click', function () { goToGame(vendors[Number(el.getAttribute('data-gf-vendor'))]); });
+          });
+        }
+
+        function renderGameGrid(games) {
+          var filtered = games.filter(function (g) {
+            return !query || g.display_name.toLowerCase().indexOf(query) !== -1;
+          });
+          if (!filtered.length) {
+            bodyEl.innerHTML = '<div class="list-empty-state" data-i18n="common.noData">' + W.t('common.noData') + '</div>';
+            return;
+          }
+          var visible = filtered.slice(0, visibleCount);
+          bodyEl.innerHTML = '<div class="game-list-grid">' + visible.map(function (g, idx) {
+            return (
+              '<div class="game-card" data-gf-game="' + idx + '">' +
+              (g.desktop_icon_url
+                ? '<div class="game-card-thumb"><img src="assets/images/' + g.desktop_icon_url + '" alt="' + g.display_name + '"></div>'
+                : '<div class="game-card-thumb is-placeholder"><img src="assets/images/img-comingsoon-game.png" alt="coming soon"></div>') +
+              '<div class="game-card-info"><p class="game-card-name">' + g.display_name + '</p>' +
+              '<div class="game-card-meta"><span class="game-card-provider">' + g.provider + '</span>' +
+              '<button type="button" class="game-card-fav-btn" data-gf-fav="' + idx + '"><img src="assets/images/icon/' + (g.isFavorite ? 'like-fill.svg' : 'like.svg') + '" alt="fav"></button>' +
+              '</div></div></div>'
+            );
+          }).join('') + '</div>' +
+          (visible.length < filtered.length ? '<div class="load-more-wrap"><button type="button" class="load-more-btn border-gradient-mask" data-gf-more><span class="text-gradient" data-i18n="common.readMore">' + W.t('common.readMore') + '</span></button></div>' : '');
+          W.qsa('[data-gf-fav]', bodyEl).forEach(function (btn) {
+            W.on(btn, 'click', function (e) {
+              e.stopPropagation();
+              var g = visible[Number(btn.getAttribute('data-gf-fav'))];
+              g.isFavorite = !g.isFavorite;
+              renderBody();
+            });
+          });
+          W.qsa('[data-gf-game]', bodyEl).forEach(function (el) {
+            W.on(el, 'click', function () {
+              W.showAlert({ type: 'success', message: W.t('common.openingGame') });
+            });
+          });
+          W.on(W.qs('[data-gf-more]', bodyEl), 'click', function () {
+            visibleCount += PAGE_SIZE;
+            renderGameGrid(games);
+          });
+        }
+
+        function renderBody() {
+          if (activeOption === 'vendor') {
+            renderVendorGrid();
+          } else if (activeOption === 'favorites') {
+            if (type === 'live' || type === 'sports') {
+              bodyEl.innerHTML = '<div class="list-empty-state" data-i18n="common.noData">' + W.t('common.noData') + '</div>';
+            } else {
+              renderGameGrid(flatPool().filter(function (g) { return g.isFavorite; }));
+            }
+          } else {
+            renderGameGrid(flatPool());
+          }
+        }
+
+        W.on(W.qs('[data-gf-search-form]'), 'submit', function (e) {
+          e.preventDefault();
+          query = (searchInput.value || '').trim().toLowerCase();
+          visibleCount = PAGE_SIZE;
+          renderBody();
+        });
+
+        renderTabs();
+        renderBody();
+      };
+    </script>
+  </body>
+</html>

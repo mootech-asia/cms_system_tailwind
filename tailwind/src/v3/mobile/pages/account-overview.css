@@ -1,0 +1,634 @@
+/* ============================================================
+   v3 手機版 account-overview.html 專屬 CSS（.ap-hero-*／.ap-top／
+   .ap-grid／.ap-panel／.ap-bank-*／.ap-tx-*／.level-progress-*）。
+   跟 ../shell.css 的共用殼層不同——這批 class 只有 account-overview.html
+   會用到。逐字搬移原始 main.css 規則，class 名稱／變數參照不改。
+
+   .ap-hero／.ap-amt.pos／.ap-amt.neg 在 main.css 裡各有兩批同選擇器的
+   宣告（第二批分別在檔案更後面的「Account Overview level progress」
+   段落與「vivid rollover」段落），同優先權後宣告贏，這裡刻意保留兩批
+   並按原始順序排列，不是打字重複。
+   ============================================================ */
+@layer components {
+  .ap-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 16px;
+    padding: 22px 28px;
+    overflow: hidden;
+    isolation: isolate;
+    border: 1px solid var(--account-hero-border);
+    border-radius: var(--radius-lg);
+    background: var(--account-hero-bg);
+    box-shadow: var(--account-hero-shadow) !important;
+  }
+  .ap-hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 14px),
+      linear-gradient(
+        105deg,
+        transparent 22%,
+        color-mix(in oklch, var(--accent) 8%, transparent) 48%,
+        transparent 72%
+      );
+    background-size:
+      auto,
+      220% 100%;
+    animation: account-hero-sheen var(--account-sheen-duration) cubic-bezier(0.4, 0, 0.2, 1)
+      infinite;
+    z-index: -1;
+  }
+  @keyframes account-hero-sheen {
+    from {
+      background-position:
+        0 0,
+        130% 0;
+    }
+    to {
+      background-position:
+        0 0,
+        -130% 0;
+    }
+  }
+  .ap-hero-avatar {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: color-mix(in oklch, var(--accent) 24%, var(--bg-elev));
+    color: var(--accent-2);
+    display: grid;
+    place-items: center;
+    border: 1.5px solid var(--accent);
+    box-shadow: 0 0 14px color-mix(in oklch, var(--accent) 35%, transparent);
+    flex-shrink: 0;
+  }
+  .ap-hero-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+  .ap-hero-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .ap-tag-new {
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--badge-highlight-bg) !important;
+    color: var(--badge-highlight-text) !important;
+    border: 1px solid var(--badge-highlight-border) !important;
+    font-size: 11px;
+    font-weight: var(--weight-bold);
+    text-shadow: var(--badge-highlight-shadow);
+  }
+  .ap-hero-nick {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .ap-hero-nick .muted {
+    color: var(--text-mid);
+  }
+  .ap-pencil {
+    background: none;
+    border: 0;
+    color: var(--text-mid);
+    cursor: pointer;
+    padding: 4px;
+    display: inline-grid;
+    place-items: center;
+  }
+  .ap-pencil:hover {
+    color: var(--accent-2);
+  }
+  .ap-hero-balance {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent-2);
+    margin-top: 4px;
+    text-shadow: 0 0 14px color-mix(in oklch, var(--accent) 45%, transparent);
+  }
+  .ap-refresh {
+    background: none;
+    border: 0;
+    color: var(--text-mid);
+    cursor: pointer;
+    padding: 4px;
+    display: inline-grid;
+    place-items: center;
+  }
+  .ap-refresh:hover {
+    color: var(--accent-2);
+  }
+
+  .ap-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 264px);
+    gap: 14px;
+    align-items: stretch;
+    margin-bottom: 16px;
+  }
+  .ap-top .ap-hero {
+    margin-bottom: 0;
+  }
+  .ap-top .ap-quick-panel {
+    display: flex;
+    flex-direction: column;
+  }
+  .ap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .ap-panel {
+    padding: 22px 24px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+    border: 1px solid var(--line);
+  }
+  .ap-panel-h {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 16px;
+  }
+  .ap-bank-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .ap-bank-row svg {
+    color: var(--text-mid);
+    flex-shrink: 0;
+  }
+  .ap-bank-num {
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+  }
+  .ap-add-bank {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--accent-2);
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .ap-add-bank:hover {
+    filter: brightness(1.1);
+  }
+
+  .ap-tx-panel {
+    padding: 22px 24px;
+  }
+  .ap-tx-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .ap-tx-head .ap-panel-h {
+    margin-bottom: 0;
+  }
+  .ap-view-more {
+    color: var(--accent-2);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .ap-tx-table {
+    display: flex;
+    flex-direction: column;
+  }
+  .ap-tx-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 14px 6px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--text);
+  }
+  .ap-tx-row:last-child {
+    border-bottom: 0;
+  }
+  .ap-tx-headrow {
+    font-size: 12px;
+    color: var(--text-mid);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--line);
+    padding: 8px 6px;
+  }
+  .ap-amt {
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+  .ap-amt.pos {
+    color: #29e8a3;
+  }
+  .ap-amt.neg {
+    color: #ef4444;
+  }
+  .ap-tx-row .muted {
+    color: var(--text-mid);
+  }
+  .ap-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--status-success-bg) !important;
+    color: var(--status-success-text) !important;
+    border: 1px solid var(--status-success-border) !important;
+    font-size: 12px;
+    font-weight: var(--weight-semibold) !important;
+    text-shadow: none !important;
+  }
+
+  /* 手機版每筆交易改用卡片呈現，桌機維持上面的表格列；兩者共用同一份
+   資料，只切換 display。 */
+  .ap-tx-cards {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ap-tx-card {
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--bg-elev);
+  }
+  .ap-tx-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .ap-tx-card-head > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .ap-tx-card-name {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: var(--weight-semibold);
+  }
+  .ap-tx-card-date {
+    color: var(--text-mid);
+    font-size: 12.5px;
+  }
+  .ap-tx-card-amount {
+    display: block;
+    font-size: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .ap-top {
+      grid-template-columns: 1fr;
+    }
+    .ap-grid {
+      grid-template-columns: 1fr;
+    }
+    .ap-hero {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px;
+    }
+    .ap-tx-table {
+      display: none;
+    }
+    .ap-tx-cards {
+      display: flex;
+    }
+  }
+
+  /* banking details — multi-account nav + delete */
+  .ap-bank-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .ap-bank-head .ap-panel-h {
+    margin-bottom: 0;
+  }
+  .ap-bank-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ap-bank-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid var(--line-hi);
+    background: var(--bg-elev);
+    color: var(--text-mid);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition:
+      color 0.15s,
+      border-color 0.15s;
+  }
+  .ap-bank-arrow:hover {
+    color: var(--control-hover-text);
+    border-color: var(--accent);
+  }
+  .ap-bank-count {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-mid);
+    min-width: 30px;
+    text-align: center;
+  }
+  .ap-bank-row {
+    position: relative;
+  }
+  /* .ap-bank-del 本身已在 ../pages/withdrawal.css 逐字搬移過（同一份
+   tailwind.css 全站共用，不重複宣告），這裡只補 crypto wallet 用的
+   .ap-bank-copy（withdrawal 頁面沒有這顆按鈕）。 */
+  .ap-bank-copy {
+    margin-left: auto;
+    background: none;
+    border: 0;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 4px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 6px;
+    transition:
+      color 0.15s,
+      background 0.15s;
+  }
+  .ap-bank-copy:hover {
+    color: var(--accent-2);
+    background: var(--control-bg);
+  }
+
+  .ap-amt.pos {
+    color: var(--positive);
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+  .ap-amt.neg {
+    color: #ff6b6b;
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  .ap-btn-wide.outline {
+    background: transparent;
+    border: 1px solid var(--control-border);
+    color: var(--control-text);
+  }
+  .ap-btn-wide.outline:hover {
+    color: var(--control-hover-text);
+    border-color: var(--accent);
+  }
+
+  /* merged hero + rollover：main.css 這段之前有一版獨立的
+   .ap-rollover-banner（已被目前的合併版取代，HTML 沒有
+   .ap-rollover-banner 容器了），但 .ap-rollover-title/-label/-amt 這三個
+   bare class 沒有跟著容器一起變成死程式碼——它們直接套用在
+   .ap-hero-rollover 底下的元素上，跟下面 .ap-hero-rollover 開頭的巢狀
+   版本一起疊加生效（巢狀版優先權較高，逐字都保留）。 */
+  .ap-rollover-title {
+    margin-bottom: 8px;
+    background: var(--rollover-title-gradient) !important;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: var(--type-page-title);
+    font-weight: var(--weight-extrabold);
+    letter-spacing: 0;
+    filter: none !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+  .ap-rollover-label {
+    color: var(--text);
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .ap-rollover-amt {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--text);
+  }
+  .ap-hero-rollover {
+    margin-left: auto;
+    text-align: right;
+    padding-left: 24px;
+    flex-shrink: 0;
+  }
+  .ap-hero-rollover .ap-rollover-title {
+    margin-bottom: 6px;
+    background: var(--rollover-hero-gradient) !important;
+    font-size: var(--type-feature-title);
+    font-weight: var(--weight-extrabold) !important;
+    letter-spacing: 0 !important;
+    filter: none !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+  .ap-hero-rollover .ap-rollover-label {
+    color: var(--text);
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .ap-hero-rollover .ap-rollover-amt {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--text);
+  }
+  @media (max-width: 900px) {
+    .ap-hero-rollover {
+      margin-left: 0;
+      padding-left: 0;
+      text-align: left;
+      width: 100%;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+  }
+
+  .ap-refresh.spinning svg {
+    animation: apSpin 0.7s linear;
+  }
+  @keyframes apSpin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .ap-refresh svg {
+    transition: transform 0.2s;
+  }
+
+  /* Account Overview level progress：main.css 這段接在檔案後面很遠的
+   位置，把上面 base 規則定義的 .ap-hero{display:flex} 覆寫成
+   display:block（.ap-hero-main 才是真正的 flex 容器），同優先權後宣告
+   贏，必須排在 base .ap-hero 規則之後才生效。 */
+  .ap-hero {
+    display: block;
+  }
+  .ap-hero-main {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .ap-level-progress {
+    position: relative;
+    z-index: 1;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .level-progress {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+  .level-progress-label {
+    color: var(--text-mid);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .level-progress-track {
+    height: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklch, var(--bg-elev) 80%, transparent);
+  }
+  .level-progress-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 12px color-mix(in oklch, var(--accent) 45%, transparent);
+    transition: width 0.3s ease;
+  }
+  .level-progress-meta {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-mid);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+  .level-progress-meta strong {
+    color: var(--accent-2);
+  }
+  .level-progress-value {
+    color: var(--text-dim);
+    text-align: center;
+  }
+  .level-progress-next {
+    text-align: right;
+  }
+  .level-progress-next strong {
+    color: var(--tier-next, #c47b22);
+  }
+  .level-tier-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-left: 4px;
+    border-radius: 50%;
+    vertical-align: 1px;
+  }
+  .level-tier-dot.current {
+    background: var(--text-dim);
+  }
+  .level-tier-dot.next {
+    background: var(--tier-next, #c47b22);
+    box-shadow: 0 0 7px color-mix(in oklch, var(--tier-next, #c47b22) 45%, transparent);
+  }
+
+  @media (max-width: 900px) {
+    .ap-hero-main {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .ap-level-progress {
+      width: 100%;
+      margin-top: 16px;
+    }
+    .level-progress-meta {
+      gap: 8px;
+      font-size: 11px;
+    }
+  }
+
+  /* 不帶 [data-theme] 條件、兩個主題都生效的收尾覆寫（main.css 檔案
+   更後段，同優先權後宣告贏）。 */
+  .ap-hero-name {
+    color: var(--text) !important;
+    text-shadow: none !important;
+  }
+  .ap-hero-rollover {
+    box-shadow: none !important;
+  }
+  .ap-hero::before,
+  .ap-hero::after {
+    display: none !important;
+  }
+
+  [data-theme='light'] .ap-hero-name {
+    color: var(--text) !important;
+  }
+  [data-theme='light'] .ap-rollover-label,
+  [data-theme='light'] .ap-hero-rollover .ap-rollover-label {
+    color: var(--text) !important;
+  }
+  [data-theme='light'] .ap-panel-h,
+  [data-theme='light'] .ap-tx-head .ap-panel-h,
+  [data-theme='light'] .ap-bank-head .ap-panel-h {
+    color: var(--text) !important;
+  }
+  [data-theme='light'] .ap-tx-row span {
+    color: var(--text) !important;
+  }
+  [data-theme='light'] .ap-hero-rollover .ap-rollover-title,
+  [data-theme='light'] .ap-rollover-title {
+    filter: none !important;
+  }
+  [data-theme='light'] .ap-hero-bg {
+    opacity: 0.55;
+  }
+  [data-theme='light'] .level-progress-fill,
+  [data-theme='light'] .level-tier-dot.next {
+    box-shadow: none;
+  }
+}
