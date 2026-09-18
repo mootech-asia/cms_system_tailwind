@@ -174,7 +174,16 @@
   }
   @media (max-width: 700px) {
     .dp-method-tabs button {
-      min-width: 150px;
+      min-width: 128px;
+      padding: 9px 12px;
+      font-size: var(--type-body-sm);
+      min-height: 44px;
+      gap: 7px;
+    }
+    .dp-method-coin {
+      width: 18px;
+      height: 18px;
+      font-size: 11px;
     }
   }
 }

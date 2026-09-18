@@ -333,5 +333,9 @@
     font-size: var(--type-section-title-mobile);
   }
 
-  .ui-tablist--underline { gap: var(--space-6); }
+  .ui-tablist--underline { gap: var(--space-4); }
+
+  /* 分頁字級/高度沿用桌機值時，第 3 個分頁一開始就被裁到看不出後面
+     還有內容可以捲動，縮小後同樣寬度能多露出約半個分頁的提示。 */
+  .ui-tab--underline { font-size: var(--type-body-sm); padding: 8px 0 10px; min-height: var(--control-size-md); }
 }

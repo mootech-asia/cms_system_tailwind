@@ -5118,7 +5118,8 @@ select.twk-field {
   /* 橫向捲動列的可視範圍維持跟頁面其他區塊（Back／標題／provider 分頁）
      一樣的 .container 邊距，不額外貼邊；只縮小按鈕最小寬度，讓第三個
      按鈕能在同樣的邊距內穩定露出左邊緣，提示可再往右拉。 */
-  .dp-method-tabs button { min-width: 150px; }
+  .dp-method-tabs button { min-width: 128px; padding: 9px 12px; font-size: var(--type-body-sm); min-height: 44px; gap: 7px; }
+  .dp-method-coin { width: 18px; height: 18px; font-size: 11px; }
   .dp-crypto-grid { grid-template-columns: 1fr; gap: 8px; }
   .dp-crypto-promo { flex-wrap: wrap; }
   .dp-crypto-amt { width: 100%; margin-left: 34px; }

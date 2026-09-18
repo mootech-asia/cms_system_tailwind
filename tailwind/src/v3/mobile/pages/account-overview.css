@@ -631,4 +631,42 @@
   [data-theme='light'] .level-tier-dot.next {
     box-shadow: none;
   }
+
+  /* 76px 頭像＋22px 姓名＋26px 餘額是桌機兩欄版面的比例，手機單欄窄
+     寬度下這組尺寸相對版面過大，縮小頭像直徑與字級、收緊卡片留白，
+     讓整組資訊卡不再佔掉過多首屏高度。 */
+  @media (max-width: 768px) {
+    .ap-hero {
+      padding: 16px;
+      gap: 14px;
+    }
+    .ap-hero-avatar {
+      width: 56px;
+      height: 56px;
+    }
+    .ap-hero-name {
+      font-size: 18px;
+      gap: 8px;
+    }
+    .ap-hero-nick {
+      font-size: 12.5px;
+    }
+    .ap-tag-new {
+      font-size: 10px;
+      padding: 2px 8px;
+    }
+    .ap-hero-balance {
+      font-size: 20px;
+      gap: 8px;
+    }
+    .ap-hero-rollover .ap-rollover-title {
+      font-size: 18px;
+    }
+    .ap-hero-rollover .ap-rollover-label {
+      font-size: 12px;
+    }
+    .ap-hero-rollover .ap-rollover-amt {
+      font-size: 16px;
+    }
+  }
 }
