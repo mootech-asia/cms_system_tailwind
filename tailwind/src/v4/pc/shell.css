@@ -30,7 +30,7 @@
   flex-shrink: 0;
 }
 .brand-logo {
-  height: 40px;
+  height: 56px;
   width: auto;
   filter: brightness(0) invert(1);
 }
@@ -239,7 +239,7 @@
   text-align: center;
 }
 .site-footer-logo {
-  height: 32px;
+  height: 45px;
   width: auto;
   margin-bottom: 18px;
   filter: var(--footer-logo-filter);
@@ -448,7 +448,7 @@
   flex-shrink: 0;
 }
 .mobile-menu-logo {
-  height: 32px;
+  height: 45px;
   width: auto;
   filter: brightness(0) invert(1);
 }
