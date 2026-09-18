@@ -1740,11 +1740,11 @@
         location.href = 'withdrawal.html?tab=manage&method=' + (isCrypto ? 'crypto' : 'bank');
       });
     });
-    var quickDeposit = document.querySelector('.ap-quick-panel .ap-btn-wide.ap-grad');
+    var quickDeposit = document.querySelector('[data-action="quick-deposit"]');
     if (quickDeposit) quickDeposit.addEventListener('click', function () { location.href = 'deposit.html'; });
-    var quickWithdraw = document.querySelector('.ap-quick-panel .ap-btn-wide.outline');
+    var quickWithdraw = document.querySelector('[data-action="quick-withdraw"]');
     if (quickWithdraw) quickWithdraw.addEventListener('click', function () { location.href = 'withdrawal.html'; });
-    var viewMoreLink = document.querySelector('.ap-view-more');
+    var viewMoreLink = document.querySelector('[data-action="view-more-transactions"]');
     if (viewMoreLink) viewMoreLink.addEventListener('click', function (e) { e.preventDefault(); location.href = 'account-record.html'; });
   }
 
